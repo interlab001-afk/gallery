@@ -3359,10 +3359,6 @@ function openManage() {
   document.getElementById('manageOverlay').classList.add('open');  
 }
 
-}
-
-}
-
 async function saveModifiersToHTML() {
   try {
     const fh = await window.showOpenFilePicker({types:[{description:'HTML',accept:{'text/html':['.html']}}]});
