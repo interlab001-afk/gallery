@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🎙️ ElevenLabs TTS 생성기</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0f0f1a;color:#e2e8f0;min-height:100vh;padding:20px}
+h1{text-align:center;font-size:1.5rem;background:linear-gradient(90deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
+.card{background:#1a1730;border-radius:14px;padding:18px;margin-bottom:16px;border:1px solid #2d2b50}
+.card h2{font-size:.95rem;color:#a78bfa;margin-bottom:12px;font-weight:700}
+label{font-size:.8rem;color:#a78bfa;display:block;margin-bottom:5px;font-weight:600}
+input,textarea,select{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #3730a3;background:#0f0f1a;color:#e2e8f0;font-size:.85rem;margin-bottom:10px}
+textarea{resize:vertical;min-height:140px;line-height:1.6}
+.btn{padding:9px 20px;border:none;border-radius:9px;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s}
+.btn-purple{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff}
+.btn-green{background:#059669;color:#fff}
+.btn-blue{background:#0284c7;color:#fff}
+.btn-gray{background:#374151;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.api-row{display:flex;gap:8px;align-items:center}
+.api-row input{margin-bottom:0;flex:1}
+.voice-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#0f0f1a;border-radius:8px;border:1px solid #2d2b50;margin-bottom:6px}
+.voice-item .vname{flex:1;font-size:.85rem;color:#e2e8f0;font-weight:600}
+.voice-item .vid{font-size:.7rem;color:#6b7280;font-family:monospace}
+.voice-item .rm{background:none;border:none;color:#f472b6;cursor:pointer;font-size:1.1rem;font-weight:700}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.slider-row label{margin:0;min-width:50px}
+.slider-row input[type=range]{flex:1;margin:0;padding:0;border:none;background:none;accent-color:#7c3aed}
+.slider-val{font-size:.82rem;color:#a78bfa;min-width:32px;text-align:right}
+#status{text-align:center;padding:10px;border-radius:8px;font-size:.85rem;margin-bottom:10px;display:none}
+#status.ok{background:#064e3b;color:#6ee7b7;display:block}
+#status.err{background:#7f1d1d;color:#fca5a5;display:block}
+#status.ing{background:#1e1b4b;color:#a78bfa;display:block}
+audio{width:100%;margin:10px 0;border-radius:8px}
+.char-count{font-size:.75rem;color:#6b7280;text-align:right;margin-top:-8px;margin-bottom:10px}
+.history-item{padding:10px 12px;background:#0f0f1a;border-radius:8px;border:1px solid #2d2b50;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.history-item .hinfo{flex:1;overflow:hidden}
+.history-item .htxt{font-size:.78rem;color:#c4b5fd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-item .hdate{font-size:.68rem;color:#4c4a72;margin-top:2px}
+.hbtn{padding:4px 10px;border:none;border-radius:6px;font-size:.72rem;cursor:pointer;font-weight:600}
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#6d28d9;color:#fff;padding:10px 24px;border-radius:25px;font-size:.85rem;z-index:999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<h1>🎙️ ElevenLabs TTS 생성기</h1>
+
+<!-- API 키 -->
+<div class="card">
+  <h2>🔑 API 키</h2>
+  <div class="api-row">
+    <input type="password" id="apiKey" placeholder="ElevenLabs API 키 입력 (sk_...）">
+    <button class="btn btn-gray" id="btnShowKey">👁</button>
+    <button class="btn btn-purple" onclick="saveApiKey()">💾 저장</button>
+    <button class="btn btn-blue" onclick="testApiKey()">✅ 확인</button>
+  </div>
+  <div id="apiStatus" style="font-size:.78rem;margin-top:6px"></div>
+</div>
+
+<!-- 음성 관리 -->
+<div class="card">
+  <h2>🎤 음성 관리</h2>
+  <div id="voiceList"></div>
+  <div class="row" style="margin-top:8px">
+    <input type="text" id="newVoiceName" placeholder="음성 이름 (예: 나레이터)" style="flex:1;margin:0">
+    <input type="text" id="newVoiceId" placeholder="Voice ID" style="flex:2;margin:0">
+    <button class="btn btn-green" onclick="addVoice()">➕ 추가</button>
+  </div>
+  <div style="margin-top:10px">
+    <button class="btn btn-blue" style="font-size:.78rem;padding:6px 16px" onclick="fetchVoices()">🔄 내 목소리 자동 불러오기</button>
+  </div>
+</div>
+
+<!-- 시나리오 -->
+<div class="card">
+  <h2>📝 시나리오</h2>
+  <label>음성 선택</label>
+  <select id="voiceSel"></select>
+  <label>텍스트 입력</label>
+  <textarea id="ttsText" placeholder="시나리오 텍스트를 입력하세요..." oninput="updateCount()"></textarea>
+  <div class="char-count"><span id="charCount">0</span> / 5000자</div>
+  <div class="slider-row">
+    <label>안정성</label>
+    <input type="range" id="stability" min="0" max="100" value="50" oninput="document.getElementById('stabilityVal').textContent=this.value">
+    <span class="slider-val" id="stabilityVal">50</span>
+  </div>
+  <div class="slider-row">
+    <label>유사도</label>
+    <input type="range" id="similarity" min="0" max="100" value="75" oninput="document.getElementById('similarityVal').textContent=this.value">
+    <span class="slider-val" id="similarityVal">75</span>
+  </div>
+  <div class="slider-row">
+    <label>스타일</label>
+    <input type="range" id="style" min="0" max="100" value="0" oninput="document.getElementById('styleVal').textContent=this.value">
+    <span class="slider-val" id="styleVal">0</span>
+  </div>
+  <div id="status"></div>
+  <div class="row">
+    <button class="btn btn-purple" id="btnGenerate" onclick="generateTTS()">🎙️ 음성 생성</button>
+    <button class="btn btn-gray" onclick="clearText()">🗑️ 초기화</button>
+  </div>
+</div>
+
+<!-- 재생/저장 -->
+<div class="card" id="playerCard" style="display:none">
+  <h2>▶️ 재생 / 저장</h2>
+  <audio id="audioPlayer" controls></audio>
+  <div class="row">
+    <button class="btn btn-green" onclick="downloadAudio()">⬇️ MP3 저장</button>
+    <button class="btn btn-gray" onclick="addToHistory()">📋 히스토리 추가</button>
+  </div>
+</div>
+
+<!-- 히스토리 -->
+<div class="card">
+  <h2>📚 히스토리</h2>
+  <div id="historyList"><p style="color:#4c4a72;font-size:.8rem">아직 없어요~</p></div>
+  <button class="btn btn-gray" style="font-size:.75rem;padding:5px 12px;margin-top:6px" onclick="clearHistory()">🗑️ 전체 삭제</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let audioBlob = null;
+let currentText = '';
+let voices = [];
+
+function getHeaders(key, json = false) {
+  const h = {
+    'xi-api-key': key,
+    'Authorization': 'Bearer ' + key
+  };
+  if (json) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+window.onload = () => {
+  const savedKey = localStorage.getItem('el_api_key');
+  if (savedKey) document.getElementById('apiKey').value = savedKey;
+
+  const savedVoices = localStorage.getItem('el_voices');
+  if (savedVoices) {
+    voices = JSON.parse(savedVoices);
+  } else {
+    voices = [
+      {name:'Rachel (영어 여성)', id:'21m00Tcm4TlvDq8ikWAM'},
+      {name:'Antoni (영어 남성)', id:'ErXwobaYiN019PkySvjV'}
+    ];
+  }
+
+  renderVoices();
+  renderHistory();
+
+  document.getElementById('btnShowKey').onclick = () => {
+    const inp = document.getElementById('apiKey');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  };
+};
+
+function saveApiKey() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { toast('API 키를 입력해주세요!', '#ef4444'); return; }
+  localStorage.setItem('el_api_key', key);
+  toast('💾 API 키 저장 완료!', '#059669');
+}
+
+async function testApiKey() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { toast('API 키를 입력해주세요!', '#ef4444'); return; }
+  const el = document.getElementById('apiStatus');
+  el.textContent = '⏳ 확인 중...';
+  el.style.color = '#a78bfa';
+  try {
+    const res = await fetch('https://api.elevenlabs.io/v1/user', {
+      headers: getHeaders(key)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const used = data.subscription?.character_count ?? 0;
+      const limit = data.subscription?.character_limit ?? 0;
+      el.textContent = `✅ 인증 성공! 사용: ${used.toLocaleString()} / ${limit.toLocaleString()} 글자`;
+      el.style.color = '#6ee7b7';
+      localStorage.setItem('el_api_key', key);
+    } else {
+      const err = await res.json().catch(() => ({}));
+      el.textContent = `❌ 실패 (${res.status}): ${err.detail?.message || '키를 확인해주세요'}`;
+      el.style.color = '#fca5a5';
+    }
+  } catch(e) {
+    el.textContent = '❌ 오류: ' + e.message;
+    el.style.color = '#fca5a5';
+  }
+}
+
+async function fetchVoices() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { toast('API 키를 먼저 입력해주세요!', '#ef4444'); return; }
+  try {
+    const res = await fetch('https://api.elevenlabs.io/v1/voices', {
+      headers: getHeaders(key)
+    });
+    if (!res.ok) { toast('불러오기 실패! API 키 확인해주세요.', '#ef4444'); return; }
+    const data = await res.json();
+    if (data.voices) {
+      let added = 0;
+      data.voices.forEach(v => {
+        if (!voices.find(x => x.id === v.voice_id)) {
+          voices.push({name: v.name, id: v.voice_id});
+          added++;
+        }
+      });
+      saveVoices();
+      renderVoices();
+      toast(`✅ ${added}개 새 음성 추가! (총 ${voices.length}개)`, '#059669');
+    }
+  } catch(e) {
+    toast('오류: ' + e.message, '#ef4444');
+  }
+}
+
+function addVoice() {
+  const name = document.getElementById('newVoiceName').value.trim();
+  const id = document.getElementById('newVoiceId').value.trim();
+  if (!name || !id) { toast('이름과 ID를 모두 입력해주세요!', '#ef4444'); return; }
+  if (voices.find(v => v.id === id)) { toast('이미 등록된 ID예요!', '#ef4444'); return; }
+  voices.push({name, id});
+  saveVoices();
+  renderVoices();
+  document.getElementById('newVoiceName').value = '';
+  document.getElementById('newVoiceId').value = '';
+  toast('✅ 음성 추가 완료!', '#059669');
+}
+
+function removeVoice(idx) {
+  if (!confirm(`"${voices[idx].name}" 삭제할까요?`)) return;
+  voices.splice(idx, 1);
+  saveVoices();
+  renderVoices();
+}
+
+function saveVoices() {
+  localStorage.setItem('el_voices', JSON.stringify(voices));
+}
+
+function renderVoices() {
+  const list = document.getElementById('voiceList');
+  const sel = document.getElementById('voiceSel');
+  list.innerHTML = voices.length ? '' : '<p style="color:#4c4a72;font-size:.8rem">등록된 음성이 없어요~</p>';
+  sel.innerHTML = '';
+  voices.forEach((v, i) => {
+    list.innerHTML += `<div class="voice-item">
+      <span class="vname">${v.name}</span>
+      <span class="vid">${v.id}</span>
+      <button class="rm" onclick="removeVoice(${i})">✕</button>
+    </div>`;
+    sel.innerHTML += `<option value="${v.id}">${v.name}</option>`;
+  });
+}
+
+function updateCount() {
+  document.getElementById('charCount').textContent = document.getElementById('ttsText').value.length;
+}
+
+function clearText() {
+  document.getElementById('ttsText').value = '';
+  updateCount();
+}
+
+async function generateTTS() {
+  const key = document.getElementById('apiKey').value.trim();
+  const text = document.getElementById('ttsText').value.trim();
+  const voiceId = document.getElementById('voiceSel').value;
+
+  if (!key) { toast('API 키를 입력해주세요!', '#ef4444'); return; }
+  if (!text) { toast('텍스트를 입력해주세요!', '#ef4444'); return; }
+  if (!voiceId) { toast('음성을 선택해주세요!', '#ef4444'); return; }
+
+  const stability = document.getElementById('stability').value / 100;
+  const similarity = document.getElementById('similarity').value / 100;
+  const style = document.getElementById('style').value / 100;
+
+  const btn = document.getElementById('btnGenerate');
+  btn.disabled = true;
+  showStatus('⏳ 음성 생성 중... 잠깐만요!', 'ing');
+
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: getHeaders(key, true),
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_multilingual_v2',
+        voice_settings: {
+          stability,
+          similarity_boost: similarity,
+          style,
+          use_speaker_boost: true
+        }
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail?.message || `오류 ${res.status}`);
+    }
+
+    audioBlob = await res.blob();
+    currentText = text;
+    const url = URL.createObjectURL(audioBlob);
+    document.getElementById('audioPlayer').src = url;
+    document.getElementById('playerCard').style.display = 'block';
+    showStatus('✅ 음성 생성 완료! 아래에서 재생하세요 🎉', 'ok');
+    toast('🎙️ 음성 생성 완료!', '#059669');
+  } catch(e) {
+    showStatus('❌ 오류: ' + e.message, 'err');
+    toast('❌ ' + e.message, '#ef4444');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function downloadAudio() {
+  if (!audioBlob) return;
+  const a = document.createElement('a');
+  const fname = `tts_${new Date().toISOString().slice(0,19).replace(/[:.]/g,'-')}.mp3`;
+  a.href = URL.createObjectURL(audioBlob);
+  a.download = fname;
+  a.click();
+  toast('⬇️ MP3 저장 완료!', '#059669');
+}
+
+function addToHistory() {
+  if (!audioBlob) return;
+  const history = JSON.parse(localStorage.getItem('el_history') || '[]');
+  const reader = new FileReader();
+  reader.onload = () => {
+    history.unshift({
+      text: currentText.slice(0, 80),
+      data: reader.result,
+      date: new Date().toLocaleString('ko-KR')
+    });
+    if (history.length > 10) history.pop();
+    localStorage.setItem('el_history', JSON.stringify(history));
+    renderHistory();
+    toast('📋 히스토리 추가 완료!', '#059669');
+  };
+  reader.readAsDataURL(audioBlob);
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('el_history') || '[]');
+  const list = document.getElementById('historyList');
+  if (!history.length) {
+    list.innerHTML = '<p style="color:#4c4a72;font-size:.8rem">아직 없어요~</p>';
+    return;
+  }
+  list.innerHTML = history.map((h, i) => `
+    <div class="history-item">
+      <div class="hinfo">
+        <div class="htxt">${h.text}...</div>
+        <div class="hdate">${h.date}</div>
+      </div>
+      <button class="hbtn" style="background:#312e81;color:#a78bfa" onclick="playHistory(${i})">▶️</button>
+      <button class="hbtn" style="background:#064e3b;color:#6ee7b7" onclick="downloadHistory(${i})">⬇️</button>
+      <button class="hbtn" style="background:#7f1d1d;color:#fca5a5" onclick="removeHistory(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function playHistory(i) {
+  const history = JSON.parse(localStorage.getItem('el_history') || '[]');
+  document.getElementById('audioPlayer').src = history[i].data;
+  document.getElementById('playerCard').style.display = 'block';
+  window.scrollTo({top: document.getElementById('playerCard').offsetTop, behavior:'smooth'});
+}
+
+function downloadHistory(i) {
+  const history = JSON.parse(localStorage.getItem('el_history') || '[]');
+  const a = document.createElement('a');
+  a.href = history[i].data;
+  a.download = `tts_history_${i+1}.mp3`;
+  a.click();
+}
+
+function removeHistory(i) {
+  const history = JSON.parse(localStorage.getItem('el_history') || '[]');
+  history.splice(i, 1);
+  localStorage.setItem('el_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function clearHistory() {
+  if (!confirm('히스토리 전체 삭제할까요?')) return;
+  localStorage.removeItem('el_history');
+  renderHistory();
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = type;
+}
+
+function toast(msg, color='#6d28d9') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
