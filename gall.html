@@ -1663,11 +1663,38 @@ function openManage() {
   addCatDiv.className = 'manage-add-cat';
   addCatDiv.innerHTML = `<input type="text" id="newCatName" placeholder="새 카테고리 이름"><button onclick="addCat()">+ 추가</button>`;
   body.appendChild(addCatDiv);
-  document.getElementById('manageOverlay').classList.add('open');
+   const saveBtn = document.createElement('button');
+  saveBtn.className = 'save-html-btn';
+  saveBtn.textContent = '💾 수정자 HTML에 저장 (영구 적용)';
+  saveBtn.onclick = saveModifiersToHTML;
+  body.appendChild(saveBtn);
+
+  document.getElementById('manageOverlay').classList.add('open');  
+}
+
+}
+
+}
+
+async function saveModifiersToHTML() {
+  try {
+    const fh = await window.showOpenFilePicker({types:[{description:'HTML',accept:{'text/html':['.html']}}]});
+    const file = await fh[0].getFile();
+    let html = await file.text();
+    const newMod = 'const MODIFIERS = ' + JSON.stringify(MODIFIERS, null, 2) + ';';
+    const modRegex = /const MODIFIERS\s*=\s*[\s\S]*?(?=\n\s*const PRESET_TAGS)/;
+    html = html.replace(modRegex, newMod);
+    const w = await fh[0].createWritable();
+    await w.write(html);
+    await w.close();
+    toast('💾 저장 완료!', '#059669');
+  } catch(e) {
+    if (e.name !== 'AbortError') toast('저장 실패: ' + e.message, '#ef4444');
+  }
 }
 
 window.deleteCat = ci => { if (!confirm(`"${MODIFIERS[ci].cat}" 삭제?`)) return; MODIFIERS.splice(ci, 1); if (activeCatIdx >= MODIFIERS.length) activeCatIdx = 0; openManage(); renderModPanel() };
-window.deleteModItem = (ci, ii) => { MODIFIERS[ci].items.splice(ii, 1); openManage(); renderModPanel() };
+
 window.addModItem = ci => {
   const ko = document.getElementById(`mnewko-${ci}`).value.trim();
   const en = document.getElementById(`mnewen-${ci}`).value.trim();
