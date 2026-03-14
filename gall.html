@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🎨 프롬프트 갤러리</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0f0f1a;color:#e2e8f0;min-height:100vh;display:flex;flex-direction:column;padding-bottom:420px}
+header{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 20px #0008;position:sticky;top:0;z-index:100}
+header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex:1;min-width:120px}
+.hbtn{padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;transition:.2s}
+#btnLogin{background:#6d28d9;color:#fff}
+#btnLogin:hover{background:#7c3aed}
+#btnLogout{background:#374151;color:#fff;display:none}
+#btnAdd{background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff}
+#btnAdd:hover{filter:brightness(1.15)}
+#userInfo{font-size:.78rem;color:#a78bfa;background:#1e1b4b;padding:4px 10px;border-radius:6px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#apiBar{background:#13111f;padding:8px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #2d2b50}
+#apiBar label{font-size:.78rem;color:#a78bfa}
+#apiKeyInput{flex:1;min-width:200px;max-width:400px;padding:5px 10px;border-radius:6px;border:1px solid #4c1d95;background:#1e1b4b;color:#e2e8f0;font-size:.8rem}
+.apibtn{padding:5px 12px;border:none;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:600}
+#btnTestApi{background:#6d28d9;color:#fff}
+#apiStatus{font-size:.75rem;padding:3px 8px;border-radius:5px}
+#toolbar{background:#13111f;padding:8px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #2d2b50}
+#searchInput{flex:1;min-width:180px;padding:7px 12px;border-radius:8px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.85rem}
+#sortSel{padding:7px 10px;border-radius:8px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.82rem}
+.sizebtn{padding:6px 11px;border:1px solid #4c1d95;border-radius:7px;background:#1e1b4b;color:#a78bfa;cursor:pointer;font-size:.82rem;transition:.2s}
+.sizebtn.active,.sizebtn:hover{background:#4c1d95;color:#fff}
+#btnFavFilter{padding:6px 12px;border:1px solid #4c1d95;border-radius:7px;background:#1e1b4b;color:#fbbf24;cursor:pointer;font-size:.82rem;transition:.2s}
+#btnFavFilter.active{background:#92400e;border-color:#fbbf24}
+#countBadge{margin-left:auto;font-size:.75rem;color:#6b7280}
+#tagBar{background:#0f0f1a;padding:8px 20px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #1e1b4b}
+.tagChip{padding:4px 12px;border-radius:20px;border:1px solid #3730a3;background:#1e1b4b;color:#a78bfa;cursor:pointer;font-size:.75rem;transition:.2s}
+.tagChip.active{background:#6d28d9;color:#fff;border-color:#7c3aed}
+#gallery{display:grid;gap:16px;padding:20px;flex:1}
+#gallery.sz-sm{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+#gallery.sz-md{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+#gallery.sz-lg{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{background:#1a1730;border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s;border:1px solid #2d2b50;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 25px #a78bfa33;border-color:#6d28d9}
+.card-thumb{width:100%;aspect-ratio:1;object-fit:cover;background:#0f0f1a;display:block}
+.card-thumb-empty{width:100%;aspect-ratio:1;background:linear-gradient(135deg,#1e1b4b,#312e81);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.card-body{padding:10px}
+.card-num{font-size:.7rem;color:#6b7280;margin-bottom:2px}
+.card-title{font-size:.88rem;font-weight:600;color:#e2e8f0;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-prompt{font-size:.72rem;color:#9ca3af;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:6px}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.card-tag{padding:2px 7px;border-radius:10px;background:#312e81;color:#a78bfa;font-size:.65rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.card-imgcount{font-size:.7rem;color:#6b7280}
+.card-fav{background:none;border:none;cursor:pointer;font-size:1rem;color:#6b7280;transition:.2s;padding:0}
+.card-fav.on{color:#fbbf24}
+.card-send{background:none;border:none;cursor:pointer;font-size:.75rem;color:#6b7280;transition:.2s;padding:2px 5px;border-radius:5px}
+.card-send:hover{background:#312e81;color:#a78bfa}
+#emptyState{display:none;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:#4c4a72}
+#emptyState .eicon{font-size:4rem;margin-bottom:16px}
+#modPanel{position:fixed;bottom:0;left:0;right:0;background:#13111f;border-top:2px solid #6d28d9;z-index:200;transition:.3s}
+#modPanel.collapsed{transform:translateY(calc(100% - 44px))}
+#modToggleBar{display:flex;align-items:center;padding:8px 16px;cursor:pointer;gap:8px;background:#1a1730;user-select:none}
+#modToggleBar .mtitle{font-size:.9rem;font-weight:700;color:#a78bfa;flex:1}
+#modToggleBar .marrow{font-size:1rem;color:#6b7280;transition:.3s}
+#modPanel.collapsed #modToggleBar .marrow{transform:rotate(180deg)}
+#panelMainTabs{display:flex;gap:0;background:#0f0f1a;border-bottom:1px solid #2d2b50}
+.pmtab{flex:1;padding:7px;border:none;background:none;color:#6b7280;cursor:pointer;font-size:.82rem;font-weight:600;transition:.2s;border-bottom:2px solid transparent}
+.pmtab.active{color:#a78bfa;border-bottom-color:#6d28d9;background:#13111f}
+.pmtab:hover{color:#c4b5fd}
+#modPanelInner{padding:0 16px 12px;max-height:340px;overflow-y:auto}
+#editorPanelInner{padding:8px 16px 12px;max-height:340px;overflow-y:auto;display:none;flex-direction:column;gap:8px}
+#selectedModsBar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 0 6px;min-height:38px;border-bottom:1px solid #2d2b50;margin-bottom:8px}
+#selectedModsBar .smlabel{font-size:.72rem;color:#6b7280;white-space:nowrap}
+#selectedModsBar .smchip{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;background:#4c1d95;color:#ddd6fe;font-size:.72rem}
+#selectedModsBar .smchip .rmx{cursor:pointer;font-size:.8rem;color:#f472b6;font-weight:700;line-height:1}
+#btnClearMods{margin-left:auto;padding:4px 10px;border:1px solid #7c3aed;border-radius:7px;background:none;color:#f472b6;font-size:.72rem;cursor:pointer;white-space:nowrap}
+#geminiOpt{display:flex;align-items:center;gap:8px;padding:4px 0 8px;border-bottom:1px solid #2d2b50;margin-bottom:8px}
+#geminiOpt label{font-size:.78rem;color:#a78bfa;cursor:pointer;display:flex;align-items:center;gap:6px}
+#chkGemini{accent-color:#7c3aed;width:14px;height:14px}
+#geminiOpt .gdesc{font-size:.7rem;color:#6b7280}
+#modTabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.modtab{padding:4px 11px;border:1px solid #3730a3;border-radius:15px;background:#1e1b4b;color:#a78bfa;cursor:pointer;font-size:.75rem;transition:.2s;white-space:nowrap}
+.modtab.active{background:#6d28d9;color:#fff;border-color:#7c3aed}
+#modButtons{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.modbtn{padding:5px 12px;border-radius:8px;border:1px solid #3730a3;background:#1e1b4b;color:#c4b5fd;cursor:pointer;font-size:.78rem;transition:.2s}
+.modbtn:hover{background:#4c1d95;color:#fff}
+.modbtn.selected{background:#6d28d9;color:#fff;border-color:#a78bfa}
+#btnManageMods{padding:4px 10px;border:1px solid #4c1d95;border-radius:7px;background:none;color:#a78bfa;font-size:.72rem;cursor:pointer;margin-left:auto}
+#quickAddBar{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;padding:10px 0 4px;border-top:1px dashed #2d2b50;margin-top:4px}
+#quickAddBar .qalabel{font-size:.72rem;color:#a78bfa;white-space:nowrap;padding-top:8px;font-weight:600}
+#qaInputGroup{display:flex;flex-direction:column;gap:5px;flex:1;min-width:260px}
+.qaRow{display:flex;gap:5px;align-items:center}
+#qaKo{flex:1;padding:5px 9px;border-radius:7px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.78rem}
+#qaEn{flex:1;padding:5px 9px;border-radius:7px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.78rem}
+#qaEn.filled{border-color:#6d28d9;background:#1a1040}
+#btnQaAuto{padding:5px 10px;border:none;border-radius:7px;background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;font-size:.75rem;cursor:pointer;white-space:nowrap;transition:.2s;font-weight:600}
+#btnQaAuto:hover{filter:brightness(1.15)}
+#btnQaAuto:disabled{opacity:.5;cursor:not-allowed}
+#btnQuickAdd{padding:5px 11px;border:none;border-radius:7px;background:#059669;color:#fff;font-size:.75rem;cursor:pointer;white-space:nowrap;font-weight:600;transition:.2s}
+#btnQuickAdd:hover{background:#047857}
+#qaStatus{font-size:.7rem;min-height:16px;padding:0 2px;transition:.3s}
+#qaStatus.ok{color:#6ee7b7}
+#qaStatus.err{color:#fca5a5}
+#qaStatus.ing{color:#a78bfa}
+.editor-topbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.editor-topbar .etitle{font-size:.8rem;font-weight:700;color:#a78bfa;flex:1}
+.editor-topbar .einfo{font-size:.7rem;color:#6b7280}
+.editor-sep-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.editor-sep-row label{font-size:.72rem;color:#6b7280}
+.editor-sep-row select{padding:3px 7px;border-radius:6px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.72rem}
+#promptEditor{width:100%;min-height:90px;max-height:160px;padding:10px 12px;border-radius:10px;border:1px solid #3730a3;background:#0a0a14;color:#e2e8f0;font-size:.82rem;resize:vertical;line-height:1.6;font-family:'Segoe UI',sans-serif;transition:.2s}
+#promptEditor:focus{border-color:#6d28d9;outline:none;box-shadow:0 0 0 2px #6d28d930}
+#promptEditor::placeholder{color:#3d3b5a}
+.editor-btnrow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ebtn{padding:5px 12px;border:none;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+#btnEditorCopy{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff}
+#btnEditorCopy:hover{filter:brightness(1.15)}
+#btnEditorClear{background:#2d2b50;color:#f472b6;border:1px solid #4c1d95}
+#btnEditorClear:hover{background:#3d1a3a}
+#btnEditorDedup{background:#1e3a5f;color:#60a5fa;border:1px solid #1e4d8c}
+#btnEditorDedup:hover{background:#1e4d8c}
+#btnEditorGemini{background:linear-gradient(135deg,#059669,#0284c7);color:#fff}
+#btnEditorGemini:hover{filter:brightness(1.15)}
+#btnEditorGemini:disabled{opacity:.5;cursor:not-allowed}
+.editor-charcount{margin-left:auto;font-size:.7rem;color:#4c4a72}
+.editor-auto-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #2d2b50;margin-top:2px}
+.editor-auto-row label{font-size:.72rem;color:#a78bfa;cursor:pointer;display:flex;align-items:center;gap:5px}
+#chkAutoAppend{accent-color:#7c3aed;width:13px;height:13px}
+.editor-auto-row .adesc{font-size:.68rem;color:#4c4a72}
+.overlay{display:none;position:fixed;inset:0;background:#000a;z-index:500;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+#detailBox{background:#1a1730;border-radius:16px;width:92vw;max-width:900px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px #0009}
+#detailHead{padding:14px 18px;background:#13111f;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d2b50}
+#detailHead h2{flex:1;font-size:1.05rem;color:#e2e8f0}
+#detailFav{background:none;border:none;cursor:pointer;font-size:1.3rem;color:#6b7280}
+#detailFav.on{color:#fbbf24}
+#detailClose{background:none;border:none;cursor:pointer;font-size:1.3rem;color:#6b7280}
+#detailBody{display:flex;gap:0;flex:1;overflow:hidden}
+#detailLeft{width:45%;min-width:200px;overflow:hidden;display:flex;flex-direction:column}
+#detailMain{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f0f1a;cursor:zoom-in}
+#detailMain img{max-width:100%;max-height:100%;object-fit:contain}
+#detailThumbs{display:flex;gap:4px;padding:8px;overflow-x:auto;background:#13111f;min-height:64px}
+.dthumb{width:52px;height:52px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent;flex-shrink:0}
+.dthumb.active{border-color:#7c3aed}
+#detailRight{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+#finalPromptSection{background:#0f0f1a;border-radius:10px;padding:12px;border:1px solid #6d28d9}
+#finalPromptSection .fplabel{font-size:.75rem;color:#a78bfa;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+#finalPromptSection .fplabel span{color:#6b7280;font-size:.7rem}
+#finalPromptText{font-size:.82rem;color:#e2e8f0;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:140px;overflow-y:auto;margin-bottom:8px}
+.detail-action-row{display:flex;gap:6px;flex-wrap:wrap}
+#btnCopyFinal{flex:1;padding:8px;border:none;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-weight:700;cursor:pointer;font-size:.85rem;transition:.2s}
+#btnCopyFinal:hover{filter:brightness(1.15)}
+#btnSendEditor{padding:8px 14px;border:none;border-radius:8px;background:#1e3a5f;color:#60a5fa;font-weight:700;cursor:pointer;font-size:.82rem;transition:.2s;white-space:nowrap}
+#btnSendEditor:hover{background:#1e4d8c}
+.dprompt-orig{background:#1e1b4b;border-radius:8px;padding:10px;font-size:.78rem;color:#9ca3af;line-height:1.5}
+.dprompt-orig .dlabel{font-size:.72rem;color:#6b7280;margin-bottom:4px}
+.dtags{display:flex;gap:5px;flex-wrap:wrap}
+.dtag{padding:3px 9px;border-radius:12px;background:#312e81;color:#a78bfa;font-size:.72rem}
+.dmemo{background:#1e1b4b;border-radius:8px;padding:10px;font-size:.78rem;color:#9ca3af;line-height:1.5}
+.dmemo .dlabel{font-size:.72rem;color:#6b7280;margin-bottom:4px}
+#modalBox{background:#1a1730;border-radius:16px;width:92vw;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px #0009}
+#modalHead{padding:16px 20px;background:#13111f;display:flex;align-items:center;border-bottom:1px solid #2d2b50;position:sticky;top:0}
+#modalHead h2{flex:1;font-size:1rem;color:#e2e8f0}
+#modalClose{background:none;border:none;cursor:pointer;font-size:1.3rem;color:#6b7280}
+#modalBody{padding:20px;display:flex;flex-direction:column;gap:14px}
+.field label{display:block;font-size:.78rem;color:#a78bfa;margin-bottom:5px;font-weight:600}
+.field input,.field textarea,.field select{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #3730a3;background:#0f0f1a;color:#e2e8f0;font-size:.85rem;resize:vertical}
+.field textarea{min-height:70px}
+.translate-row{display:flex;gap:8px;margin-top:6px}
+.translate-row textarea{flex:1;min-height:55px}
+.transbtn{padding:6px 14px;border:none;border-radius:8px;background:#6d28d9;color:#fff;font-size:.78rem;cursor:pointer;white-space:nowrap;align-self:flex-start}
+.transbtn:hover{background:#7c3aed}
+#transResult{margin-top:6px;padding:8px;background:#0f0f1a;border-radius:7px;font-size:.8rem;color:#a78bfa;display:none;cursor:pointer;border:1px dashed #4c1d95}
+#transResult:hover{background:#1e1b4b}
+.tag-input-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.preset-tag{padding:4px 10px;border-radius:14px;border:1px solid #3730a3;background:#1e1b4b;color:#a78bfa;cursor:pointer;font-size:.75rem;transition:.2s}
+.preset-tag.sel{background:#6d28d9;color:#fff}
+.img-previews{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.img-prev-wrap{position:relative;width:80px;height:80px}
+.img-prev-wrap img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.img-prev-rm{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+.mbtn{padding:8px 20px;border:none;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+.mbtn-cancel{background:#2d2b50;color:#a78bfa}
+.mbtn-save{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff}
+.mbtn-save:hover{filter:brightness(1.15)}
+#fsOverlay{background:#000;z-index:900}
+#fsImg{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px}
+#fsClose{position:fixed;top:16px;right:20px;background:#0008;color:#fff;border:none;font-size:1.5rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+#fsPrev,#fsNext{position:fixed;top:50%;transform:translateY(-50%);background:#0008;color:#fff;border:none;font-size:1.4rem;cursor:pointer;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+#fsPrev{left:12px}
+#fsNext{right:12px}
+#manageBox{background:#1a1730;border-radius:16px;width:92vw;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px #0009}
+#manageBox h2{padding:16px 20px;background:#13111f;font-size:1rem;color:#e2e8f0;position:sticky;top:0;display:flex;align-items:center;gap:10px}
+#manageBox h2 span{flex:1}
+#manageClose{background:none;border:none;cursor:pointer;font-size:1.3rem;color:#6b7280}
+#manageBody{padding:16px;display:flex;flex-direction:column;gap:12px}
+.manage-cat{background:#0f0f1a;border-radius:10px;padding:12px;border:1px solid #2d2b50}
+.manage-cat-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.manage-cat-name{font-size:.85rem;font-weight:600;color:#a78bfa;flex:1}
+.manage-items{display:flex;gap:6px;flex-wrap:wrap}
+.manage-item{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:10px;background:#1e1b4b;border:1px solid #3730a3}
+.manage-item span{font-size:.75rem;color:#c4b5fd}
+.manage-item .rmx{cursor:pointer;color:#f472b6;font-size:.8rem;font-weight:700}
+.manage-add-item{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.manage-add-item input{flex:1;min-width:100px;padding:5px 8px;border-radius:6px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.78rem}
+.manage-add-item button{padding:5px 10px;border:none;border-radius:6px;background:#6d28d9;color:#fff;font-size:.75rem;cursor:pointer}
+.manage-add-cat{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px;background:#0f0f1a;border-radius:10px;border:1px dashed #4c1d95}
+.manage-add-cat input{flex:1;min-width:120px;padding:6px 10px;border-radius:7px;border:1px solid #3730a3;background:#1e1b4b;color:#e2e8f0;font-size:.82rem}
+.manage-add-cat button{padding:6px 14px;border:none;border-radius:7px;background:#7c3aed;color:#fff;font-size:.82rem;cursor:pointer}
+.save-html-btn{padding:9px 20px;border:none;border-radius:9px;background:linear-gradient(135deg,#059669,#0284c7);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:4px}
+.save-html-btn:hover{filter:brightness(1.1)}
+#toast{position:fixed;bottom:440px;left:50%;transform:translateX(-50%);background:#6d28d9;color:#fff;padding:10px 22px;border-radius:25px;font-size:.85rem;z-index:999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1}
+#loadingOverlay{position:fixed;inset:0;background:#0f0f1a;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+#loadingOverlay .licon{font-size:3rem;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loadingOverlay p{color:#a78bfa;font-size:1rem}
+@media(max-width:600px){
+  #detailBody{flex-direction:column}
+  #detailLeft{width:100%;max-height:220px}
+  #detailMain{max-height:180px}
+}
+</style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="licon">⚙️</div>
+  <p>갤러리 불러오는 중...</p>
+</div>
+
+<header>
+  <h1>🎨 프롬프트 갤러리</h1>
+  <span id="userInfo">로그인 필요</span>
+  <button class="hbtn" id="btnLogin">🔑 Google 로그인</button>
+  <button class="hbtn" id="btnLogout">로그아웃</button>
+  <button class="hbtn" id="btnAdd">＋ 새 항목 추가</button>
+</header>
+<div id="apiBar">
+  <label>🤖 Gemini API 키:</label>
+  <input type="password" id="apiKeyInput" placeholder="API 키 입력...">
+  <button class="apibtn" id="btnShowKey" style="background:#2d2b50;color:#a78bfa">👁</button>
+  <button class="apibtn" id="btnTestApi">키 확인</button>
+  <span id="apiStatus"></span>
+</div>
+<div id="toolbar">
+  <input type="text" id="searchInput" placeholder="🔍 검색...">
+  <select id="sortSel">
+    <option value="newest">최신순</option>
+    <option value="oldest">오래된순</option>
+    <option value="name">이름순</option>
+  </select>
+  <button class="sizebtn" data-sz="sm">S</button>
+  <button class="sizebtn active" data-sz="md">M</button>
+  <button class="sizebtn" data-sz="lg">L</button>
+  <button id="btnFavFilter">⭐ 즐겨찾기</button>
+  <span id="countBadge"></span>
+</div>
+<div id="tagBar"></div>
+<div id="gallery" class="sz-md"></div>
+<div id="emptyState"><div class="eicon">🖼️</div><p>저장된 항목이 없어요.<br>로그인 후 새 항목을 추가해보세요!</p></div>
+
+<!-- 하단 패널 -->
+<div id="modPanel" class="collapsed">
+  <div id="modToggleBar">
+    <span class="mtitle">⚙️ 프롬프트 수정자</span>
+    <div id="selectedCount" style="font-size:.75rem;color:#f472b6;margin-right:4px"></div>
+    <button id="btnManageMods">관리</button>
+    <span class="marrow">▲</span>
+  </div>
+  <div id="panelMainTabs">
+    <button class="pmtab active" data-panel="mod">⚙️ 수정자</button>
+    <button class="pmtab" data-panel="editor">🖊️ 프롬프트 편집기</button>
+  </div>
+  <div id="modPanelInner">
+    <div id="selectedModsBar">
+      <span class="smlabel">선택됨:</span>
+      <span id="noSelMsg" style="font-size:.72rem;color:#4c4a72">없음 — 아래에서 클릭하여 선택</span>
+      <button id="btnClearMods">전체 해제</button>
+    </div>
+    <div id="geminiOpt">
+      <label><input type="checkbox" id="chkGemini"> 🤖 제미니 번역 포함</label>
+      <span class="gdesc">※ 카드 클릭 시 원본 프롬프트를 제미니가 번역/보완해서 완성</span>
+    </div>
+    <div id="modTabs"></div>
+    <div id="modButtons"></div>
+    <div id="quickAddBar">
+      <span class="qalabel">➕ 현재 탭에 추가:</span>
+      <div id="qaInputGroup">
+        <div class="qaRow">
+          <input type="text" id="qaKo" placeholder="한글 이름 입력 (예: 도쿄 야경거리)">
+          <button id="btnQaAuto">⚡ 자동변환</button>
+        </div>
+        <div class="qaRow">
+          <input type="text" id="qaEn" placeholder="영문 프롬프트 — 자동생성되거나 직접 입력">
+          <button id="btnQuickAdd">➕ 추가</button>
+        </div>
+        <div id="qaStatus"></div>
+      </div>
+    </div>
+  </div>
+  <div id="editorPanelInner">
+    <div class="editor-topbar">
+      <span class="etitle">🖊️ 프롬프트 편집기</span>
+      <span class="einfo" id="editorCharCount">0자</span>
+    </div>
+    <div class="editor-sep-row">
+      <label>구분자:</label>
+      <select id="editorSep">
+        <option value=", ">쉼표 (,)</option>
+        <option value="\n">줄바꿈</option>
+        <option value=" ">공백</option>
+      </select>
+    </div>
+    <textarea id="promptEditor" placeholder="여기에 프롬프트를 입력하세요..."></textarea>
+    <div class="editor-btnrow">
+      <button class="ebtn" id="btnEditorCopy">📋 복사</button>
+      <button class="ebtn" id="btnEditorClear">🗑️ 초기화</button>
+      <button class="ebtn" id="btnEditorDedup">✂️ 중복제거</button>
+      <button class="ebtn" id="btnEditorGemini">🤖 제미니 다듬기</button>
+      <span class="editor-charcount" id="editorCharCount2"></span>
+    </div>
+    <div class="editor-auto-row">
+      <label><input type="checkbox" id="chkAutoAppend" checked> 수정자 클릭 시 편집기에 자동 추가</label>
+      <span class="adesc">— 편집기 탭이 열려있을 때 수정자 버튼을 누르면 자동으로 붙여넣어집니다</span>
+    </div>
+  </div>
+</div>
+
+<!-- 상세보기 -->
+<div class="overlay" id="detailOverlay">
+  <div id="detailBox">
+    <div id="detailHead">
+      <h2 id="detailTitle"></h2>
+      <button id="detailFav">⭐</button>
+      <button id="detailEdit" style="padding:5px 12px;border:none;border-radius:7px;background:#3730a3;color:#a78bfa;cursor:pointer;font-size:.82rem">✏️ 편집</button>
+      <button id="detailDelete" style="padding:5px 12px;border:none;border-radius:7px;background:#7f1d1d;color:#fca5a5;cursor:pointer;font-size:.82rem">🗑️ 삭제</button>
+      <button id="detailClose">✕</button>
+    </div>
+    <div id="detailBody">
+      <div id="detailLeft">
+        <div id="detailMain"><span style="color:#4c4a72;font-size:2rem">🖼️</span></div>
+        <div id="detailThumbs"></div>
+      </div>
+      <div id="detailRight">
+        <div id="finalPromptSection">
+          <div class="fplabel">✨ 완성된 프롬프트<span id="modAppliedInfo"></span></div>
+          <div id="finalPromptText"></div>
+          <div class="detail-action-row">
+            <button id="btnCopyFinal">📋 복사</button>
+            <button id="btnSendEditor">📤 편집기로</button>
+          </div>
+        </div>
+        <div class="dprompt-orig">
+          <div class="dlabel">📝 원본 프롬프트</div>
+          <div id="detailOrigPrompt"></div>
+        </div>
+        <div class="dtags" id="detailTags"></div>
+        <div class="dmemo" id="detailMemoWrap" style="display:none">
+          <div class="dlabel">📌 메모</div>
+          <div id="detailMemo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 추가/편집 모달 -->
+<div class="overlay" id="modalOverlay">
+  <div id="modalBox">
+    <div id="modalHead">
+      <h2 id="modalTitle">새 항목 추가</h2>
+      <button id="modalClose">✕</button>
+    </div>
+    <div id="modalBody">
+      <div class="field"><label>제목</label><input type="text" id="mTitle" placeholder="항목 제목 입력..."></div>
+      <div class="field"><label>🌐 영문 프롬프트</label><textarea id="mPrompt" placeholder="영문 프롬프트 입력..."></textarea></div>
+      <div class="field">
+        <label>🤖 한글 → 영문 변환 (제미니)</label>
+        <div class="translate-row">
+          <textarea id="mKorean" placeholder="한글로 설명 입력..."></textarea>
+          <button class="transbtn" id="btnTranslate">변환 ▶</button>
+        </div>
+        <div id="transResult"></div>
+      </div>
+      <div class="field">
+        <label>🏷️ 태그</label>
+        <div class="tag-input-row" id="presetTagRow"></div>
+        <input type="text" id="mTagInput" placeholder="태그 직접 입력 후 Enter...">
+        <div class="tag-input-row" id="selectedTagRow" style="margin-top:6px"></div>
+      </div>
+      <div class="field"><label>📌 메모</label><textarea id="mMemo" placeholder="메모 입력..."></textarea></div>
+      <div class="field">
+        <label>🖼️ 이미지 (여러 장 가능)</label>
+        <input type="file" id="mImages" accept="image/*" multiple>
+        <div class="img-previews" id="mImgPreviews"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="mbtn mbtn-cancel" id="btnModalCancel">취소</button>
+        <button class="mbtn mbtn-save" id="btnModalSave">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 전체화면 -->
+<div class="overlay" id="fsOverlay">
+  <button id="fsClose">✕</button>
+  <button id="fsPrev">‹</button>
+  <img id="fsImg" src="" alt="">
+  <button id="fsNext">›</button>
+</div>
+
+<!-- 수정자 관리 모달 -->
+<div class="overlay" id="manageOverlay">
+  <div id="manageBox">
+    <h2><span>⚙️ 수정자 관리</span><button id="manageClose">✕</button></h2>
+    <div id="manageBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
+  authDomain: "claude-grok-gallery.firebaseapp.com",
+  projectId: "claude-grok-gallery",
+  storageBucket: "claude-grok-gallery.firebasestorage.app",
+  messagingSenderId: "907968891772",
+  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9",
+  measurementId: "G-5C2V22BYMS"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+
+// ── 기존 코드에서 가져온 상수/변수 ──
+const MODIFIERS = [
+const MODIFIERS = [
+  {
+    "cat": "👤 인물 구성",
+    "items": [
+      { "ko": "여자 1명", "en": "one beautiful woman, solo female" },
+      { "ko": "남자 1명", "en": "one handsome man, solo male" },
+      { "ko": "커플 (남녀)", "en": "exactly two people: one woman and one man, romantic couple together" },
+      { "ko": "여자 2명", "en": "exactly two women together" },
+      { "ko": "남자 2명", "en": "exactly two men together" },
+      { "ko": "가족", "en": "family together" },
+      { "ko": "친구들", "en": "group of friends" }
+    ]
+  },
+  {
+    "cat": "🐾 반려동물",
+    "items": [
+      { "ko": "강아지", "en": "with a cute dog" },
+      { "ko": "고양이", "en": "with a cute cat" },
+      { "ko": "골든리트리버", "en": "with a golden retriever" },
+      { "ko": "시바견", "en": "with a shiba inu" },
+      { "ko": "포메라니안", "en": "with a pomeranian" },
+      { "ko": "페르시안 고양이", "en": "with a persian cat" },
+      { "ko": "토끼", "en": "with a rabbit" }
+    ]
+  },
+  {
+    "cat": "🌍 인종/국적",
+    "items": [
+      { "ko": "한국인", "en": "Korean" },
+      { "ko": "일본인", "en": "Japanese" },
+      { "ko": "중국인", "en": "Chinese" },
+      { "ko": "동남아인", "en": "Southeast Asian" },
+      { "ko": "미국인", "en": "American" },
+      { "ko": "유럽인", "en": "European" },
+      { "ko": "러시아인", "en": "Russian" },
+      { "ko": "라틴계", "en": "Latin Hispanic" },
+      { "ko": "흑인", "en": "Black African" },
+      { "ko": "혼혈", "en": "mixed race" }
+    ]
+  },
+  {
+    "cat": "📅 나이",
+    "items": [
+      { "ko": "10대 후반", "en": "18-19 years old teenager" },
+      { "ko": "20대 초반", "en": "early 20s" },
+      { "ko": "20대 중반", "en": "mid 20s" },
+      { "ko": "20대 후반", "en": "late 20s" },
+      { "ko": "30대 초반", "en": "early 30s" },
+      { "ko": "30대 후반", "en": "late 30s" },
+      { "ko": "40대", "en": "40s mature" },
+      { "ko": "50대", "en": "50s middle aged" }
+    ]
+  },
+  {
+    "cat": "💃 여성 체형",
+    "items": [
+      { "ko": "마른", "en": "thin skinny female body" },
+      { "ko": "슬림", "en": "slim slender female body" },
+      { "ko": "보통", "en": "average female body" },
+      { "ko": "탄탄한", "en": "fit athletic female body" },
+      { "ko": "글래머", "en": "curvy voluptuous female body" },
+      { "ko": "풍만한", "en": "busty full figured female body" },
+      { "ko": "아담한", "en": "petite small female body" },
+      { "ko": "모델 체형", "en": "tall slim model body" },
+      { "ko": "S라인", "en": "S-line curvy hourglass body" },
+      { "ko": "통통한", "en": "chubby plump female body" }
+    ]
+  },
+  {
+    "cat": "🏋️ 남성 체형",
+    "items": [
+      { "ko": "마른", "en": "thin skinny male body" },
+      { "ko": "보통", "en": "average male body" },
+      { "ko": "탄탄한", "en": "fit athletic male body" },
+      { "ko": "근육질", "en": "muscular male body" },
+      { "ko": "떡대", "en": "bulky big male body" },
+      { "ko": "슬림 근육", "en": "lean muscular male body" },
+      { "ko": "복근", "en": "six pack abs male body" },
+      { "ko": "건장한", "en": "well-built sturdy male body" },
+      { "ko": "키 큰", "en": "tall male body" },
+      { "ko": "덩치 큰", "en": "large big frame male body" }
+    ]
+  },
+  {
+    "cat": "🎨 피부",
+    "items": [
+      { "ko": "밝은 피부", "en": "fair pale skin" },
+      { "ko": "하얀 피부", "en": "white porcelain skin" },
+      { "ko": "보통 피부", "en": "normal skin tone" },
+      { "ko": "건강한 피부", "en": "healthy tan skin" },
+      { "ko": "구릿빛 피부", "en": "bronze tanned skin" },
+      { "ko": "어두운 피부", "en": "dark skin" },
+      { "ko": "윤기나는", "en": "glowing radiant skin" },
+      { "ko": "매끈한", "en": "smooth flawless skin" }
+    ]
+  },
+  {
+    "cat": "💇 헤어스타일",
+    "items": [
+      { "ko": "긴 머리", "en": "long hair" },
+      { "ko": "중간 머리", "en": "medium length hair" },
+      { "ko": "짧은 머리", "en": "short hair" },
+      { "ko": "단발", "en": "bob cut hair" },
+      { "ko": "포니테일", "en": "ponytail hairstyle" },
+      { "ko": "트윈테일", "en": "twin tails pigtails" },
+      { "ko": "업스타일", "en": "updo hairstyle" },
+      { "ko": "웨이브", "en": "wavy curly hair" },
+      { "ko": "생머리", "en": "straight silky hair" },
+      { "ko": "땋은 머리", "en": "braided hair" },
+      { "ko": "번 헤어", "en": "hair bun" },
+      { "ko": "젖은 머리", "en": "wet hair" },
+      { "ko": "헝클어진", "en": "messy tousled hair" },
+      { "ko": "앞머리", "en": "with bangs fringe" }
+    ]
+  },
+  {
+    "cat": "🎨 헤어 컬러",
+    "items": [
+      { "ko": "검은색", "en": "black hair" },
+      { "ko": "갈색", "en": "brown hair" },
+      { "ko": "밝은 갈색", "en": "light brown hair" },
+      { "ko": "금발", "en": "blonde hair" },
+      { "ko": "플래티넘", "en": "platinum blonde hair" },
+      { "ko": "빨간색", "en": "red hair" },
+      { "ko": "오렌지", "en": "orange ginger hair" },
+      { "ko": "핑크", "en": "pink hair" },
+      { "ko": "보라색", "en": "purple violet hair" },
+      { "ko": "파란색", "en": "blue hair" },
+      { "ko": "은색", "en": "silver gray hair" },
+      { "ko": "투톤", "en": "two-tone ombre hair" }
+    ]
+  },
+  {
+    "cat": "👩 얼굴형/이목구비",
+    "items": [
+      { "ko": "계란형 얼굴", "en": "oval face shape" },
+      { "ko": "V라인 얼굴", "en": "V-line sharp jaw face" },
+      { "ko": "둥근 얼굴", "en": "round face" },
+      { "ko": "큰 눈", "en": "big large eyes" },
+      { "ko": "고양이 눈", "en": "cat eyes" },
+      { "ko": "쌍꺼풀", "en": "double eyelids" },
+      { "ko": "오똑한 코", "en": "high nose bridge" },
+      { "ko": "도톰한 입술", "en": "full plump lips" },
+      { "ko": "작은 얼굴", "en": "small face" },
+      { "ko": "동안", "en": "baby face youthful" },
+      { "ko": "성숙한", "en": "mature sophisticated face" },
+      { "ko": "날카로운", "en": "sharp facial features" }
+    ]
+  },
+  {
+    "cat": "💄 메이크업",
+    "items": [
+      { "ko": "내추럴", "en": "natural makeup" },
+      { "ko": "누드톤", "en": "nude makeup" },
+      { "ko": "풀 메이크업", "en": "full glamorous makeup" },
+      { "ko": "스모키", "en": "smoky eye makeup" },
+      { "ko": "레드 립", "en": "red lipstick" },
+      { "ko": "핑크 립", "en": "pink lipstick" },
+      { "ko": "누드 립", "en": "nude lips" },
+      { "ko": "글로시", "en": "glossy dewy makeup" },
+      { "ko": "매트", "en": "matte makeup" },
+      { "ko": "노메이크업", "en": "no makeup bare face" },
+      { "ko": "속눈썹 강조", "en": "long eyelashes" },
+      { "ko": "블러셔", "en": "rosy blush cheeks" }
+    ]
+  },
+  {
+    "cat": "💍 액세서리",
+    "items": [
+      { "ko": "목걸이", "en": "necklace" },
+      { "ko": "귀걸이", "en": "earrings" },
+      { "ko": "반지", "en": "ring" },
+      { "ko": "팔찌", "en": "bracelet" },
+      { "ko": "시계", "en": "watch" },
+      { "ko": "선글라스", "en": "sunglasses" },
+      { "ko": "안경", "en": "glasses" },
+      { "ko": "모자", "en": "hat cap" },
+      { "ko": "스카프", "en": "scarf" },
+      { "ko": "초커", "en": "choker necklace" },
+      { "ko": "헤어밴드", "en": "headband" },
+      { "ko": "헤어핀", "en": "hair pin clip" }
+    ]
+  },
+  {
+    "cat": "🕐 시간대",
+    "items": [
+      { "ko": "아침", "en": "morning time sunrise" },
+      { "ko": "낮", "en": "daytime midday" },
+      { "ko": "오후", "en": "afternoon" },
+      { "ko": "저녁", "en": "evening dusk" },
+      { "ko": "밤", "en": "night time" },
+      { "ko": "새벽", "en": "dawn early morning" },
+      { "ko": "황혼", "en": "twilight golden hour" }
+    ]
+  },
+  {
+    "cat": "🌤️ 날씨/계절",
+    "items": [
+      { "ko": "맑은", "en": "sunny clear weather" },
+      { "ko": "흐린", "en": "cloudy overcast" },
+      { "ko": "비오는", "en": "rainy weather rain" },
+      { "ko": "눈오는", "en": "snowy winter snow" },
+      { "ko": "안개", "en": "foggy misty" },
+      { "ko": "봄", "en": "spring season" },
+      { "ko": "여름", "en": "summer season" },
+      { "ko": "가을", "en": "autumn fall season" },
+      { "ko": "겨울", "en": "winter season" }
+    ]
+  },
+  {
+    "cat": "📷 카메라 앵글",
+    "items": [
+      { "ko": "위에서 아래", "en": "bird's eye view, top-down angle" },
+      { "ko": "조감도", "en": "overhead aerial view, looking straight down" },
+      { "ko": "아래서 위", "en": "low angle, worm's eye view" },
+      { "ko": "극저각", "en": "frog's eye view, extreme low angle" },
+      { "ko": "눈높이", "en": "eye level shot" },
+      { "ko": "45도 각도", "en": "45 degree angle shot" },
+      { "ko": "측면", "en": "side profile shot" },
+      { "ko": "후면", "en": "rear view shot" },
+      { "ko": "정면", "en": "front facing, direct gaze" },
+      { "ko": "3/4 각도", "en": "three-quarter angle view" },
+      { "ko": "기울어진", "en": "dutch angle, tilted camera" },
+      { "ko": "수중 앵글", "en": "underwater angle shot" },
+      { "ko": "오버숄더", "en": "over-the-shoulder shot" },
+      { "ko": "1인칭 시점", "en": "POV shot, first person perspective" },
+      { "ko": "셀피 모드", "en": "selfie mode, handheld selfie angle" },
+      { "ko": "카우보이샷", "en": "cowboy shot, mid-thigh framing" }
+    ]
+  },
+  {
+    "cat": "🔭 카메라 거리",
+    "items": [
+      { "ko": "익스트림 클로즈업", "en": "extreme close-up, face detail only" },
+      { "ko": "타이트 클로즈업", "en": "tight close-up shot, TCU" },
+      { "ko": "클로즈업", "en": "close-up shot, face centered" },
+      { "ko": "미디엄 클로즈업", "en": "medium close-up, MCU" },
+      { "ko": "미디엄샷", "en": "medium shot, waist up" },
+      { "ko": "미디엄 와이드", "en": "medium wide shot, knees up" },
+      { "ko": "풀샷", "en": "full body shot, full length" },
+      { "ko": "롱샷", "en": "long shot, wide framing" },
+      { "ko": "익스트림 롱샷", "en": "extreme wide shot, landscape establishing shot" }
+    ]
+  },
+  {
+    "cat": "🎬 카메라 무빙",
+    "items": [
+      { "ko": "고정샷", "en": "static shot, locked off camera" },
+      { "ko": "천천히 줌인", "en": "slow zoom in, gentle push in" },
+      { "ko": "천천히 줌아웃", "en": "slow zoom out, gentle pull back" },
+      { "ko": "달리 인", "en": "dolly in, camera moves forward on track" },
+      { "ko": "달리 아웃", "en": "dolly out, camera pulls back on track" },
+      { "ko": "패닝 좌→우", "en": "smooth pan left to right" },
+      { "ko": "패닝 우→좌", "en": "smooth pan right to left" },
+      { "ko": "틸트 업", "en": "slow tilt up, camera tilts upward" },
+      { "ko": "틸트 다운", "en": "slow tilt down, camera tilts downward" },
+      { "ko": "트래킹샷", "en": "tracking shot, follow shot, subject centered" },
+      { "ko": "오빗 회전", "en": "orbit shot, 360 degree circle around subject" },
+      { "ko": "크레인 업", "en": "crane shot ascending, camera lifts upward" },
+      { "ko": "크레인 다운", "en": "crane shot descending, camera lowers" },
+      { "ko": "드론 상승", "en": "drone ascending shot, aerial rise" },
+      { "ko": "드론 하강", "en": "drone descending shot, aerial lower" },
+      { "ko": "핸드헬드", "en": "handheld shaky camera, documentary feel" },
+      { "ko": "스테디캠", "en": "steadicam smooth glide, fluid motion" },
+      { "ko": "FPV", "en": "FPV drone shot, fast first person view" },
+      { "ko": "휩 패닝", "en": "whip pan, fast swipe transition" },
+      { "ko": "랙 포커스", "en": "rack focus, shift focus between subjects" },
+      { "ko": "리빌샷", "en": "reveal shot, hidden element slowly uncovered" },
+      { "ko": "슬로우모션 패닝", "en": "slow motion pan, dreamy movement" }
+    ]
+  },
+  {
+    "cat": "💡 조명 & 분위기",
+    "items": [
+      { "ko": "황금빛 시간", "en": "golden hour lighting, warm amber sunlight" },
+      { "ko": "블루아워", "en": "blue hour, twilight soft lighting" },
+      { "ko": "스튜디오 조명", "en": "professional studio lighting, clean shadows" },
+      { "ko": "림라이트", "en": "rim lighting, backlit silhouette glow" },
+      { "ko": "촛불 빛", "en": "candlelight, warm flickering intimate light" },
+      { "ko": "네온 조명", "en": "neon lights, vibrant cyberpunk glow" },
+      { "ko": "달빛", "en": "moonlight, cool silver night glow" },
+      { "ko": "안개 확산", "en": "foggy diffused light, misty atmosphere" },
+      { "ko": "극적인 그림자", "en": "dramatic shadows, chiaroscuro contrast" },
+      { "ko": "부드러운 빛", "en": "soft diffused lighting, gentle window light" },
+      { "ko": "HDR 조명", "en": "HDR lighting, high dynamic range" },
+      { "ko": "강한 직사광", "en": "harsh midday sun, sharp hard shadows" },
+      { "ko": "빗속 반사", "en": "rainy wet reflections, shiny ground" },
+      { "ko": "무디 그림자", "en": "moody dark shadows, low key atmosphere" },
+      { "ko": "갓 레이", "en": "volumetric god rays, light beams through mist" },
+      { "ko": "사이드 조명", "en": "dramatic side lighting, half shadow face" },
+      { "ko": "시네마틱 림", "en": "cinematic rim plus fill light, professional look" }
+    ]
+  },
+  {
+    "cat": "🎨 아트 스타일",
+    "items": [
+      { "ko": "실사", "en": "photorealistic, hyperrealistic, cinematic realism" },
+      { "ko": "영화 화보", "en": "fashion editorial, high fashion photography" },
+      { "ko": "K팝 화보", "en": "K-pop idol photoshoot, Korean magazine cover" },
+      { "ko": "할리우드 스타일", "en": "Hollywood leading character, blockbuster cinematic" },
+      { "ko": "애니메이션", "en": "anime style illustration, cel-shaded" },
+      { "ko": "세미 리얼", "en": "semi-realistic, stylized realism" },
+      { "ko": "만화/그래픽", "en": "comic book style, graphic novel illustration" },
+      { "ko": "수채화", "en": "watercolor painting style, soft washes" },
+      { "ko": "유화", "en": "oil painting style, classical fine art" },
+      { "ko": "픽셀아트", "en": "pixel art style, 8-bit retro" },
+      { "ko": "3D 렌더링", "en": "3D CGI rendering, Blender style" },
+      { "ko": "사이버펑크", "en": "cyberpunk aesthetic, neon dystopia" },
+      { "ko": "스팀펑크", "en": "steampunk style, Victorian era machinery" },
+      { "ko": "미니멀", "en": "minimalist style, clean lines, white space" },
+      { "ko": "초현실주의", "en": "surrealist painting, dreamlike impossible scene" },
+      { "ko": "다크 판타지", "en": "dark fantasy art, gothic digital painting" }
+    ]
+  },
+  {
+    "cat": "✨ 품질 & 디테일",
+    "items": [
+      { "ko": "최고 품질", "en": "masterpiece, best quality, award winning" },
+      { "ko": "8K 해상도", "en": "8K resolution, ultra detailed, sharp" },
+      { "ko": "4K", "en": "4K resolution, high resolution" },
+      { "ko": "영화급", "en": "cinematic quality, film grade, Arri Alexa" },
+      { "ko": "RAW 사진", "en": "RAW photo, DSLR quality, shot on Sony A7" },
+      { "ko": "세밀한 디테일", "en": "intricate details, highly detailed, fine texture" },
+      { "ko": "피부 질감", "en": "hyper detailed face, realistic skin texture, pores" },
+      { "ko": "노이즈 없음", "en": "noise-free, clean render, no artifacts" },
+      { "ko": "심도 효과", "en": "depth of field, shallow focus, bokeh blur" },
+      { "ko": "렌즈플레어", "en": "lens flare, anamorphic flare, light leak" },
+      { "ko": "필름 그레인", "en": "film grain, analog feel, 35mm film" },
+      { "ko": "슬로우모션", "en": "slow motion 120fps, silky smooth" },
+      { "ko": "글리치 효과", "en": "glitch effect, digital distortion" },
+      { "ko": "VHS 레트로", "en": "VHS retro analog, scan lines, vintage tape" }
+    ]
+  },
+  {
+    "cat": "🌆 배경 & 환경",
+    "items": [
+      { "ko": "현대 도시", "en": "modern urban cityscape, skyscrapers, busy streets" },
+      { "ko": "야경 도시", "en": "night city skyline, glowing windows, bokeh city lights" },
+      { "ko": "골목길", "en": "narrow alley, cobblestone street, urban backstreet" },
+      { "ko": "옥상", "en": "rooftop setting, city view from above" },
+      { "ko": "카페 실내", "en": "cozy cafe interior, warm lighting, wooden furniture" },
+      { "ko": "도서관", "en": "grand library interior, tall bookshelves" },
+      { "ko": "학교 교실", "en": "school classroom, desks, blackboard" },
+      { "ko": "아파트 방", "en": "modern apartment room, minimalist interior" },
+      { "ko": "호텔 로비", "en": "luxury hotel lobby, marble floor, chandeliers" },
+      { "ko": "지하철", "en": "subway station, metro platform, underground" },
+      { "ko": "벚꽃길", "en": "cherry blossom path, pink petals falling, spring" },
+      { "ko": "단풍숲", "en": "autumn forest, red orange maple leaves, fall" },
+      { "ko": "해변 일몰", "en": "sunset beach, golden ocean waves, warm shore" },
+      { "ko": "산 정상", "en": "mountain peak, rocky summit, panoramic view" },
+      { "ko": "폭포", "en": "waterfall, lush green surroundings, mist" },
+      { "ko": "꽃밭", "en": "flower field, colorful blooms, meadow" },
+      { "ko": "대나무숲", "en": "bamboo forest, tall green bamboo, dappled light" },
+      { "ko": "사막", "en": "desert landscape, sand dunes, vast horizon" },
+      { "ko": "설원", "en": "snowy field, white landscape, frozen winter" },
+      { "ko": "빗속 거리", "en": "rainy street, wet reflections, puddles, umbrella" },
+      { "ko": "마법 숲", "en": "enchanted magical forest, glowing plants, fairy lights" },
+      { "ko": "용암 지형", "en": "volcanic lava landscape, molten rock, dramatic glow" },
+      { "ko": "우주 정거장", "en": "space station interior, zero gravity, cosmic view" },
+      { "ko": "수중 세계", "en": "underwater world, coral reef, bioluminescent ocean" },
+      { "ko": "천공 섬", "en": "floating sky island, clouds below, fantasy architecture" },
+      { "ko": "사이버펑크 도시", "en": "cyberpunk dystopia city, neon rain, dark future" },
+      { "ko": "수영장", "en": "swimming pool, poolside, clear blue water" },
+      { "ko": "해변", "en": "beach seaside, ocean waves, sandy shore" },
+      { "ko": "공원", "en": "park garden, green grass, trees" },
+      { "ko": "일몰 해변", "en": "sunset beach, golden hour ocean" },
+      { "ko": "야경", "en": "night cityscape, city lights at night" },
+      { "ko": "럭셔리호텔침대", "en": "luxury hotel bed" }
+    ]
+  },
+  {
+    "cat": "👔 남성 의상",
+    "items": [
+      { "ko": "캐주얼", "en": "casual everyday outfit, jeans and t-shirt" },
+      { "ko": "스트리트", "en": "streetwear, hoodie, sneakers, urban style" },
+      { "ko": "오피스 캐주얼", "en": "smart casual, chinos, button-down shirt" },
+      { "ko": "스포티", "en": "sporty athleisure, track jacket, jogger pants" },
+      { "ko": "데님 룩", "en": "full denim outfit, denim jacket and jeans" },
+      { "ko": "오버사이즈", "en": "oversized clothing, baggy sweater, relaxed fit" },
+      { "ko": "정장", "en": "tailored business suit, crisp white shirt" },
+      { "ko": "턱시도", "en": "black tuxedo, bow tie, formal evening wear" },
+      { "ko": "레더 재킷", "en": "leather jacket, biker jacket, edgy casual" },
+      { "ko": "트렌치코트", "en": "trench coat, classic beige, belted" },
+      { "ko": "봄버 재킷", "en": "bomber jacket, varsity style" },
+      { "ko": "화이트 셔츠", "en": "white dress shirt, rolled sleeves, casual chic" },
+      { "ko": "블랙 터틀넥", "en": "black turtleneck, minimalist sophisticated" },
+      { "ko": "오픈 셔츠", "en": "open shirt with necklace, relaxed beach style" },
+      { "ko": "럭셔리 스트리트", "en": "luxury streetwear, high-end sneakers, designer" },
+      { "ko": "애슬레저", "en": "gym fitted wear, compression shirt, athletic" },
+      { "ko": "빈티지 90s", "en": "vintage 90s style, flannel, baggy cords" },
+      { "ko": "사이버펑크 의상", "en": "cyberpunk neon outfit, tech wear, futuristic" },
+      { "ko": "교복", "en": "school uniform, blazer, dress pants" },
+      { "ko": "군복", "en": "military uniform, camouflage fatigues, combat gear" },
+      { "ko": "SF 수트", "en": "futuristic sci-fi suit, sleek bodysuit, neon trim" },
+      { "ko": "판타지 갑옷", "en": "fantasy plate armor, warrior suit, ornate metal" },
+      { "ko": "마법사 로브", "en": "wizard robe, mystical hooded cloak" },
+      { "ko": "닌자복", "en": "ninja outfit, black shinobi shozoku, stealth gear" }
+    ]
+  },
+  {
+    "cat": "👗 여성 캐주얼",
+    "items": [
+      { "ko": "캐주얼", "en": "casual everyday outfit, jeans and t-shirt" },
+      { "ko": "스트리트 패션", "en": "streetwear, urban street style, sneakers" },
+      { "ko": "오피스 캐주얼", "en": "office casual, blouse and slacks, business casual" },
+      { "ko": "스포티", "en": "sporty athleisure, sports bra, yoga pants" },
+      { "ko": "데님 룩", "en": "denim jeans and top, distressed denim" },
+      { "ko": "오버사이즈", "en": "oversized hoodie, baggy boyfriend jeans" },
+      { "ko": "미니멀", "en": "minimalist outfit, clean lines, neutral tones" },
+      { "ko": "보헤미안", "en": "bohemian style, flowy maxi dress, fringe details" },
+      { "ko": "코지 룩", "en": "cozy knit sweater, cardigan, lounge wear" },
+      { "ko": "Y2K", "en": "Y2K style, low-rise jeans, crop top, butterfly clips" },
+      { "ko": "90s 그런지", "en": "90s grunge, plaid shirt, ripped jeans, combat boots" },
+      { "ko": "여름 원피스", "en": "summer sundress, floral print, breezy style" },
+      { "ko": "크롭 탑", "en": "crop top, midriff showing, high-waist bottom" },
+      { "ko": "미니 스커트", "en": "mini skirt, short flirty skirt" },
+      { "ko": "맥시 드레스", "en": "maxi dress, floor-length flowing dress" },
+      { "ko": "미디 스커트", "en": "midi skirt, knee-length elegant" },
+      { "ko": "할터 넥", "en": "halter neck top, open back, tied around neck" },
+      { "ko": "오프숄더", "en": "off-shoulder top, bare shoulder look" },
+      { "ko": "티셔츠", "en": "t-shirt casual top" },
+      { "ko": "블라우스", "en": "blouse feminine top" },
+      { "ko": "니트", "en": "knit sweater cozy" },
+      { "ko": "후드티", "en": "hoodie sweatshirt" },
+      { "ko": "레깅스", "en": "leggings tight pants" },
+      { "ko": "카디건", "en": "cardigan layered look" }
+    ]
+  },
+  {
+    "cat": "👑 여성 포멀",
+    "items": [
+      { "ko": "정장", "en": "women's tailored suit, pantsuit, power blazer set" },
+      { "ko": "이브닝 가운", "en": "evening gown, floor-length glamorous dress" },
+      { "ko": "칵테일 드레스", "en": "cocktail dress, little black dress LBD" },
+      { "ko": "웨딩 드레스", "en": "white wedding dress, bridal gown, lace veil" },
+      { "ko": "실크 슬립 드레스", "en": "silk slip dress, satin lingerie-style dress" },
+      { "ko": "머메이드 드레스", "en": "mermaid silhouette dress, fishtail gown" },
+      { "ko": "A라인 드레스", "en": "A-line dress, flared princess skirt" },
+      { "ko": "하이 쿠튀르", "en": "haute couture, dramatic architectural gown" },
+      { "ko": "볼 가운", "en": "ball gown, cinderella style, full skirt" },
+      { "ko": "딥 V넥", "en": "deep V-neck dress, plunging neckline, elegant" },
+      { "ko": "오픈 백", "en": "open back dress, plunge back, strappy detail" },
+      { "ko": "하이 슬릿", "en": "high slit dress, thigh-high slit, leg reveal" },
+      { "ko": "시퀀 드레스", "en": "sequin dress, glitter gown, metallic sparkle" },
+      { "ko": "레드카펫", "en": "red carpet glamour, Hollywood starlet style" },
+      { "ko": "럭셔리 패션", "en": "luxury high fashion, designer label, editorial" },
+      { "ko": "블레이저", "en": "blazer jacket formal" },
+      { "ko": "슬랙스", "en": "dress pants slacks formal" }
+    ]
+  },
+  {
+    "cat": "👙 섹시/노출",
+    "items": [
+      { "ko": "비키니", "en": "bikini swimsuit" },
+      { "ko": "원피스 수영복", "en": "one-piece swimsuit" },
+      { "ko": "란제리", "en": "lingerie underwear lace" },
+      { "ko": "브라렛", "en": "bralette crop top" },
+      { "ko": "크롭탑", "en": "crop top showing midriff" },
+      { "ko": "딥브이넥", "en": "deep V-neck cleavage" },
+      { "ko": "백리스", "en": "backless dress open back" },
+      { "ko": "시스루", "en": "see-through sheer fabric" },
+      { "ko": "보디수트", "en": "bodysuit form fitting" },
+      { "ko": "슬립드레스", "en": "slip dress satin" },
+      { "ko": "가터벨트", "en": "garter belt stockings" },
+      { "ko": "오프숄더", "en": "off-shoulder bare shoulder" }
+    ]
+  },
+  {
+    "cat": "🎭 여성 테마",
+    "items": [
+      { "ko": "교복", "en": "school uniform, sailor fuku, pleated skirt" },
+      { "ko": "메이드복", "en": "maid outfit, frilly apron, black and white dress" },
+      { "ko": "간호사 유니폼", "en": "nurse uniform, white coat, medical scrubs" },
+      { "ko": "경찰 제복", "en": "police officer uniform, badge, duty belt" },
+      { "ko": "군복", "en": "military uniform, camouflage fatigues" },
+      { "ko": "요리사복", "en": "chef uniform, white apron, chef hat" },
+      { "ko": "스튜어디스", "en": "flight attendant uniform, elegant service wear" },
+      { "ko": "치어리더", "en": "cheerleader uniform, short skirt, pom poms" },
+      { "ko": "발레리나", "en": "ballerina tutu, leotard, pointe shoes" },
+      { "ko": "판타지 갑옷", "en": "fantasy leather corset armor, warrior princess" },
+      { "ko": "마법사 로브", "en": "sorceress robe, hooded mystical cloak" },
+      { "ko": "엘프 의상", "en": "elf dress, flowing green gown, nature motifs" },
+      { "ko": "SF 수트", "en": "sci-fi bodysuit, cyberpunk latex suit, futuristic" },
+      { "ko": "닌자복", "en": "female ninja outfit, black kunoichi gear" },
+      { "ko": "플래퍼", "en": "1920s flapper dress, fringe and beads, art deco" },
+      { "ko": "핀업", "en": "1950s pin-up dress, polka dot swing dress, retro" },
+      { "ko": "디스코", "en": "1970s disco jumpsuit, sequin halter, glam rock" },
+      { "ko": "빅토리안", "en": "Victorian gown, corset and bustle, period drama" },
+      { "ko": "한복", "en": "Korean traditional hanbok, colorful silk" },
+      { "ko": "기모노", "en": "Japanese kimono, obi belt, traditional" },
+      { "ko": "파자마", "en": "pajamas sleepwear comfortable" },
+      { "ko": "목욕가운", "en": "bathrobe fluffy towel wrap" },
+      { "ko": "코스프레", "en": "cosplay costume anime character" }
+    ]
+  },
+  {
+    "cat": "🧵 소재 & 텍스처",
+    "items": [
+      { "ko": "실크/새틴", "en": "silk satin, charmeuse, lustrous sheen" },
+      { "ko": "벨벳", "en": "velvet, crushed velvet, deep rich texture" },
+      { "ko": "레이스", "en": "lace, intricate lace detail, delicate fabric" },
+      { "ko": "레더", "en": "leather, faux leather, glossy or matte" },
+      { "ko": "쉬폰", "en": "chiffon, flowy sheer, soft draping" },
+      { "ko": "니트", "en": "knit, cable knit, ribbed sweater texture" },
+      { "ko": "데님", "en": "denim, raw denim, washed fabric" },
+      { "ko": "시퀀/글리터", "en": "sequin, glitter, metallic sparkle fabric" },
+      { "ko": "오간자/튤", "en": "organza, tulle layers, airy volume" },
+      { "ko": "크로셰", "en": "crochet, open knit, handmade texture" },
+      { "ko": "메시/쉬어", "en": "mesh, sheer panel, see-through overlay" },
+      { "ko": "울/캐시미어", "en": "wool, cashmere, soft luxury knit" },
+      { "ko": "새틴 슬립", "en": "satin slip, smooth liquid-like drape" },
+      { "ko": "PVC/라텍스", "en": "PVC latex, shiny tight material, futuristic" }
+    ]
+  },
+  {
+    "cat": "😊 표정 & 감정",
+    "items": [
+      { "ko": "따뜻한 미소", "en": "warm gentle smile, happy soft expression" },
+      { "ko": "장난기", "en": "playful smirk, cheeky grin, mischievous" },
+      { "ko": "강렬한 눈빛", "en": "intense piercing gaze, powerful magnetic eyes" },
+      { "ko": "유혹적", "en": "seductive half-smile, alluring expression, smoldering" },
+      { "ko": "입술 깨물기", "en": "lip bite, slight lip lick, sensual mouth" },
+      { "ko": "윙크", "en": "winking, flirty raised eyebrow, playful" },
+      { "ko": "차가운 표정", "en": "serious stoic cold expression, unreadable" },
+      { "ko": "자신감", "en": "confident grin, assured powerful look" },
+      { "ko": "놀람", "en": "surprised wide eyes, shocked expression" },
+      { "ko": "화남", "en": "angry furrowed brow, fierce intense" },
+      { "ko": "슬픔", "en": "sad teary eyes, melancholic expression" },
+      { "ko": "신비로운", "en": "mysterious unreadable expression, enigmatic" },
+      { "ko": "웃음", "en": "laughing joyful expression, happy" },
+      { "ko": "평온", "en": "serene peaceful expression, calm" },
+      { "ko": "몽환적", "en": "dreamy distant gaze, lost in thought" },
+      { "ko": "수줍은", "en": "shy bashful expression blushing" },
+      { "ko": "도도한", "en": "proud haughty expression confident" },
+      { "ko": "순수한", "en": "innocent pure expression" }
+    ]
+  },
+  {
+    "cat": "🏃 포즈 & 동작",
+    "items": [
+      { "ko": "자신있게 서기", "en": "standing confidently, strong power pose" },
+      { "ko": "카메라로 걷기", "en": "walking toward camera, natural stride" },
+      { "ko": "머리 넘기기", "en": "running hand through hair, hair flip" },
+      { "ko": "벽에 기대기", "en": "leaning against wall, casual cool pose" },
+      { "ko": "팔짱", "en": "arms crossed, assertive stance" },
+      { "ko": "손 주머니", "en": "hands in pockets, relaxed nonchalant" },
+      { "ko": "고개 기울기", "en": "subtle head tilt, curious engaging look" },
+      { "ko": "어깨 너머 보기", "en": "looking over shoulder, glancing back" },
+      { "ko": "앉아서 다리 꼬기", "en": "sitting relaxed, legs crossed, poised" },
+      { "ko": "천천히 돌아보기", "en": "turning slowly to camera, reveal pose" },
+      { "ko": "손 흔들기", "en": "waving hand, friendly gesture" },
+      { "ko": "키스 날리기", "en": "blowing a kiss, flirty gesture" },
+      { "ko": "가볍게 춤추기", "en": "dancing lightly, swaying movement" },
+      { "ko": "점프", "en": "jumping mid-air pose, dynamic energy" },
+      { "ko": "달리기", "en": "running, dynamic motion blur" },
+      { "ko": "전투 자세", "en": "battle stance, action hero pose" },
+      { "ko": "우아한 자세", "en": "elegant graceful pose, ballet-like" },
+      { "ko": "눕기", "en": "lying down, reclining pose, relaxed" },
+      { "ko": "의자에 앉은", "en": "sitting on chair, relaxed seated" },
+      { "ko": "바닥에 앉은", "en": "sitting on floor, casual ground pose" },
+      { "ko": "엎드린", "en": "lying on stomach prone pose" },
+      { "ko": "턱 괴는", "en": "chin on hand pose, thoughtful" },
+      { "ko": "손가락 하트", "en": "finger heart pose, cute gesture" },
+      { "ko": "무릎 꿇은", "en": "kneeling pose, graceful" }
+    ]
+  },
+  {
+    "cat": "🎭 색감 & 톤",
+    "items": [
+      { "ko": "따뜻한 톤", "en": "warm color tone, amber golden palette" },
+      { "ko": "차가운 톤", "en": "cool teal and blue color palette" },
+      { "ko": "흑백", "en": "black and white, monochrome, timeless" },
+      { "ko": "세피아", "en": "sepia tone, vintage aged photograph" },
+      { "ko": "선명한", "en": "vibrant vivid colors, punchy saturation" },
+      { "ko": "파스텔", "en": "pastel colors, soft muted palette, dreamy" },
+      { "ko": "어두운", "en": "dark moody color palette, low key" },
+      { "ko": "네온", "en": "neon bright colors, fluorescent glow" },
+      { "ko": "시네마틱", "en": "cinematic color grading, teal orange LUT" },
+      { "ko": "무채색", "en": "desaturated, muted neutral tones" },
+      { "ko": "네온 핑크블루", "en": "neon pink and blue, synthwave palette" },
+      { "ko": "로맨틱 핑크", "en": "romantic soft pink, rose tones, feminine" }
+    ]
+  },
+  {
+    "cat": "💫 특수 효과",
+    "items": [
+      { "ko": "글로우", "en": "glowing effect, luminous aura, inner light" },
+      { "ko": "불꽃", "en": "fire flames, burning embers effect" },
+      { "ko": "물 스플래시", "en": "water splash effect, liquid droplets" },
+      { "ko": "연기", "en": "smoke effect, misty haze, vapor" },
+      { "ko": "번개", "en": "lightning effect, electric sparks, plasma" },
+      { "ko": "파티클", "en": "particle effects, floating sparkles, dust motes" },
+      { "ko": "홀로그램", "en": "hologram effect, transparent projection, sci-fi" },
+      { "ko": "모션블러", "en": "motion blur, speed lines, dynamic movement" },
+      { "ko": "보케", "en": "bokeh background blur, soft out of focus lights" },
+      { "ko": "렌즈플레어", "en": "lens flare, anamorphic light streak" },
+      { "ko": "크로마틱", "en": "chromatic aberration, color fringing effect" },
+      { "ko": "꽃잎", "en": "flower petals falling, romantic petal shower" },
+      { "ko": "눈 내리기", "en": "snow falling, gentle snowflakes drifting" },
+      { "ko": "버블", "en": "floating bubbles, soap bubbles, iridescent" }
+    ]
+  },
+  {
+    "cat": "🖼️ 구도",
+    "items": [
+      { "ko": "삼분법", "en": "rule of thirds composition" },
+      { "ko": "중앙 구도", "en": "centered symmetrical composition" },
+      { "ko": "대각선", "en": "diagonal dynamic composition" },
+      { "ko": "프레임 안 프레임", "en": "frame within frame composition" },
+      { "ko": "선도법", "en": "leading lines drawing eye to subject" },
+      { "ko": "황금비율", "en": "golden ratio spiral composition" },
+      { "ko": "대칭", "en": "perfect symmetry, mirror composition" },
+      { "ko": "네거티브 스페이스", "en": "negative space, minimalist framing" },
+      { "ko": "더치 틸트", "en": "dutch tilt composition, angled frame" }
+    ]
+  },
+  {
+    "cat": "🎞️ 영상 분위기",
+    "items": [
+      { "ko": "로맨틱", "en": "romantic dreamy film scene, soft warm light" },
+      { "ko": "신비로운", "en": "mysterious atmospheric, dark intrigue" },
+      { "ko": "웅장한", "en": "epic heroic grand scale, sweeping vista" },
+      { "ko": "멜랑꼴리", "en": "melancholic bittersweet, emotional depth" },
+      { "ko": "에너제틱", "en": "energetic dynamic, fast paced action" },
+      { "ko": "유혹적", "en": "seductive sensual scene, intimate tension" },
+      { "ko": "누아르", "en": "noir detective atmosphere, 1940s shadows" },
+      { "ko": "사이버펑크", "en": "cyberpunk dystopia, neon rain future" },
+      { "ko": "K드라마", "en": "K-drama romantic lead, emotional confession" },
+      { "ko": "하이패션", "en": "high fashion editorial, luxury magazine" },
+      { "ko": "슬로우모션", "en": "slow motion 240fps, silky smooth" },
+      { "ko": "타임랩스", "en": "time-lapse fast forward, time passing" },
+      { "ko": "다큐멘터리", "en": "documentary style, raw authentic" },
+      { "ko": "뮤직비디오", "en": "music video style, artistic visual" },
+      { "ko": "호러", "en": "horror film atmosphere, dread tension" },
+      { "ko": "액션", "en": "action movie sequence, explosive dynamic" }
+    ]
+  },
+  {
+    "cat": "📽️ 영상 품질",
+    "items": [
+      { "ko": "4K영상", "en": "4K ultra HD video, crisp clear" },
+      { "ko": "8K영상", "en": "8K resolution video, extreme detail" },
+      { "ko": "60fps", "en": "smooth 60fps footage, fluid motion" },
+      { "ko": "HDR영상", "en": "HDR video, high dynamic range, vivid" },
+      { "ko": "필름그레인", "en": "film grain, analog cinematic feel" },
+      { "ko": "영화색보정", "en": "cinematic color grading, professional LUT" },
+      { "ko": "흑백영상", "en": "black and white film, timeless classic" },
+      { "ko": "루프", "en": "seamless loop, perfect cycle, short clip" },
+      { "ko": "Arri Alexa", "en": "shot on Arri Alexa, cinema camera quality" },
+      { "ko": "아나모픽", "en": "anamorphic lens, oval bokeh, widescreen" }
+    ]
+  },
+  {
+    "cat": "🔥 분위기 프리셋",
+    "items": [
+      { "ko": "섹시", "en": "seductive half-lidded eyes, parted lips, electric chemistry, intense magnetic attraction" },
+      { "ko": "웅장한", "en": "majestic scale, dramatic god rays, epic atmosphere, awe-inspiring grandeur" },
+      { "ko": "금지된 욕망", "en": "forbidden intimacy, stolen glance, tension-filled silence, dark romantic mood" },
+      { "ko": "황홀경", "en": "body arched in pleasure, flushed skin glowing, euphoric bliss, pure rapture" },
+      { "ko": "고혹적 우아함", "en": "hypnotic gaze, graceful seductive pose, mysterious allure, soft rim light halo" },
+      { "ko": "야생적 매력", "en": "raw primal energy, wild tousled hair, fierce untamed sensuality" },
+      { "ko": "신비로운 유혹", "en": "enigmatic half-smile, floating ethereal particles, dreamlike haze" },
+      { "ko": "압도적 카리스마", "en": "commanding presence, piercing intense eyes, magnetic dominance" },
+      { "ko": "부드러운 관능", "en": "gentle caress, tender skin contact, whisper-close intimacy" },
+      { "ko": "극한 긴장감", "en": "razor-sharp tension, frozen moment, heart-pounding suspense" },
+      { "ko": "은밀한 속삭임", "en": "whispered secrets in ear, warm breath on neck, forbidden closeness" },
+      { "ko": "몽환적 관능", "en": "ethereal floating particles around body, soft glowing aura, surreal intimate haze" },
+      { "ko": "카와이 파스텔", "en": "kawaii pastel aesthetic, soft cute, pink dreamy" },
+      { "ko": "고딕 로맨스", "en": "gothic dark romance, dramatic black lace, mysterious shadows" },
+      { "ko": "스포티 럭스", "en": "sporty luxe, athletic elegance, powerful feminine energy" }
+    ]
+  }
+];
+
+const PRESET_TAGS = ['애니메이션','실사','판타지','SF','공호','로맨스','액션','풍경','인물','동물','건축','음식'];
+const GEMINI_URL = k => `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${k}`;
+
+let currentUser = null;
+let items = [], filteredItems = [], activeTagFilter = null;
+let favFilter = false, cardSize = 'md', currentDetailId = null;
+let currentDetailImgs = [], currentDetailImgIdx = 0;
+let fsImgs = [], fsIdx = 0, activeCatIdx = 0, selectedMods = [];
+let activePanelTab = 'mod';
+let editId = null, modalImgs = [];
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const escHtml = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fileToDataURL = f => new Promise(r => { const fr = new FileReader(); fr.onload = e => r(e.target.result); fr.readAsDataURL(f) });
+const getExt = d => { const t = d.split(';')[0].split(':')[1]; return t==='image/png'?'png':t==='image/webp'?'webp':'jpg' };
+
+let toastTimer;
+function toast(msg, c='#6d28d9') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.background = c;
+  t.classList.add('show'); clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Firebase Auth ──
+onAuthStateChanged(auth, async user => {
+  currentUser = user;
+  const loginBtn = document.getElementById('btnLogin');
+  const logoutBtn = document.getElementById('btnLogout');
+  const userInfo = document.getElementById('userInfo');
+  if (user) {
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = '';
+    userInfo.textContent = '👤 ' + (user.displayName || user.email);
+    await loadFromFirebase();
+  } else {
+    loginBtn.style.display = '';
+    logoutBtn.style.display = 'none';
+    userInfo.textContent = '로그인 필요';
+    items = [];
+    renderGallery();
+  }
+  document.getElementById('loadingOverlay').style.display = 'none';
+});
+
+async function loginGoogle() {
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  } catch(e) { toast('로그인 실패: ' + e.message, '#ef4444') }
+}
+
+async function logoutUser() {
+  await signOut(auth);
+  toast('로그아웃됨');
+}
+
+// ── Firebase 데이터 로드/저장 ──
+async function loadFromFirebase() {
+  if (!currentUser) return;
+  toast('📂 데이터 불러오는 중...', '#6d28d9');
+  try {
+    const q = query(collection(db, 'users', currentUser.uid, 'items'), orderBy('ts', 'desc'));
+    const snap = await getDocs(q);
+    items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderGallery();
+    toast('✅ 불러오기 완료!', '#059669');
+  } catch(e) { toast('불러오기 실패: ' + e.message, '#ef4444') }
+}
+
+async function saveItemToFirebase(item) {
+  if (!currentUser) return;
+  const { imgDataURLs, ...data } = item;
+  await setDoc(doc(db, 'users', currentUser.uid, 'items', item.id), data);
+}
+
+async function deleteItemFromFirebase(id) {
+  if (!currentUser) return;
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'items', id));
+}
+
+async function uploadImageToStorage(dataURL, filename) {
+  const storageRef = ref(storage, `users/${currentUser.uid}/${filename}`);
+  await uploadString(storageRef, dataURL, 'data_url');
+  return await getDownloadURL(storageRef);
+}
+
+async function deleteImageFromStorage(filename) {
+  try {
+    const storageRef = ref(storage, `users/${currentUser.uid}/${filename}`);
+    await deleteObject(storageRef);
+  } catch(e) {}
+}
+
+// ── Gemini ──
+async function callGemini(key, prompt) {
+  const res = await fetch(GEMINI_URL(key), {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({contents: [{parts: [{text: prompt}]}]})
+  });
+  if (!res.ok) throw new Error(`API 오류 ${res.status}`);
+  const data = await res.json();
+  const result = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  if (!result) throw new Error('응답 없음');
+  return result;
+}
+
+function getEditor() { return document.getElementById('promptEditor') }
+function getSep() { const v = document.getElementById('editorSep').value; return v === '\\n' ? '\n' : v }
+
+function appendToEditor(text) {
+  const ed = getEditor();
+  const sep = getSep();
+  const cur = ed.value.trim();
+  ed.value = cur ? cur + sep + text : text;
+  updateEditorCount();
+  switchPanelTab('editor');
+  document.getElementById('modPanel').classList.remove('collapsed');
+  toast('📤 편집기에 추가됨', '#059669');
+}
+
+function updateEditorCount() {
+  const len = getEditor().value.length;
+  document.getElementById('editorCharCount').textContent = len + '자';
+  document.getElementById('editorCharCount2').textContent = len ? len + '자' : '';
+}
+
+function switchPanelTab(tab) {
+  activePanelTab = tab;
+  document.querySelectorAll('.pmtab').forEach(b => b.classList.toggle('active', b.dataset.panel === tab));
+  document.getElementById('modPanelInner').style.display = tab === 'mod' ? 'block' : 'none';
+  document.getElementById('editorPanelInner').style.display = tab === 'editor' ? 'flex' : 'none';
+}
+
+async function editorGeminiPolish() {
+  const ed = getEditor();
+  const text = ed.value.trim();
+  if (!text) { toast('편집기가 비어있어요', '#f59e0b'); return }
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { toast('API 키를 입력하세요', '#f59e0b'); return }
+  const btn = document.getElementById('btnEditorGemini');
+  btn.disabled = true; btn.textContent = '⏳ 다듬는 중...';
+  try {
+    const result = await callGemini(key, `You are an AI image prompt expert. Clean up and optimize the following image prompt.\nRules:\n- Remove duplicate keywords\n- Fix grammar and flow\n- Keep all meaningful keywords\n- English only, comma-separated, concise\n- Do not add new concepts not in the original\n\nPrompt: ${text}\n\nOptimized prompt:`);
+    ed.value = result.trim().replace(/^['"\`]|['"\`]$/g, '');
+    updateEditorCount();
+    toast('✨ 제미니가 다듬었어요!', '#059669');
+  } catch(e) { toast('오류: ' + e.message, '#ef4444') }
+  finally { btn.disabled = false; btn.textContent = '🤖 제미니 다듬기' }
+}
+
+function editorDedup() {
+  const ed = getEditor();
+  const text = ed.value.trim();
+  if (!text) { toast('편집기가 비어있어요', '#f59e0b'); return }
+  const sep = getSep();
+  const parts = text.split(sep === ',' ? /,\s*/ : sep).map(s => s.trim()).filter(Boolean);
+  const seen = new Set();
+  const deduped = parts.filter(p => { const k = p.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true });
+  ed.value = deduped.join(sep === ',' ? ', ' : sep);
+  updateEditorCount();
+  toast(`✂️ 중복 ${parts.length - deduped.length}개 제거됨`, '#0284c7');
+}
+
+// ── 갤러리 렌더링 ──
+function renderGallery() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSel').value;
+  let arr = [...items];
+  if (q) arr = arr.filter(it => it.title?.toLowerCase().includes(q) || it.prompt?.toLowerCase().includes(q) || it.tags?.some(t => t.toLowerCase().includes(q)));
+  if (activeTagFilter) arr = arr.filter(it => it.tags?.includes(activeTagFilter));
+  if (favFilter) arr = arr.filter(it => it.fav);
+  if (sort === 'newest') arr.sort((a,b) => b.ts - a.ts);
+  else if (sort === 'oldest') arr.sort((a,b) => a.ts - b.ts);
+  else arr.sort((a,b) => a.title?.localeCompare(b.title));
+  filteredItems = arr;
+  document.getElementById('countBadge').textContent = arr.length + '개';
+  const g = document.getElementById('gallery');
+  const empty = document.getElementById('emptyState');
+  g.innerHTML = '';
+  if (!arr.length) { empty.style.display = 'flex'; g.style.display = 'none'; return }
+  empty.style.display = 'none'; g.style.display = 'grid';
+  arr.forEach((it, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const thumbSrc = it.imageUrls?.[0] || '';
+    const thumbHTML = thumbSrc ? `<img class="card-thumb" src="${thumbSrc}" alt="" loading="lazy">` : `<div class="card-thumb-empty">🖼️</div>`;
+    const tagsHTML = (it.tags || []).slice(0,3).map(t => `<span class="card-tag">${escHtml(t)}</span>`).join('');
+    card.innerHTML = `
+      ${thumbHTML}
+      <div class="card-body">
+        <div class="card-num">#${String(idx+1).padStart(3,'0')}</div>
+        <div class="card-title">${escHtml(it.title || '제목없음')}</div>
+        <div class="card-prompt">${escHtml(it.prompt || '')}</div>
+        <div class="card-tags">${tagsHTML}</div>
+        <div class="card-footer">
+          <span class="card-imgcount">🖼️ ${(it.imageFiles || []).length}장</span>
+          <div style="display:flex;gap:4px;align-items:center">
+            <button class="card-send" data-id="${it.id}" title="편집기로 보내기">📤</button>
+            <button class="card-fav ${it.fav ? 'on' : ''}" data-id="${it.id}">${it.fav ? '⭐' : '☆'}</button>
+          </div>
+        </div>
+      </div>`;
+    card.addEventListener('click', e => { if (e.target.classList.contains('card-fav') || e.target.classList.contains('card-send')) return; openDetail(it.id) });
+    card.querySelector('.card-fav').addEventListener('click', e => { e.stopPropagation(); toggleFav(it.id) });
+    card.querySelector('.card-send').addEventListener('click', e => { e.stopPropagation(); appendToEditor(it.prompt || it.title || '') });
+    g.appendChild(card);
+  });
+  rebuildTagBar();
+}
+
+function rebuildTagBar() {
+  const all = new Set();
+  items.forEach(it => (it.tags || []).forEach(t => all.add(t)));
+  const bar = document.getElementById('tagBar');
+  bar.innerHTML = '';
+  if (!all.size) return;
+  const allChip = document.createElement('span');
+  allChip.className = 'tagChip' + (activeTagFilter === null ? ' active' : '');
+  allChip.textContent = '전체';
+  allChip.onclick = () => { activeTagFilter = null; renderGallery() };
+  bar.appendChild(allChip);
+  all.forEach(t => {
+    const c = document.createElement('span');
+    c.className = 'tagChip' + (activeTagFilter === t ? ' active' : '');
+    c.textContent = t;
+    c.onclick = () => { activeTagFilter = activeTagFilter === t ? null : t; renderGallery() };
+    bar.appendChild(c);
+  });
+}
+
+async function toggleFav(id) {
+  const it = items.find(i => i.id === id);
+  if (!it) return;
+  it.fav = !it.fav;
+  await saveItemToFirebase(it);
+  renderGallery();
+  if (currentDetailId === id) {
+    const btn = document.getElementById('detailFav');
+    btn.textContent = it.fav ? '⭐' : '☆';
+    btn.className = it.fav ? 'on' : '';
+  }
+}
+
+async function openDetail(id) {
+  const it = items.find(i => i.id === id);
+  if (!it) return;
+  currentDetailId = id;
+  currentDetailImgs = it.imageUrls || [];
+  currentDetailImgIdx = 0;
+  document.getElementById('detailTitle').textContent = it.title || '제목없음';
+  const favBtn = document.getElementById('detailFav');
+  favBtn.textContent = it.fav ? '⭐' : '☆';
+  favBtn.className = it.fav ? 'on' : '';
+  document.getElementById('detailOrigPrompt').textContent = it.prompt || '(없음)';
+  document.getElementById('detailTags').innerHTML = (it.tags || []).map(t => `<span class="dtag">${escHtml(t)}</span>`).join('');
+  const memoWrap = document.getElementById('detailMemoWrap');
+  if (it.memo) { memoWrap.style.display = 'block'; document.getElementById('detailMemo').textContent = it.memo }
+  else memoWrap.style.display = 'none';
+  const mainEl = document.getElementById('detailMain');
+  const thumbsEl = document.getElementById('detailThumbs');
+  thumbsEl.innerHTML = '';
+  if (currentDetailImgs.length) {
+    mainEl.innerHTML = `<img id="detailMainImg" src="${currentDetailImgs[0]}" alt="" style="max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in">`;
+    document.getElementById('detailMainImg').addEventListener('click', () => openFullscreen(currentDetailImgs, currentDetailImgIdx));
+    currentDetailImgs.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.className = 'dthumb' + (i === 0 ? ' active' : '');
+      t.src = src;
+      t.addEventListener('click', () => {
+        currentDetailImgIdx = i;
+        document.getElementById('detailMainImg').src = src;
+        thumbsEl.querySelectorAll('.dthumb').forEach((el, j) => el.classList.toggle('active', j === i));
+      });
+      thumbsEl.appendChild(t);
+    });
+  } else {
+    mainEl.innerHTML = '<span style="color:#4c4a72;font-size:2rem">🖼️</span>';
+  }
+  await buildFinalPrompt(it);
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+async function buildFinalPrompt(it) {
+  const finalEl = document.getElementById('finalPromptText');
+  const infoEl = document.getElementById('modAppliedInfo');
+  const origPrompt = it.prompt || '';
+  if (!selectedMods.length && !document.getElementById('chkGemini').checked) {
+    finalEl.textContent = origPrompt; infoEl.textContent = '(수정자 미적용)'; return;
+  }
+  let base = origPrompt;
+  if (document.getElementById('chkGemini').checked) {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key) { toast('API 키를 입력하세요', '#f59e0b'); finalEl.textContent = origPrompt; return }
+    finalEl.textContent = '🤖 제미니가 번역/보완 중...';
+    try {
+      base = (await callGemini(key, `You are an AI image prompt expert. Take this existing English image prompt and enhance it to be more vivid and creative. Keep the same theme but make it more descriptive. English only, no explanations, 1-3 sentences max.\n\nOriginal prompt: ${origPrompt}\n\nEnhanced prompt:`)).trim();
+    } catch(e) { toast('제미니 오류: ' + e.message, '#ef4444'); base = origPrompt }
+  }
+  if (selectedMods.length) {
+    base = base + (base ? ', ' : '') + selectedMods.map(m => m.en).join(', ');
+    infoEl.textContent = `수정자 ${selectedMods.length}개 적용됨`;
+  } else {
+    infoEl.textContent = '제미니 보완됨';
+  }
+  finalEl.textContent = base;
+}
+
+// ── 수정자 패널 ──
+function renderModPanel() {
+  const tabsEl = document.getElementById('modTabs');
+  tabsEl.innerHTML = '';
+  MODIFIERS.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'modtab' + (i === activeCatIdx ? ' active' : '');
+    btn.textContent = cat.cat;
+    btn.addEventListener('click', () => { activeCatIdx = i; renderModPanel() });
+    tabsEl.appendChild(btn);
+  });
+  const btnsEl = document.getElementById('modButtons');
+  btnsEl.innerHTML = '';
+  (MODIFIERS[activeCatIdx]?.items || []).forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'modbtn' + (selectedMods.find(m => m.en === item.en) ? ' selected' : '');
+    btn.textContent = item.ko;
+    btn.title = item.en;
+    btn.addEventListener('click', () => {
+      toggleMod(item);
+      if (document.getElementById('chkAutoAppend').checked && activePanelTab === 'editor') appendToEditor(item.en);
+    });
+    btnsEl.appendChild(btn);
+  });
+  renderSelectedMods();
+}
+
+function toggleMod(item) {
+  const idx = selectedMods.findIndex(m => m.en === item.en);
+  if (idx >= 0) selectedMods.splice(idx, 1);
+  else selectedMods.push(item);
+  document.getElementById('selectedCount').textContent = selectedMods.length ? `${selectedMods.length}개 선택됨` : '';
+  renderModPanel();
+}
+
+function renderSelectedMods() {
+  const bar = document.getElementById('selectedModsBar');
+  bar.querySelectorAll('.smchip').forEach(el => el.remove());
+  const noMsg = document.getElementById('noSelMsg');
+  if (!selectedMods.length) { noMsg.style.display = ''; return }
+  noMsg.style.display = 'none';
+  selectedMods.forEach(m => {
+    const chip = document.createElement('span');
+    chip.className = 'smchip';
+    chip.innerHTML = `${escHtml(m.ko)}<span class="rmx">×</span>`;
+    chip.querySelector('.rmx').addEventListener('click', () => {
+      selectedMods = selectedMods.filter(x => x.en !== m.en);
+      document.getElementById('selectedCount').textContent = selectedMods.length ? `${selectedMods.length}개 선택됨` : '';
+      renderModPanel();
+    });
+    bar.insertBefore(chip, document.getElementById('btnClearMods'));
+  });
+}
+
+function setQaStatus(msg, cls='') { const el = document.getElementById('qaStatus'); el.textContent = msg; el.className = cls }
+
+async function quickAutoTranslate() {
+  const ko = document.getElementById('qaKo').value.trim();
+  if (!ko) { toast('한글 이름을 먼저 입력하세요', '#f59e0b'); return }
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { setQaStatus('⚠️ API 키 없음', 'err'); return }
+  const btn = document.getElementById('btnQaAuto');
+  btn.disabled = true; btn.textContent = '⏳ 변환중...';
+  setQaStatus('🤖 변환 중...', 'ing');
+  try {
+    const result = await callGemini(key, `Convert the following Korean modifier name into a concise English image prompt keyword.\nEnglish only, 3-10 words, no explanations.\n\nKorean: "${ko}"\n\nEnglish:`);
+    const cleaned = result.trim().replace(/^['"\`]|['"\`]$/g, '').replace(/\n/g, ' ').trim();
+    document.getElementById('qaEn').value = cleaned;
+    document.getElementById('qaEn').classList.add('filled');
+    setQaStatus('✅ 완료! ➕ 추가 버튼을 누르세요', 'ok');
+  } catch(e) { setQaStatus('❌ 실패: ' + e.message, 'err') }
+  finally { btn.disabled = false; btn.textContent = '⚡ 자동변환' }
+}
+
+function quickAddMod() {
+  const ko = document.getElementById('qaKo').value.trim();
+  const en = document.getElementById('qaEn').value.trim();
+  if (!ko || !en) { toast('한글과 영문 모두 입력하세요', '#f59e0b'); return }
+  if (MODIFIERS[activeCatIdx].items.find(i => i.ko === ko)) { toast(`"${ko}" 은(는) 이미 있습니다`, '#f59e0b'); return }
+  MODIFIERS[activeCatIdx].items.push({ko, en});
+  document.getElementById('qaKo').value = '';
+  document.getElementById('qaEn').value = '';
+  document.getElementById('qaEn').classList.remove('filled');
+  setQaStatus('');
+  renderModPanel();
+  toast(`✅ "${ko}" 추가됨`, '#059669');
+}
+
+// ── 모달 ──
+function openAddModal(id = null) {
+  if (!currentUser) { toast('먼저 로그인하세요', '#f59e0b'); return }
+  editId = id; modalImgs = [];
+  const it = id ? items.find(i => i.id === id) : null;
+  document.getElementById('modalTitle').textContent = id ? '항목 편집' : '새 항목 추가';
+  document.getElementById('mTitle').value = it?.title || '';
+  document.getElementById('mPrompt').value = it?.prompt || '';
+  document.getElementById('mMemo').value = it?.memo || '';
+  document.getElementById('mKorean').value = '';
+  document.getElementById('transResult').style.display = 'none';
+  const selTags = [...(it?.tags || [])];
+  const presetRow = document.getElementById('presetTagRow');
+  presetRow.innerHTML = '';
+  PRESET_TAGS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-tag' + (selTags.includes(t) ? ' sel' : '');
+    btn.textContent = t;
+    btn.onclick = () => { btn.classList.toggle('sel'); const i = selTags.indexOf(t); if (i >= 0) selTags.splice(i, 1); else selTags.push(t); renderSelTags(selTags) };
+    presetRow.appendChild(btn);
+  });
+  renderSelTags(selTags);
+  const tagInput = document.getElementById('mTagInput');
+  tagInput.value = '';
+  tagInput.onkeydown = e => { if (e.key === 'Enter' && tagInput.value.trim()) { const t = tagInput.value.trim(); if (!selTags.includes(t)) selTags.push(t); tagInput.value = ''; renderSelTags(selTags) } };
+  if (it?.imageUrls) modalImgs = it.imageUrls.map((url, i) => ({ dataURL: url, name: it.imageFiles?.[i] || uid() + '.jpg', existing: true, isUrl: true }));
+  renderModalImgPreviews();
+  document.getElementById('mImages').value = '';
+  document.getElementById('mImages').onchange = async e => {
+    for (const f of e.target.files) { const du = await fileToDataURL(f); modalImgs.push({ dataURL: du, name: uid() + '.' + getExt(du), existing: false, isUrl: false }) }
+    renderModalImgPreviews();
+  };
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function renderSelTags(selTags) {
+  const row = document.getElementById('selectedTagRow');
+  row.innerHTML = '';
+  selTags.forEach((t, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'smchip';
+    chip.innerHTML = `${escHtml(t)}<span class="rmx">×</span>`;
+    chip.querySelector('.rmx').addEventListener('click', () => { selTags.splice(i, 1); renderSelTags(selTags); document.querySelectorAll('.preset-tag').forEach(btn => { if (btn.textContent === t) btn.classList.remove('sel') }) });
+    row.appendChild(chip);
+  });
+  row._tags = selTags;
+}
+
+function renderModalImgPreviews() {
+  const el = document.getElementById('mImgPreviews');
+  el.innerHTML = '';
+  modalImgs.forEach((img, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'img-prev-wrap';
+    wrap.innerHTML = `<img src="${img.dataURL}" alt=""><button class="img-prev-rm">×</button>`;
+    wrap.querySelector('.img-prev-rm').addEventListener('click', () => { modalImgs.splice(i, 1); renderModalImgPreviews() });
+    el.appendChild(wrap);
+  });
+}
+
+async function saveItem() {
+  if (!currentUser) { toast('로그인이 필요합니다', '#ef4444'); return }
+  const title = document.getElementById('mTitle').value.trim();
+  const prompt = document.getElementById('mPrompt').value.trim();
+  const memo = document.getElementById('mMemo').value.trim();
+  const tags = [...(document.getElementById('selectedTagRow')._tags || [])];
+  if (!title) { toast('제목을 입력하세요', '#f59e0b'); return }
+  toast('💾 저장 중...', '#6d28d9');
+  const imageFiles = [];
+  const imageUrls = [];
+  for (const img of modalImgs) {
+    if (img.isUrl) {
+      imageFiles.push(img.name);
+      imageUrls.push(img.dataURL);
+    } else {
+      const url = await uploadImageToStorage(img.dataURL, img.name);
+      imageFiles.push(img.name);
+      imageUrls.push(url);
+    }
+  }
+  const itemData = { title, prompt, memo, tags, imageFiles, imageUrls, fav: false, ts: Date.now() };
+  if (editId) {
+    const it = items.find(i => i.id === editId);
+    if (it) {
+      const removed = (it.imageFiles || []).filter(fn => !imageFiles.includes(fn));
+      for (const fn of removed) await deleteImageFromStorage(fn);
+      Object.assign(it, { title, prompt, memo, tags, imageFiles, imageUrls });
+      await saveItemToFirebase(it);
+    }
+  } else {
+    const newItem = { id: uid(), ...itemData };
+    items.unshift(newItem);
+    await saveItemToFirebase(newItem);
+  }
+  renderGallery();
+  document.getElementById('modalOverlay').classList.remove('open');
+  toast(editId ? '✏️ 수정 완료!' : '✅ 저장 완료!', '#059669');
+  editId = null;
+}
+
+async function deleteItem(id) {
+  if (!confirm('이 항목을 삭제할까요?')) return;
+  const it = items.find(i => i.id === id);
+  if (it) for (const fn of (it.imageFiles || [])) await deleteImageFromStorage(fn);
+  await deleteItemFromFirebase(id);
+  items = items.filter(i => i.id !== id);
+  renderGallery();
+  toast('🗑️ 삭제됨', '#ef4444');
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+function openFullscreen(imgs, idx) {
+  fsImgs = imgs; fsIdx = idx;
+  document.getElementById('fsImg').src = imgs[idx];
+  document.getElementById('fsOverlay').classList.add('open');
+}
+function fsMove(d) {
+  fsIdx = (fsIdx + d + fsImgs.length) % fsImgs.length;
+  document.getElementById('fsImg').src = fsImgs[fsIdx];
+}
+
+// ── 관리 모달 ──
+function openManage() {
+  const body = document.getElementById('manageBody');
+  body.innerHTML = '';
+  MODIFIERS.forEach((cat, ci) => {
+    const div = document.createElement('div');
+    div.className = 'manage-cat';
+    div.innerHTML = `
+      <div class="manage-cat-head">
+        <span class="manage-cat-name">${escHtml(cat.cat)}</span>
+        <button onclick="deleteCat(${ci})" style="padding:3px 8px;border:none;border-radius:5px;background:#7f1d1d;color:#fca5a5;cursor:pointer;font-size:.72rem">삭제</button>
+      </div>
+      <div class="manage-items" id="mitems-${ci}"></div>
+      <div class="manage-add-item">
+        <input type="text" id="mnewko-${ci}" placeholder="한글 이름">
+        <input type="text" id="mnewen-${ci}" placeholder="영문 프롬프트">
+        <button onclick="addModItem(${ci})">+ 추가</button>
+      </div>`;
+    const itemsEl = div.querySelector(`#mitems-${ci}`);
+    cat.items.forEach((item, ii) => {
+      const span = document.createElement('div');
+      span.className = 'manage-item';
+      span.innerHTML = `<span title="${escHtml(item.en)}">${escHtml(item.ko)}</span><span class="rmx" onclick="deleteModItem(${ci},${ii})">×</span>`;
+      itemsEl.appendChild(span);
+    });
+    body.appendChild(div);
+  });
+  const addCatDiv = document.createElement('div');
+  addCatDiv.className = 'manage-add-cat';
+  addCatDiv.innerHTML = `<input type="text" id="newCatName" placeholder="새 카테고리 이름"><button onclick="addCat()">+ 추가</button>`;
+  body.appendChild(addCatDiv);
+  document.getElementById('manageOverlay').classList.add('open');
+}
+
+window.deleteCat = ci => { if (!confirm(`"${MODIFIERS[ci].cat}" 삭제?`)) return; MODIFIERS.splice(ci, 1); if (activeCatIdx >= MODIFIERS.length) activeCatIdx = 0; openManage(); renderModPanel() };
+window.deleteModItem = (ci, ii) => { MODIFIERS[ci].items.splice(ii, 1); openManage(); renderModPanel() };
+window.addModItem = ci => {
+  const ko = document.getElementById(`mnewko-${ci}`).value.trim();
+  const en = document.getElementById(`mnewen-${ci}`).value.trim();
+  if (!ko || !en) { toast('한글과 영문 모두 입력하세요', '#f59e0b'); return }
+  MODIFIERS[ci].items.push({ko, en}); openManage(); renderModPanel(); toast('항목 추가됨 ✅');
+};
+window.addCat = () => {
+  const name = document.getElementById('newCatName').value.trim();
+  if (!name) { toast('이름을 입력하세요', '#f59e0b'); return }
+  MODIFIERS.push({cat: name, items: []}); openManage(); renderModPanel(); toast('카테고리 추가됨 ✅');
+};
+
+async function testApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { toast('API 키를 입력하세요', '#f59e0b'); return }
+  const st = document.getElementById('apiStatus');
+  st.textContent = '확인 중...'; st.style.background = '#1e1b4b'; st.style.color = '#a78bfa';
+  try {
+    await callGemini(key, 'Say "OK" only.');
+    st.textContent = '✅ 정상'; st.style.background = '#064e3b'; st.style.color = '#6ee7b7';
+    localStorage.setItem('geminiKey', key); toast('✅ API 키 확인됨!', '#059669');
+  } catch(e) { st.textContent = '❌ 오류'; st.style.background = '#7f1d1d'; st.style.color = '#fca5a5'; toast('❌ ' + e.message, '#ef4444') }
+}
+
+async function translateKorean() {
+  const korean = document.getElementById('mKorean').value.trim();
+  if (!korean) { toast('한글을 입력하세요', '#f59e0b'); return }
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { toast('API 키를 입력하세요', '#f59e0b'); return }
+  const btn = document.getElementById('btnTranslate');
+  btn.textContent = '변환 중...'; btn.disabled = true;
+  try {
+    const result = await callGemini(key, `Convert this Korean to English image prompt. English only, concise.\n\nKorean: ${korean}\n\nEnglish prompt:`);
+    const cleaned = result.trim().replace(/^['"]|['"]$/g, '');
+    const el = document.getElementById('transResult');
+    el.style.display = 'block';
+    el.textContent = '✅ 클릭하면 적용: ' + cleaned;
+    el.onclick = () => { document.getElementById('mPrompt').value = cleaned; toast('적용됨 ✅', '#059669') };
+  } catch(e) { toast('번역 실패: ' + e.message, '#ef4444') }
+  finally { btn.textContent = '변환 ▶'; btn.disabled = false }
+}
+
+// ── 이벤트 리스너 ──
+document.addEventListener('DOMContentLoaded', () => {
+  const savedKey = localStorage.getItem('geminiKey');
+  if (savedKey) document.getElementById('apiKeyInput').value = savedKey;
+
+  document.getElementById('btnLogin').addEventListener('click', loginGoogle);
+  document.getElementById('btnLogout').addEventListener('click', logoutUser);
+  document.getElementById('btnAdd').addEventListener('click', () => openAddModal());
+  document.getElementById('btnShowKey').addEventListener('click', () => {
+    const inp = document.getElementById('apiKeyInput');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  });
+  document.getElementById('apiKeyInput').addEventListener('change', () => localStorage.setItem('geminiKey', document.getElementById('apiKeyInput').value.trim()));
+  document.getElementById('btnTestApi').addEventListener('click', testApiKey);
+  document.getElementById('searchInput').addEventListener('input', renderGallery);
+  document.getElementById('sortSel').addEventListener('change', renderGallery);
+  document.querySelectorAll('.sizebtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      cardSize = btn.dataset.sz;
+      document.querySelectorAll('.sizebtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('gallery').className = 'sz-' + cardSize;
+    });
+  });
+  document.getElementById('btnFavFilter').addEventListener('click', () => {
+    favFilter = !favFilter;
+    document.getElementById('btnFavFilter').classList.toggle('active', favFilter);
+    renderGallery();
+  });
+  document.getElementById('modToggleBar').addEventListener('click', e => {
+    if (e.target.id === 'btnManageMods') return;
+    document.getElementById('modPanel').classList.toggle('collapsed');
+  });
+  document.getElementById('btnManageMods').addEventListener('click', openManage);
+  document.querySelectorAll('.pmtab').forEach(btn => { btn.addEventListener('click', () => switchPanelTab(btn.dataset.panel)) });
+  document.getElementById('btnClearMods').addEventListener('click', () => { selectedMods = []; document.getElementById('selectedCount').textContent = ''; renderModPanel(); toast('수정자 초기화됨') });
+  document.getElementById('chkGemini').addEventListener('change', () => { if (currentDetailId) { const it = items.find(i => i.id === currentDetailId); if (it) buildFinalPrompt(it) } });
+  document.getElementById('btnCopyFinal').addEventListener('click', () => { navigator.clipboard.writeText(document.getElementById('finalPromptText').textContent).then(() => toast('📋 복사됨!', '#059669')) });
+  document.getElementById('btnSendEditor').addEventListener('click', () => { const text = document.getElementById('finalPromptText').textContent; if (text) { appendToEditor(text); document.getElementById('detailOverlay').classList.remove('open') } });
+  document.getElementById('promptEditor').addEventListener('input', updateEditorCount);
+  document.getElementById('btnEditorCopy').addEventListener('click', () => { const text = getEditor().value; if (!text) { toast('편집기가 비어있어요', '#f59e0b'); return } navigator.clipboard.writeText(text).then(() => toast('📋 복사됨!', '#059669')) });
+  document.getElementById('btnEditorClear').addEventListener('click', () => { if (getEditor().value && !confirm('초기화할까요?')) return; getEditor().value = ''; updateEditorCount(); toast('🗑️ 초기화됨') });
+  document.getElementById('btnEditorDedup').addEventListener('click', editorDedup);
+  document.getElementById('btnEditorGemini').addEventListener('click', editorGeminiPolish);
+  document.getElementById('btnQaAuto').addEventListener('click', quickAutoTranslate);
+  document.getElementById('btnQuickAdd').addEventListener('click', quickAddMod);
+  document.getElementById('qaKo').addEventListener('keydown', e => { if (e.key === 'Enter') quickAutoTranslate() });
+  document.getElementById('qaEn').addEventListener('keydown', e => { if (e.key === 'Enter') quickAddMod() });
+  document.getElementById('qaKo').addEventListener('input', () => { document.getElementById('qaEn').classList.remove('filled'); setQaStatus('') });
+  document.getElementById('detailClose').addEventListener('click', () => { document.getElementById('detailOverlay').classList.remove('open'); currentDetailId = null });
+  document.getElementById('detailEdit').addEventListener('click', () => { document.getElementById('detailOverlay').classList.remove('open'); openAddModal(currentDetailId) });
+  document.getElementById('detailDelete').addEventListener('click', () => deleteItem(currentDetailId));
+  document.getElementById('detailOverlay').addEventListener('click', e => { if (e.target === document.getElementById('detailOverlay')) { document.getElementById('detailOverlay').classList.remove('open'); currentDetailId = null } });
+  document.getElementById('detailFav').addEventListener('click', () => { if (currentDetailId) toggleFav(currentDetailId) });
+  document.getElementById('modalClose').addEventListener('click', () => document.getElementById('modalOverlay').classList.remove('open'));
+  document.getElementById('btnModalCancel').addEventListener('click', () => document.getElementById('modalOverlay').classList.remove('open'));
+  document.getElementById('btnModalSave').addEventListener('click', saveItem);
+  document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open') });
+  document.getElementById('btnTranslate').addEventListener('click', translateKorean);
+  document.getElementById('fsClose').addEventListener('click', () => document.getElementById('fsOverlay').classList.remove('open'));
+  document.getElementById('fsPrev').addEventListener('click', () => fsMove(-1));
+  document.getElementById('fsNext').addEventListener('click', () => fsMove(1));
+  document.getElementById('fsOverlay').addEventListener('click', e => { if (e.target === document.getElementById('fsOverlay')) document.getElementById('fsOverlay').classList.remove('open') });
+  document.getElementById('manageClose').addEventListener('click', () => document.getElementById('manageOverlay').classList.remove('open'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') ['fsOverlay','detailOverlay','modalOverlay','manageOverlay'].forEach(id => document.getElementById(id).classList.remove('open'));
+    if (document.getElementById('fsOverlay').classList.contains('open')) { if (e.key === 'ArrowLeft') fsMove(-1); if (e.key === 'ArrowRight') fsMove(1) }
+  });
+
+  switchPanelTab('mod');
+  renderModPanel();
+  updateEditorCount();
+});
+</script>
+</body>
+</html>
