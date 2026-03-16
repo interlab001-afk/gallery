@@ -1371,40 +1371,32 @@ function generatePrompt() {
 
   if (cfg.prefix) parts.push(cfg.prefix);
 
-  // All subject groups
   ['subjectTags','hairWTags','hairMTags','bodyTags',
    'animalTags','birdTags','natureTags','landscapeTags',
    'archTags','urbanArchTags','abstractTags','conceptTags',
    'historyKRTags','historyWorldTags'].forEach(g => parts.push(...getActive(g)));
 
-  // Custom subject fields
   ['customSubject','customAnimal','customNature','customArch','customAbstract','customHistory'].forEach(id => {
     const val = document.getElementById(id)?.value.trim();
     if (val) parts.push(val);
   });
 
-  // Style, camera, quality
   ['styleTags','cameraTags','qualityTags'].forEach(g => parts.push(...getActive(g)));
 
-  // Scene
   ['sceneTags','urbanTags','timeTags'].forEach(g => parts.push(...getActive(g)));
   const customScene = document.getElementById('customScene').value.trim();
   if (customScene) parts.push(customScene);
 
-  // Special keywords
   ['poseTags','moodTags'].forEach(g => parts.push(...getActive(g)));
   const customSpecial = document.getElementById('customSpecial').value.trim();
   if (customSpecial) parts.push(customSpecial);
 
-  // Fantasy tags
   ['fantasyLv1Tags','fantasyLv2Tags','fantasyLv3Tags'].forEach(g => parts.push(...getActive(g)));
 
-  // Suffix
   if (cfg.suffix) parts.push(cfg.suffix);
 
-  // Free text as context note
   const freeText = document.getElementById('freeTextInput').value.trim();
-  if (freeText) parts.push(`[Scene: ${freeText}]`);
+  if (freeText) parts.push('[Scene: ' + freeText + ']');
 
   const filtered = parts.filter(Boolean);
   if (filtered.length === 0) {
@@ -1414,21 +1406,13 @@ function generatePrompt() {
 
   const prompt = filtered.join(', ');
   document.getElementById('outputBox').textContent = prompt;
-  document.getElementById('promptCount').textContent = `${prompt.length}자`;
+  document.getElementById('promptCount').textContent = prompt.length + '자';
 
-  const neg = NEGATIVES[currentIntensity];
-  document.getElementById('negBox').textContent = neg;
-
-   const neg = NEGATIVES[currentIntensity];
-  document.getElementById('negBox').textContent = neg;
+  const negText = NEGATIVES[currentIntensity];
+  document.getElementById('negBox').textContent = negText;
 
   if (document.getElementById('chkNegAuto').checked) {
-    appendToEditor('[Negative]\n' + neg + '\n\n');
-  }
-
-  showToast('✅ 프롬프트 생성 완료!');
-}
-
+    appendToEditor('[Negative]\n' + negText + '\n\n');
   }
 
   showToast('✅ 프롬프트 생성 완료!');
