@@ -1419,8 +1419,16 @@ function generatePrompt() {
   const neg = NEGATIVES[currentIntensity];
   document.getElementById('negBox').textContent = neg;
 
-   if (document.getElementById('chkNegAuto').checked) {
-    appendToEditor(`[Negative]\n${neg}\n\n`);
+   const neg = NEGATIVES[currentIntensity];
+  document.getElementById('negBox').textContent = neg;
+
+  if (document.getElementById('chkNegAuto').checked) {
+    appendToEditor('[Negative]\n' + neg + '\n\n');
+  }
+
+  showToast('✅ 프롬프트 생성 완료!');
+}
+
   }
 
   showToast('✅ 프롬프트 생성 완료!');
