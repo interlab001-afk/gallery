@@ -29,10 +29,6 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
 #btnFavFilter{padding:6px 12px;border:1px solid #4c1d95;border-radius:7px;background:#1e1b4b;color:#fbbf24;cursor:pointer;font-size:.82rem;transition:.2s}
 #btnFavFilter.active{background:#92400e;border-color:#fbbf24}
 #countBadge{margin-left:auto;font-size:.75rem;color:#6b7280}
-/* 탭 버튼 */
-#mainTabBar{background:#0f0f1a;padding:8px 20px;display:flex;gap:8px;border-bottom:1px solid #2d2b50}
-.main-tab{padding:7px 18px;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:.2s;background:#1e1b4b;color:#6b7280}
-.main-tab.active{background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff}
 #tagBar{background:#0f0f1a;padding:8px 20px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #1e1b4b}
 .tagChip{padding:4px 12px;border-radius:20px;border:1px solid #3730a3;background:#1e1b4b;color:#a78bfa;cursor:pointer;font-size:.75rem;transition:.2s}
 .tagChip.active{background:#6d28d9;color:#fff;border-color:#7c3aed}
@@ -40,41 +36,6 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
 #gallery.sz-sm{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
 #gallery.sz-md{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 #gallery.sz-lg{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-/* Grok Enhanced 패널 */
-#grokPanel{padding:20px;flex:1;display:none;flex-direction:column;gap:16px}
-#grokPanel.active{display:flex}
-.grok-add-box{background:#1a1730;border-radius:12px;padding:16px;border:1px solid #7c3aed;display:flex;flex-direction:column;gap:10px}
-.grok-add-box h3{font-size:.95rem;font-weight:700;color:#a78bfa}
-.grok-field label{font-size:.78rem;color:#a78bfa;margin-bottom:4px;display:block;font-weight:600}
-.grok-field textarea{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #3730a3;background:#0f0f1a;color:#e2e8f0;font-size:.82rem;resize:vertical;min-height:60px}
-.grok-field textarea:focus{border-color:#6d28d9;outline:none}
-.grok-btnrow{display:flex;gap:8px;flex-wrap:wrap}
-.grok-save-btn{padding:8px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s}
-.grok-save-btn:hover{filter:brightness(1.15)}
-.grok-clear-btn{padding:8px 16px;border:1px solid #4c1d95;border-radius:8px;background:none;color:#f472b6;font-size:.85rem;cursor:pointer}
-#grokGrid{display:grid;gap:16px}
-#grokGrid.sz-sm{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-#grokGrid.sz-md{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-#grokGrid.sz-lg{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
-.grok-card{background:#1a1730;border-radius:12px;overflow:hidden;border:2px solid #7c3aed;position:relative;transition:.2s}
-.grok-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px #a78bfa55}
-.grok-card-head{padding:10px 12px;background:#13111f;display:flex;align-items:center;gap:6px}
-.grok-card-title{font-size:.88rem;font-weight:700;color:#c4b5fd;flex:1}
-.grok-badge{padding:2px 8px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-size:.65rem;font-weight:700}
-.grok-card-body{padding:12px}
-.grok-section{margin-bottom:10px}
-.grok-section-label{font-size:.7rem;color:#6b7280;margin-bottom:4px;font-weight:600}
-.grok-section-text{font-size:.78rem;color:#9ca3af;line-height:1.5;background:#0f0f1a;padding:8px;border-radius:7px;white-space:pre-wrap;word-break:break-word;max-height:80px;overflow-y:auto}
-.grok-section-text.enhanced{color:#e2e8f0;border:1px solid #4c1d95}
-.grok-card-footer{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap}
-.grok-copy-btn{flex:1;padding:6px;border:none;border-radius:7px;background:#6d28d9;color:#fff;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s}
-.grok-copy-btn:hover{background:#7c3aed}
-.grok-copy-orig{flex:1;padding:6px;border:1px solid #3730a3;border-radius:7px;background:none;color:#a78bfa;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s}
-.grok-copy-orig:hover{background:#1e1b4b}
-.grok-del-btn{padding:6px 10px;border:none;border-radius:7px;background:#7f1d1d;color:#fca5a5;font-size:.75rem;cursor:pointer}
-.grok-send-btn{padding:6px 10px;border:none;border-radius:7px;background:#1e3a5f;color:#60a5fa;font-size:.75rem;cursor:pointer}
-.grok-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;color:#4c4a72}
-.grok-empty .eicon{font-size:3rem;margin-bottom:12px}
 .card{background:#1a1730;border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s;border:1px solid #2d2b50;position:relative}
 .card:hover{transform:translateY(-3px);box-shadow:0 8px 25px #a78bfa33;border-color:#6d28d9}
 .card-thumb{width:100%;aspect-ratio:1;object-fit:cover;background:#0f0f1a;display:block}
@@ -273,7 +234,6 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
   <button class="hbtn" id="btnLogout">로그아웃</button>
   <button class="hbtn" id="btnAdd">＋ 새 항목 추가</button>
 </header>
-
 <div id="apiBar">
   <label>🤖 Gemini API 키:</label>
   <input type="password" id="apiKeyInput" placeholder="API 키 입력...">
@@ -281,7 +241,6 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
   <button class="apibtn" id="btnTestApi">키 확인</button>
   <span id="apiStatus"></span>
 </div>
-
 <div id="toolbar">
   <input type="text" id="searchInput" placeholder="🔍 검색...">
   <select id="sortSel">
@@ -295,44 +254,9 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
   <button id="btnFavFilter">⭐ 즐겨찾기</button>
   <span id="countBadge"></span>
 </div>
-
-<!-- 메인 탭 -->
-<div id="mainTabBar">
-  <button class="main-tab active" data-tab="gallery">🖼️ 갤러리</button>
-  <button class="main-tab" data-tab="grok">✨ Grok Enhanced</button>
-</div>
-
 <div id="tagBar"></div>
-
-<!-- 갤러리 뷰 -->
 <div id="gallery" class="sz-md"></div>
 <div id="emptyState"><div class="eicon">🖼️</div><p>저장된 항목이 없어요.<br>로그인 후 새 항목을 추가해보세요!</p></div>
-
-<!-- Grok Enhanced 뷰 -->
-<div id="grokPanel">
-  <!-- 추가 폼 -->
-  <div class="grok-add-box">
-    <h3>✨ Grok Enhanced 프롬프트 추가</h3>
-    <div class="grok-field">
-      <label>제목</label>
-      <textarea id="grokTitle" rows="1" placeholder="프롬프트 제목..." style="min-height:38px;resize:none"></textarea>
-    </div>
-    <div class="grok-field">
-      <label>📝 원본 프롬프트 (삼촌 버전)</label>
-      <textarea id="grokOrig" placeholder="원본 프롬프트 입력..."></textarea>
-    </div>
-    <div class="grok-field">
-      <label>✨ Enhanced 프롬프트 (Grok 수정 버전)</label>
-      <textarea id="grokEnhanced" placeholder="Grok이 수정한 프롬프트 입력..."></textarea>
-    </div>
-    <div class="grok-btnrow">
-      <button class="grok-save-btn" id="btnGrokSave">💾 저장</button>
-      <button class="grok-clear-btn" id="btnGrokClear">🗑 초기화</button>
-    </div>
-  </div>
-  <!-- 저장된 카드 목록 -->
-  <div id="grokGrid" class="sz-md"></div>
-</div>
 
 <!-- 하단 패널 -->
 <div id="modPanel" class="collapsed">
@@ -494,7 +418,6 @@ header h1{font-size:1.3rem;font-weight:700;background:linear-gradient(90deg,#a78
 </div>
 
 <div id="toast"></div>
-
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
@@ -516,8 +439,936 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// ── MODIFIERS (기존과 동일하게 유지) ──
-const MODIFIERS = [{"cat":"👤 인물 구성","items":[{"ko":"여자 1명","en":"one beautiful woman, solo female"},{"ko":"남자 1명","en":"one handsome man, solo male"},{"ko":"커플 (남녀)","en":"exactly two people: one woman and one man, romantic couple together"},{"ko":"여자 2명","en":"exactly two women together"},{"ko":"남자 2명","en":"exactly two men together"},{"ko":"가족","en":"family together"},{"ko":"친구들","en":"group of friends"}]},{"cat":"🐾 반려동물","items":[{"ko":"강아지","en":"with a cute dog"},{"ko":"고양이","en":"with a cute cat"},{"ko":"골든리트리버","en":"with a golden retriever"},{"ko":"시바견","en":"with a shiba inu"},{"ko":"포메라니안","en":"with a pomeranian"},{"ko":"페르시안 고양이","en":"with a persian cat"},{"ko":"토끼","en":"with a rabbit"}]},{"cat":"🌍 인종/국적","items":[{"ko":"한국인","en":"Korean"},{"ko":"일본인","en":"Japanese"},{"ko":"중국인","en":"Chinese"},{"ko":"동남아인","en":"Southeast Asian"},{"ko":"미국인","en":"American"},{"ko":"유럽인","en":"European"},{"ko":"러시아인","en":"Russian"},{"ko":"라틴계","en":"Latin Hispanic"},{"ko":"흑인","en":"Black African"},{"ko":"혼혈","en":"mixed race"}]},{"cat":"📅 나이","items":[{"ko":"10대 후반","en":"18-19 years old teenager"},{"ko":"20대 초반","en":"early 20s"},{"ko":"20대 중반","en":"mid 20s"},{"ko":"20대 후반","en":"late 20s"},{"ko":"30대 초반","en":"early 30s"},{"ko":"30대 후반","en":"late 30s"},{"ko":"40대","en":"40s mature"},{"ko":"50대","en":"50s middle aged"}]},{"cat":"💃 여성 체형","items":[{"ko":"마른","en":"thin skinny female body"},{"ko":"슬림","en":"slim slender female body"},{"ko":"보통","en":"average female body"},{"ko":"탄탄한","en":"fit athletic female body"},{"ko":"글래머","en":"curvy voluptuous female body"},{"ko":"풍만한","en":"busty full figured female body"},{"ko":"아담한","en":"petite small female body"},{"ko":"모델 체형","en":"tall slim model body"},{"ko":"S라인","en":"S-line curvy hourglass body"},{"ko":"통통한","en":"chubby plump female body"}]},{"cat":"🏋️ 남성 체형","items":[{"ko":"마른","en":"thin skinny male body"},{"ko":"보통","en":"average male body"},{"ko":"탄탄한","en":"fit athletic male body"},{"ko":"근육질","en":"muscular male body"},{"ko":"떡대","en":"bulky big male body"},{"ko":"슬림 근육","en":"lean muscular male body"},{"ko":"복근","en":"six pack abs male body"},{"ko":"건장한","en":"well-built sturdy male body"},{"ko":"키 큰","en":"tall male body"},{"ko":"덩치 큰","en":"large big frame male body"}]},{"cat":"🎨 피부","items":[{"ko":"밝은 피부","en":"fair pale skin"},{"ko":"하얀 피부","en":"white porcelain skin"},{"ko":"보통 피부","en":"normal skin tone"},{"ko":"건강한 피부","en":"healthy tan skin"},{"ko":"구릿빛 피부","en":"bronze tanned skin"},{"ko":"어두운 피부","en":"dark skin"},{"ko":"윤기나는","en":"glowing radiant skin"},{"ko":"매끈한","en":"smooth flawless skin"}]},{"cat":"💇 헤어스타일","items":[{"ko":"긴 머리","en":"long hair"},{"ko":"중간 머리","en":"medium length hair"},{"ko":"짧은 머리","en":"short hair"},{"ko":"단발","en":"bob cut hair"},{"ko":"포니테일","en":"ponytail hairstyle"},{"ko":"트윈테일","en":"twin tails pigtails"},{"ko":"업스타일","en":"updo hairstyle"},{"ko":"웨이브","en":"wavy curly hair"},{"ko":"생머리","en":"straight silky hair"},{"ko":"땋은 머리","en":"braided hair"},{"ko":"번 헤어","en":"hair bun"},{"ko":"젖은 머리","en":"wet hair"},{"ko":"헝클어진","en":"messy tousled hair"},{"ko":"앞머리","en":"with bangs fringe"}]},{"cat":"🎨 헤어 컬러","items":[{"ko":"검은색","en":"black hair"},{"ko":"갈색","en":"brown hair"},{"ko":"밝은 갈색","en":"light brown hair"},{"ko":"금발","en":"blonde hair"},{"ko":"플래티넘","en":"platinum blonde hair"},{"ko":"빨간색","en":"red hair"},{"ko":"오렌지","en":"orange ginger hair"},{"ko":"핑크","en":"pink hair"},{"ko":"보라색","en":"purple violet hair"},{"ko":"파란색","en":"blue hair"},{"ko":"은색","en":"silver gray hair"},{"ko":"투톤","en":"two-tone ombre hair"}]},{"cat":"👩 얼굴형/이목구비","items":[{"ko":"계란형 얼굴","en":"oval face shape"},{"ko":"V라인 얼굴","en":"V-line sharp jaw face"},{"ko":"둥근 얼굴","en":"round face"},{"ko":"큰 눈","en":"big large eyes"},{"ko":"고양이 눈","en":"cat eyes"},{"ko":"쌍꺼풀","en":"double eyelids"},{"ko":"오똑한 코","en":"high nose bridge"},{"ko":"도톰한 입술","en":"full plump lips"},{"ko":"작은 얼굴","en":"small face"},{"ko":"동안","en":"baby face youthful"},{"ko":"성숙한","en":"mature sophisticated face"},{"ko":"날카로운","en":"sharp facial features"}]},{"cat":"💄 메이크업","items":[{"ko":"내추럴","en":"natural makeup"},{"ko":"누드톤","en":"nude makeup"},{"ko":"풀 메이크업","en":"full glamorous makeup"},{"ko":"스모키","en":"smoky eye makeup"},{"ko":"레드 립","en":"red lipstick"},{"ko":"핑크 립","en":"pink lipstick"},{"ko":"누드 립","en":"nude lips"},{"ko":"글로시","en":"glossy dewy makeup"},{"ko":"매트","en":"matte makeup"},{"ko":"노메이크업","en":"no makeup bare face"},{"ko":"속눈썹 강조","en":"long eyelashes"},{"ko":"블러셔","en":"rosy blush cheeks"}]},{"cat":"💍 액세서리","items":[{"ko":"목걸이","en":"necklace"},{"ko":"귀걸이","en":"earrings"},{"ko":"반지","en":"ring"},{"ko":"팔찌","en":"bracelet"},{"ko":"시계","en":"watch"},{"ko":"선글라스","en":"sunglasses"},{"ko":"안경","en":"glasses"},{"ko":"모자","en":"hat cap"},{"ko":"스카프","en":"scarf"},{"ko":"초커","en":"choker necklace"},{"ko":"헤어밴드","en":"headband"},{"ko":"헤어핀","en":"hair pin clip"}]},{"cat":"🕐 시간대","items":[{"ko":"아침","en":"morning time sunrise"},{"ko":"낮","en":"daytime midday"},{"ko":"오후","en":"afternoon"},{"ko":"저녁","en":"evening dusk"},{"ko":"밤","en":"night time"},{"ko":"새벽","en":"dawn early morning"},{"ko":"황혼","en":"twilight golden hour"}]},{"cat":"🌤️ 날씨/계절","items":[{"ko":"맑은","en":"sunny clear weather"},{"ko":"흐린","en":"cloudy overcast"},{"ko":"비오는","en":"rainy weather rain"},{"ko":"눈오는","en":"snowy winter snow"},{"ko":"안개","en":"foggy misty"},{"ko":"봄","en":"spring season"},{"ko":"여름","en":"summer season"},{"ko":"가을","en":"autumn fall season"},{"ko":"겨울","en":"winter season"}]},{"cat":"📷 카메라 앵글","items":[{"ko":"위에서 아래","en":"bird's eye view, top-down angle"},{"ko":"조감도","en":"overhead aerial view, looking straight down"},{"ko":"아래서 위","en":"low angle, worm's eye view"},{"ko":"극저각","en":"frog's eye view, extreme low angle"},{"ko":"눈높이","en":"eye level shot"},{"ko":"45도 각도","en":"45 degree angle shot"},{"ko":"측면","en":"side profile shot"},{"ko":"후면","en":"rear view shot"},{"ko":"정면","en":"front facing, direct gaze"},{"ko":"3/4 각도","en":"three-quarter angle view"},{"ko":"기울어진","en":"dutch angle, tilted camera"},{"ko":"수중 앵글","en":"underwater angle shot"},{"ko":"오버숄더","en":"over-the-shoulder shot"},{"ko":"1인칭 시점","en":"POV shot, first person perspective"},{"ko":"셀피 모드","en":"selfie mode, handheld selfie angle"},{"ko":"카우보이샷","en":"cowboy shot, mid-thigh framing"}]},{"cat":"🔭 카메라 거리","items":[{"ko":"익스트림 클로즈업","en":"extreme close-up, face detail only"},{"ko":"타이트 클로즈업","en":"tight close-up shot, TCU"},{"ko":"클로즈업","en":"close-up shot, face centered"},{"ko":"미디엄 클로즈업","en":"medium close-up, MCU"},{"ko":"미디엄샷","en":"medium shot, waist up"},{"ko":"미디엄 와이드","en":"medium wide shot, knees up"},{"ko":"풀샷","en":"full body shot, full length"},{"ko":"롱샷","en":"long shot, wide framing"},{"ko":"익스트림 롱샷","en":"extreme wide shot, landscape establishing shot"}]},{"cat":"🎬 카메라 무빙","items":[{"ko":"고정샷","en":"static shot, locked off camera"},{"ko":"천천히 줌인","en":"slow zoom in, gentle push in"},{"ko":"천천히 줌아웃","en":"slow zoom out, gentle pull back"},{"ko":"달리 인","en":"dolly in, camera moves forward on track"},{"ko":"달리 아웃","en":"dolly out, camera pulls back on track"},{"ko":"패닝 좌→우","en":"smooth pan left to right"},{"ko":"패닝 우→좌","en":"smooth pan right to left"},{"ko":"틸트 업","en":"slow tilt up, camera tilts upward"},{"ko":"틸트 다운","en":"slow tilt down, camera tilts downward"},{"ko":"트래킹샷","en":"tracking shot, follow shot, subject centered"},{"ko":"오빗 회전","en":"orbit shot, 360 degree circle around subject"},{"ko":"크레인 업","en":"crane shot ascending, camera lifts upward"},{"ko":"크레인 다운","en":"crane shot descending, camera lowers"},{"ko":"드론 상승","en":"drone ascending shot, aerial rise"},{"ko":"드론 하강","en":"drone descending shot, aerial lower"},{"ko":"핸드헬드","en":"handheld shaky camera, documentary feel"},{"ko":"스테디캠","en":"steadicam smooth glide, fluid motion"},{"ko":"FPV","en":"FPV drone shot, fast first person view"},{"ko":"휩 패닝","en":"whip pan, fast swipe transition"},{"ko":"랙 포커스","en":"rack focus, shift focus between subjects"},{"ko":"리빌샷","en":"reveal shot, hidden element slowly uncovered"},{"ko":"슬로우모션 패닝","en":"slow motion pan, dreamy movement"}]},{"cat":"💡 조명 & 분위기","items":[{"ko":"황금빛 시간","en":"golden hour lighting, warm amber sunlight"},{"ko":"블루아워","en":"blue hour, twilight soft lighting"},{"ko":"스튜디오 조명","en":"professional studio lighting, clean shadows"},{"ko":"림라이트","en":"rim lighting, backlit silhouette glow"},{"ko":"촛불 빛","en":"candlelight, warm flickering intimate light"},{"ko":"네온 조명","en":"neon lights, vibrant cyberpunk glow"},{"ko":"달빛","en":"moonlight, cool silver night glow"},{"ko":"안개 확산","en":"foggy diffused light, misty atmosphere"},{"ko":"극적인 그림자","en":"dramatic shadows, chiaroscuro contrast"},{"ko":"부드러운 빛","en":"soft diffused lighting, gentle window light"},{"ko":"HDR 조명","en":"HDR lighting, high dynamic range"},{"ko":"강한 직사광","en":"harsh midday sun, sharp hard shadows"},{"ko":"빗속 반사","en":"rainy wet reflections, shiny ground"},{"ko":"무디 그림자","en":"moody dark shadows, low key atmosphere"},{"ko":"갓 레이","en":"volumetric god rays, light beams through mist"},{"ko":"사이드 조명","en":"dramatic side lighting, half shadow face"},{"ko":"시네마틱 림","en":"cinematic rim plus fill light, professional look"}]},{"cat":"🎨 아트 스타일","items":[{"ko":"실사","en":"photorealistic, hyperrealistic, cinematic realism"},{"ko":"영화 화보","en":"fashion editorial, high fashion photography"},{"ko":"K팝 화보","en":"K-pop idol photoshoot, Korean magazine cover"},{"ko":"할리우드 스타일","en":"Hollywood leading character, blockbuster cinematic"},{"ko":"애니메이션","en":"anime style illustration, cel-shaded"},{"ko":"세미 리얼","en":"semi-realistic, stylized realism"},{"ko":"만화/그래픽","en":"comic book style, graphic novel illustration"},{"ko":"수채화","en":"watercolor painting style, soft washes"},{"ko":"유화","en":"oil painting style, classical fine art"},{"ko":"픽셀아트","en":"pixel art style, 8-bit retro"},{"ko":"3D 렌더링","en":"3D CGI rendering, Blender style"},{"ko":"사이버펑크","en":"cyberpunk aesthetic, neon dystopia"},{"ko":"스팀펑크","en":"steampunk style, Victorian era machinery"},{"ko":"미니멀","en":"minimalist style, clean lines, white space"},{"ko":"초현실주의","en":"surrealist painting, dreamlike impossible scene"},{"ko":"다크 판타지","en":"dark fantasy art, gothic digital painting"}]},{"cat":"✨ 품질 & 디테일","items":[{"ko":"최고 품질","en":"masterpiece, best quality, award winning"},{"ko":"8K 해상도","en":"8K resolution, ultra detailed, sharp"},{"ko":"4K","en":"4K resolution, high resolution"},{"ko":"영화급","en":"cinematic quality, film grade, Arri Alexa"},{"ko":"RAW 사진","en":"RAW photo, DSLR quality, shot on Sony A7"},{"ko":"세밀한 디테일","en":"intricate details, highly detailed, fine texture"},{"ko":"피부 질감","en":"hyper detailed face, realistic skin texture, pores"},{"ko":"노이즈 없음","en":"noise-free, clean render, no artifacts"},{"ko":"심도 효과","en":"depth of field, shallow focus, bokeh blur"},{"ko":"렌즈플레어","en":"lens flare, anamorphic flare, light leak"},{"ko":"필름 그레인","en":"film grain, analog feel, 35mm film"},{"ko":"슬로우모션","en":"slow motion 120fps, silky smooth"},{"ko":"글리치 효과","en":"glitch effect, digital distortion"},{"ko":"VHS 레트로","en":"VHS retro analog, scan lines, vintage tape"}]}];
+
+// ── 기존 코드에서 가져온 상수/변수 ──
+const MODIFIERS = [
+  {
+    "cat": "👤 인물 구성",
+    "items": [
+      {
+        "ko": "여자 1명",
+        "en": "one beautiful woman, solo female"
+      },
+      {
+        "ko": "남자 1명",
+        "en": "one handsome man, solo male"
+      },
+      {
+        "ko": "커플 (남녀)",
+        "en": "exactly two people: one woman and one man, romantic couple together"
+      },
+      {
+        "ko": "여자 2명",
+        "en": "exactly two women together"
+      },
+      {
+        "ko": "남자 2명",
+        "en": "exactly two men together"
+      },
+      {
+        "ko": "가족",
+        "en": "family together"
+      },
+      {
+        "ko": "친구들",
+        "en": "group of friends"
+      }
+    ]
+  },
+  {
+    "cat": "🐾 반려동물",
+    "items": [
+      {
+        "ko": "강아지",
+        "en": "with a cute dog"
+      },
+      {
+        "ko": "고양이",
+        "en": "with a cute cat"
+      },
+      {
+        "ko": "골든리트리버",
+        "en": "with a golden retriever"
+      },
+      {
+        "ko": "시바견",
+        "en": "with a shiba inu"
+      },
+      {
+        "ko": "포메라니안",
+        "en": "with a pomeranian"
+      },
+      {
+        "ko": "페르시안 고양이",
+        "en": "with a persian cat"
+      },
+      {
+        "ko": "토끼",
+        "en": "with a rabbit"
+      }
+    ]
+  },
+  {
+    "cat": "🌍 인종/국적",
+    "items": [
+      {
+        "ko": "한국인",
+        "en": "Korean"
+      },
+      {
+        "ko": "일본인",
+        "en": "Japanese"
+      },
+      {
+        "ko": "중국인",
+        "en": "Chinese"
+      },
+      {
+        "ko": "동남아인",
+        "en": "Southeast Asian"
+      },
+      {
+        "ko": "미국인",
+        "en": "American"
+      },
+      {
+        "ko": "유럽인",
+        "en": "European"
+      },
+      {
+        "ko": "러시아인",
+        "en": "Russian"
+      },
+      {
+        "ko": "라틴계",
+        "en": "Latin Hispanic"
+      },
+      {
+        "ko": "흑인",
+        "en": "Black African"
+      },
+      {
+        "ko": "혼혈",
+        "en": "mixed race"
+      }
+    ]
+  },
+  {
+    "cat": "📅 나이",
+    "items": [
+      {
+        "ko": "10대 후반",
+        "en": "18-19 years old teenager"
+      },
+      {
+        "ko": "20대 초반",
+        "en": "early 20s"
+      },
+      {
+        "ko": "20대 중반",
+        "en": "mid 20s"
+      },
+      {
+        "ko": "20대 후반",
+        "en": "late 20s"
+      },
+      {
+        "ko": "30대 초반",
+        "en": "early 30s"
+      },
+      {
+        "ko": "30대 후반",
+        "en": "late 30s"
+      },
+      {
+        "ko": "40대",
+        "en": "40s mature"
+      },
+      {
+        "ko": "50대",
+        "en": "50s middle aged"
+      }
+    ]
+  },
+  {
+    "cat": "💃 여성 체형",
+    "items": [
+      {
+        "ko": "마른",
+        "en": "thin skinny female body"
+      },
+      {
+        "ko": "슬림",
+        "en": "slim slender female body"
+      },
+      {
+        "ko": "보통",
+        "en": "average female body"
+      },
+      {
+        "ko": "탄탄한",
+        "en": "fit athletic female body"
+      },
+      {
+        "ko": "글래머",
+        "en": "curvy voluptuous female body"
+      },
+      {
+        "ko": "풍만한",
+        "en": "busty full figured female body"
+      },
+      {
+        "ko": "아담한",
+        "en": "petite small female body"
+      },
+      {
+        "ko": "모델 체형",
+        "en": "tall slim model body"
+      },
+      {
+        "ko": "S라인",
+        "en": "S-line curvy hourglass body"
+      },
+      {
+        "ko": "통통한",
+        "en": "chubby plump female body"
+      }
+    ]
+  },
+  {
+    "cat": "🏋️ 남성 체형",
+    "items": [
+      {
+        "ko": "마른",
+        "en": "thin skinny male body"
+      },
+      {
+        "ko": "보통",
+        "en": "average male body"
+      },
+      {
+        "ko": "탄탄한",
+        "en": "fit athletic male body"
+      },
+      {
+        "ko": "근육질",
+        "en": "muscular male body"
+      },
+      {
+        "ko": "떡대",
+        "en": "bulky big male body"
+      },
+      {
+        "ko": "슬림 근육",
+        "en": "lean muscular male body"
+      },
+      {
+        "ko": "복근",
+        "en": "six pack abs male body"
+      },
+      {
+        "ko": "건장한",
+        "en": "well-built sturdy male body"
+      },
+      {
+        "ko": "키 큰",
+        "en": "tall male body"
+      },
+      {
+        "ko": "덩치 큰",
+        "en": "large big frame male body"
+      }
+    ]
+  },
+  {
+    "cat": "🎨 피부",
+    "items": [
+      {
+        "ko": "밝은 피부",
+        "en": "fair pale skin"
+      },
+      {
+        "ko": "하얀 피부",
+        "en": "white porcelain skin"
+      },
+      {
+        "ko": "보통 피부",
+        "en": "normal skin tone"
+      },
+      {
+        "ko": "건강한 피부",
+        "en": "healthy tan skin"
+      },
+      {
+        "ko": "구릿빛 피부",
+        "en": "bronze tanned skin"
+      },
+      {
+        "ko": "어두운 피부",
+        "en": "dark skin"
+      },
+      {
+        "ko": "윤기나는",
+        "en": "glowing radiant skin"
+      },
+      {
+        "ko": "매끈한",
+        "en": "smooth flawless skin"
+      }
+    ]
+  },
+  {
+    "cat": "💇 헤어스타일",
+    "items": [
+      {
+        "ko": "긴 머리",
+        "en": "long hair"
+      },
+      {
+        "ko": "중간 머리",
+        "en": "medium length hair"
+      },
+      {
+        "ko": "짧은 머리",
+        "en": "short hair"
+      },
+      {
+        "ko": "단발",
+        "en": "bob cut hair"
+      },
+      {
+        "ko": "포니테일",
+        "en": "ponytail hairstyle"
+      },
+      {
+        "ko": "트윈테일",
+        "en": "twin tails pigtails"
+      },
+      {
+        "ko": "업스타일",
+        "en": "updo hairstyle"
+      },
+      {
+        "ko": "웨이브",
+        "en": "wavy curly hair"
+      },
+      {
+        "ko": "생머리",
+        "en": "straight silky hair"
+      },
+      {
+        "ko": "땋은 머리",
+        "en": "braided hair"
+      },
+      {
+        "ko": "번 헤어",
+        "en": "hair bun"
+      },
+      {
+        "ko": "젖은 머리",
+        "en": "wet hair"
+      },
+      {
+        "ko": "헝클어진",
+        "en": "messy tousled hair"
+      },
+      {
+        "ko": "앞머리",
+        "en": "with bangs fringe"
+      }
+    ]
+  },
+  {
+    "cat": "🎨 헤어 컬러",
+    "items": [
+      {
+        "ko": "검은색",
+        "en": "black hair"
+      },
+      {
+        "ko": "갈색",
+        "en": "brown hair"
+      },
+      {
+        "ko": "밝은 갈색",
+        "en": "light brown hair"
+      },
+      {
+        "ko": "금발",
+        "en": "blonde hair"
+      },
+      {
+        "ko": "플래티넘",
+        "en": "platinum blonde hair"
+      },
+      {
+        "ko": "빨간색",
+        "en": "red hair"
+      },
+      {
+        "ko": "오렌지",
+        "en": "orange ginger hair"
+      },
+      {
+        "ko": "핑크",
+        "en": "pink hair"
+      },
+      {
+        "ko": "보라색",
+        "en": "purple violet hair"
+      },
+      {
+        "ko": "파란색",
+        "en": "blue hair"
+      },
+      {
+        "ko": "은색",
+        "en": "silver gray hair"
+      },
+      {
+        "ko": "투톤",
+        "en": "two-tone ombre hair"
+      }
+    ]
+  },
+  {
+    "cat": "💍 액세서리",
+    "items": [
+      {
+        "ko": "목걸이",
+        "en": "necklace"
+      },
+      {
+        "ko": "귀걸이",
+        "en": "earrings"
+      },
+      {
+        "ko": "반지",
+        "en": "ring"
+      },
+      {
+        "ko": "팔찌",
+        "en": "bracelet"
+      },
+      {
+        "ko": "시계",
+        "en": "watch"
+      },
+      {
+        "ko": "선글라스",
+        "en": "sunglasses"
+      },
+      {
+        "ko": "안경",
+        "en": "glasses"
+      },
+      {
+        "ko": "모자",
+        "en": "hat cap"
+      },
+      {
+        "ko": "스카프",
+        "en": "scarf"
+      },
+      {
+        "ko": "초커",
+        "en": "choker necklace"
+      },
+      {
+        "ko": "헤어밴드",
+        "en": "headband"
+      },
+      {
+        "ko": "헤어핀",
+        "en": "hair pin clip"
+      }
+    ]
+  },
+  {
+    "cat": "📷 카메라 앵글",
+    "items": [
+      {
+        "ko": "위에서 아래",
+        "en": "bird's eye view, top-down angle"
+      },
+      {
+        "ko": "조감도",
+        "en": "overhead aerial view, looking straight down"
+      },
+      {
+        "ko": "아래서 위",
+        "en": "low angle, worm's eye view"
+      },
+      {
+        "ko": "극저각",
+        "en": "frog's eye view, extreme low angle"
+      },
+      {
+        "ko": "눈높이",
+        "en": "eye level shot"
+      },
+      {
+        "ko": "45도 각도",
+        "en": "45 degree angle shot"
+      },
+      {
+        "ko": "측면",
+        "en": "side profile shot"
+      },
+      {
+        "ko": "후면",
+        "en": "rear view shot"
+      },
+      {
+        "ko": "정면",
+        "en": "front facing, direct gaze"
+      },
+      {
+        "ko": "3/4 각도",
+        "en": "three-quarter angle view"
+      },
+      {
+        "ko": "기울어진",
+        "en": "dutch angle, tilted camera"
+      },
+      {
+        "ko": "수중 앵글",
+        "en": "underwater angle shot"
+      },
+      {
+        "ko": "오버숄더",
+        "en": "over-the-shoulder shot"
+      },
+      {
+        "ko": "1인칭 시점",
+        "en": "POV shot, first person perspective"
+      },
+      {
+        "ko": "셀피 모드",
+        "en": "selfie mode, handheld selfie angle"
+      },
+      {
+        "ko": "카우보이샷",
+        "en": "cowboy shot, mid-thigh framing"
+      }
+    ]
+  },
+  {
+    "cat": "🔭 카메라 거리",
+    "items": [
+      {
+        "ko": "익스트림 클로즈업",
+        "en": "extreme close-up, face detail only"
+      },
+      {
+        "ko": "타이트 클로즈업",
+        "en": "tight close-up shot, TCU"
+      },
+      {
+        "ko": "클로즈업",
+        "en": "close-up shot, face centered"
+      },
+      {
+        "ko": "미디엄 클로즈업",
+        "en": "medium close-up, MCU"
+      },
+      {
+        "ko": "미디엄샷",
+        "en": "medium shot, waist up"
+      },
+      {
+        "ko": "미디엄 와이드",
+        "en": "medium wide shot, knees up"
+      },
+      {
+        "ko": "풀샷",
+        "en": "full body shot, full length"
+      },
+      {
+        "ko": "롱샷",
+        "en": "long shot, wide framing"
+      },
+      {
+        "ko": "익스트림 롱샷",
+        "en": "extreme wide shot, landscape establishing shot"
+      }
+    ]
+  },
+  {
+    "cat": "🎬 카메라 무빙",
+    "items": [
+      {
+        "ko": "고정샷",
+        "en": "static shot, locked off camera"
+      },
+      {
+        "ko": "천천히 줌인",
+        "en": "slow zoom in, gentle push in"
+      },
+      {
+        "ko": "천천히 줌아웃",
+        "en": "slow zoom out, gentle pull back"
+      },
+      {
+        "ko": "달리 인",
+        "en": "dolly in, camera moves forward on track"
+      },
+      {
+        "ko": "달리 아웃",
+        "en": "dolly out, camera pulls back on track"
+      },
+      {
+        "ko": "패닝 좌→우",
+        "en": "smooth pan left to right"
+      },
+      {
+        "ko": "패닝 우→좌",
+        "en": "smooth pan right to left"
+      },
+      {
+        "ko": "틸트 업",
+        "en": "slow tilt up, camera tilts upward"
+      },
+      {
+        "ko": "틸트 다운",
+        "en": "slow tilt down, camera tilts downward"
+      },
+      {
+        "ko": "트래킹샷",
+        "en": "tracking shot, follow shot, subject centered"
+      },
+      {
+        "ko": "오빗 회전",
+        "en": "orbit shot, 360 degree circle around subject"
+      },
+      {
+        "ko": "크레인 업",
+        "en": "crane shot ascending, camera lifts upward"
+      },
+      {
+        "ko": "크레인 다운",
+        "en": "crane shot descending, camera lowers"
+      },
+      {
+        "ko": "드론 상승",
+        "en": "drone ascending shot, aerial rise"
+      },
+      {
+        "ko": "드론 하강",
+        "en": "drone descending shot, aerial lower"
+      },
+      {
+        "ko": "핸드헬드",
+        "en": "handheld shaky camera, documentary feel"
+      },
+      {
+        "ko": "스테디캠",
+        "en": "steadicam smooth glide, fluid motion"
+      },
+      {
+        "ko": "FPV",
+        "en": "FPV drone shot, fast first person view"
+      },
+      {
+        "ko": "휩 패닝",
+        "en": "whip pan, fast swipe transition"
+      },
+      {
+        "ko": "랙 포커스",
+        "en": "rack focus, shift focus between subjects"
+      },
+      {
+        "ko": "리빌샷",
+        "en": "reveal shot, hidden element slowly uncovered"
+      },
+      {
+        "ko": "슬로우모션 패닝",
+        "en": "slow motion pan, dreamy movement"
+      }
+    ]
+  },
+  {
+    "cat": "💡 조명 & 분위기",
+    "items": [
+      {
+        "ko": "황금빛 시간",
+        "en": "golden hour lighting, warm amber sunlight"
+      },
+      {
+        "ko": "블루아워",
+        "en": "blue hour, twilight soft lighting"
+      },
+      {
+        "ko": "스튜디오 조명",
+        "en": "professional studio lighting, clean shadows"
+      },
+      {
+        "ko": "림라이트",
+        "en": "rim lighting, backlit silhouette glow"
+      },
+      {
+        "ko": "촛불 빛",
+        "en": "candlelight, warm flickering intimate light"
+      },
+      {
+        "ko": "네온 조명",
+        "en": "neon lights, vibrant cyberpunk glow"
+      },
+      {
+        "ko": "달빛",
+        "en": "moonlight, cool silver night glow"
+      },
+      {
+        "ko": "안개 확산",
+        "en": "foggy diffused light, misty atmosphere"
+      },
+      {
+        "ko": "극적인 그림자",
+        "en": "dramatic shadows, chiaroscuro contrast"
+      },
+      {
+        "ko": "부드러운 빛",
+        "en": "soft diffused lighting, gentle window light"
+      },
+      {
+        "ko": "HDR 조명",
+        "en": "HDR lighting, high dynamic range"
+      },
+      {
+        "ko": "강한 직사광",
+        "en": "harsh midday sun, sharp hard shadows"
+      },
+      {
+        "ko": "빗속 반사",
+        "en": "rainy wet reflections, shiny ground"
+      },
+      {
+        "ko": "무디 그림자",
+        "en": "moody dark shadows, low key atmosphere"
+      },
+      {
+        "ko": "갓 레이",
+        "en": "volumetric god rays, light beams through mist"
+      },
+      {
+        "ko": "사이드 조명",
+        "en": "dramatic side lighting, half shadow face"
+      },
+      {
+        "ko": "시네마틱 림",
+        "en": "cinematic rim plus fill light, professional look"
+      }
+    ]
+  },
+  {
+    "cat": "🎨 아트 스타일",
+    "items": [
+      {
+        "ko": "실사",
+        "en": "photorealistic, hyperrealistic, cinematic realism"
+      },
+      {
+        "ko": "영화 화보",
+        "en": "fashion editorial, high fashion photography"
+      },
+      {
+        "ko": "K팝 화보",
+        "en": "K-pop idol photoshoot, Korean magazine cover"
+      },
+      {
+        "ko": "할리우드 스타일",
+        "en": "Hollywood leading character, blockbuster cinematic"
+      },
+      {
+        "ko": "애니메이션",
+        "en": "anime style illustration, cel-shaded"
+      },
+      {
+        "ko": "세미 리얼",
+        "en": "semi-realistic, stylized realism"
+      },
+      {
+        "ko": "만화/그래픽",
+        "en": "comic book style, graphic novel illustration"
+      },
+      {
+        "ko": "수채화",
+        "en": "watercolor painting style, soft washes"
+      },
+      {
+        "ko": "유화",
+        "en": "oil painting style, classical fine art"
+      },
+      {
+        "ko": "픽셀아트",
+        "en": "pixel art style, 8-bit retro"
+      },
+      {
+        "ko": "3D 렌더링",
+        "en": "3D CGI rendering, Blender style"
+      },
+      {
+        "ko": "사이버펑크",
+        "en": "cyberpunk aesthetic, neon dystopia"
+      },
+      {
+        "ko": "스팀펑크",
+        "en": "steampunk style, Victorian era machinery"
+      },
+      {
+        "ko": "미니멀",
+        "en": "minimalist style, clean lines, white space"
+      },
+      {
+        "ko": "초현실주의",
+        "en": "surrealist painting, dreamlike impossible scene"
+      },
+      {
+        "ko": "다크 판타지",
+        "en": "dark fantasy art, gothic digital painting"
+      }
+    ]
+  },
+  {
+    "cat": "✨ 품질 & 디테일",
+    "items": [
+      {
+        "ko": "최고 품질",
+        "en": "masterpiece, best quality, award winning"
+      },
+      {
+        "ko": "8K 해상도",
+        "en": "8K resolution, ultra detailed, sharp"
+      },
+      {
+        "ko": "4K",
+        "en": "4K resolution, high resolution"
+      },
+      {
+        "ko": "영화급",
+        "en": "cinematic quality, film grade, Arri Alexa"
+      },
+      {
+        "ko": "RAW 사진",
+        "en": "RAW photo, DSLR quality, shot on Sony A7"
+      },
+      {
+        "ko": "세밀한 디테일",
+        "en": "intricate details, highly detailed, fine texture"
+      },
+      {
+        "ko": "피부 질감",
+        "en": "hyper detailed face, realistic skin texture, pores"
+      },
+      {
+        "ko": "노이즈 없음",
+        "en": "noise-free, clean render, no artifacts"
+      },
+      {
+        "ko": "심도 효과",
+        "en": "depth of field, shallow focus, bokeh blur"
+      },
+      {
+        "ko": "렌즈플레어",
+        "en": "lens flare, anamorphic flare, light leak"
+      },
+      {
+        "ko": "필름 그레인",
+        "en": "film grain, analog feel, 35mm film"
+      },
+      {
+        "ko": "슬로우모션",
+        "en": "slow motion 120fps, silky smooth"
+      },
+      {
+        "ko": "글리치 효과",
+        "en": "glitch effect, digital distortion"
+      },
+      {
+        "ko": "VHS 레트로",
+        "en": "VHS retro analog, scan lines, vintage tape"
+      }
+    ]
+  },
+  {
+    "cat": "체위",
+    "items": [
+      {
+        "ko": "정상위 (Missionary) → 여성이 아래, 남성이 위. 가장 기본이고 로맨틱하면서도 눈 맞춤 쉬움",
+        "en": "Romantic missionary intimate eye contact"
+      },
+      {
+        "ko": "후배위 (Doggy style / 뒤에서) → 여성이 엎드리거나 무릎 꿇고, 남성이 뒤에서. 깊이 들어가고 시각적으로 강렬함",
+        "en": "Intense doggy style, deep penetration."
+      },
+      {
+        "ko": "기승위 (Cowgirl / 여성상위) → 여성이 위에서 움직임. 여성이 리드하기 좋고 클리토리스 자극도 잘 됨",
+        "en": "Cowgirl position, woman leading"
+      },
+      {
+        "ko": "역기승위 (Reverse cowgirl) → 여성상위인데 등을 돌려서 앉는 버전. 남성 시점에서 엉덩이 뷰가 강렬",
+        "en": "Reverse cowgirl, strong butt view"
+      },
+      {
+        "ko": "측위 (Spooning / 옆으로 누워서) → 둘 다 옆으로 누워서. 가장 편하고 오래 하기 좋음 + 포옹 느낌",
+        "en": "Cozy, long-lasting spooning hug"
+      },
+      {
+        "ko": "좌위 (Sitting / 앉아서) → 의자·소파·침대 끝에 앉아서. 침대 밖에서도 가능하고 키스하기 좋음  조금 더 자주 나오는 인기 변형들 (추가 5~10가지 정도)",
+        "en": "Sitting on edge, intimate"
+      },
+      {
+        "ko": "69 → 서로 구강 섹스 동시에",
+        "en": "69 mutual oral sex"
+      },
+      {
+        "ko": "스탠딩 (입위 / 서서) → 샤워실·벽 기대고·주방 등에서",
+        "en": "Standing, leaning against wall/counter."
+      },
+      {
+        "ko": "Butterfly → 여성이 침대 끝에 누워 다리 올리고 남성이 서서",
+        "en": "Woman lying legs up, man standing"
+      }
+    ]
+  },
+  {
+    "cat": "모션",
+    "items": [
+      {
+        "ko": "가슴을 주무르니",
+        "en": "Hands massaging chest"
+      },
+      {
+        "ko": "느끼며",
+        "en": "Embracing sensory experience"
+      },
+      {
+        "ko": "입 조금 벌리고",
+        "en": "Slightly open mouth"
+      },
+      {
+        "ko": "괴로운 표정",
+        "en": "An agonized expression"
+      },
+      {
+        "ko": "가느신음소리",
+        "en": "Delicate groaning sound"
+      },
+      {
+        "ko": "섹스",
+        "en": "Suggestive sexual imagery"
+      },
+      {
+        "ko": "절정",
+        "en": "The Absolute Pinnacle"
+      },
+      {
+        "ko": "리듬타니",
+        "en": "Grooving with rhythm"
+      }
+    ]
+  }
+];
 
 const PRESET_TAGS = ['애니메이션','실사','판타지','SF','공호','로맨스','액션','풍경','인물','동물','건축','음식'];
 const GEMINI_URL = k => `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${k}`;
@@ -529,16 +1380,6 @@ let currentDetailImgs = [], currentDetailImgIdx = 0;
 let fsImgs = [], fsIdx = 0, activeCatIdx = 0, selectedMods = [];
 let activePanelTab = 'mod';
 let editId = null, modalImgs = [];
-let activeMainTab = 'gallery';
-
-// ── Grok Enhanced localStorage ──
-const GROK_KEY = 'grokEnhanced';
-function loadGrokItems() {
-  try { return JSON.parse(localStorage.getItem(GROK_KEY) || '[]') } catch { return [] }
-}
-function saveGrokItems(arr) {
-  localStorage.setItem(GROK_KEY, JSON.stringify(arr));
-}
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
 const escHtml = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -551,91 +1392,6 @@ function toast(msg, c='#6d28d9') {
   t.textContent = msg; t.style.background = c;
   t.classList.add('show'); clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ── 메인 탭 전환 ──
-function switchMainTab(tab) {
-  activeMainTab = tab;
-  document.querySelectorAll('.main-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  const isGallery = tab === 'gallery';
-  document.getElementById('gallery').style.display = isGallery ? 'grid' : 'none';
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('tagBar').style.display = isGallery ? 'flex' : 'none';
-  document.getElementById('grokPanel').classList.toggle('active', !isGallery);
-  if (!isGallery) renderGrokGrid();
-  else renderGallery();
-}
-
-// ── Grok Enhanced 렌더링 ──
-function renderGrokGrid() {
-  const items = loadGrokItems();
-  const grid = document.getElementById('grokGrid');
-  grid.className = 'sz-' + cardSize;
-  grid.innerHTML = '';
-  if (!items.length) {
-    grid.innerHTML = '<div class="grok-empty"><div class="eicon">✨</div><p>아직 저장된 항목이 없어요.<br>위에서 프롬프트를 추가해보세요!</p></div>';
-    return;
-  }
-  items.slice().reverse().forEach((item) => {
-    const card = document.createElement('div');
-    card.className = 'grok-card';
-    card.innerHTML = `
-      <div class="grok-card-head">
-        <span class="grok-card-title">${escHtml(item.title || '제목없음')}</span>
-        <span class="grok-badge">✨ Grok Enhanced</span>
-      </div>
-      <div class="grok-card-body">
-        <div class="grok-section">
-          <div class="grok-section-label">📝 원본</div>
-          <div class="grok-section-text">${escHtml(item.orig || '')}</div>
-        </div>
-        <div class="grok-section">
-          <div class="grok-section-label">✨ Enhanced</div>
-          <div class="grok-section-text enhanced">${escHtml(item.enhanced || '')}</div>
-        </div>
-      </div>
-      <div class="grok-card-footer">
-        <button class="grok-copy-btn" data-id="${item.id}" data-type="enhanced">✨ Enhanced 복사</button>
-        <button class="grok-copy-orig" data-id="${item.id}" data-type="orig">📝 원본 복사</button>
-        <button class="grok-send-btn" data-id="${item.id}" data-type="send">📤</button>
-        <button class="grok-del-btn" data-id="${item.id}" data-type="del">🗑</button>
-      </div>`;
-    grid.appendChild(card);
-  });
-
-  grid.addEventListener('click', e => {
-    const btn = e.target.closest('button[data-id]');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    const type = btn.dataset.type;
-    const all = loadGrokItems();
-    const it = all.find(x => x.id === id);
-    if (!it) return;
-    if (type === 'enhanced') { navigator.clipboard.writeText(it.enhanced).then(() => toast('✨ Enhanced 복사됨!', '#7c3aed')) }
-    else if (type === 'orig') { navigator.clipboard.writeText(it.orig).then(() => toast('📝 원본 복사됨!', '#059669')) }
-    else if (type === 'send') { appendToEditor(it.enhanced || it.orig); toast('📤 편집기로 전송됨!', '#0284c7') }
-    else if (type === 'del') {
-      if (!confirm('삭제할까요?')) return;
-      saveGrokItems(all.filter(x => x.id !== id));
-      renderGrokGrid();
-      toast('🗑 삭제됨', '#ef4444');
-    }
-  });
-}
-
-function saveGrokItem() {
-  const title = document.getElementById('grokTitle').value.trim();
-  const orig = document.getElementById('grokOrig').value.trim();
-  const enhanced = document.getElementById('grokEnhanced').value.trim();
-  if (!orig && !enhanced) { toast('프롬프트를 입력하세요', '#f59e0b'); return }
-  const all = loadGrokItems();
-  all.push({ id: uid(), title: title || '제목없음', orig, enhanced, ts: Date.now() });
-  saveGrokItems(all);
-  document.getElementById('grokTitle').value = '';
-  document.getElementById('grokOrig').value = '';
-  document.getElementById('grokEnhanced').value = '';
-  renderGrokGrid();
-  toast('✅ 저장됨!', '#059669');
 }
 
 // ── Firebase Auth ──
@@ -660,11 +1416,18 @@ onAuthStateChanged(auth, async user => {
 });
 
 async function loginGoogle() {
-  try { const provider = new GoogleAuthProvider(); await signInWithPopup(auth, provider); }
-  catch(e) { toast('로그인 실패: ' + e.message, '#ef4444') }
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  } catch(e) { toast('로그인 실패: ' + e.message, '#ef4444') }
 }
-async function logoutUser() { await signOut(auth); toast('로그아웃됨') }
 
+async function logoutUser() {
+  await signOut(auth);
+  toast('로그아웃됨');
+}
+
+// ── Firebase 데이터 로드/저장 ──
 async function loadFromFirebase() {
   if (!currentUser) return;
   toast('📂 데이터 불러오는 중...', '#6d28d9');
@@ -682,19 +1445,26 @@ async function saveItemToFirebase(item) {
   const { imgDataURLs, ...data } = item;
   await setDoc(doc(db, 'users', currentUser.uid, 'items', item.id), data);
 }
+
 async function deleteItemFromFirebase(id) {
   if (!currentUser) return;
   await deleteDoc(doc(db, 'users', currentUser.uid, 'items', id));
 }
+
 async function uploadImageToStorage(dataURL, filename) {
   const storageRef = ref(storage, `users/${currentUser.uid}/${filename}`);
   await uploadString(storageRef, dataURL, 'data_url');
   return await getDownloadURL(storageRef);
 }
+
 async function deleteImageFromStorage(filename) {
-  try { const storageRef = ref(storage, `users/${currentUser.uid}/${filename}`); await deleteObject(storageRef) } catch(e) {}
+  try {
+    const storageRef = ref(storage, `users/${currentUser.uid}/${filename}`);
+    await deleteObject(storageRef);
+  } catch(e) {}
 }
 
+// ── Gemini ──
 async function callGemini(key, prompt) {
   const res = await fetch(GEMINI_URL(key), {
     method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -764,6 +1534,7 @@ function editorDedup() {
   toast(`✂️ 중복 ${parts.length - deduped.length}개 제거됨`, '#0284c7');
 }
 
+// ── 갤러리 렌더링 ──
 function renderGallery() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const sort = document.getElementById('sortSel').value;
@@ -779,7 +1550,6 @@ function renderGallery() {
   const g = document.getElementById('gallery');
   const empty = document.getElementById('emptyState');
   g.innerHTML = '';
-  if (activeMainTab !== 'gallery') return;
   if (!arr.length) { empty.style.display = 'flex'; g.style.display = 'none'; return }
   empty.style.display = 'none'; g.style.display = 'grid';
   arr.forEach((it, idx) => {
@@ -902,10 +1672,13 @@ async function buildFinalPrompt(it) {
   if (selectedMods.length) {
     base = base + (base ? ', ' : '') + selectedMods.map(m => m.en).join(', ');
     infoEl.textContent = `수정자 ${selectedMods.length}개 적용됨`;
-  } else { infoEl.textContent = '제미니 보완됨' }
+  } else {
+    infoEl.textContent = '제미니 보완됨';
+  }
   finalEl.textContent = base;
 }
 
+// ── 수정자 패널 ──
 function renderModPanel() {
   const tabsEl = document.getElementById('modTabs');
   tabsEl.innerHTML = '';
@@ -993,6 +1766,7 @@ function quickAddMod() {
   toast(`✅ "${ko}" 추가됨`, '#059669');
 }
 
+// ── 모달 ──
 function openAddModal(id = null) {
   if (!currentUser) { toast('먼저 로그인하세요', '#f59e0b'); return }
   editId = id; modalImgs = [];
@@ -1060,10 +1834,17 @@ async function saveItem() {
   const tags = [...(document.getElementById('selectedTagRow')._tags || [])];
   if (!title) { toast('제목을 입력하세요', '#f59e0b'); return }
   toast('💾 저장 중...', '#6d28d9');
-  const imageFiles = [], imageUrls = [];
+  const imageFiles = [];
+  const imageUrls = [];
   for (const img of modalImgs) {
-    if (img.isUrl) { imageFiles.push(img.name); imageUrls.push(img.dataURL) }
-    else { const url = await uploadImageToStorage(img.dataURL, img.name); imageFiles.push(img.name); imageUrls.push(url) }
+    if (img.isUrl) {
+      imageFiles.push(img.name);
+      imageUrls.push(img.dataURL);
+    } else {
+      const url = await uploadImageToStorage(img.dataURL, img.name);
+      imageFiles.push(img.name);
+      imageUrls.push(url);
+    }
   }
   const itemData = { title, prompt, memo, tags, imageFiles, imageUrls, fav: false, ts: Date.now() };
   if (editId) {
@@ -1106,6 +1887,7 @@ function fsMove(d) {
   document.getElementById('fsImg').src = fsImgs[fsIdx];
 }
 
+// ── 관리 모달 ──
 function openManage() {
   const body = document.getElementById('manageBody');
   body.innerHTML = '';
@@ -1136,12 +1918,17 @@ function openManage() {
   addCatDiv.className = 'manage-add-cat';
   addCatDiv.innerHTML = `<input type="text" id="newCatName" placeholder="새 카테고리 이름"><button onclick="addCat()">+ 추가</button>`;
   body.appendChild(addCatDiv);
-  const saveBtn = document.createElement('button');
+   const saveBtn = document.createElement('button');
   saveBtn.className = 'save-html-btn';
   saveBtn.textContent = '💾 수정자 HTML에 저장 (영구 적용)';
   saveBtn.onclick = saveModifiersToHTML;
   body.appendChild(saveBtn);
-  document.getElementById('manageOverlay').classList.add('open');
+
+  document.getElementById('manageOverlay').classList.add('open');  
+}
+
+}
+
 }
 
 async function saveModifiersToHTML() {
@@ -1162,6 +1949,7 @@ async function saveModifiersToHTML() {
 }
 
 window.deleteCat = ci => { if (!confirm(`"${MODIFIERS[ci].cat}" 삭제?`)) return; MODIFIERS.splice(ci, 1); if (activeCatIdx >= MODIFIERS.length) activeCatIdx = 0; openManage(); renderModPanel() };
+
 window.addModItem = ci => {
   const ko = document.getElementById(`mnewko-${ci}`).value.trim();
   const en = document.getElementById(`mnewen-${ci}`).value.trim();
@@ -1220,23 +2008,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnTestApi').addEventListener('click', testApiKey);
   document.getElementById('searchInput').addEventListener('input', renderGallery);
   document.getElementById('sortSel').addEventListener('change', renderGallery);
-
-  // 메인 탭
-  document.querySelectorAll('.main-tab').forEach(btn => {
-    btn.addEventListener('click', () => switchMainTab(btn.dataset.tab));
-  });
-
   document.querySelectorAll('.sizebtn').forEach(btn => {
     btn.addEventListener('click', () => {
       cardSize = btn.dataset.sz;
       document.querySelectorAll('.sizebtn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('gallery').className = 'sz-' + cardSize;
-      const grokGrid = document.getElementById('grokGrid');
-      if (grokGrid) grokGrid.className = 'sz-' + cardSize;
     });
   });
-
   document.getElementById('btnFavFilter').addEventListener('click', () => {
     favFilter = !favFilter;
     document.getElementById('btnFavFilter').classList.toggle('active', favFilter);
@@ -1277,16 +2056,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('fsNext').addEventListener('click', () => fsMove(1));
   document.getElementById('fsOverlay').addEventListener('click', e => { if (e.target === document.getElementById('fsOverlay')) document.getElementById('fsOverlay').classList.remove('open') });
   document.getElementById('manageClose').addEventListener('click', () => document.getElementById('manageOverlay').classList.remove('open'));
-
-  // Grok Enhanced 버튼
-  document.getElementById('btnGrokSave').addEventListener('click', saveGrokItem);
-  document.getElementById('btnGrokClear').addEventListener('click', () => {
-    document.getElementById('grokTitle').value = '';
-    document.getElementById('grokOrig').value = '';
-    document.getElementById('grokEnhanced').value = '';
-    toast('초기화됨');
-  });
-
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') ['fsOverlay','detailOverlay','modalOverlay','manageOverlay'].forEach(id => document.getElementById(id).classList.remove('open'));
     if (document.getElementById('fsOverlay').classList.contains('open')) { if (e.key === 'ArrowLeft') fsMove(-1); if (e.key === 'ArrowRight') fsMove(1) }
