@@ -203,6 +203,9 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
 <div class="header">
   <a href="gall.html" class="btn-back">← 갤러리</a>
   <h1>✨ Prompt Generator Pro</h1>
+  <button onclick="fullReset()" style="margin-left:auto;background:#7f1d1d;border:1px solid #ef4444;color:#fca5a5;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;">
+    🔄 전체 초기화
+  </button>
 </div>
 
 <!-- ══════════════════════════════
@@ -1158,24 +1161,143 @@ const RANDOM_POOL = {
 // GEMINI INSTRUCTIONS per intensity
 // ─────────────────────────────────────
 const GEMINI_INSTRUCTIONS = [
-  'You are an expert image prompt engineer. Refine this prompt to be clear, natural, and well-composed. Keep it realistic and photographic. Output ONLY the final prompt, no explanations or preamble.',
-  'You are an expert image prompt engineer. Enhance this prompt with soft natural golden lighting, warm cinematic tones, and high photographic quality. Ensure skin textures remain realistic, natural, and not plastic or waxy. Output ONLY the refined prompt.',
-  'You are an expert image prompt engineer. Transform this into a cinematic, emotionally rich image prompt. Add dramatic volumetric lighting, atmospheric depth, strong visual storytelling. Preserve completely natural and realistic skin tones — no plastic, crystal, or artificial skin effects. Output ONLY the final prompt.',
-  'You are an expert image prompt engineer. Expand this into a breathtaking epic fantasy-cinematic prompt. Add magical atmosphere, ethereal lighting effects on the environment (NOT on skin), and rich visual details. CRITICAL: keep all human skin completely natural, realistic, photorealistic — no plastic/crystal/holographic/metallic skin. Output ONLY the final prompt.'
+  // LV0 기본
+  `You are a precise image prompt engineer.
+RULES (follow strictly, no exceptions):
+1. The user's scene description or tags define the EXACT situation — do NOT change, romanticize, or reinterpret it.
+2. Output a clean comma-separated English image prompt.
+3. Keep all human skin: natural, realistic, photorealistic. Never add: plastic, crystal, glass, or glowing skin.
+4. Do NOT add romantic elements unless the user explicitly included them.
+5. Output ONLY the final prompt. No explanations, no preamble, no quotes.`,
+
+  // LV1 자연
+  `You are a precise image prompt engineer specializing in natural photography.
+RULES (follow strictly, no exceptions):
+1. The user's scene description is the ABSOLUTE priority — preserve every detail exactly as given.
+2. Enhance ONLY: soft golden lighting, natural bokeh, warm ambient tones.
+3. Human skin must be: natural, dewy, realistic pores, photorealistic. NEVER plastic, crystal, airbrushed, or glowing.
+4. Do NOT change the situation, add romance, or alter character relationships unless explicitly stated.
+5. Output ONLY the final prompt. No explanations, no preamble, no quotes.`,
+
+  // LV2 시네마틱
+  `You are a precise cinematic image prompt engineer.
+RULES (follow strictly, no exceptions):
+1. The user's scene description is the ABSOLUTE priority — every element must be preserved exactly.
+2. Add ONLY: dramatic volumetric lighting, cinematic color grade, atmospheric depth. Nothing else.
+3. Human skin must be: natural, photorealistic, detailed texture. NEVER plastic, crystal, metallic, or glowing skin effects.
+4. Do NOT alter the story, characters, or emotional tone unless the user specified it.
+5. If the scene is battle/historical/action — keep it exactly that. Do NOT soften or romanticize.
+6. Output ONLY the final prompt. No explanations, no preamble, no quotes.`,
+
+  // LV3 극강
+  `You are a precise fantasy art prompt engineer.
+RULES (follow strictly, no exceptions):
+1. The user's scene description is the ABSOLUTE priority — preserve every detail exactly as given.
+2. Add fantasy/magical elements ONLY to: environment, lighting, background, atmosphere. NEVER to human skin.
+3. Human skin must be: completely natural, photorealistic, detailed human texture. NEVER: plastic, crystal, glass, holographic, metallic, glowing, or rainbow skin.
+4. Do NOT change the scene situation, character roles, or story elements.
+5. If the scene is war/battle/historical — maintain that fully. Do NOT add romance or soften the scene.
+6. Output ONLY the final prompt. No explanations, no preamble, no quotes.`
 ];
 
 const GEMINI_SCENE_EXPAND = [
-  'You are an expert creative scene director. A user gives a short Korean scene description. Expand it into a vivid, detailed scene description in English — describing the full environment, lighting, emotions, character expressions, and atmosphere in 3-5 rich sentences. Output ONLY the expanded scene description.',
-  'You are an expert creative scene director specializing in romantic photography. A user gives a short Korean scene description. Expand it into a detailed, emotionally rich romantic scene in English — describe the golden lighting, the characters\' poses, facial expressions, the background details, and the romantic atmosphere in 4-6 sentences. Output ONLY the expanded description.',
-  'You are an expert cinematic scene director. A user gives a short Korean scene description. Expand it into a detailed, cinematic scene description in English — describe the dramatic lighting, camera angle, emotional intensity, background elements, and visual composition as a film director would. 4-6 sentences. Output ONLY the scene description.',
-  'You are an expert fantasy art director. A user gives a short Korean scene description. Expand it into a rich, epic, magical scene description in English — describe the fantastical lighting, mystical atmosphere, character details, environmental magic, and visual spectacle. 5-7 sentences. Keep human skin descriptions natural. Output ONLY the expanded description.'
+  // LV0
+  `You are a precise creative scene director.
+TASK: Expand the user's short Korean scene description into a detailed English scene description.
+RULES:
+1. Preserve the EXACT situation, characters, and mood from the user's input — do NOT change or reinterpret.
+2. Add: specific environmental details, lighting conditions, character positions, facial expressions, atmosphere.
+3. Do NOT add romantic elements unless they were in the original input.
+4. Do NOT change historical/battle/action scenes into something softer.
+5. Write 3-5 sentences. Output ONLY the expanded description, no preamble.
+
+User scene (Korean):`,
+
+  // LV1
+  `You are a precise creative scene director specializing in natural photography.
+TASK: Expand the user's short Korean scene description into a detailed English scene description.
+RULES:
+1. Preserve the EXACT situation, characters, and mood — this is non-negotiable.
+2. Add: warm golden light details, character poses and expressions, background environmental details, natural atmosphere.
+3. Human skin descriptions must be: natural, dewy, healthy glow. NO plastic or artificial skin.
+4. Do NOT add romance or change character relationships unless explicitly in the input.
+5. Write 4-6 sentences. Output ONLY the expanded description, no preamble.
+
+User scene (Korean):`,
+
+  // LV2
+  `You are a precise cinematic scene director.
+TASK: Expand the user's short Korean scene description into a detailed cinematic English scene description.
+RULES:
+1. Preserve the EXACT situation — every element from the user's input must appear in your output.
+2. Add: dramatic lighting setup, camera angle, emotional intensity, cinematic atmospheric details.
+3. Human skin: natural, realistic, photorealistic. NO plastic/crystal/glowing skin.
+4. Battle/historical scenes: keep them fully as-is. Do NOT romanticize or soften.
+5. Write 4-6 sentences. Output ONLY the expanded description, no preamble.
+
+User scene (Korean):`,
+
+  // LV3
+  `You are a precise fantasy art director.
+TASK: Expand the user's short Korean scene description into a detailed fantasy English scene description.
+RULES:
+1. The user's scene is the ABSOLUTE foundation — preserve every character, situation, and mood exactly.
+2. Add fantasy elements ONLY to: environment, sky, lighting, magical atmosphere. NOT to human characters' skin or appearance.
+3. Human skin: completely natural and photorealistic. NO plastic/crystal/holographic/metallic skin.
+4. War/battle/historical input = epic fantasy battle output. Do NOT convert to romance.
+5. Write 5-7 sentences. Output ONLY the expanded description, no preamble.
+
+User scene (Korean):`
 ];
 
 const GEMINI_PROMPT_CONVERT = [
-  'You are an expert image prompt engineer. Convert the following scene description into a concise, comma-separated image generation prompt in English. Include subject, style, lighting, mood, and technical quality tags. Output ONLY the final prompt, no explanations.',
-  'You are an expert image prompt engineer specializing in romantic photography. Convert the following scene description into a detailed comma-separated image generation prompt. Include: subject description, lighting style (golden hour, soft bokeh), romantic mood tags, camera settings, and quality boosters. Keep skin descriptions natural. Output ONLY the prompt.',
-  'You are an expert cinematic image prompt engineer. Convert the following scene description into a powerful comma-separated prompt. Include: subject, cinematic lighting, color grade, emotional atmosphere, camera lens, and quality tags. Emphasize natural photorealistic skin. Output ONLY the final prompt.',
-  'You are an expert fantasy art prompt engineer. Convert the following scene description into an epic comma-separated image generation prompt. Include: subject, magical lighting effects (on environment, NOT skin), fantasy atmosphere, epic scale descriptors, and quality tags. Explicitly add natural skin texture tags. Output ONLY the prompt.'
+  // LV0
+  `You are a precise image prompt engineer.
+TASK: Convert the scene description below into a comma-separated image generation prompt.
+RULES:
+1. Every element from the scene description MUST appear in the prompt.
+2. Add standard quality tags: sharp focus, high quality, detailed.
+3. Human skin: natural, realistic. No plastic or artificial skin tags.
+4. Do NOT add elements not present in the scene description.
+5. Output ONLY the comma-separated prompt. No explanations, no quotes.
+
+Scene description:`,
+
+  // LV1
+  `You are a precise image prompt engineer.
+TASK: Convert the scene description below into a detailed comma-separated image generation prompt.
+RULES:
+1. Every element from the scene description MUST appear in the prompt — nothing omitted.
+2. Add: natural lighting tags, bokeh, warm tones, high quality photography tags.
+3. Human skin tags: natural skin texture, realistic pores, dewy healthy glow, photorealistic skin. NO plastic/waxy/airbrushed skin.
+4. Do NOT add romantic elements unless they appear in the scene description.
+5. Output ONLY the comma-separated prompt. No explanations, no quotes.
+
+Scene description:`,
+
+  // LV2
+  `You are a precise cinematic image prompt engineer.
+TASK: Convert the scene description below into a powerful comma-separated image generation prompt.
+RULES:
+1. Every element from the scene description MUST be in the prompt — this is non-negotiable.
+2. Add: cinematic lighting, volumetric rays, color grade, atmospheric depth, lens specifications.
+3. Human skin: natural photorealistic skin texture, no plastic/crystal/metallic skin effects.
+4. Battle/war/historical scenes: keep all combat elements fully. Do NOT remove or soften them.
+5. Output ONLY the comma-separated prompt. No explanations, no quotes.
+
+Scene description:`,
+
+  // LV3
+  `You are a precise fantasy art prompt engineer.
+TASK: Convert the scene description below into an epic comma-separated image generation prompt.
+RULES:
+1. Every element from the scene description MUST appear in the final prompt.
+2. Add fantasy enhancement ONLY to: environment lighting, magical atmosphere, background elements, sky effects.
+3. Human skin tags: ultra detailed natural human skin texture, photorealistic facial skin, realistic pores. EXPLICITLY add: no plastic skin, no crystal skin, no glowing skin.
+4. For battle/war scenes: include all combat, armor, weapon, and intensity descriptors fully.
+5. Output ONLY the comma-separated prompt. No explanations, no quotes.
+
+Scene description:`
 ];
 
 // ─────────────────────────────────────
@@ -1643,12 +1765,30 @@ function fallbackCopy(text, msg) {
 // ─────────────────────────────────────
 // TOAST
 // ─────────────────────────────────────
+function fullReset() {
+  if (!confirm('모든 선택과 입력을 초기화하시겠습니까?')) return;
+  clearAllTags();
+  document.getElementById('outputBox').textContent = '태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.';
+  document.getElementById('negBox').textContent = '프롬프트 생성 후 자동으로 채워집니다.';
+  document.getElementById('promptCount').textContent = '0자';
+  document.getElementById('editorBox').value = '';
+  updateEditorCount();
+  setIntensity(0);
+  document.getElementById('chkNegAuto').checked = false;
+  switchTabDirect('human');
+  document.getElementById('progressWrap').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('🔄 전체 초기화 완료!');
+}
+
+// ↓ 이게 원래 있던 함수
 function showToast(msg, duration = 2500) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), duration);
 }
+
 </script>
 </body>
 </html>
