@@ -8,107 +8,206 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
 
-/* Header */
-.header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 16px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #4c1d95; position: sticky; top: 0; z-index: 100; }
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  padding: 16px 24px; display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid #4c1d95; position: sticky; top: 0; z-index: 100;
+}
 .header h1 { font-size: 1.3rem; font-weight: 700; color: #c4b5fd; }
-.btn-back { background: #374151; color: #d1d5db; border: 1px solid #4b5563; padding: 8px 16px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+.btn-back {
+  background: #374151; color: #d1d5db; border: 1px solid #4b5563;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  text-decoration: none; font-size: 0.85rem;
+}
 .btn-back:hover { background: #4b5563; }
 
-/* API Bar */
-.api-bar { background: #1a1a2e; border-bottom: 1px solid #2d2d5e; padding: 12px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* ── API Bar ── */
+.api-bar {
+  background: #1a1a2e; border-bottom: 1px solid #2d2d5e;
+  padding: 12px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
 .api-bar label { font-size: 0.82rem; color: #94a3b8; white-space: nowrap; }
-.api-bar input { background: #0f0f1a; border: 1px solid #4c1d95; color: #e2e8f0; padding: 7px 12px; border-radius: 8px; font-size: 0.82rem; width: 280px; }
+.api-bar input {
+  background: #0f0f1a; border: 1px solid #4c1d95; color: #e2e8f0;
+  padding: 7px 12px; border-radius: 8px; font-size: 0.82rem; width: 280px;
+}
 .api-bar input:focus { outline: none; border-color: #7c3aed; }
 #keyStatus { font-size: 0.78rem; color: #94a3b8; }
 
-/* Intensity Bar */
-.intensity-bar { background: #13131f; border-bottom: 1px solid #2d2d5e; padding: 12px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.intensity-bar label { font-size: 0.85rem; color: #94a3b8; }
-.intensity-btn { padding: 7px 18px; border-radius: 20px; border: 2px solid transparent; cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.2s; background: #1e1e3a; color: #94a3b8; }
-.intensity-btn.lv0.active { background: #374151; border-color: #6b7280; color: #fff; }
-.intensity-btn.lv1.active { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
-.intensity-btn.lv2.active { background: #3b1f6e; border-color: #7c3aed; color: #c4b5fd; }
-.intensity-btn.lv3.active { background: #5e1a4e; border-color: #ec4899; color: #f9a8d4; box-shadow: 0 0 15px #ec489944; }
+/* ── Intensity Bar ── */
+.intensity-bar {
+  background: #13131f; border-bottom: 1px solid #2d2d5e;
+  padding: 12px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.intensity-bar > label { font-size: 0.85rem; color: #94a3b8; }
+.intensity-btn {
+  padding: 7px 18px; border-radius: 20px; border: 2px solid transparent;
+  cursor: pointer; font-size: 0.82rem; font-weight: 600;
+  transition: all 0.2s; background: #1e1e3a; color: #94a3b8;
+}
+.intensity-btn.lv0.active { background:#374151; border-color:#6b7280; color:#fff; }
+.intensity-btn.lv1.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
+.intensity-btn.lv2.active { background:#3b1f6e; border-color:#7c3aed; color:#c4b5fd; }
+.intensity-btn.lv3.active { background:#5e1a4e; border-color:#ec4899; color:#f9a8d4; box-shadow:0 0 15px #ec489944; }
 #intensityDesc { font-size: 0.78rem; color: #64748b; margin-left: 8px; }
 
-/* Container */
+/* ── Container ── */
 .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 20px; }
 
-/* Cards */
+/* ── Cards ── */
 .card { background: #1a1a2e; border: 1px solid #2d2d5e; border-radius: 16px; padding: 22px; }
 .card.fantasy-card { border-color: #7c3aed; box-shadow: 0 0 20px #7c3aed22; }
 .card-title { font-size: 1rem; font-weight: 700; color: #c4b5fd; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .section-label { font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 12px 0 8px; }
 
-/* Tag Chips */
+/* ── Tag Chips ── */
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.tag-chip { background: #0f0f1a; border: 1px solid #374151; color: #94a3b8; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; user-select: none; }
+.tag-chip {
+  background: #0f0f1a; border: 1px solid #374151; color: #94a3b8;
+  padding: 6px 14px; border-radius: 20px; cursor: pointer;
+  font-size: 0.8rem; transition: all 0.2s; user-select: none;
+}
 .tag-chip:hover { border-color: #7c3aed; color: #c4b5fd; }
 .tag-chip.active { background: #4c1d95; border-color: #7c3aed; color: #e9d5ff; }
 .tag-chip.lv1 { border-color: #1d4ed8; }
-.tag-chip.lv1:hover, .tag-chip.lv1.active { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+.tag-chip.lv1:hover, .tag-chip.lv1.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
 .tag-chip.lv2 { border-color: #5b21b6; }
-.tag-chip.lv2:hover, .tag-chip.lv2.active { background: #3b1f6e; border-color: #7c3aed; color: #c4b5fd; }
+.tag-chip.lv2:hover, .tag-chip.lv2.active { background:#3b1f6e; border-color:#7c3aed; color:#c4b5fd; }
 .tag-chip.lv3 { border-color: #9d174d; }
-.tag-chip.lv3:hover, .tag-chip.lv3.active { background: #5e1a4e; border-color: #ec4899; color: #f9a8d4; }
+.tag-chip.lv3:hover, .tag-chip.lv3.active { background:#5e1a4e; border-color:#ec4899; color:#f9a8d4; }
 
-/* Subject Tabs */
+/* ── Subject Tabs ── */
 .tab-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-.tab-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid #374151; background: #0f0f1a; color: #64748b; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+.tab-btn {
+  padding: 6px 16px; border-radius: 20px; border: 1px solid #374151;
+  background: #0f0f1a; color: #64748b; cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
+}
 .tab-btn.active { background: #4c1d95; border-color: #7c3aed; color: #e9d5ff; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* Preset & Random */
-.preset-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.preset-btn { background: linear-gradient(135deg, #1e3a5f, #3b1f6e); border: 1px solid #5b21b6; color: #c4b5fd; padding: 7px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+/* ── Preset Bar ── */
+.preset-bar { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset-btn {
+  background: linear-gradient(135deg, #1e3a5f, #3b1f6e);
+  border: 1px solid #5b21b6; color: #c4b5fd;
+  padding: 7px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
+}
 .preset-btn:hover { border-color: #7c3aed; box-shadow: 0 0 10px #7c3aed44; }
-.btn-random { background: linear-gradient(135deg, #064e3b, #065f46); border: 1px solid #059669; color: #6ee7b7; padding: 7px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
+.btn-random {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  border: 1px solid #059669; color: #6ee7b7;
+  padding: 7px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
+}
 .btn-random:hover { box-shadow: 0 0 10px #05996944; }
 
-/* Custom Inputs */
-.custom-input { width: 100%; background: #0f0f1a; border: 1px solid #374151; color: #e2e8f0; padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; margin-top: 12px; resize: vertical; min-height: 60px; }
+/* ── Inputs ── */
+.custom-input {
+  width: 100%; background: #0f0f1a; border: 1px solid #374151; color: #e2e8f0;
+  padding: 10px 14px; border-radius: 10px; font-size: 0.85rem;
+  margin-top: 12px; resize: vertical; min-height: 60px; font-family: inherit;
+}
 .custom-input:focus { outline: none; border-color: #7c3aed; }
-.custom-input.free-text { min-height: 80px; }
+.custom-input.free-text { min-height: 90px; border-color: #5b21b6; }
 .quick-mode-label { font-size: 0.78rem; color: #7c3aed; margin-top: 6px; display: block; }
 
-/* Buttons */
-.btn { padding: 10px 22px; border-radius: 10px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
-.btn-primary { background: linear-gradient(135deg, #4c1d95, #7c3aed); color: #fff; width: 100%; padding: 16px; font-size: 1rem; border-radius: 12px; }
+/* ── Buttons ── */
+.btn-primary {
+  background: linear-gradient(135deg, #4c1d95, #7c3aed); color: #fff;
+  width: 100%; padding: 16px; font-size: 1rem; border-radius: 12px;
+  border: none; cursor: pointer; font-weight: 600; transition: all 0.2s;
+}
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px #7c3aed44; }
-.btn-secondary { background: #1e1e3a; border: 1px solid #4b5563; color: #d1d5db; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; }
+.btn-secondary {
+  background: #1e1e3a; border: 1px solid #4b5563; color: #d1d5db;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; transition: all 0.2s;
+}
 .btn-secondary:hover { background: #2d2d5e; }
-.btn-gemini { background: linear-gradient(135deg, #1a4731, #065f46); border: 1px solid #059669; color: #6ee7b7; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.88rem; font-weight: 600; width: 100%; margin-top: 10px; }
+.btn-gemini {
+  background: linear-gradient(135deg, #1a4731, #065f46);
+  border: 1px solid #059669; color: #6ee7b7;
+  padding: 10px 20px; border-radius: 10px; cursor: pointer;
+  font-size: 0.88rem; font-weight: 600; width: 100%; margin-top: 10px; transition: all 0.2s;
+}
 .btn-gemini:hover { box-shadow: 0 4px 15px #05996944; }
+.btn-gemini:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-double {
+  background: linear-gradient(135deg, #1a1a4e, #2d1b69);
+  border: 1px solid #6d28d9; color: #a78bfa;
+  padding: 10px 20px; border-radius: 10px; cursor: pointer;
+  font-size: 0.88rem; font-weight: 600; width: 100%; margin-top: 8px; transition: all 0.2s;
+}
+.btn-double:hover { box-shadow: 0 4px 15px #6d28d944; }
+.btn-double:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Output */
-.output-box { background: #0f0f1a; border: 1px solid #374151; border-radius: 10px; padding: 14px; font-size: 0.82rem; color: #a5b4fc; line-height: 1.7; min-height: 80px; white-space: pre-wrap; word-break: break-all; }
-.neg-box { background: #0f0f1a; border: 1px solid #7f1d1d; border-radius: 10px; padding: 14px; font-size: 0.78rem; color: #fca5a5; line-height: 1.7; min-height: 60px; white-space: pre-wrap; word-break: break-all; }
+/* ── Output ── */
+.output-box {
+  background: #0f0f1a; border: 1px solid #374151; border-radius: 10px;
+  padding: 14px; font-size: 0.82rem; color: #a5b4fc;
+  line-height: 1.7; min-height: 80px; white-space: pre-wrap; word-break: break-all;
+}
+.neg-box {
+  background: #0f0f1a; border: 1px solid #7f1d1d; border-radius: 10px;
+  padding: 14px; font-size: 0.78rem; color: #fca5a5;
+  line-height: 1.7; min-height: 60px; white-space: pre-wrap; word-break: break-all;
+}
 .output-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
 .char-count { font-size: 0.75rem; color: #64748b; margin-left: auto; }
 
-/* Editor */
-.editor-box { width: 100%; background: #0f0f1a; border: 1px solid #374151; color: #e2e8f0; padding: 12px; border-radius: 10px; font-size: 0.82rem; min-height: 120px; resize: vertical; line-height: 1.6; }
+/* ── Editor ── */
+.editor-box {
+  width: 100%; background: #0f0f1a; border: 1px solid #374151; color: #e2e8f0;
+  padding: 12px; border-radius: 10px; font-size: 0.82rem;
+  min-height: 120px; resize: vertical; line-height: 1.6; font-family: inherit;
+}
 .editor-box:focus { outline: none; border-color: #7c3aed; }
 
-/* Toast */
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #4c1d95; color: #e9d5ff; padding: 12px 24px; border-radius: 50px; font-size: 0.88rem; opacity: 0; transition: all 0.4s; z-index: 9999; pointer-events: none; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* ── Progress ── */
+.progress-bar-wrap {
+  background: #0f0f1a; border: 1px solid #374151; border-radius: 10px;
+  padding: 12px 16px; display: none; margin-top: 10px;
+}
+.progress-bar-wrap.visible { display: block; }
+.progress-step { font-size: 0.82rem; color: #94a3b8; margin-bottom: 6px; }
+.progress-step.done { color: #10b981; }
+.progress-step.active { color: #a78bfa; }
+.progress-track { background: #1e1e3a; border-radius: 999px; height: 6px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, #7c3aed, #ec4899); height: 100%; border-radius: 999px; transition: width 0.5s ease; }
 
-/* Two column grid */
+/* ── Grid ── */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } .api-bar input { width: 200px; } }
+@media (max-width: 700px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .api-bar input { width: 200px; }
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #4c1d95; color: #e9d5ff;
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 0.88rem; opacity: 0; transition: all 0.4s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 
 <body>
-<!-- ======= HEADER ======= -->
+
+<!-- ══════════════════════════════
+     HEADER
+══════════════════════════════ -->
 <div class="header">
   <a href="gall.html" class="btn-back">← 갤러리</a>
   <h1>✨ Prompt Generator Pro</h1>
 </div>
 
-<!-- ======= API BAR ======= -->
+<!-- ══════════════════════════════
+     API BAR
+══════════════════════════════ -->
 <div class="api-bar">
   <label>🔑 Gemini API Key</label>
   <input type="password" id="geminiKey" placeholder="AIza...">
@@ -117,7 +216,9 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   <span id="keyStatus"></span>
 </div>
 
-<!-- ======= INTENSITY BAR ======= -->
+<!-- ══════════════════════════════
+     INTENSITY BAR
+══════════════════════════════ -->
 <div class="intensity-bar">
   <label>🎨 환상 강도:</label>
   <button class="intensity-btn lv0 active" id="iBtn0" onclick="setIntensity(0)">🎯 기본</button>
@@ -127,333 +228,544 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   <span id="intensityDesc">기본 품질로 생성</span>
 </div>
 
+<!-- ══════════════════════════════
+     MAIN CONTAINER
+══════════════════════════════ -->
 <div class="container">
 
-  <!-- ======= SITUATION PRESETS ======= -->
+  <!-- ── SITUATION PRESETS ── -->
   <div class="card">
-    <div class="card-title">🎬 상황 프리셋</div>
+    <div class="card-title">🎬 상황 프리셋 <span style="font-size:0.75rem;color:#64748b;font-weight:400">클릭 → 태그 자동 선택 + Gemini 자동 확장</span></div>
     <div class="preset-bar">
-      <button class="preset-btn" onclick="applyPreset('sunset_kiss')">🌅 산 석양 키스</button>
-      <button class="preset-btn" onclick="applyPreset('cherry_walk')">🌸 벚꽃 산책</button>
-      <button class="preset-btn" onclick="applyPreset('rain_hug')">🌧️ 빗속 포옹</button>
-      <button class="preset-btn" onclick="applyPreset('snow_kiss')">❄️ 눈 속 키스</button>
-      <button class="preset-btn" onclick="applyPreset('cafe_moment')">☕ 카페 순간</button>
-      <button class="preset-btn" onclick="applyPreset('night_rooftop')">🌙 야경 옥상</button>
-      <button class="preset-btn" onclick="applyPreset('forest_magic')">🌲 마법 숲</button>
-      <button class="preset-btn" onclick="applyPreset('ocean_sunset')">🌊 해변 석양</button>
-      <button class="preset-btn" onclick="applyPreset('wuxia_scene')">⚔️ 무협 씬</button>
-      <button class="preset-btn" onclick="applyPreset('city_night')">🏙️ 도시 야경</button>
-      <button class="preset-btn" onclick="applyPreset('flower_field')">🌻 꽃밭 산책</button>
+      <button class="preset-btn" onclick="applyPreset('rain_city_hug')">🌧️ 빗속 도시 포옹</button>
+      <button class="preset-btn" onclick="applyPreset('cherry_walk')">🌸 벚꽃길 산책</button>
+      <button class="preset-btn" onclick="applyPreset('snow_kiss')">❄️ 눈 내리는 키스</button>
+      <button class="preset-btn" onclick="applyPreset('sunset_mountain')">🌅 산 석양 이마 맞대기</button>
+      <button class="preset-btn" onclick="applyPreset('cafe_first_meet')">☕ 카페 첫 만남</button>
+      <button class="preset-btn" onclick="applyPreset('night_rooftop')">🌙 야경 옥상 댄스</button>
+      <button class="preset-btn" onclick="applyPreset('forest_magic')">🌲 마법 숲 산책</button>
+      <button class="preset-btn" onclick="applyPreset('ocean_sunset')">🌊 해변 석양 키스</button>
+      <button class="preset-btn" onclick="applyPreset('wuxia_duel')">⚔️ 무협 결투</button>
+      <button class="preset-btn" onclick="applyPreset('yi_sun_sin')">🚢 이순신 명량 해전</button>
+      <button class="preset-btn" onclick="applyPreset('flower_field')">🌻 꽃밭 프로포즈</button>
       <button class="preset-btn" onclick="applyPreset('winter_cabin')">🏔️ 설산 오두막</button>
-      <button class="btn-random" onclick="randomGenerate()">🎲 랜덤 생성</button>
+      <button class="preset-btn" onclick="applyPreset('city_cyberpunk')">🤖 사이버펑크 도시</button>
+      <button class="preset-btn" onclick="applyPreset('ancient_palace')">🏯 고궁 달빛</button>
+      <button class="btn-random" onclick="randomGenerate()">🎲 완전 랜덤</button>
     </div>
   </div>
 
-  <!-- ======= SUBJECT ======= -->
+  <!-- ── SUBJECT / PERSON ── -->
   <div class="card">
     <div class="card-title">👤 주제 / 인물</div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('human')">👥 인간</button>
-      <button class="tab-btn" onclick="switchTab('animal')">🐾 동물</button>
-      <button class="tab-btn" onclick="switchTab('nature')">🌿 식물/자연</button>
-      <button class="tab-btn" onclick="switchTab('arch')">🏛️ 건축</button>
-      <button class="tab-btn" onclick="switchTab('abstract')">🌀 추상</button>
+      <button class="tab-btn active" data-tab="human" onclick="switchTab(this,'human')">👥 인간</button>
+      <button class="tab-btn" data-tab="animal" onclick="switchTab(this,'animal')">🐾 동물</button>
+      <button class="tab-btn" data-tab="nature" onclick="switchTab(this,'nature')">🌿 식물/자연</button>
+      <button class="tab-btn" data-tab="arch" onclick="switchTab(this,'arch')">🏛️ 건축/도시</button>
+      <button class="tab-btn" data-tab="abstract" onclick="switchTab(this,'abstract')">🌀 추상/판타지</button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab(this,'history')">⚔️ 역사/전투</button>
     </div>
 
-    <!-- Human Tab -->
+    <!-- HUMAN -->
     <div id="tab-human" class="tab-panel active">
       <div class="section-label">인물 유형</div>
       <div class="tags" id="subjectTags">
-        <span class="tag-chip" data-val="romantic Korean couple, exactly two people">한국인 커플</span>
-        <span class="tag-chip" data-val="Korean woman, beautiful, elegant">한국인 여성</span>
-        <span class="tag-chip" data-val="Korean man, handsome, charismatic">한국인 남성</span>
-        <span class="tag-chip" data-val="Korean family, warm and loving">한국인 가족</span>
-        <span class="tag-chip" data-val="Korean friends, joyful, candid">한국인 친구들</span>
-        <span class="tag-chip" data-val="elderly Korean couple, timeless love">노부부</span>
-        <span class="tag-chip" data-val="Korean child, innocent, cute">아이</span>
+        <span class="tag-chip" data-val="romantic Korean couple, exactly two people, deeply in love">한국인 커플</span>
+        <span class="tag-chip" data-val="beautiful Korean woman, elegant and graceful">한국인 여성</span>
+        <span class="tag-chip" data-val="handsome Korean man, charismatic and warm">한국인 남성</span>
+        <span class="tag-chip" data-val="warm Korean family, parents and child, loving moment">한국인 가족</span>
+        <span class="tag-chip" data-val="elderly Korean couple, decades of love, timeless bond">노부부</span>
+        <span class="tag-chip" data-val="young Korean friends, joyful, candid laughter">한국인 친구들</span>
+        <span class="tag-chip" data-val="Korean child, innocent, bright eyes, pure joy">아이</span>
+        <span class="tag-chip" data-val="lone wanderer, solitary figure, contemplative mood">고독한 방랑자</span>
+        <span class="tag-chip" data-val="Korean bride, radiant beauty, wedding day">신부</span>
+        <span class="tag-chip" data-val="Korean grandmother, wise eyes, gentle smile">할머니</span>
       </div>
       <div class="section-label">여성 헤어</div>
       <div class="tags" id="hairWTags">
-        <span class="tag-chip" data-val="woman with silver gray hair in elegant high ponytail">실버그레이 포니테일</span>
-        <span class="tag-chip" data-val="woman with long flowing black hair">긴 흑발</span>
-        <span class="tag-chip" data-val="woman with short bob cut, sleek">단발머리</span>
-        <span class="tag-chip" data-val="woman with auburn wavy hair">웨이브 갈색</span>
-        <span class="tag-chip" data-val="woman with platinum blonde hair">플래티넘 금발</span>
-        <span class="tag-chip" data-val="woman with braided hair, intricate">브레이드</span>
-        <span class="tag-chip" data-val="woman with loose bun, romantic tendrils">루즈번</span>
+        <span class="tag-chip" data-val="woman with silver-gray hair in elegant high ponytail, loose strands framing face">실버그레이 포니테일</span>
+        <span class="tag-chip" data-val="woman with long flowing jet-black hair, silky smooth">긴 흑발</span>
+        <span class="tag-chip" data-val="woman with sleek chic bob cut, sharp and modern">단발머리</span>
+        <span class="tag-chip" data-val="woman with auburn wavy hair, rich warm tones">웨이브 갈색</span>
+        <span class="tag-chip" data-val="woman with platinum blonde hair, striking contrast">플래티넘 금발</span>
+        <span class="tag-chip" data-val="woman with elaborate braided updo, intricate and elegant">브레이드 업스타일</span>
+        <span class="tag-chip" data-val="woman with soft romantic loose bun, wispy tendrils">루즈 업번</span>
+        <span class="tag-chip" data-val="woman with short pixie cut, bold and confident">픽시 컷</span>
+        <span class="tag-chip" data-val="woman with deep navy blue dyed hair, fantasy aesthetic">네이비 블루 염색</span>
+        <span class="tag-chip" data-val="woman with rose gold highlights, delicate shimmer">로즈골드 하이라이트</span>
+        <span class="tag-chip" data-val="woman with half-up half-down hairstyle, romantic">하프업 하프다운</span>
       </div>
       <div class="section-label">남성 헤어</div>
       <div class="tags" id="hairMTags">
-        <span class="tag-chip" data-val="man with black wavy hair, tousled">흑발 웨이브</span>
-        <span class="tag-chip" data-val="man with short neat dark hair">단정한 흑발</span>
-        <span class="tag-chip" data-val="man with brown undercut hairstyle">언더컷 브라운</span>
-        <span class="tag-chip" data-val="man with silver streaked hair, distinguished">실버 스트릭</span>
+        <span class="tag-chip" data-val="man with tousled black wavy hair, natural and effortless">흑발 웨이브</span>
+        <span class="tag-chip" data-val="man with short neat dark hair, clean-cut look">단정한 흑발</span>
+        <span class="tag-chip" data-val="man with brown undercut, modern stylish">언더컷 브라운</span>
+        <span class="tag-chip" data-val="man with silver-streaked distinguished hair, mature charm">실버 스트릭</span>
+        <span class="tag-chip" data-val="man with long tied-back dark hair, mysterious vibe">긴 묶음 머리</span>
+        <span class="tag-chip" data-val="man with buzzcut, sharp and strong jawline">버즈컷</span>
+        <span class="tag-chip" data-val="man with windswept messy hair, adventurous look">헝클어진 바람머리</span>
       </div>
-      <div class="section-label">체형 / 복장</div>
+      <div class="section-label">의상 / 스타일</div>
       <div class="tags" id="bodyTags">
-        <span class="tag-chip" data-val="wearing elegant flowing white dress">흰 드레스</span>
-        <span class="tag-chip" data-val="wearing traditional Korean hanbok">한복</span>
-        <span class="tag-chip" data-val="wearing casual cozy sweater">캐주얼 스웨터</span>
-        <span class="tag-chip" data-val="wearing wedding attire, bridal">웨딩 드레스</span>
-        <span class="tag-chip" data-val="wearing school uniform, Korean style">교복</span>
-        <span class="tag-chip" data-val="slender graceful figure">슬렌더 체형</span>
-        <span class="tag-chip" data-val="athletic toned physique">애슬레틱</span>
+        <span class="tag-chip" data-val="wearing elegant long flowing white chiffon dress">흰 시폰 드레스</span>
+        <span class="tag-chip" data-val="wearing traditional Korean hanbok, vibrant colors">한복</span>
+        <span class="tag-chip" data-val="wearing cozy oversized knit sweater, warm and soft">오버핏 니트</span>
+        <span class="tag-chip" data-val="wearing wedding dress, intricate lace details, bridal beauty">웨딩 드레스</span>
+        <span class="tag-chip" data-val="wearing modern Korean school uniform, youthful">교복</span>
+        <span class="tag-chip" data-val="wearing long elegant trench coat, cinematic">트렌치코트</span>
+        <span class="tag-chip" data-val="wearing hanbok-inspired modern fusion dress">현대 한복 퓨전</span>
+        <span class="tag-chip" data-val="wearing casual denim and white tee, everyday natural">캐주얼 데님</span>
+        <span class="tag-chip" data-val="wearing flowing silk slip dress, graceful and sensual elegance">실크 슬립 드레스</span>
       </div>
+      <textarea class="custom-input" id="customSubject" placeholder="직접 입력 (예: 30대 여성, 긴 흑발, 파란 코트, 슬프고 지친 표정)"></textarea>
     </div>
 
-    <!-- Animal Tab -->
+    <!-- ANIMAL -->
     <div id="tab-animal" class="tab-panel">
-      <div class="section-label">동물 유형</div>
+      <div class="section-label">포유류</div>
       <div class="tags" id="animalTags">
-        <span class="tag-chip" data-val="majestic white stallion, flowing mane">백마</span>
-        <span class="tag-chip" data-val="fluffy golden retriever puppy">골든 리트리버</span>
-        <span class="tag-chip" data-val="elegant black cat with amber eyes">흑고양이</span>
-        <span class="tag-chip" data-val="soaring eagle against dramatic sky">독수리</span>
-        <span class="tag-chip" data-val="serene deer in misty forest">사슴</span>
-        <span class="tag-chip" data-val="playful dolphins leaping from ocean">돌고래</span>
-        <span class="tag-chip" data-val="majestic lion, king of savanna">사자</span>
-        <span class="tag-chip" data-val="ethereal white wolf, moonlit night">흰 늑대</span>
-        <span class="tag-chip" data-val="colorful exotic butterfly, macro">나비 클로즈업</span>
-        <span class="tag-chip" data-val="giant panda, bamboo forest">판다</span>
+        <span class="tag-chip" data-val="majestic white stallion, flowing silver mane, powerful stride">백마</span>
+        <span class="tag-chip" data-val="fluffy golden retriever puppy, joyful eyes, wagging tail">골든 리트리버</span>
+        <span class="tag-chip" data-val="sleek black cat with luminous amber eyes, mysterious grace">흑고양이</span>
+        <span class="tag-chip" data-val="majestic lion, king of the savanna, fierce and noble">사자</span>
+        <span class="tag-chip" data-val="ethereal white wolf under moonlight, piercing blue eyes">흰 늑대</span>
+        <span class="tag-chip" data-val="giant panda resting in bamboo forest, peaceful">판다</span>
+        <span class="tag-chip" data-val="arctic fox in snow, fluffy white fur, curious expression">북극여우</span>
+        <span class="tag-chip" data-val="red deer stag with massive antlers, misty highland">붉은 사슴</span>
+        <span class="tag-chip" data-val="playful otters floating in river, holding paws">수달 커플</span>
+        <span class="tag-chip" data-val="snow leopard on rocky mountain, elusive and powerful">설표</span>
+        <span class="tag-chip" data-val="brown bear fishing at waterfall, dramatic wilderness">불곰</span>
+        <span class="tag-chip" data-val="elegant giraffe at golden hour, long neck silhouette">기린</span>
+        <span class="tag-chip" data-val="tiny hedgehog in autumn leaves, adorable macro shot">고슴도치</span>
+        <span class="tag-chip" data-val="wild mustang herd galloping across plains, dust cloud">야생마 무리</span>
+        <span class="tag-chip" data-val="loyal husky with ice-blue eyes, snow mountain background">허스키</span>
       </div>
+      <div class="section-label">조류 / 해양 / 파충류</div>
+      <div class="tags" id="birdTags">
+        <span class="tag-chip" data-val="golden eagle soaring above dramatic storm clouds">독수리</span>
+        <span class="tag-chip" data-val="pair of cranes dancing in misty morning, traditional Korean">두루미</span>
+        <span class="tag-chip" data-val="colorful peacock displaying magnificent tail feathers">공작새</span>
+        <span class="tag-chip" data-val="snowy owl in blizzard, silent and wise">흰 올빼미</span>
+        <span class="tag-chip" data-val="humpback whale breaching at sunset, massive and majestic">혹등고래</span>
+        <span class="tag-chip" data-val="pod of dolphins leaping in synchronized grace">돌고래 무리</span>
+        <span class="tag-chip" data-val="giant manta ray gliding through crystal clear ocean">쥐가오리</span>
+        <span class="tag-chip" data-val="sea turtle swimming through coral reef, sunbeams">바다거북</span>
+        <span class="tag-chip" data-val="great white shark emerging from dark water, powerful">백상아리</span>
+        <span class="tag-chip" data-val="chameleon on jungle branch, changing colors, macro">카멜레온</span>
+        <span class="tag-chip" data-val="butterfly swarm, thousands of monarchs migrating">나비 군집</span>
+        <span class="tag-chip" data-val="jellyfish in bioluminescent deep sea, ethereal glow">해파리 발광</span>
+      </div>
+      <textarea class="custom-input" id="customAnimal" placeholder="직접 입력 (예: 새끼 호랑이, 대나무 숲, 새벽 빛)"></textarea>
     </div>
 
-    <!-- Nature Tab -->
+    <!-- NATURE -->
     <div id="tab-nature" class="tab-panel">
-      <div class="section-label">식물 / 자연 요소</div>
+      <div class="section-label">꽃 / 나무</div>
       <div class="tags" id="natureTags">
-        <span class="tag-chip" data-val="ancient cherry blossom tree, full bloom">벚꽃나무</span>
-        <span class="tag-chip" data-val="mystical glowing mushroom forest">빛나는 버섯 숲</span>
-        <span class="tag-chip" data-val="vibrant sunflower field, golden hour">해바라기밭</span>
-        <span class="tag-chip" data-val="ancient twisted oak tree, dramatic">오래된 참나무</span>
-        <span class="tag-chip" data-val="lavender field, purple mist">라벤더 밭</span>
-        <span class="tag-chip" data-val="lotus pond, peaceful reflection">연꽃 연못</span>
-        <span class="tag-chip" data-val="towering bamboo forest, filtered light">대나무 숲</span>
-        <span class="tag-chip" data-val="autumn maple forest, red orange leaves">단풍 숲</span>
-        <span class="tag-chip" data-val="enchanted forest, bioluminescent plants">생물발광 숲</span>
+        <span class="tag-chip" data-val="ancient cherry blossom tree in full bloom, pink petals swirling">벚꽃나무 만개</span>
+        <span class="tag-chip" data-val="mystical glowing mushroom forest at night, bioluminescent">빛나는 버섯 숲</span>
+        <span class="tag-chip" data-val="vast sunflower field stretching to horizon, golden hour">해바라기밭</span>
+        <span class="tag-chip" data-val="ancient twisted oak tree, gnarled branches, dramatic silhouette">고목 참나무</span>
+        <span class="tag-chip" data-val="endless lavender field, purple haze, gentle breeze">라벤더 밭</span>
+        <span class="tag-chip" data-val="sacred lotus pond, perfect reflections, morning dew">연꽃 연못</span>
+        <span class="tag-chip" data-val="towering bamboo forest, filtered green light, serene">대나무 숲</span>
+        <span class="tag-chip" data-val="autumn maple forest, blazing red and orange, fallen leaves">단풍 숲</span>
+        <span class="tag-chip" data-val="enchanted forest with glowing fireflies, magical atmosphere">반딧불 숲</span>
+        <span class="tag-chip" data-val="giant redwood forest, cathedral-like ancient trees, misty">삼나무 원시림</span>
+        <span class="tag-chip" data-val="rose garden in full bloom, thousands of roses, romantic">장미 정원</span>
+        <span class="tag-chip" data-val="weeping willow by misty lake, trailing branches, melancholy">수양버들</span>
+        <span class="tag-chip" data-val="vibrant wildflower meadow, poppies and daisies, spring">야생화 들판</span>
+        <span class="tag-chip" data-val="mangrove forest with aerial roots, golden reflections">맹그로브 숲</span>
+        <span class="tag-chip" data-val="world tree Yggdrasil, cosmic roots, mythical scale">세계수</span>
       </div>
+      <div class="section-label">자연 경관</div>
+      <div class="tags" id="landscapeTags">
+        <span class="tag-chip" data-val="dramatic volcanic eruption at night, lava flows, ash cloud">화산 폭발</span>
+        <span class="tag-chip" data-val="ice cave with blue crystal walls, ethereal light">빙하 동굴</span>
+        <span class="tag-chip" data-val="salt flat mirror reflection, perfect symmetry, surreal">소금 사막 반영</span>
+        <span class="tag-chip" data-val="grand canyon at sunrise, layers of red rock, epic scale">그랜드 캐니언</span>
+        <span class="tag-chip" data-val="northern lights over frozen tundra, aurora borealis">오로라 설원</span>
+        <span class="tag-chip" data-val="underwater coral reef kingdom, tropical fish, sunlight rays">산호초 왕국</span>
+        <span class="tag-chip" data-val="misty mountain peaks above clouds, spiritual vastness">운해 산봉우리</span>
+        <span class="tag-chip" data-val="waterfall into jungle pool, rainbow mist, lush green">정글 폭포</span>
+        <span class="tag-chip" data-val="desert dunes at golden hour, wind patterns, minimalist">사막 모래언덕</span>
+        <span class="tag-chip" data-val="stormy ocean waves crashing against lighthouse, dramatic">폭풍 등대</span>
+      </div>
+      <textarea class="custom-input" id="customNature" placeholder="직접 입력 (예: 이끼 낀 돌다리, 새벽 안개, 떨어지는 낙엽)"></textarea>
     </div>
 
-    <!-- Architecture Tab -->
+    <!-- ARCHITECTURE -->
     <div id="tab-arch" class="tab-panel">
-      <div class="section-label">건축 / 도시</div>
+      <div class="section-label">역사 / 전통 건축</div>
       <div class="tags" id="archTags">
-        <span class="tag-chip" data-val="ancient Korean palace, Gyeongbokgung style">경복궁 스타일</span>
-        <span class="tag-chip" data-val="modern Seoul cityscape, neon lights">서울 도심 야경</span>
-        <span class="tag-chip" data-val="cozy European cobblestone alley">유럽 골목길</span>
-        <span class="tag-chip" data-val="futuristic cyberpunk city, rain-soaked streets">사이버펑크 도시</span>
-        <span class="tag-chip" data-val="traditional Japanese temple, torii gate">일본 신사</span>
-        <span class="tag-chip" data-val="gothic cathedral, stained glass light">고딕 성당</span>
-        <span class="tag-chip" data-val="abandoned ruins, overgrown with nature">폐허 건물</span>
-        <span class="tag-chip" data-val="luxurious modern villa, infinity pool">고급 빌라</span>
-        <span class="tag-chip" data-val="floating sky island, fantasy architecture">하늘섬 건축</span>
+        <span class="tag-chip" data-val="Gyeongbokgung Palace at dawn, misty courtyard, majestic gates">경복궁 새벽</span>
+        <span class="tag-chip" data-val="ancient Buddhist temple on misty mountain, stone lanterns, serenity">산속 사찰</span>
+        <span class="tag-chip" data-val="medieval European castle on cliff, stormy sky, dramatic">중세 유럽 성</span>
+        <span class="tag-chip" data-val="Japanese torii gate in forest, red pillars, sacred path">도리이 신사</span>
+        <span class="tag-chip" data-val="gothic cathedral interior, stained glass light rays, divine">고딕 성당 내부</span>
+        <span class="tag-chip" data-val="ancient Roman colosseum at sunset, epic ruins, gladiator age">로마 콜로세움</span>
+        <span class="tag-chip" data-val="Taj Mahal at golden hour, reflection pool, timeless beauty">타지마할</span>
+        <span class="tag-chip" data-val="Great Wall of China at sunrise, mist-covered mountains">만리장성 새벽</span>
+        <span class="tag-chip" data-val="traditional Korean hanok village, tiled roofs, winter snow">한옥 마을 설경</span>
+        <span class="tag-chip" data-val="Angkor Wat temple complex, jungle reclaiming ruins, mystical">앙코르와트</span>
+        <span class="tag-chip" data-val="ancient Greek Parthenon at dusk, marble columns, mythology">파르테논 신전</span>
       </div>
+      <div class="section-label">현대 / 미래 도시</div>
+      <div class="tags" id="urbanArchTags">
+        <span class="tag-chip" data-val="Seoul skyline at night, Han River reflections, urban romance">서울 야경</span>
+        <span class="tag-chip" data-val="neon-drenched Tokyo street at night, cyberpunk energy">도쿄 네온 거리</span>
+        <span class="tag-chip" data-val="futuristic megacity with flying vehicles, holographic ads">미래 메가시티</span>
+        <span class="tag-chip" data-val="cozy European cobblestone alley, cafe lights, rainy evening">유럽 골목 카페</span>
+        <span class="tag-chip" data-val="abandoned factory ruins, industrial decay, dramatic light">폐공장 폐허</span>
+        <span class="tag-chip" data-val="glass and steel skyscraper forest, sunrise, corporate epic">마천루 숲</span>
+        <span class="tag-chip" data-val="underwater glass city, bioluminescent architecture, deep sea">해저 유리 도시</span>
+        <span class="tag-chip" data-val="sky island floating city above clouds, fantasy architecture">하늘 부유 도시</span>
+        <span class="tag-chip" data-val="post-apocalyptic overgrown city, nature reclaiming buildings">자연 잠식 폐허</span>
+        <span class="tag-chip" data-val="Victorian steampunk city, brass gears, airships, fog">스팀펑크 도시</span>
+        <span class="tag-chip" data-val="crystal dome city on alien planet, twin suns, sci-fi">외계 행성 도시</span>
+      </div>
+      <textarea class="custom-input" id="customArch" placeholder="직접 입력 (예: 빛이 새어 들어오는 지하 도서관, 오래된 나선형 계단)"></textarea>
     </div>
 
-    <!-- Abstract Tab -->
+    <!-- ABSTRACT -->
     <div id="tab-abstract" class="tab-panel">
-      <div class="section-label">추상 / 판타지</div>
+      <div class="section-label">우주 / 천체</div>
       <div class="tags" id="abstractTags">
-        <span class="tag-chip" data-val="swirling galaxy nebula, cosmic art">은하 성운</span>
-        <span class="tag-chip" data-val="fractal geometric patterns, colorful">프랙탈 패턴</span>
-        <span class="tag-chip" data-val="flowing liquid metal, abstract sculpture">액체 금속</span>
-        <span class="tag-chip" data-val="dreamscape surreal landscape, melting">초현실 풍경</span>
-        <span class="tag-chip" data-val="crystalline ice formations, light refraction">크리스탈 얼음</span>
-        <span class="tag-chip" data-val="ethereal spirit energy, glowing wisps">정신 에너지</span>
-        <span class="tag-chip" data-val="mandala sacred geometry, intricate">만다라</span>
-        <span class="tag-chip" data-val="aurora borealis, northern lights dance">오로라</span>
+        <span class="tag-chip" data-val="swirling galaxy nebula in deep space, cosmic wonder, vivid colors">은하 성운</span>
+        <span class="tag-chip" data-val="supernova explosion, blinding light, cosmic scale">초신성 폭발</span>
+        <span class="tag-chip" data-val="black hole event horizon, gravitational lensing, terrifying beauty">블랙홀</span>
+        <span class="tag-chip" data-val="aurora borealis over icy mountain lake, perfect reflection">오로라 호수</span>
+        <span class="tag-chip" data-val="meteor shower over ancient stone circle, night sky magic">유성우</span>
+        <span class="tag-chip" data-val="full moon rising over ocean, silver path on water">보름달 바다</span>
+        <span class="tag-chip" data-val="solar eclipse corona, ethereal ring of fire, awe-inspiring">개기일식</span>
       </div>
+      <div class="section-label">추상 / 판타지 개념</div>
+      <div class="tags" id="conceptTags">
+        <span class="tag-chip" data-val="colorful fractal geometric mandala, infinite symmetry, meditative">만다라 프랙탈</span>
+        <span class="tag-chip" data-val="flowing liquid metal morphing, abstract sculpture, chrome">액체 금속</span>
+        <span class="tag-chip" data-val="surrealist dreamscape, melting clocks, impossible architecture">초현실 드림스케이프</span>
+        <span class="tag-chip" data-val="crystalline ice formation, light refracting rainbow prisms">크리스탈 얼음 프리즘</span>
+        <span class="tag-chip" data-val="ethereal spirit energy wisps, glowing trails of soul light">정신 에너지 흐름</span>
+        <span class="tag-chip" data-val="dragon made entirely of storm clouds, lightning body">구름 폭풍 드래곤</span>
+        <span class="tag-chip" data-val="phoenix rising from embers, golden fire feathers, rebirth">불사조 부활</span>
+        <span class="tag-chip" data-val="time vortex portal, clock fragments, space-time rifts">시간 소용돌이</span>
+        <span class="tag-chip" data-val="tree of life glowing with golden leaves, divine energy">생명의 나무</span>
+        <span class="tag-chip" data-val="underwater world of floating islands and waterfalls, fantasy">수중 부유 섬</span>
+        <span class="tag-chip" data-val="dimension gate opening, light pouring through reality tears">차원 관문</span>
+        <span class="tag-chip" data-val="god's hand emerging from storm clouds, divine intervention">신의 손</span>
+      </div>
+      <textarea class="custom-input" id="customAbstract" placeholder="직접 입력 (예: 감정이 색으로 흘러나오는 인간의 실루엣)"></textarea>
     </div>
 
-    <textarea class="custom-input" id="customSubject" placeholder="직접 입력 (예: 20대 여성, 긴 머리, 파란 드레스)"></textarea>
-  </div>
+    <!-- HISTORY / BATTLE -->
+    <div id="tab-history" class="tab-panel">
+      <div class="section-label">한국 역사</div>
+      <div class="tags" id="historyKRTags">
+        <span class="tag-chip" data-val="Admiral Yi Sun-sin standing on turtle ship bow at Battle of Myeongnyang, 133 Japanese warships approaching, raging sea, epic cinematic scale, heroic resolve">이순신 명량해전</span>
+        <span class="tag-chip" data-val="Gwanggaeto the Great leading cavalry charge, ancient Korean kingdom, dawn battle, war banners flying">광개토대왕 기마전</span>
+        <span class="tag-chip" data-val="Hwarang warrior in traditional armor, cherry blossoms, Silla dynasty, noble bearing">화랑 전사</span>
+        <span class="tag-chip" data-val="Battle of Hansan Island, Korean turtle ships and Japanese fleet, dawn sea battle, fire arrows">한산도 대첩</span>
+        <span class="tag-chip" data-val="Joseon palace court scene, officials in robes, candlelight, political intrigue">조선 왕궁 조정</span>
+        <span class="tag-chip" data-val="Korean independence fighter, March 1st Movement, determined expression, colonial era">독립운동가 3.1운동</span>
+        <span class="tag-chip" data-val="ancient Korean shaman ritual, fire ceremony, hanbok, mystical night">무당 굿판</span>
+      </div>
+      <div class="section-label">세계 역사 / 신화</div>
+      <div class="tags" id="historyWorldTags">
+        <span class="tag-chip" data-val="Mongol cavalry charge across vast steppe, dust and thunder, Genghis Khan era">몽골 기마군단</span>
+        <span class="tag-chip" data-val="Spartan warriors at Battle of Thermopylae, narrow pass, bronze shields, heroic last stand">스파르타 테르모필레</span>
+        <span class="tag-chip" data-val="Viking longships arriving at misty fjord, warriors with axes, Norse mythology atmosphere">바이킹 상륙</span>
+        <span class="tag-chip" data-val="samurai duel at dawn, cherry blossoms, mist, code of bushido, katana raised">사무라이 결투</span>
+        <span class="tag-chip" data-val="Napoleon Bonaparte at Waterloo, dramatic battlefield, cannon smoke, empire's end">나폴레옹 워털루</span>
+        <span class="tag-chip" data-val="Roman gladiator in Colosseum, crowd roaring, sand and blood, arena epic">로마 검투사</span>
+        <span class="tag-chip" data-val="Zeus hurling thunderbolts from Mount Olympus, Greek gods, mythological grandeur">제우스 올림푸스</span>
+        <span class="tag-chip" data-val="Arthurian knight pulling Excalibur from stone, misty lake, legend begins">엑스칼리버 전설</span>
+        <span class="tag-chip" data-val="Egyptian pharaoh Ramesses II in war chariot, Battle of Kadesh, ancient epic">람세스 2세 전투</span>
+        <span class="tag-chip" data-val="Battle of Hastings, Norman cavalry vs Saxon shield wall, 1066, medieval chaos">헤이스팅스 전투</span>
+        <span class="tag-chip" data-val="Chinese Terracotta Army awakening at night, ghostly warriors rising, ancient power">병마용 부활</span>
+        <span class="tag-chip" data-val="Aztec sun ritual on pyramid temple, ceremonial fire, feathered warriors">아즈텍 태양 의식</span>
+      </div>
+      <textarea class="custom-input" id="customHistory" placeholder="직접 입력 (예: 고려 대몽항쟁, 처인성 전투, 김윤후 장군)"></textarea>
+    </div>
 
-  <!-- ======= STYLE & SCENE (2-col) ======= -->
+  </div><!-- /subject card -->
+
+  <!-- ── STYLE & SCENE (2-col) ── -->
   <div class="grid-2">
-    <!-- Style Card -->
+
+    <!-- STYLE CARD -->
     <div class="card">
       <div class="card-title">🎨 스타일 / 분위기</div>
-      <div class="section-label">분위기</div>
+      <div class="section-label">분위기 & 장르</div>
       <div class="tags" id="styleTags">
-        <span class="tag-chip" data-val="romantic dreamy atmosphere">로맨틱 드리미</span>
-        <span class="tag-chip" data-val="cinematic epic style">시네마틱</span>
-        <span class="tag-chip" data-val="soft painterly impressionist">소프트 페인팅</span>
-        <span class="tag-chip" data-val="dramatic noir contrast">누아르</span>
-        <span class="tag-chip" data-val="ethereal fantasy style">에테리얼</span>
-        <span class="tag-chip" data-val="vibrant colorful pop art">팝 아트</span>
-        <span class="tag-chip" data-val="minimalist clean aesthetic">미니멀</span>
-        <span class="tag-chip" data-val="dark moody gothic atmosphere">다크 고딕</span>
-        <span class="tag-chip" data-val="wuxia Chinese martial arts epic">무협</span>
-        <span class="tag-chip" data-val="Pixar 3D animation style">픽사 3D</span>
-        <span class="tag-chip" data-val="watercolor art style, soft edges">수채화</span>
-        <span class="tag-chip" data-val="vintage film photography aesthetic">빈티지 필름</span>
+        <span class="tag-chip" data-val="romantic dreamy soft atmosphere, tender emotion">로맨틱 드리미</span>
+        <span class="tag-chip" data-val="epic cinematic widescreen style, dramatic composition">시네마틱 에픽</span>
+        <span class="tag-chip" data-val="soft painterly impressionist style, brushstroke texture">소프트 페인팅</span>
+        <span class="tag-chip" data-val="dark moody noir contrast, shadow and mystery">다크 누아르</span>
+        <span class="tag-chip" data-val="ethereal fantasy otherworldly atmosphere">에테리얼 판타지</span>
+        <span class="tag-chip" data-val="vibrant bold pop art style, graphic and colorful">팝 아트</span>
+        <span class="tag-chip" data-val="clean minimal zen aesthetic, negative space">미니멀 젠</span>
+        <span class="tag-chip" data-val="dark gothic horror atmosphere, ominous and beautiful">다크 고딕</span>
+        <span class="tag-chip" data-val="wuxia Chinese martial arts epic, chi energy, bamboo">무협</span>
+        <span class="tag-chip" data-val="Pixar 3D animation style, expressive characters, warm">픽사 3D</span>
+        <span class="tag-chip" data-val="delicate watercolor art, soft edges, paper texture">수채화</span>
+        <span class="tag-chip" data-val="vintage analog film photography, grain, faded tones">빈티지 필름</span>
+        <span class="tag-chip" data-val="cyberpunk neon dystopia, rain-soaked, tech-noir">사이버펑크</span>
+        <span class="tag-chip" data-val="Studio Ghibli animation style, whimsical and heartwarming">지브리 스타일</span>
+        <span class="tag-chip" data-val="oil painting classical baroque style, dramatic chiaroscuro">바로크 유화</span>
+        <span class="tag-chip" data-val="ink wash painting style, traditional Asian brush art">수묵화</span>
+        <span class="tag-chip" data-val="surrealism dreamlike impossible scene, Salvador Dali inspired">초현실주의</span>
+        <span class="tag-chip" data-val="photorealistic ultra-detailed hyperrealism, indistinguishable from photo">하이퍼리얼리즘</span>
+        <span class="tag-chip" data-val="comic book graphic novel style, bold outlines, dynamic">코믹북</span>
+        <span class="tag-chip" data-val="concept art style, detailed environment, game illustration">컨셉 아트</span>
+        <span class="tag-chip" data-val="double exposure artistic blend, two images merged">더블 익스포저</span>
+        <span class="tag-chip" data-val="tilt-shift miniature effect, toy-like world, small scale">틸트쉬프트 미니어처</span>
+        <span class="tag-chip" data-val="long exposure photography, light trails, motion blur art">장노출 빛 궤적</span>
+        <span class="tag-chip" data-val="macro photography, extreme close-up, hidden world revealed">매크로 클로즈업</span>
       </div>
       <div class="section-label">카메라 / 렌즈</div>
       <div class="tags" id="cameraTags">
-        <span class="tag-chip" data-val="shallow depth of field, portrait lens">아웃포커스 포트레이트</span>
-        <span class="tag-chip" data-val="wide angle dramatic perspective">와이드 앵글</span>
-        <span class="tag-chip" data-val="telephoto compressed background">망원 압축</span>
-        <span class="tag-chip" data-val="close-up intimate shot">클로즈업</span>
-        <span class="tag-chip" data-val="bird's eye view overhead">조감도</span>
-        <span class="tag-chip" data-val="Dutch angle tilt, dynamic">더치 앵글</span>
+        <span class="tag-chip" data-val="shallow depth of field, f/1.4 portrait lens, creamy bokeh">얕은 심도 보케</span>
+        <span class="tag-chip" data-val="ultra-wide dramatic 16mm perspective, immersive environment">울트라와이드 16mm</span>
+        <span class="tag-chip" data-val="telephoto 200mm compressed background, intimate distance">망원 200mm 압축</span>
+        <span class="tag-chip" data-val="extreme close-up macro, skin texture visible, emotional intensity">익스트림 클로즈업</span>
+        <span class="tag-chip" data-val="aerial drone overhead bird's eye view, grand scale">드론 조감도</span>
+        <span class="tag-chip" data-val="Dutch angle 30 degree tilt, tension and unease">더치 앵글 긴장감</span>
+        <span class="tag-chip" data-val="low angle worm's eye view, towering heroic perspective">로우앵글 영웅적</span>
+        <span class="tag-chip" data-val="symmetrical center composition, Wes Anderson style">웨스앤더슨 대칭</span>
+        <span class="tag-chip" data-val="rule of thirds off-center, natural candid feel">3등분 법칙</span>
+        <span class="tag-chip" data-val="over the shoulder perspective, intimate POV">숄더샷 친밀감</span>
       </div>
       <div class="section-label">품질 부스터</div>
       <div class="tags" id="qualityTags">
-        <span class="tag-chip" data-val="ultra detailed, 8k resolution">8K 울트라</span>
-        <span class="tag-chip" data-val="professional photography, award winning">프로 사진</span>
-        <span class="tag-chip" data-val="sharp focus, high clarity">샤프 포커스</span>
-        <span class="tag-chip" data-val="hyperrealistic, photorealistic">포토리얼</span>
+        <span class="tag-chip" data-val="masterpiece, best quality, ultra detailed, 8k resolution">8K 울트라 퀄리티</span>
+        <span class="tag-chip" data-val="professional award-winning photography, National Geographic quality">내셔널지오그래픽급</span>
+        <span class="tag-chip" data-val="tack sharp focus, crystal clear image, no blur">샤프 포커스</span>
+        <span class="tag-chip" data-val="hyperrealistic photorealistic rendering, indistinguishable from reality">포토리얼 렌더링</span>
+        <span class="tag-chip" data-val="cinematic color grading, LUT applied, professional grade">시네마틱 컬러그레이딩</span>
+        <span class="tag-chip" data-val="HDR high dynamic range, rich shadows and highlights">HDR 다이나믹레인지</span>
       </div>
     </div>
 
-    <!-- Scene Card -->
+    <!-- SCENE CARD -->
     <div class="card">
       <div class="card-title">🌍 장소 / 시간</div>
-      <div class="section-label">야외 자연</div>
+      <div class="section-label">자연 야외</div>
       <div class="tags" id="sceneTags">
-        <span class="tag-chip" data-val="golden hour mountain sunset, dramatic sky">산 석양 골든아워</span>
-        <span class="tag-chip" data-val="cherry blossom pathway, spring petals falling">벚꽃길 봄</span>
-        <span class="tag-chip" data-val="misty enchanted forest, morning fog">안개 숲</span>
-        <span class="tag-chip" data-val="dramatic ocean cliffside, crashing waves">해안 절벽</span>
-        <span class="tag-chip" data-val="lavender field at dusk, purple sky">라벤더 들판 황혼</span>
-        <span class="tag-chip" data-val="snowy winter forest, soft light">설원 겨울 숲</span>
-        <span class="tag-chip" data-val="tropical beach at sunset, golden sand">열대 해변 석양</span>
-        <span class="tag-chip" data-val="flower meadow, wildflowers in breeze">꽃밭 들판</span>
+        <span class="tag-chip" data-val="golden hour mountain summit at sunset, dramatic painted sky">산 정상 석양 골든아워</span>
+        <span class="tag-chip" data-val="cherry blossom avenue, thick canopy of pink petals, spring shower">벚꽃 가로수길</span>
+        <span class="tag-chip" data-val="ancient misty enchanted forest, gnarled trees, morning fog">안개 낀 고대 숲</span>
+        <span class="tag-chip" data-val="dramatic ocean cliffside at sunset, crashing waves below">해안 절벽 석양</span>
+        <span class="tag-chip" data-val="endless lavender field at dusk, purple haze horizon">라벤더 밭 황혼</span>
+        <span class="tag-chip" data-val="pristine snowy winter forest, every branch frosted white">설원 겨울 원시림</span>
+        <span class="tag-chip" data-val="tropical white sand beach at magic hour, turquoise water">열대 백사장 매직아워</span>
+        <span class="tag-chip" data-val="wildflower meadow, knee-high sea of colorful blooms, breeze">야생화 들판</span>
+        <span class="tag-chip" data-val="bamboo forest path, filtered green light, peaceful solitude">대나무 숲길</span>
+        <span class="tag-chip" data-val="autumn maple mountain, blazing red ridge, fallen leaves swirling">단풍 산행</span>
+        <span class="tag-chip" data-val="frozen lake surface, crystal clear ice, snow mountains reflected">결빙 호수</span>
+        <span class="tag-chip" data-val="desert canyon at dawn, long shadows, ancient red stone">사막 협곡 새벽</span>
+        <span class="tag-chip" data-val="thunderstorm approaching over wheat field, dramatic lightning">뇌우 밀밭</span>
+        <span class="tag-chip" data-val="highland moor at blue hour, heather in bloom, stone walls">고지대 황야 블루아워</span>
+        <span class="tag-chip" data-val="moss-covered ancient stone path, soft rain, forest cathedral">이끼 낀 돌길 빗속</span>
       </div>
       <div class="section-label">도시 / 실내</div>
       <div class="tags" id="urbanTags">
-        <span class="tag-chip" data-val="rainy city street at night, neon reflections">빗속 도시 야경</span>
-        <span class="tag-chip" data-val="cozy cafe, warm amber lighting">아늑한 카페</span>
-        <span class="tag-chip" data-val="rooftop overlooking city skyline at night">도심 옥상 야경</span>
-        <span class="tag-chip" data-val="traditional Korean street, lanterns">한국 전통 거리</span>
-        <span class="tag-chip" data-val="luxurious ballroom, chandelier light">호화 무도회장</span>
-        <span class="tag-chip" data-val="abandoned train station, moody light">폐역 무드</span>
+        <span class="tag-chip" data-val="rain-soaked city street at night, neon reflections in puddles">빗속 네온 도시 야경</span>
+        <span class="tag-chip" data-val="warmly lit cozy cafe, amber glow, rain outside window">빗소리 카페 실내</span>
+        <span class="tag-chip" data-val="rooftop with cityscape panorama at night, star-filled sky">도심 옥상 스타라이트</span>
+        <span class="tag-chip" data-val="traditional Korean lantern-lit street at night, Bukchon style">북촌 한옥 골목 야경</span>
+        <span class="tag-chip" data-val="grand ballroom, thousand candles and chandeliers, masquerade">샹들리에 무도회장</span>
+        <span class="tag-chip" data-val="abandoned station platform, single overhead light, lonely">폐역 쓸쓸한 플랫폼</span>
+        <span class="tag-chip" data-val="underground library, endless shelves, dust motes in light">지하 도서관</span>
+        <span class="tag-chip" data-val="greenhouse full of blooming flowers, glass walls, warm light">유리온실 꽃집</span>
+        <span class="tag-chip" data-val="airport departure hall at dawn, empty gates, solitude">새벽 공항 출국장</span>
+        <span class="tag-chip" data-val="jazz club basement, dim amber light, saxophone smoke">재즈바 지하</span>
+        <span class="tag-chip" data-val="Myeongdong street market at night, street food stalls, crowd">명동 야시장</span>
+        <span class="tag-chip" data-val="luxury hotel suite, floor-to-ceiling window, city below">초호화 호텔 야경뷰</span>
       </div>
-      <div class="section-label">시간대</div>
+      <div class="section-label">시간대 / 날씨</div>
       <div class="tags" id="timeTags">
-        <span class="tag-chip" data-val="golden hour, warm amber light">골든 아워</span>
-        <span class="tag-chip" data-val="blue hour, twilight sky">블루 아워</span>
-        <span class="tag-chip" data-val="midnight under full moon">보름달 한밤중</span>
-        <span class="tag-chip" data-val="misty dawn, first light">새벽 안개</span>
+        <span class="tag-chip" data-val="golden hour, warm amber and rose light, long soft shadows">골든아워</span>
+        <span class="tag-chip" data-val="blue hour twilight, deep indigo sky, first city lights">블루아워</span>
+        <span class="tag-chip" data-val="midnight under enormous full moon, silver world">보름달 한밤중</span>
+        <span class="tag-chip" data-val="misty pre-dawn first light, pale lavender sky, dew">새벽 여명</span>
+        <span class="tag-chip" data-val="heavy rain at night, everything wet and reflective">야간 폭우</span>
+        <span class="tag-chip" data-val="light snowfall, soft flakes, hushed white silence">함박눈 내림</span>
+        <span class="tag-chip" data-val="thick morning fog, shapes barely visible, mysterious">짙은 아침 안개</span>
+        <span class="tag-chip" data-val="storm clearing, dramatic crepuscular rays through clouds">폭풍 뒤 빛줄기</span>
       </div>
-      <textarea class="custom-input" id="customScene" placeholder="직접 입력 (예: 도쿄 골목길, 벚꽃 흩날리는 저녁)"></textarea>
+      <textarea class="custom-input" id="customScene" placeholder="직접 입력 (예: 구름 위를 걷는 것 같은 고원 지대, 이른 아침)"></textarea>
     </div>
   </div>
 
-  <!-- ======= SPECIAL KEYWORDS ======= -->
+  <!-- ── SPECIAL KEYWORDS ── -->
   <div class="card">
     <div class="card-title">✨ 특별 키워드</div>
     <div class="section-label">포즈 / 제스처</div>
     <div class="tags" id="poseTags">
-      <span class="tag-chip" data-val="gentle forehead touch, eyes closed, intimate">이마 맞대기</span>
-      <span class="tag-chip" data-val="intense deep eye contact, soulful gaze">강렬한 눈맞춤</span>
-      <span class="tag-chip" data-val="tender embrace, warm hug from behind">뒤에서 포옹</span>
-      <span class="tag-chip" data-val="hands intertwined, fingers laced together">손 깍지</span>
-      <span class="tag-chip" data-val="slow dance, swaying together">슬로우 댄스</span>
-      <span class="tag-chip" data-val="almost kiss, lips barely apart">거의 키스</span>
-      <span class="tag-chip" data-val="lying in grass, peaceful together">풀밭에 누움</span>
-      <span class="tag-chip" data-val="spinning in joy, laughing">기쁨에 빙글빙글</span>
-      <span class="tag-chip" data-val="sharing umbrella in rain">우산 함께 쓰기</span>
-      <span class="tag-chip" data-val="silhouette kiss against sunset">실루엣 키스</span>
+      <span class="tag-chip" data-val="gentle forehead touch, foreheads pressed together, eyes closed, world stops">이마 맞대기</span>
+      <span class="tag-chip" data-val="intense soulful deep eye contact, seeing into each other's soul">강렬한 영혼 눈맞춤</span>
+      <span class="tag-chip" data-val="warm tender embrace from behind, chin resting on shoulder">뒤에서 안아주기</span>
+      <span class="tag-chip" data-val="fingers gently intertwined, hands clasped together lovingly">손 깍지 끼기</span>
+      <span class="tag-chip" data-val="slow romantic dance, swaying together, lost in music">슬로우 댄스</span>
+      <span class="tag-chip" data-val="almost kiss, faces millimeters apart, held breath anticipation">거의 키스 직전</span>
+      <span class="tag-chip" data-val="lying together in grass, peaceful, faces close, whispering">풀밭에 나란히</span>
+      <span class="tag-chip" data-val="spinning together with laughter, joy and abandon">기쁨으로 빙글빙글</span>
+      <span class="tag-chip" data-val="sharing one umbrella in heavy rain, pressed together, sheltered">우산 함께 쓰기</span>
+      <span class="tag-chip" data-val="silhouette kiss against glowing sunset, backlit romance">실루엣 석양 키스</span>
+      <span class="tag-chip" data-val="one hand gently cupping the other's cheek, tender touch">뺨을 감싸는 손</span>
+      <span class="tag-chip" data-val="walking side by side, arms touching, comfortable silence">나란히 걷기</span>
+      <span class="tag-chip" data-val="sitting close on edge of cliff, legs dangling, looking at horizon">절벽 끝에 나란히</span>
+      <span class="tag-chip" data-val="one wiping away tears from the other's face, emotional">눈물 닦아주기</span>
+      <span class="tag-chip" data-val="back to back sitting, quiet trust, leaning on each other">등을 맞대고</span>
+      <span class="tag-chip" data-val="proposal on one knee, ring presented, overwhelmed emotion">프로포즈 순간</span>
+      <span class="tag-chip" data-val="pinky promise, little fingers linked, childhood pure vow">새끼손가락 약속</span>
+      <span class="tag-chip" data-val="warrior sword raised to sky, battle cry, victorious pose">검 치켜든 전사</span>
+      <span class="tag-chip" data-val="lone figure standing at cliff edge, back to camera, contemplating">절벽 끝 고독한 뒷모습</span>
+      <span class="tag-chip" data-val="battle-ready stance, armor-clad, enemy forces in background">전투 준비 자세</span>
     </div>
     <div class="section-label">감정 / 분위기 강화</div>
     <div class="tags" id="moodTags">
-      <span class="tag-chip" data-val="flowing hair gently in breeze">머리카락 날림</span>
-      <span class="tag-chip" data-val="soft genuine smiles, happiness">따뜻한 미소</span>
-      <span class="tag-chip" data-val="emotional tears of joy">기쁨의 눈물</span>
-      <span class="tag-chip" data-val="cherry blossom petals falling around">꽃잎 흩날림</span>
-      <span class="tag-chip" data-val="snowflakes gently falling">눈송이 내림</span>
-      <span class="tag-chip" data-val="holding bouquet of red roses">빨간 장미 꽃다발</span>
-      <span class="tag-chip" data-val="dramatic wind swirling dress">드레스 바람에 날림</span>
-      <span class="tag-chip" data-val="lanterns floating into night sky">등불 하늘로</span>
+      <span class="tag-chip" data-val="hair flowing beautifully in soft breeze, strands catching light">머리카락 바람에 날림</span>
+      <span class="tag-chip" data-val="warm genuine tender smiles, quiet happiness radiating">따뜻한 진실한 미소</span>
+      <span class="tag-chip" data-val="tears of pure joy streaming down face, overwhelmed emotion">기쁨의 눈물</span>
+      <span class="tag-chip" data-val="pink cherry blossom petals swirling around, ethereal spring">벚꽃 잎 소용돌이</span>
+      <span class="tag-chip" data-val="large soft snowflakes gently falling, quiet winter magic">함박눈 내림</span>
+      <span class="tag-chip" data-val="holding lush red rose bouquet, petals beginning to fall">붉은 장미 꽃다발</span>
+      <span class="tag-chip" data-val="long flowing dress dramatically billowing in wind">드레스 바람에 휘날림</span>
+      <span class="tag-chip" data-val="paper lanterns floating slowly into night sky, wishes rising">등불 하늘로 올라감</span>
+      <span class="tag-chip" data-val="golden autumn leaves swirling around, end-of-season magic">단풍잎 소용돌이</span>
+      <span class="tag-chip" data-val="glowing fireflies surrounding the scene, summer night magic">반딧불 가득한 밤</span>
+      <span class="tag-chip" data-val="first snow of winter falling, awe and wonder expression">첫 눈에 경이로운 표정</span>
+      <span class="tag-chip" data-val="battle scarred but unbroken, blood and glory, warrior spirit">상처 입었지만 꺾이지 않는</span>
+      <span class="tag-chip" data-val="longing gaze into distance, melancholy beauty, bittersweet">그리움 가득한 시선</span>
+      <span class="tag-chip" data-val="face upturned to sky, eyes closed, serene peace, surrender">하늘을 올려다보며</span>
+      <span class="tag-chip" data-val="electric chemistry between two people, magnetic tension">두 사람 사이의 전기 같은 긴장감</span>
     </div>
-    <textarea class="custom-input" id="customSpecial" placeholder="직접 입력 (예: 반지 끼워주는 장면, 고백하는 순간)"></textarea>
+    <textarea class="custom-input" id="customSpecial" placeholder="직접 입력 (예: 반지를 끼워주는 손, 처음으로 서로의 이름을 부르는 순간)"></textarea>
   </div>
 
-  <!-- ======= FANTASY AMPLIFICATION ======= -->
-  <div class="card fantasy-card" id="fantasyCard">
-    <div class="card-title">🌟 환상 증폭 태그</div>
-    <div class="section-label" style="color:#3b82f6">💙 LEVEL 1 — 자연스러운 강화 (피부 안전)</div>
+  <!-- ── FANTASY AMPLIFICATION ── -->
+  <div class="card fantasy-card">
+    <div class="card-title">🌟 환상 증폭 태그 <span style="font-size:0.75rem;color:#64748b;font-weight:400">피부 비현실화 주의 — 단계별 선택 권장</span></div>
+
+    <div class="section-label" style="color:#3b82f6">💙 LEVEL 1 — 자연스러운 강화 (피부 안전, 사실감 유지)</div>
     <div class="tags" id="fantasyLv1Tags">
-      <span class="tag-chip lv1" data-val="golden hour warm light">골든 아워 빛</span>
-      <span class="tag-chip lv1" data-val="soft volumetric god rays">부드러운 빛줄기</span>
-      <span class="tag-chip lv1" data-val="gentle lens flare">렌즈 플레어</span>
-      <span class="tag-chip lv1" data-val="soft rim lighting, natural glow">소프트 림 라이팅</span>
-      <span class="tag-chip lv1" data-val="dreamy shallow bokeh background">드리미 보케</span>
-      <span class="tag-chip lv1" data-val="warm ambient fill light">따뜻한 주변광</span>
-      <span class="tag-chip lv1" data-val="natural skin luminosity, healthy glow">자연스러운 피부광</span>
-      <span class="tag-chip lv1" data-val="hair catching warm sunlight">머리카락에 햇빛</span>
+      <span class="tag-chip lv1" data-val="warm golden hour backlight, natural luminosity">골든아워 역광</span>
+      <span class="tag-chip lv1" data-val="soft volumetric god rays streaming through trees">부드러운 빛줄기</span>
+      <span class="tag-chip lv1" data-val="gentle natural lens flare, sun peeking through">자연스러운 렌즈 플레어</span>
+      <span class="tag-chip lv1" data-val="soft feathered rim lighting, natural edge glow">소프트 림 라이팅</span>
+      <span class="tag-chip lv1" data-val="dreamy creamy bokeh background, out of focus beauty">드리미 보케</span>
+      <span class="tag-chip lv1" data-val="warm diffused ambient fill light, shadow softened">따뜻한 산란광</span>
+      <span class="tag-chip lv1" data-val="natural healthy skin luminosity, dewy glow">자연스러운 피부 광채</span>
+      <span class="tag-chip lv1" data-val="hair strands lit by warm sunlight, individual highlights">햇빛 머리카락 광택</span>
+      <span class="tag-chip lv1" data-val="subtle catch light in eyes, sparkling reflection">눈의 미묘한 하이라이트</span>
+      <span class="tag-chip lv1" data-val="gentle morning mist adding atmosphere, not obscuring">아침 안개 분위기</span>
+      <span class="tag-chip lv1" data-val="soft shadow play, dappled light through leaves">나뭇잎 빛 그림자</span>
+      <span class="tag-chip lv1" data-val="warm candle-like fill light on face, gentle and intimate">캔들 같은 보조광</span>
+      <span class="tag-chip lv1" data-val="subtle color glow from environment, natural color cast">환경 자연 색 반사광</span>
+      <span class="tag-chip lv1" data-val="rain-wet surfaces reflecting warm light, puddle glow">젖은 바닥 반사광</span>
+      <span class="tag-chip lv1" data-val="blue hour ambient cool light, natural city twilight">블루아워 자연광</span>
+      <span class="tag-chip lv1" data-val="fine art photography lighting, balanced and beautiful">파인아트 사진 조명</span>
     </div>
-    <div class="section-label" style="color:#7c3aed;margin-top:14px">💜 LEVEL 2 — 시네마틱 판타지</div>
+
+    <div class="section-label" style="color:#7c3aed;margin-top:16px">💜 LEVEL 2 — 시네마틱 판타지 (자연스러운 피부 + 극적 조명)</div>
     <div class="tags" id="fantasyLv2Tags">
-      <span class="tag-chip lv2" data-val="dramatic volumetric god rays through clouds">드라마틱 빛줄기</span>
-      <span class="tag-chip lv2" data-val="cinematic lens flare, anamorphic">시네마틱 렌즈 플레어</span>
-      <span class="tag-chip lv2" data-val="atmospheric haze, cinematic depth">대기감 헤이즈</span>
-      <span class="tag-chip lv2" data-val="ethereal soft glow around subjects">에테리얼 글로우</span>
-      <span class="tag-chip lv2" data-val="particles of light floating gently">빛 입자 부유</span>
-      <span class="tag-chip lv2" data-val="color graded cinematic tones">시네마틱 컬러그레이딩</span>
-      <span class="tag-chip lv2" data-val="dramatic sky with scattered clouds">드라마틱 구름</span>
-      <span class="tag-chip lv2" data-val="reflective wet surfaces, rain puddles">젖은 반사면</span>
+      <span class="tag-chip lv2" data-val="dramatic volumetric god rays piercing through storm clouds">드라마틱 빛줄기</span>
+      <span class="tag-chip lv2" data-val="cinematic anamorphic lens flare, horizontal blue streak">시네마틱 아나모픽 렌즈 플레어</span>
+      <span class="tag-chip lv2" data-val="atmospheric depth haze, layers of cinematic fog">대기감 시네마틱 헤이즈</span>
+      <span class="tag-chip lv2" data-val="ethereal soft glow around figures, not on skin directly">인물 주변 에테리얼 글로우</span>
+      <span class="tag-chip lv2" data-val="small light particles floating in air, magical but subtle">공기 중 빛 입자</span>
+      <span class="tag-chip lv2" data-val="professional cinematic color grade, orange-teal LUT">시네마틱 오렌지-틸 컬러 그레이딩</span>
+      <span class="tag-chip lv2" data-val="dramatic moody cloud formation, god's light through gap">극적인 구름 틈 빛</span>
+      <span class="tag-chip lv2" data-val="rain-soaked reflective ground, neon and warm light mirror">젖은 지면 반사 미러</span>
+      <span class="tag-chip lv2" data-val="deep shadow and highlight contrast, chiaroscuro style">키아로스쿠로 명암</span>
+      <span class="tag-chip lv2" data-val="smoke and fog machine effect, theatrical atmosphere">연기 효과 무대 분위기</span>
+      <span class="tag-chip lv2" data-val="lens distortion vignette edges, cinematic frame">비네팅 시네마틱 프레임</span>
+      <span class="tag-chip lv2" data-val="color-graded skin tone warm bronze, healthy cinematic glow">워밍 시네마틱 피부톤</span>
+      <span class="tag-chip lv2" data-val="sparks flying in background, forge or fire ambiance">불꽃 튀는 배경</span>
+      <span class="tag-chip lv2" data-val="night scene with point-light sources, bokeh light balls">야경 점광원 보케볼</span>
+      <span class="tag-chip lv2" data-val="underwater light caustics pattern, rippled light on surface">수중 코스틱 빛 패턴</span>
+      <span class="tag-chip lv2" data-val="fire and embers in scene, warm dangerous ambiance">불꽃 잔열 분위기</span>
     </div>
-    <div class="section-label" style="color:#ec4899;margin-top:14px">🌟 LEVEL 3 — 극강 판타지 (스타일용)</div>
+
+    <div class="section-label" style="color:#ec4899;margin-top:16px">🌟 LEVEL 3 — 극강 판타지 (스타일·예술성 우선, 피부 보정 필요)</div>
     <div class="tags" id="fantasyLv3Tags">
-      <span class="tag-chip lv3" data-val="ethereal divine celestial glow">신성한 빛 발산</span>
-      <span class="tag-chip lv3" data-val="iridescent rainbow highlights">홀로그램 하이라이트</span>
-      <span class="tag-chip lv3" data-val="magical floating particles everywhere">마법 파티클</span>
-      <span class="tag-chip lv3" data-val="bioluminescent glowing elements">생물발광 요소</span>
-      <span class="tag-chip lv3" data-val="crystalline light refractions">크리스탈 빛 굴절</span>
-      <span class="tag-chip lv3" data-val="stardust swirling around figures">별먼지 소용돌이</span>
-      <span class="tag-chip lv3" data-val="dimensional portal energy swirls">차원 포탈 에너지</span>
-      <span class="tag-chip lv3" data-val="Aurora aurora borealis in background">오로라 배경</span>
+      <span class="tag-chip lv3" data-val="celestial divine ethereal glow emanating from within">신성한 내부 발광</span>
+      <span class="tag-chip lv3" data-val="iridescent rainbow spectrum highlights on hair and clothing">홀로그램 무지개 하이라이트</span>
+      <span class="tag-chip lv3" data-val="magical glowing particles and sparkles filling the air">마법 파티클 스파클</span>
+      <span class="tag-chip lv3" data-val="bioluminescent glowing accents on elements">생물발광 발광 요소</span>
+      <span class="tag-chip lv3" data-val="prismatic crystalline light refractions everywhere">프리즘 크리스탈 빛 굴절</span>
+      <span class="tag-chip lv3" data-val="stardust and cosmic energy swirling around figures">별먼지 우주 에너지 소용돌이</span>
+      <span class="tag-chip lv3" data-val="dimensional rift portal energy, reality tearing open">차원 균열 포탈 에너지</span>
+      <span class="tag-chip lv3" data-val="aurora borealis filling entire background sky">오로라 배경 하늘 가득</span>
+      <span class="tag-chip lv3" data-val="dragon or mythical creature wings shadow overhead">신화 생명체 날개 그림자</span>
+      <span class="tag-chip lv3" data-val="liquid gold flowing like water around the scene">황금 액체 흐름</span>
+      <span class="tag-chip lv3" data-val="time frozen mid-motion, water drops suspended">시간 정지 물방울 정지</span>
+      <span class="tag-chip lv3" data-val="galaxy spiral forming in sky above, cosmic intervention">하늘에 은하 소용돌이</span>
+      <span class="tag-chip lv3" data-val="light wings spreading from figure's back, angelic">빛의 날개 천사적 발현</span>
+      <span class="tag-chip lv3" data-val="reality dissolving at edges, dreamlike boundary blur">현실 경계 용해 꿈</span>
+      <span class="tag-chip lv3" data-val="ancient runes glowing in air, mystical inscription">공중 고대 룬 문자 빛남</span>
+      <span class="tag-chip lv3" data-val="elemental magic explosion, fire ice lightning storm combined">원소 마법 폭발</span>
     </div>
   </div>
 
-  <!-- ======= FREE TEXT (Quick Mode) ======= -->
+  <!-- ── FREE TEXT ── -->
   <div class="card">
-    <div class="card-title">💬 자유 입력 (Quick Mode)</div>
-    <p style="font-size:0.82rem;color:#64748b;margin-bottom:12px">짧게만 써도 Gemini가 상세한 장면으로 확장합니다. 태그 없이도 사용 가능!</p>
-    <textarea class="custom-input free-text" id="freeTextInput" placeholder="예: 비 오는 날 카페에서 처음 만난 두 사람&#10;예: 벚꽃 아래서 프로포즈하는 장면&#10;예: 황혼의 바닷가, 뒤에서 안아주는 남자"></textarea>
-    <span class="quick-mode-label">✨ 입력 후 "Gemini 확장" 버튼으로 자동 상세화 됩니다</span>
+    <div class="card-title">💬 자유 입력 Quick Mode</div>
+    <p style="font-size:0.82rem;color:#64748b;margin-bottom:12px">
+      짧게만 써도 Gemini가 상세한 장면으로 확장합니다. 태그 없이도 단독 사용 가능!
+    </p>
+    <textarea class="custom-input free-text" id="freeTextInput"
+      placeholder="예: 비 오는 밤 카페에서 처음 만난 두 사람&#10;예: 벚꽃 아래서 프로포즈&#10;예: 이순신 장군이 명량해전 전날 밤 홀로 배 위에 서 있는 장면&#10;예: 황혼의 바닷가, 뒤에서 안아주는 남자"></textarea>
+    <span class="quick-mode-label">✨ 입력 후 아래 "🤖 Gemini 확장" 버튼 클릭 → 상세 프롬프트로 자동 변환</span>
   </div>
 
-  <!-- ======= GENERATE BUTTON ======= -->
+  <!-- ── GENERATE BUTTON ── -->
   <div class="card" style="padding:20px">
-    <button class="btn btn-primary" id="generateBtn" onclick="generatePrompt()">✨ 프롬프트 생성하기</button>
+    <button class="btn-primary" id="generateBtn" onclick="generatePrompt()">✨ 프롬프트 생성하기</button>
   </div>
 
-  <!-- ======= OUTPUT ======= -->
+  <!-- ── OUTPUT ── -->
   <div class="card">
     <div class="card-title">📋 생성된 프롬프트</div>
     <div class="output-box" id="outputBox">태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.</div>
     <div class="output-actions">
       <button class="btn-secondary" onclick="copyPrompt('outputBox')">📋 복사</button>
       <button class="btn-secondary" onclick="sendToEditor('prompt')">📤 편집기로</button>
-      <span class="char-count" id="promptCount">0 자</span>
+      <span class="char-count" id="promptCount">0자</span>
     </div>
-    <button class="btn-gemini" id="geminiBtn" onclick="refineWithGemini()">🤖 Gemini로 확장/다듬기</button>
+    <!-- Progress indicator -->
+    <div class="progress-bar-wrap" id="progressWrap">
+      <div class="progress-step" id="pStep1">⏳ 1단계: 장면 묘사 생성 중...</div>
+      <div class="progress-step" id="pStep2" style="opacity:0.3">⏳ 2단계: 완성 프롬프트 변환 중...</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <button class="btn-gemini" id="geminiBtn" onclick="refineWithGemini()">🤖 Gemini 확장/다듬기 (1단계)</button>
+    <button class="btn-double" id="doubleBtn" onclick="doubleRefine()">🔮 Gemini 2단계 자동화 (짧은 입력 → 풀 프롬프트)</button>
   </div>
 
-  <!-- ======= NEGATIVE PROMPT ======= -->
+  <!-- ── NEGATIVE PROMPT ── -->
   <div class="card">
     <div class="card-title">🚫 네거티브 프롬프트</div>
     <div class="neg-box" id="negBox">프롬프트 생성 후 자동으로 채워집니다.</div>
     <div class="output-actions">
       <button class="btn-secondary" onclick="copyPrompt('negBox')">📋 복사</button>
       <button class="btn-secondary" onclick="sendToEditor('neg')">📤 편집기로</button>
-      <label style="font-size:0.78rem;color:#94a3b8;display:flex;align-items:center;gap:6px">
-        <input type="checkbox" id="chkNegAuto"> 생성 시 자동 추가
+      <label style="font-size:0.78rem;color:#94a3b8;display:flex;align-items:center;gap:6px;cursor:pointer">
+        <input type="checkbox" id="chkNegAuto"> 생성 시 자동 편집기 추가
       </label>
     </div>
   </div>
 
-  <!-- ======= EDITOR ======= -->
+  <!-- ── EDITOR ── -->
   <div class="card">
     <div class="card-title">📝 프롬프트 편집기</div>
-    <textarea class="editor-box" id="editorBox" placeholder="여러 프롬프트를 쌓아서 편집할 수 있습니다..." oninput="updateEditorCount()"></textarea>
+    <textarea class="editor-box" id="editorBox" placeholder="여러 프롬프트를 쌓거나 자유롭게 편집하세요..."></textarea>
     <div class="output-actions">
       <button class="btn-secondary" onclick="copyEditor()">📋 전체 복사</button>
       <button class="btn-secondary" onclick="clearEditor()" style="border-color:#7f1d1d;color:#fca5a5">🗑️ 초기화</button>
-      <span class="char-count" id="editorCount">0 자</span>
+      <span class="char-count" id="editorCount">0자</span>
     </div>
   </div>
 
@@ -461,10 +773,13 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
 
 <div class="toast" id="toast"></div>
 
+<!-- ══════════════════════════════
+     JAVASCRIPT
+══════════════════════════════ -->
 <script>
-// ========================
+// ─────────────────────────────────────
 // CONSTANTS
-// ========================
+// ─────────────────────────────────────
 const GEMINI_MODEL = 'gemini-2.5-flash';
 
 const INTENSITY_CFG = {
@@ -479,281 +794,422 @@ const INTENSITY_CFG = {
     label: '💙 자연스러운',
     desc: '자연스러운 빛 강화 — 피부 리얼하게 유지',
     prefix: 'masterpiece, best quality, ultra detailed, 8k, sharp focus',
-    suffix: 'soft volumetric lighting, golden hour glow, natural dewy skin texture, realistic pore detail, warm ambient light, dreamy bokeh, high quality photography',
+    suffix: 'soft volumetric golden light, natural dewy skin texture, realistic pore detail, warm ambient light, dreamy bokeh, high quality photography, no artificial skin enhancement',
     btnClass: 'lv1'
   },
   2: {
     label: '💜 시네마틱',
     desc: '시네마틱 판타지 — 자연스러운 피부 + 극적 조명',
     prefix: 'masterpiece, best quality, ultra detailed, 8k sharp focus, cinematic photography',
-    suffix: 'dramatic volumetric god rays, cinematic lens flare, atmospheric haze, natural skin luminosity, detailed skin texture no plastic, warm cinematic color grade, deeply emotional atmosphere',
+    suffix: 'dramatic volumetric god rays, cinematic anamorphic lens flare, atmospheric depth haze, natural skin luminosity, detailed realistic skin texture, warm cinematic color grade, deeply emotional cinematic atmosphere, photorealistic skin',
     btnClass: 'lv2'
   },
   3: {
     label: '🌟 극강',
-    desc: '극강 판타지 — 스타일 우선, 피부 보정 포함',
-    prefix: 'masterpiece, best quality, ultra detailed, 8k sharp focus, absurdres, epic cinematic',
-    suffix: 'ethereal divine glow, iridescent magical highlights, floating light particles, bioluminescent atmosphere, stardust and magic, ultra detailed natural skin texture, no plastic skin, heartwarming pure romantic mood, enchanting wholesome beauty',
+    desc: '극강 판타지 — 스타일·예술성 우선 + 피부 보정',
+    prefix: 'masterpiece, best quality, ultra detailed, 8k sharp focus, absurdres, epic cinematic masterwork',
+    suffix: 'ethereal divine celestial glow, iridescent magical highlights on hair and clothing only, floating light particles, bioluminescent atmosphere accents, stardust and cosmic magic, ultra detailed natural human skin texture, photorealistic facial skin, heartwarming pure romantic mood, enchanting wholesome beauty',
     btnClass: 'lv3'
   }
 };
 
 const NEGATIVES = {
   0: 'blurry, lowres, bad anatomy, deformed, extra limbs, poorly drawn face, bad proportions, watermark, text, logo, signature, ugly, morbid, out of frame, jpeg artifacts, cropped',
-  1: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, signature, out of frame, cropped, plastic skin, waxy skin, airbrushed skin, fake skin, doll skin',
-  2: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, plastic skin, crystal skin, waxy skin, porcelain doll skin, oversaturated skin, airbrushed skin, fake glossy skin, doll-like face, unnatural skin, holographic skin, metallic skin',
-  3: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, plastic skin, crystal skin, glass skin, holographic skin, metallic skin, porcelain doll skin, waxy skin, airbrushed skin, fake skin, unnatural skin texture, oversaturated skin, gradient skin coloring, rainbow skin effect'
+
+  1: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, signature, out of frame, cropped, ' +
+     'plastic skin, waxy skin, airbrushed skin, fake skin, doll-like skin, porcelain skin, unnaturally smooth skin, oversaturated skin',
+
+  2: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, ' +
+     'plastic skin, crystal skin, glass skin, waxy skin, porcelain doll skin, airbrushed skin, fake glossy skin, unnatural skin, holographic skin, metallic skin, gradient skin, ' +
+     'oversaturated colors, neon skin glow, silicon skin, mannequin look',
+
+  3: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, ' +
+     'plastic skin, crystal skin, glass skin, holographic skin, metallic skin, porcelain doll skin, waxy skin, airbrushed skin, fake skin, unnatural skin texture, ' +
+     'oversaturated skin, gradient skin coloring, rainbow skin effect, silicon doll face, mannequin skin, alien skin color, glowing skin, shiny skin, wet-look skin, ' +
+     'extra fingers, fused fingers, missing limbs, cloned face, long neck, bad hands, missing fingers, extra digit, fewer digits, bad feet, malformed limbs'
 };
 
+// ─────────────────────────────────────
+// PRESETS
+// ─────────────────────────────────────
 const PRESETS = {
-  sunset_kiss: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with silver gray hair in elegant high ponytail'],
-    hairM: ['man with black wavy hair, tousled'],
-    body: [],
-    style: ['cinematic epic style', 'romantic dreamy atmosphere'],
-    camera: [],
-    quality: ['ultra detailed, 8k resolution'],
-    scene: ['golden hour mountain sunset, dramatic sky'],
-    urban: [],
-    time: ['golden hour, warm amber light'],
-    pose: ['silhouette kiss against sunset', 'gentle forehead touch, eyes closed, intimate'],
-    mood: ['flowing hair gently in breeze', 'cherry blossom petals falling around'],
-    fantasyLv1: ['golden hour warm light', 'soft volumetric god rays'],
-    fantasyLv2: ['dramatic volumetric god rays through clouds'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+  rain_city_hug: {
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with short bob cut, sleek and modern'],
+    hairM:['man with short neat dark hair, clean-cut look'],
+    body:['wearing long elegant trench coat, cinematic'],
+    style:['dark moody noir contrast, shadow and mystery','epic cinematic widescreen style, dramatic composition'],
+    camera:['extreme close-up macro, skin texture visible, emotional intensity'],
+    quality:[],
+    scene:[], urban:['rain-soaked city street at night, neon reflections in puddles'],
+    time:['heavy rain at night, everything wet and reflective'],
+    pose:['sharing one umbrella in heavy rain, pressed together, sheltered','intense soulful deep eye contact, seeing into each other\'s soul'],
+    mood:['hair flowing beautifully in soft breeze, strands catching light','electric chemistry between two people, magnetic tension'],
+    fantasyLv1:['rain-wet surfaces reflecting warm light, puddle glow'],
+    fantasyLv2:['rain-soaked reflective ground, neon and warm light mirror','cinematic anamorphic lens flare, horizontal blue streak'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'비가 억수같이 쏟아지는 도시 골목, 우산 하나를 함께 쓰며 서로를 꼭 안아주는 장면. 네온사인 불빛이 젖은 도로에 반사되고, 젖은 머리카락이 흘러내린다.'
   },
   cherry_walk: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with long flowing black hair'],
-    hairM: ['man with short neat dark hair'],
-    body: ['wearing casual cozy sweater'],
-    style: ['romantic dreamy atmosphere', 'soft painterly impressionist'],
-    camera: ['shallow depth of field, portrait lens'],
-    quality: [],
-    scene: ['cherry blossom pathway, spring petals falling'],
-    urban: [],
-    time: ['golden hour, warm amber light'],
-    pose: ['hands intertwined, fingers laced together'],
-    mood: ['cherry blossom petals falling around', 'soft genuine smiles, happiness'],
-    fantasyLv1: ['golden hour warm light', 'dreamy shallow bokeh background', 'hair catching warm sunlight'],
-    fantasyLv2: [],
-    fantasyLv3: [],
-    intensity: 1,
-    freeText: ''
-  },
-  rain_hug: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with short bob cut, sleek'],
-    hairM: ['man with short neat dark hair'],
-    body: [],
-    style: ['dramatic noir contrast', 'cinematic epic style'],
-    camera: ['close-up intimate shot'],
-    quality: [],
-    scene: [],
-    urban: ['rainy city street at night, neon reflections'],
-    time: [],
-    pose: ['tender embrace, warm hug from behind', 'sharing umbrella in rain'],
-    mood: ['dramatic wind swirling dress'],
-    fantasyLv1: ['gentle lens flare'],
-    fantasyLv2: ['reflective wet surfaces, rain puddles', 'color graded cinematic tones'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with silver-gray hair in elegant high ponytail, loose strands framing face'],
+    hairM:['man with tousled black wavy hair, natural and effortless'],
+    body:['wearing cozy oversized knit sweater, warm and soft'],
+    style:['romantic dreamy soft atmosphere, tender emotion','soft painterly impressionist style, brushstroke texture'],
+    camera:['shallow depth of field, f/1.4 portrait lens, creamy bokeh'],
+    quality:[],
+    scene:['cherry blossom avenue, thick canopy of pink petals, spring shower'],
+    urban:[], time:['golden hour, warm amber and rose light, long soft shadows'],
+    pose:['fingers gently intertwined, hands clasped together lovingly'],
+    mood:['pink cherry blossom petals swirling around, ethereal spring','warm genuine tender smiles, quiet happiness radiating'],
+    fantasyLv1:['warm golden hour backlight, natural luminosity','dreamy creamy bokeh background, out of focus beauty','hair strands lit by warm sunlight, individual highlights'],
+    fantasyLv2:[],fantasyLv3:[],
+    intensity:1,
+    freeText:'봄날 벚꽃이 만개한 길을 손을 잡고 걷는 커플. 분홍 꽃잎이 바람에 흩날리고 황금빛 오후 햇살이 두 사람을 감싼다.'
   },
   snow_kiss: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with auburn wavy hair'],
-    hairM: ['man with brown undercut hairstyle'],
-    body: ['wearing casual cozy sweater'],
-    style: ['romantic dreamy atmosphere', 'ethereal fantasy style'],
-    camera: [],
-    quality: [],
-    scene: ['snowy winter forest, soft light'],
-    urban: [],
-    time: ['misty dawn, first light'],
-    pose: ['almost kiss, lips barely apart'],
-    mood: ['snowflakes gently falling', 'soft genuine smiles, happiness'],
-    fantasyLv1: ['soft rim lighting, natural glow', 'dreamy shallow bokeh background'],
-    fantasyLv2: ['ethereal soft glow around subjects'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with auburn wavy hair, rich warm tones'],
+    hairM:['man with brown undercut, modern stylish'],
+    body:['wearing cozy oversized knit sweater, warm and soft'],
+    style:['romantic dreamy soft atmosphere, tender emotion','ethereal fantasy otherworldly atmosphere'],
+    camera:['shallow depth of field, f/1.4 portrait lens, creamy bokeh'],
+    quality:[],
+    scene:['pristine snowy winter forest, every branch frosted white'],
+    urban:[],time:['light snowfall, soft flakes, hushed white silence'],
+    pose:['almost kiss, faces millimeters apart, held breath anticipation'],
+    mood:['large soft snowflakes gently falling, quiet winter magic','warm genuine tender smiles, quiet happiness radiating'],
+    fantasyLv1:['soft feathered rim lighting, natural edge glow','dreamy creamy bokeh background, out of focus beauty'],
+    fantasyLv2:['ethereal soft glow around figures, not on skin directly'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'겨울 눈 내리는 숲 속에서 두 사람이 거의 키스하려는 순간. 함박눈이 조용히 내리고 두 사람의 숨결이 하얗게 피어오른다.'
   },
-  cafe_moment: {
-    subject: ['Korean woman, beautiful, elegant'],
-    hairW: ['woman with long flowing black hair'],
-    hairM: [],
-    body: [],
-    style: ['soft painterly impressionist', 'vintage film photography aesthetic'],
-    camera: ['shallow depth of field, portrait lens'],
-    quality: ['professional photography, award winning'],
-    scene: [],
-    urban: ['cozy cafe, warm amber lighting'],
-    time: [],
-    pose: ['intense deep eye contact, soulful gaze'],
-    mood: ['soft genuine smiles, happiness'],
-    fantasyLv1: ['warm ambient fill light', 'dreamy shallow bokeh background'],
-    fantasyLv2: [],
-    fantasyLv3: [],
-    intensity: 1,
-    freeText: ''
+  sunset_mountain: {
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with silver-gray hair in elegant high ponytail, loose strands framing face'],
+    hairM:['man with tousled black wavy hair, natural and effortless'],
+    body:[],
+    style:['epic cinematic widescreen style, dramatic composition','romantic dreamy soft atmosphere, tender emotion'],
+    camera:['ultra-wide dramatic 16mm perspective, immersive environment'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:['golden hour mountain summit at sunset, dramatic painted sky'],
+    urban:[],time:['golden hour, warm amber and rose light, long soft shadows'],
+    pose:['gentle forehead touch, foreheads pressed together, eyes closed, world stops'],
+    mood:['hair flowing beautifully in soft breeze, strands catching light'],
+    fantasyLv1:['warm golden hour backlight, natural luminosity','soft volumetric god rays streaming through trees'],
+    fantasyLv2:['dramatic volumetric god rays piercing through storm clouds','cinematic anamorphic lens flare, horizontal blue streak'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'산 정상에서 황혼을 바라보며 이마를 맞대는 커플. 드라마틱한 석양빛이 온 하늘을 물들이고 바람이 머리카락을 흩날린다.'
+  },
+  cafe_first_meet: {
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with long flowing jet-black hair, silky smooth'],
+    hairM:['man with short neat dark hair, clean-cut look'],
+    body:['wearing casual denim and white tee, everyday natural'],
+    style:['romantic dreamy soft atmosphere, tender emotion','vintage analog film photography, grain, faded tones'],
+    camera:['shallow depth of field, f/1.4 portrait lens, creamy bokeh'],
+    quality:[],
+    scene:[],urban:['warmly lit cozy cafe, amber glow, rain outside window'],
+    time:['heavy rain at night, everything wet and reflective'],
+    pose:['intense soulful deep eye contact, seeing into each other\'s soul'],
+    mood:['warm genuine tender smiles, quiet happiness radiating'],
+    fantasyLv1:['warm candle-like fill light on face, gentle and intimate','dreamy creamy bokeh background, out of focus beauty'],
+    fantasyLv2:[],fantasyLv3:[],
+    intensity:1,
+    freeText:'비 오는 저녁 아늑한 카페에서 처음 만난 두 사람이 서로를 바라보는 순간. 창밖에 빗소리, 따뜻한 커피 향, 운명적인 첫 눈맞춤.'
   },
   night_rooftop: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with silver gray hair in elegant high ponytail'],
-    hairM: ['man with silver streaked hair, distinguished'],
-    body: ['wearing elegant flowing white dress'],
-    style: ['cinematic epic style', 'dark moody gothic atmosphere'],
-    camera: ['wide angle dramatic perspective'],
-    quality: ['ultra detailed, 8k resolution'],
-    scene: [],
-    urban: ['rooftop overlooking city skyline at night'],
-    time: ['blue hour, twilight sky'],
-    pose: ['slow dance, swaying together'],
-    mood: ['lanterns floating into night sky'],
-    fantasyLv1: ['soft rim lighting, natural glow'],
-    fantasyLv2: ['particles of light floating gently', 'color graded cinematic tones'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with silver-gray hair in elegant high ponytail, loose strands framing face'],
+    hairM:['man with silver-streaked distinguished hair, mature charm'],
+    body:['wearing elegant long flowing white chiffon dress'],
+    style:['epic cinematic widescreen style, dramatic composition'],
+    camera:['ultra-wide dramatic 16mm perspective, immersive environment'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:[],urban:['rooftop with cityscape panorama at night, star-filled sky'],
+    time:['blue hour twilight, deep indigo sky, first city lights'],
+    pose:['slow romantic dance, swaying together, lost in music'],
+    mood:['long flowing dress dramatically billowing in wind','paper lanterns floating slowly into night sky, wishes rising'],
+    fantasyLv1:['blue hour ambient cool light, natural city twilight'],
+    fantasyLv2:['night scene with point-light sources, bokeh light balls','atmospheric depth haze, layers of cinematic fog'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'도심 옥상에서 별빛 아래 슬로우댄스를 추는 커플. 도시의 야경이 발아래 펼쳐지고 드레스가 바람에 휘날린다.'
   },
   forest_magic: {
-    subject: ['Korean woman, beautiful, elegant'],
-    hairW: ['woman with platinum blonde hair'],
-    hairM: [],
-    body: ['wearing elegant flowing white dress'],
-    style: ['ethereal fantasy style', 'soft painterly impressionist'],
-    camera: [],
-    quality: [],
-    scene: ['misty enchanted forest, morning fog'],
-    urban: [],
-    time: ['misty dawn, first light'],
-    pose: [],
-    mood: ['dramatic wind swirling dress'],
-    fantasyLv1: ['natural skin luminosity, healthy glow', 'hair catching warm sunlight'],
-    fantasyLv2: ['ethereal soft glow around subjects', 'particles of light floating gently', 'atmospheric haze, cinematic depth'],
-    fantasyLv3: ['magical floating particles everywhere', 'bioluminescent glowing elements'],
-    intensity: 3,
-    freeText: ''
+    subject:['beautiful Korean woman, elegant and graceful'],
+    hairW:['woman with platinum blonde hair, striking contrast'],
+    hairM:[],
+    body:['wearing elegant long flowing white chiffon dress'],
+    style:['ethereal fantasy otherworldly atmosphere','Studio Ghibli animation style, whimsical and heartwarming'],
+    camera:['wide angle dramatic perspective'],
+    quality:[],
+    scene:['ancient misty enchanted forest, gnarled trees, morning fog'],
+    urban:[],time:['misty pre-dawn first light, pale lavender sky, dew'],
+    pose:['face upturned to sky, eyes closed, serene peace, surrender'],
+    mood:['glowing fireflies surrounding the scene, summer night magic'],
+    fantasyLv1:['natural healthy skin luminosity, dewy glow','gentle morning mist adding atmosphere, not obscuring'],
+    fantasyLv2:['ethereal soft glow around figures, not on skin directly','small light particles floating in air, magical but subtle','atmospheric depth haze, layers of cinematic fog'],
+    fantasyLv3:['magical glowing particles and sparkles filling the air','bioluminescent glowing accents on elements'],
+    intensity:3,
+    freeText:'마법의 숲 속에서 새벽빛을 받으며 서 있는 여성. 반딧불이 주위를 감싸고 이끼 낀 나무들 사이로 신비로운 빛이 스며든다.'
   },
   ocean_sunset: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with auburn wavy hair'],
-    hairM: ['man with black wavy hair, tousled'],
-    body: [],
-    style: ['romantic dreamy atmosphere', 'cinematic epic style'],
-    camera: ['wide angle dramatic perspective'],
-    quality: [],
-    scene: ['tropical beach at sunset, golden sand'],
-    urban: [],
-    time: ['golden hour, warm amber light'],
-    pose: ['silhouette kiss against sunset', 'slow dance, swaying together'],
-    mood: ['flowing hair gently in breeze', 'dramatic wind swirling dress'],
-    fantasyLv1: ['golden hour warm light', 'soft volumetric god rays'],
-    fantasyLv2: ['dramatic volumetric god rays through clouds'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with auburn wavy hair, rich warm tones'],
+    hairM:['man with tousled black wavy hair, natural and effortless'],
+    body:[],
+    style:['epic cinematic widescreen style, dramatic composition','romantic dreamy soft atmosphere, tender emotion'],
+    camera:['ultra-wide dramatic 16mm perspective, immersive environment'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:['tropical white sand beach at magic hour, turquoise water'],
+    urban:[],time:['golden hour, warm amber and rose light, long soft shadows'],
+    pose:['silhouette kiss against glowing sunset, backlit romance'],
+    mood:['hair flowing beautifully in soft breeze, strands catching light','long flowing dress dramatically billowing in wind'],
+    fantasyLv1:['warm golden hour backlight, natural luminosity','soft volumetric god rays streaming through trees'],
+    fantasyLv2:['dramatic volumetric god rays piercing through storm clouds'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'황금빛 석양이 물드는 해변에서 키스하는 두 사람의 실루엣. 파도가 발목을 적시고 드레스가 바닷바람에 날린다.'
   },
-  wuxia_scene: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with braided hair, intricate'],
-    hairM: ['man with black wavy hair, tousled'],
-    body: ['wearing traditional Korean hanbok'],
-    style: ['wuxia Chinese martial arts epic', 'cinematic epic style'],
-    camera: ['Dutch angle tilt, dynamic'],
-    quality: ['ultra detailed, 8k resolution'],
-    scene: ['misty enchanted forest, morning fog'],
-    urban: [],
-    time: ['blue hour, twilight sky'],
-    pose: ['intense deep eye contact, soulful gaze'],
-    mood: ['dramatic wind swirling dress', 'cherry blossom petals falling around'],
-    fantasyLv1: ['soft volumetric god rays'],
-    fantasyLv2: ['atmospheric haze, cinematic depth', 'dramatic sky with scattered clouds'],
-    fantasyLv3: ['stardust swirling around figures'],
-    intensity: 3,
-    freeText: ''
+  wuxia_duel: {
+    subject:['handsome Korean man, charismatic and warm'],
+    hairW:[],
+    hairM:['man with long tied-back dark hair, mysterious vibe'],
+    body:['wearing traditional Korean hanbok, vibrant colors'],
+    style:['wuxia Chinese martial arts epic, chi energy, bamboo','epic cinematic widescreen style, dramatic composition'],
+    camera:['Dutch angle 30 degree tilt, tension and unease'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:['bamboo forest path, filtered green light, peaceful solitude'],
+    urban:[],time:['misty pre-dawn first light, pale lavender sky, dew'],
+    pose:['warrior sword raised to sky, battle cry, victorious pose'],
+    mood:['long flowing dress dramatically billowing in wind'],
+    fantasyLv1:['soft volumetric god rays streaming through trees'],
+    fantasyLv2:['atmospheric depth haze, layers of cinematic fog','sparks flying in background, forge or fire ambiance'],
+    fantasyLv3:['ancient runes glowing in air, mystical inscription','elemental magic explosion, fire ice lightning storm combined'],
+    intensity:3,
+    freeText:'대나무 숲에서 홀로 검을 겨누는 무사. 새벽 안개 사이로 빛이 스며들고 검기가 공기를 가른다.'
   },
-  city_night: {
-    subject: ['Korean man, handsome, charismatic'],
-    hairW: [],
-    hairM: ['man with short neat dark hair'],
-    body: [],
-    style: ['dramatic noir contrast', 'cinematic epic style'],
-    camera: ['telephoto compressed background'],
-    quality: ['professional photography, award winning'],
-    scene: [],
-    urban: ['rainy city street at night, neon reflections'],
-    time: ['midnight under full moon'],
-    pose: [],
-    mood: [],
-    fantasyLv1: ['gentle lens flare'],
-    fantasyLv2: ['reflective wet surfaces, rain puddles', 'color graded cinematic tones'],
-    fantasyLv3: [],
-    intensity: 2,
-    freeText: ''
+  yi_sun_sin: {
+    subject:['Admiral Yi Sun-sin standing on turtle ship bow at Battle of Myeongnyang, 133 Japanese warships approaching, raging sea, epic cinematic scale, heroic resolve'],
+    hairW:[],hairM:[],body:[],
+    style:['epic cinematic widescreen style, dramatic composition','oil painting classical baroque style, dramatic chiaroscuro'],
+    camera:['low angle worm\'s eye view, towering heroic perspective'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:['stormy ocean waves crashing against lighthouse, dramatic'],
+    urban:[],time:['storm clearing, dramatic crepuscular rays through clouds'],
+    pose:['battle-ready stance, armor-clad, enemy forces in background'],
+    mood:['battle scarred but unbroken, blood and glory, warrior spirit'],
+    fantasyLv1:['soft volumetric god rays streaming through trees'],
+    fantasyLv2:['dramatic volumetric god rays piercing through storm clouds','dramatic moody cloud formation, god\'s light through gap','smoke and fog machine effect, theatrical atmosphere'],
+    fantasyLv3:['celestial divine ethereal glow emanating from within'],
+    intensity:2,
+    freeText:'1597년 명량해전. 이순신 장군이 거북선 선수에 홀로 서서 밀려오는 133척의 왜선을 바라본다. 울돌목의 거센 물살, 포성, 장군의 흔들리지 않는 눈빛.'
   },
   flower_field: {
-    subject: ['Korean woman, beautiful, elegant'],
-    hairW: ['woman with long flowing black hair'],
-    hairM: [],
-    body: ['wearing elegant flowing white dress'],
-    style: ['romantic dreamy atmosphere', 'soft painterly impressionist'],
-    camera: ['wide angle dramatic perspective'],
-    quality: [],
-    scene: ['flower meadow, wildflowers in breeze'],
-    urban: [],
-    time: ['golden hour, warm amber light'],
-    pose: ['spinning in joy, laughing'],
-    mood: ['flowing hair gently in breeze', 'cherry blossom petals falling around'],
-    fantasyLv1: ['golden hour warm light', 'dreamy shallow bokeh background', 'natural skin luminosity, healthy glow'],
-    fantasyLv2: [],
-    fantasyLv3: [],
-    intensity: 1,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with long flowing jet-black hair, silky smooth'],
+    hairM:['man with short neat dark hair, clean-cut look'],
+    body:['wearing elegant long flowing white chiffon dress'],
+    style:['romantic dreamy soft atmosphere, tender emotion','soft painterly impressionist style, brushstroke texture'],
+    camera:['wide angle dramatic perspective'],
+    quality:[],
+    scene:['wildflower meadow, knee-high sea of colorful blooms, breeze'],
+    urban:[],time:['golden hour, warm amber and rose light, long soft shadows'],
+    pose:['proposal on one knee, ring presented, overwhelmed emotion'],
+    mood:['tears of pure joy streaming down face, overwhelmed emotion','pink cherry blossom petals swirling around, ethereal spring'],
+    fantasyLv1:['warm golden hour backlight, natural luminosity','dreamy creamy bokeh background, out of focus beauty'],
+    fantasyLv2:[],fantasyLv3:[],
+    intensity:1,
+    freeText:'황금빛 들판 한가운데서 프로포즈하는 남자. 꽃들이 바람에 흔들리고 여자의 눈에 기쁨의 눈물이 맺힌다.'
   },
   winter_cabin: {
-    subject: ['romantic Korean couple, exactly two people'],
-    hairW: ['woman with silver gray hair in elegant high ponytail'],
-    hairM: ['man with short neat dark hair'],
-    body: ['wearing casual cozy sweater'],
-    style: ['romantic dreamy atmosphere'],
-    camera: [],
-    quality: [],
-    scene: ['snowy winter forest, soft light'],
-    urban: ['cozy cafe, warm amber lighting'],
-    time: ['misty dawn, first light'],
-    pose: ['tender embrace, warm hug from behind'],
-    mood: ['snowflakes gently falling', 'soft genuine smiles, happiness'],
-    fantasyLv1: ['warm ambient fill light', 'natural skin luminosity, healthy glow'],
-    fantasyLv2: [],
-    fantasyLv3: [],
-    intensity: 1,
-    freeText: ''
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with silver-gray hair in elegant high ponytail, loose strands framing face'],
+    hairM:['man with short neat dark hair, clean-cut look'],
+    body:['wearing cozy oversized knit sweater, warm and soft'],
+    style:['romantic dreamy soft atmosphere, tender emotion'],
+    camera:['shallow depth of field, f/1.4 portrait lens, creamy bokeh'],
+    quality:[],
+    scene:['pristine snowy winter forest, every branch frosted white'],
+    urban:['warmly lit cozy cafe, amber glow, rain outside window'],
+    time:['light snowfall, soft flakes, hushed white silence'],
+    pose:['warm tender embrace from behind, chin resting on shoulder'],
+    mood:['large soft snowflakes gently falling, quiet winter magic','warm genuine tender smiles, quiet happiness radiating'],
+    fantasyLv1:['warm candle-like fill light on face, gentle and intimate','natural healthy skin luminosity, dewy glow'],
+    fantasyLv2:[],fantasyLv3:[],
+    intensity:1,
+    freeText:'설산 속 통나무 오두막에서 커피잔을 들고 창밖의 눈을 바라보는 커플. 따뜻한 난로 불빛이 두 사람을 감싼다.'
+  },
+  city_cyberpunk: {
+    subject:['beautiful Korean woman, elegant and graceful'],
+    hairW:['woman with deep navy blue dyed hair, fantasy aesthetic'],
+    hairM:[],
+    body:['wearing long elegant trench coat, cinematic'],
+    style:['cyberpunk neon dystopia, rain-soaked, tech-noir','epic cinematic widescreen style, dramatic composition'],
+    camera:['Dutch angle 30 degree tilt, tension and unease'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:[],
+    urban:['rain-soaked city street at night, neon reflections in puddles'],
+    time:['heavy rain at night, everything wet and reflective'],
+    pose:['lone figure standing at cliff edge, back to camera, contemplating'],
+    mood:['hair flowing beautifully in soft breeze, strands catching light'],
+    fantasyLv1:['rain-wet surfaces reflecting warm light, puddle glow'],
+    fantasyLv2:['rain-soaked reflective ground, neon and warm light mirror','cinematic anamorphic lens flare, horizontal blue streak','night scene with point-light sources, bokeh light balls'],
+    fantasyLv3:[],
+    intensity:2,
+    freeText:'사이버펑크 미래 도시의 빗속 골목. 네온 불빛이 젖은 도로에 번지고 혼자 서 있는 여성의 실루엣이 보인다.'
+  },
+  ancient_palace: {
+    subject:['romantic Korean couple, exactly two people, deeply in love'],
+    hairW:['woman with elaborate braided updo, intricate and elegant'],
+    hairM:['man with long tied-back dark hair, mysterious vibe'],
+    body:['wearing traditional Korean hanbok, vibrant colors'],
+    style:['romantic dreamy soft atmosphere, tender emotion','oil painting classical baroque style, dramatic chiaroscuro'],
+    camera:['symmetrical center composition, Wes Anderson style'],
+    quality:['masterpiece, best quality, ultra detailed, 8k resolution'],
+    scene:[],
+    urban:['Gyeongbokgung Palace at dawn, misty courtyard, majestic gates'],
+    time:['midnight under enormous full moon, silver world'],
+    pose:['gentle forehead touch, foreheads pressed together, eyes closed, world stops'],
+    mood:['paper lanterns floating slowly into night sky, wishes rising'],
+    fantasyLv1:['subtle catch light in eyes, sparkling reflection'],
+    fantasyLv2:['atmospheric depth haze, layers of cinematic fog','dramatic moody cloud formation, god\'s light through gap'],
+    fantasyLv3:['liquid gold flowing like water around the scene'],
+    intensity:2,
+    freeText:'달빛이 내리는 경복궁 안마당. 한복을 입은 두 사람이 이마를 맞대며 서 있고, 하늘에는 등불이 날아오른다.'
   }
 };
 
+// ─────────────────────────────────────
+// RANDOM POOL
+// ─────────────────────────────────────
 const RANDOM_POOL = {
-  subject: ['romantic Korean couple, exactly two people','Korean woman, beautiful, elegant','Korean man, handsome, charismatic','elderly Korean couple, timeless love'],
-  hairW: ['woman with silver gray hair in elegant high ponytail','woman with long flowing black hair','woman with auburn wavy hair','woman with platinum blonde hair','woman with braided hair, intricate'],
-  scene: ['golden hour mountain sunset, dramatic sky','cherry blossom pathway, spring petals falling','misty enchanted forest, morning fog','snowy winter forest, soft light','tropical beach at sunset, golden sand','flower meadow, wildflowers in breeze'],
-  urban: ['rainy city street at night, neon reflections','cozy cafe, warm amber lighting','rooftop overlooking city skyline at night'],
-  style: ['romantic dreamy atmosphere','cinematic epic style','soft painterly impressionist','ethereal fantasy style','dramatic noir contrast'],
-  pose: ['gentle forehead touch, eyes closed, intimate','intense deep eye contact, soulful gaze','hands intertwined, fingers laced together','silhouette kiss against sunset','tender embrace, warm hug from behind'],
-  mood: ['flowing hair gently in breeze','cherry blossom petals falling around','snowflakes gently falling','soft genuine smiles, happiness'],
-  time: ['golden hour, warm amber light','blue hour, twilight sky','midnight under full moon'],
+  subject: [
+    'romantic Korean couple, exactly two people, deeply in love',
+    'beautiful Korean woman, elegant and graceful',
+    'handsome Korean man, charismatic and warm',
+    'elderly Korean couple, decades of love, timeless bond',
+    'lone wanderer, solitary figure, contemplative mood'
+  ],
+  hairW: [
+    'woman with silver-gray hair in elegant high ponytail, loose strands framing face',
+    'woman with long flowing jet-black hair, silky smooth',
+    'woman with auburn wavy hair, rich warm tones',
+    'woman with platinum blonde hair, striking contrast',
+    'woman with soft romantic loose bun, wispy tendrils'
+  ],
+  hairM: [
+    'man with tousled black wavy hair, natural and effortless',
+    'man with short neat dark hair, clean-cut look',
+    'man with long tied-back dark hair, mysterious vibe'
+  ],
+  scene: [
+    'golden hour mountain summit at sunset, dramatic painted sky',
+    'cherry blossom avenue, thick canopy of pink petals, spring shower',
+    'ancient misty enchanted forest, gnarled trees, morning fog',
+    'pristine snowy winter forest, every branch frosted white',
+    'tropical white sand beach at magic hour, turquoise water',
+    'wildflower meadow, knee-high sea of colorful blooms, breeze',
+    'autumn maple mountain, blazing red ridge, fallen leaves swirling'
+  ],
+  urban: [
+    'rain-soaked city street at night, neon reflections in puddles',
+    'warmly lit cozy cafe, amber glow, rain outside window',
+    'rooftop with cityscape panorama at night, star-filled sky'
+  ],
+  style: [
+    'romantic dreamy soft atmosphere, tender emotion',
+    'epic cinematic widescreen style, dramatic composition',
+    'soft painterly impressionist style, brushstroke texture',
+    'ethereal fantasy otherworldly atmosphere',
+    'dark moody noir contrast, shadow and mystery',
+    'delicate watercolor art, soft edges, paper texture'
+  ],
+  pose: [
+    'gentle forehead touch, foreheads pressed together, eyes closed, world stops',
+    'intense soulful deep eye contact, seeing into each other\'s soul',
+    'fingers gently intertwined, hands clasped together lovingly',
+    'silhouette kiss against glowing sunset, backlit romance',
+    'warm tender embrace from behind, chin resting on shoulder',
+    'slow romantic dance, swaying together, lost in music',
+    'almost kiss, faces millimeters apart, held breath anticipation'
+  ],
+  mood: [
+    'hair flowing beautifully in soft breeze, strands catching light',
+    'pink cherry blossom petals swirling around, ethereal spring',
+    'large soft snowflakes gently falling, quiet winter magic',
+    'warm genuine tender smiles, quiet happiness radiating',
+    'glowing fireflies surrounding the scene, summer night magic'
+  ],
+  time: [
+    'golden hour, warm amber and rose light, long soft shadows',
+    'blue hour twilight, deep indigo sky, first city lights',
+    'midnight under enormous full moon, silver world',
+    'misty pre-dawn first light, pale lavender sky, dew'
+  ],
   intensity: [0, 1, 2, 3]
 };
 
-let currentIntensity = 0;
-let currentSubjectTab = 'human';
+// ─────────────────────────────────────
+// GEMINI INSTRUCTIONS per intensity
+// ─────────────────────────────────────
+const GEMINI_INSTRUCTIONS = [
+  'You are an expert image prompt engineer. Refine this prompt to be clear, natural, and well-composed. Keep it realistic and photographic. Output ONLY the final prompt, no explanations or preamble.',
+  'You are an expert image prompt engineer. Enhance this prompt with soft natural golden lighting, warm cinematic tones, and high photographic quality. Ensure skin textures remain realistic, natural, and not plastic or waxy. Output ONLY the refined prompt.',
+  'You are an expert image prompt engineer. Transform this into a cinematic, emotionally rich image prompt. Add dramatic volumetric lighting, atmospheric depth, strong visual storytelling. Preserve completely natural and realistic skin tones — no plastic, crystal, or artificial skin effects. Output ONLY the final prompt.',
+  'You are an expert image prompt engineer. Expand this into a breathtaking epic fantasy-cinematic prompt. Add magical atmosphere, ethereal lighting effects on the environment (NOT on skin), and rich visual details. CRITICAL: keep all human skin completely natural, realistic, photorealistic — no plastic/crystal/holographic/metallic skin. Output ONLY the final prompt.'
+];
 
-// ========================
+const GEMINI_SCENE_EXPAND = [
+  'You are an expert creative scene director. A user gives a short Korean scene description. Expand it into a vivid, detailed scene description in English — describing the full environment, lighting, emotions, character expressions, and atmosphere in 3-5 rich sentences. Output ONLY the expanded scene description.',
+  'You are an expert creative scene director specializing in romantic photography. A user gives a short Korean scene description. Expand it into a detailed, emotionally rich romantic scene in English — describe the golden lighting, the characters\' poses, facial expressions, the background details, and the romantic atmosphere in 4-6 sentences. Output ONLY the expanded description.',
+  'You are an expert cinematic scene director. A user gives a short Korean scene description. Expand it into a detailed, cinematic scene description in English — describe the dramatic lighting, camera angle, emotional intensity, background elements, and visual composition as a film director would. 4-6 sentences. Output ONLY the scene description.',
+  'You are an expert fantasy art director. A user gives a short Korean scene description. Expand it into a rich, epic, magical scene description in English — describe the fantastical lighting, mystical atmosphere, character details, environmental magic, and visual spectacle. 5-7 sentences. Keep human skin descriptions natural. Output ONLY the expanded description.'
+];
+
+const GEMINI_PROMPT_CONVERT = [
+  'You are an expert image prompt engineer. Convert the following scene description into a concise, comma-separated image generation prompt in English. Include subject, style, lighting, mood, and technical quality tags. Output ONLY the final prompt, no explanations.',
+  'You are an expert image prompt engineer specializing in romantic photography. Convert the following scene description into a detailed comma-separated image generation prompt. Include: subject description, lighting style (golden hour, soft bokeh), romantic mood tags, camera settings, and quality boosters. Keep skin descriptions natural. Output ONLY the prompt.',
+  'You are an expert cinematic image prompt engineer. Convert the following scene description into a powerful comma-separated prompt. Include: subject, cinematic lighting, color grade, emotional atmosphere, camera lens, and quality tags. Emphasize natural photorealistic skin. Output ONLY the final prompt.',
+  'You are an expert fantasy art prompt engineer. Convert the following scene description into an epic comma-separated image generation prompt. Include: subject, magical lighting effects (on environment, NOT skin), fantasy atmosphere, epic scale descriptors, and quality tags. Explicitly add natural skin texture tags. Output ONLY the prompt.'
+];
+
+// ─────────────────────────────────────
+// STATE
+// ─────────────────────────────────────
+let currentIntensity = 0;
+
+// ─────────────────────────────────────
+// INIT
+// ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Bind all tag chips
+  document.querySelectorAll('.tag-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  });
+
+  // Restore API key
+  const saved = localStorage.getItem('geminiApiKey');
+  if (saved) {
+    document.getElementById('geminiKey').value = saved;
+    document.getElementById('keyStatus').textContent = '✅ 저장됨';
+    document.getElementById('keyStatus').style.color = '#10b981';
+  }
+
+  // Editor char count
+  document.getElementById('editorBox').addEventListener('input', updateEditorCount);
+  document.getElementById('outputBox').addEventListener('input', () => {
+    document.getElementById('promptCount').textContent = document.getElementById('outputBox').textContent.length + '자';
+  });
+});
+
+// ─────────────────────────────────────
 // INTENSITY
-// ========================
+// ─────────────────────────────────────
 function setIntensity(level) {
   currentIntensity = level;
   [0,1,2,3].forEach(i => {
@@ -764,36 +1220,52 @@ function setIntensity(level) {
   document.getElementById('intensityDesc').textContent = INTENSITY_CFG[level].desc;
 }
 
-// ========================
+// ─────────────────────────────────────
 // TABS
-// ========================
-function switchTab(tab) {
-  currentSubjectTab = tab;
+// ─────────────────────────────────────
+function switchTab(btnEl, tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`tab-${tab}`).classList.add('active');
-  event.target.classList.add('active');
+  btnEl.classList.add('active');
 }
 
-// ========================
-// TAG CHIPS
-// ========================
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.tag-chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('active'));
-  });
-  const saved = localStorage.getItem('geminiApiKey');
-  if (saved) {
-    document.getElementById('geminiKey').value = saved;
-    document.getElementById('keyStatus').textContent = '✅ 저장됨';
-    document.getElementById('keyStatus').style.color = '#10b981';
-  }
-  document.getElementById('editorBox').addEventListener('input', updateEditorCount);
-});
+// ─────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────
+function getActive(groupId) {
+  const group = document.getElementById(groupId);
+  if (!group) return [];
+  return [...group.querySelectorAll('.tag-chip.active')].map(c => c.dataset.val);
+}
 
-// ========================
+function clearAllTags() {
+  document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+  ['customSubject','customScene','customSpecial','freeTextInput',
+   'customAnimal','customNature','customArch','customAbstract','customHistory'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+function switchTabDirect(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById(`tab-${tab}`);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.dataset.tab === tab) b.classList.add('active');
+  });
+}
+
+function activateTag(groupId, val) {
+  const chip = document.querySelector(`#${groupId} [data-val="${CSS.escape(val)}"]`);
+  if (chip) chip.classList.add('active');
+}
+
+// ─────────────────────────────────────
 // API KEY
-// ========================
+// ─────────────────────────────────────
 function saveKey() {
   const key = document.getElementById('geminiKey').value.trim();
   if (!key) { showToast('⚠️ 키를 입력해주세요'); return; }
@@ -806,7 +1278,7 @@ function saveKey() {
 async function testKey() {
   const key = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
   const status = document.getElementById('keyStatus');
-  if (!key) { status.textContent = '⚠️ 키를 입력해주세요'; status.style.color = '#f59e0b'; return; }
+  if (!key) { status.textContent = '⚠️ 키 없음'; status.style.color = '#f59e0b'; return; }
   status.textContent = '⏳ 테스트 중...'; status.style.color = '#94a3b8';
   try {
     const res = await fetch(
@@ -821,7 +1293,7 @@ async function testKey() {
       const err = await res.json();
       status.textContent = `❌ ${err.error?.status || '오류'}`;
       status.style.color = '#ef4444';
-      showToast(`❌ ${err.error?.message?.slice(0,60) || '키 오류'}`);
+      showToast(`❌ ${(err.error?.message || '오류').slice(0,60)}`);
     }
   } catch(e) {
     status.textContent = '❌ 네트워크 오류'; status.style.color = '#ef4444';
@@ -829,93 +1301,59 @@ async function testKey() {
   }
 }
 
-// ========================
-// GET ACTIVE TAGS
-// ========================
-function getActive(groupId) {
-  return [...document.querySelectorAll(`#${groupId} .tag-chip.active`)].map(c => c.dataset.val);
-}
-
-// ========================
-// CLEAR ALL TAGS
-// ========================
-function clearAllTags() {
-  document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
-  ['customSubject','customScene','customSpecial','freeTextInput'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-}
-
-// ========================
+// ─────────────────────────────────────
 // APPLY PRESET
-// ========================
+// ─────────────────────────────────────
 function applyPreset(key) {
   clearAllTags();
   const p = PRESETS[key];
-  if (!p) return;
+  if (!p) { showToast('⚠️ 프리셋 없음'); return; }
 
-  // Switch to human tab
   switchTabDirect('human');
 
-  const tagMap = {
-    subjectTags: p.subject || [], hairWTags: p.hairW || [], hairMTags: p.hairM || [],
-    bodyTags: p.body || [], styleTags: p.style || [], cameraTags: p.camera || [],
-    qualityTags: p.quality || [], sceneTags: p.scene || [], urbanTags: p.urban || [],
-    timeTags: p.time || [], poseTags: p.pose || [], moodTags: p.mood || [],
-    fantasyLv1Tags: p.fantasyLv1 || [], fantasyLv2Tags: p.fantasyLv2 || [],
-    fantasyLv3Tags: p.fantasyLv3 || []
+  const groupMap = {
+    subjectTags: p.subject||[], hairWTags: p.hairW||[], hairMTags: p.hairM||[],
+    bodyTags: p.body||[], styleTags: p.style||[], cameraTags: p.camera||[],
+    qualityTags: p.quality||[], sceneTags: p.scene||[], urbanTags: p.urban||[],
+    timeTags: p.time||[], poseTags: p.pose||[], moodTags: p.mood||[],
+    fantasyLv1Tags: p.fantasyLv1||[], fantasyLv2Tags: p.fantasyLv2||[], fantasyLv3Tags: p.fantasyLv3||[]
   };
 
-  Object.entries(tagMap).forEach(([groupId, vals]) => {
-    vals.forEach(val => {
-      const chip = document.querySelector(`#${groupId} [data-val="${val}"]`);
-      if (chip) chip.classList.add('active');
-    });
+  Object.entries(groupMap).forEach(([gId, vals]) => {
+    vals.forEach(val => activateTag(gId, val));
   });
 
   if (p.freeText) document.getElementById('freeTextInput').value = p.freeText;
   setIntensity(p.intensity || 0);
-  showToast(`🎬 프리셋 적용: ${key.replace('_',' ')}`);
+  showToast(`🎬 프리셋 적용 완료!`);
   generatePrompt();
 }
 
-function switchTabDirect(tab) {
-  currentSubjectTab = tab;
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  const btns = document.querySelectorAll('.tab-btn');
-  btns.forEach(b => { if (b.textContent.includes('인간')) b.classList.add('active'); });
-}
-
-// ========================
+// ─────────────────────────────────────
 // RANDOM GENERATE
-// ========================
+// ─────────────────────────────────────
 function randomGenerate() {
   clearAllTags();
   switchTabDirect('human');
 
   function pick(arr, n=1) {
-    const shuffled = [...arr].sort(() => Math.random()-0.5);
-    return shuffled.slice(0, n);
+    return [...arr].sort(() => Math.random()-0.5).slice(0, n);
   }
 
-  const groups = {
+  const selections = {
     subjectTags: pick(RANDOM_POOL.subject),
     hairWTags: pick(RANDOM_POOL.hairW),
+    hairMTags: Math.random() > 0.5 ? pick(RANDOM_POOL.hairM) : [],
     sceneTags: pick(RANDOM_POOL.scene),
-    urbanTags: Math.random() > 0.5 ? pick(RANDOM_POOL.urban) : [],
+    urbanTags: Math.random() > 0.6 ? pick(RANDOM_POOL.urban) : [],
     styleTags: pick(RANDOM_POOL.style, Math.floor(Math.random()*2)+1),
     poseTags: pick(RANDOM_POOL.pose),
-    moodTags: pick(RANDOM_POOL.mood),
+    moodTags: pick(RANDOM_POOL.mood, Math.floor(Math.random()*2)+1),
     timeTags: pick(RANDOM_POOL.time)
   };
 
-  Object.entries(groups).forEach(([groupId, vals]) => {
-    vals.forEach(val => {
-      const chip = document.querySelector(`#${groupId} [data-val="${val}"]`);
-      if (chip) chip.classList.add('active');
-    });
+  Object.entries(selections).forEach(([gId, vals]) => {
+    vals.forEach(val => activateTag(gId, val));
   });
 
   const randIntensity = RANDOM_POOL.intensity[Math.floor(Math.random() * RANDOM_POOL.intensity.length)];
@@ -924,22 +1362,28 @@ function randomGenerate() {
   generatePrompt();
 }
 
-// ========================
-// GENERATE PROMPT
-// ========================
+// ─────────────────────────────────────
+// GENERATE PROMPT (tag-based)
+// ─────────────────────────────────────
 function generatePrompt() {
   const parts = [];
-
   const cfg = INTENSITY_CFG[currentIntensity];
+
   if (cfg.prefix) parts.push(cfg.prefix);
 
-  // Subject (current tab)
-  const subjectGroups = ['subjectTags','hairWTags','hairMTags','bodyTags','animalTags','natureTags','archTags','abstractTags'];
-  subjectGroups.forEach(g => parts.push(...getActive(g)));
-  const customSubject = document.getElementById('customSubject').value.trim();
-  if (customSubject) parts.push(customSubject);
+  // All subject groups
+  ['subjectTags','hairWTags','hairMTags','bodyTags',
+   'animalTags','birdTags','natureTags','landscapeTags',
+   'archTags','urbanArchTags','abstractTags','conceptTags',
+   'historyKRTags','historyWorldTags'].forEach(g => parts.push(...getActive(g)));
 
-  // Style
+  // Custom subject fields
+  ['customSubject','customAnimal','customNature','customArch','customAbstract','customHistory'].forEach(id => {
+    const val = document.getElementById(id)?.value.trim();
+    if (val) parts.push(val);
+  });
+
+  // Style, camera, quality
   ['styleTags','cameraTags','qualityTags'].forEach(g => parts.push(...getActive(g)));
 
   // Scene
@@ -947,7 +1391,7 @@ function generatePrompt() {
   const customScene = document.getElementById('customScene').value.trim();
   if (customScene) parts.push(customScene);
 
-  // Special
+  // Special keywords
   ['poseTags','moodTags'].forEach(g => parts.push(...getActive(g)));
   const customSpecial = document.getElementById('customSpecial').value.trim();
   if (customSpecial) parts.push(customSpecial);
@@ -958,99 +1402,186 @@ function generatePrompt() {
   // Suffix
   if (cfg.suffix) parts.push(cfg.suffix);
 
-  // Free text appended
+  // Free text as context note
   const freeText = document.getElementById('freeTextInput').value.trim();
-  if (freeText) parts.push(`[Scene context: ${freeText}]`);
+  if (freeText) parts.push(`[Scene: ${freeText}]`);
 
   const filtered = parts.filter(Boolean);
-  if (filtered.length === 0) { showToast('⚠️ 태그나 내용을 먼저 선택해주세요'); return; }
+  if (filtered.length === 0) {
+    showToast('⚠️ 태그나 내용을 먼저 선택해주세요');
+    return;
+  }
 
   const prompt = filtered.join(', ');
   document.getElementById('outputBox').textContent = prompt;
-  document.getElementById('promptCount').textContent = `${prompt.length} 자`;
+  document.getElementById('promptCount').textContent = `${prompt.length}자`;
 
-  // Negative
   const neg = NEGATIVES[currentIntensity];
   document.getElementById('negBox').textContent = neg;
-  if (document.getElementById('chkNegAuto').checked) appendToEditor(`[Negative]\n${neg}\n\n`);
+
+   if (document.getElementById('chkNegAuto').checked) {
+    appendToEditor(`[Negative]\n${neg}\n\n`);
+  }
 
   showToast('✅ 프롬프트 생성 완료!');
 }
 
-// ========================
-// REFINE WITH GEMINI
-// ========================
+// ─────────────────────────────────────
+// REFINE WITH GEMINI (1단계)
+// ─────────────────────────────────────
 async function refineWithGemini() {
   const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
   if (!apiKey) { showToast('⚠️ API 키를 먼저 입력해주세요'); return; }
 
   const currentPrompt = document.getElementById('outputBox').textContent.trim();
-
-  // If free text and no prompt yet, expand free text directly
   const freeText = document.getElementById('freeTextInput').value.trim();
-  const baseText = (currentPrompt && currentPrompt !== '태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.')
+  const placeholder = '태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.';
+
+  const baseText = (currentPrompt && currentPrompt !== placeholder)
     ? currentPrompt : freeText;
 
   if (!baseText) { showToast('⚠️ 먼저 프롬프트를 생성하거나 자유 입력을 작성해주세요'); return; }
 
-  const intensityInstructions = [
-    'Refine this image prompt to be clear, natural, and well-composed. Keep it realistic and photographic. Output only the final prompt, no explanations.',
-    'Enhance this prompt with soft natural lighting, warm golden tones, and cinematic quality. Keep skin textures realistic and natural. Output only the refined prompt.',
-    'Transform this into a cinematic, emotionally rich image prompt. Add dramatic lighting, atmospheric depth, and strong visual storytelling. Preserve natural skin tones. Output only the prompt.',
-    'Expand this into a breathtaking, epic fantasy-cinematic prompt. Add magical atmosphere, ethereal lighting, and rich visual details. Keep skin natural (no plastic/crystal effects). Output only the final prompt.'
-  ];
-
-  const instruction = freeText && !currentPrompt.includes(freeText)
-    ? `You are an expert image prompt engineer. The user gives you a short Korean scene description. Expand it into a detailed, vivid, romantic English image generation prompt. Scene: "${freeText}". ${intensityInstructions[currentIntensity]}`
-    : `You are an expert image prompt engineer. ${intensityInstructions[currentIntensity]}\n\nOriginal prompt:\n${baseText}`;
+  const instruction = freeText && currentPrompt === placeholder
+    ? `${GEMINI_SCENE_EXPAND[currentIntensity]}\n\nUser scene (Korean): "${freeText}"`
+    : `${GEMINI_INSTRUCTIONS[currentIntensity]}\n\nPrompt to refine:\n${baseText}`;
 
   const btn = document.getElementById('geminiBtn');
   btn.textContent = '⏳ Gemini 처리 중...';
   btn.disabled = true;
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: instruction }] }],
-          generationConfig: {
-            temperature: [0.7, 0.75, 0.85, 0.95][currentIntensity],
-            maxOutputTokens: 1024
-          }
-        })
-      }
-    );
-
-    if (!res.ok) {
-      const errData = await res.json();
-      throw new Error(errData.error?.message || `HTTP ${res.status}`);
-    }
-
-    const data = await res.json();
-    const refined = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-    if (!refined) throw new Error('응답 없음');
-
+    const refined = await callGemini(instruction, [0.7, 0.75, 0.85, 0.95][currentIntensity]);
     document.getElementById('outputBox').textContent = refined;
-    document.getElementById('promptCount').textContent = `${refined.length} 자`;
+    document.getElementById('promptCount').textContent = `${refined.length}자`;
     showToast('✨ Gemini 다듬기 완료!');
   } catch(e) {
-    showToast(`❌ 오류: ${e.message.slice(0,60)}`);
+    showToast(`❌ 오류: ${e.message.slice(0, 60)}`);
   } finally {
-    btn.textContent = '🤖 Gemini로 확장/다듬기';
+    btn.textContent = '🤖 Gemini 확장/다듬기 (1단계)';
     btn.disabled = false;
   }
 }
 
-// ========================
-// EDITOR FUNCTIONS
-// ========================
+// ─────────────────────────────────────
+// DOUBLE REFINE (2단계 자동화)
+// ─────────────────────────────────────
+async function doubleRefine() {
+  const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
+  if (!apiKey) { showToast('⚠️ API 키를 먼저 입력해주세요'); return; }
+
+  const freeText = document.getElementById('freeTextInput').value.trim();
+  const currentPrompt = document.getElementById('outputBox').textContent.trim();
+  const placeholder = '태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.';
+
+  const seedText = freeText || (currentPrompt !== placeholder ? currentPrompt : '');
+  if (!seedText) { showToast('⚠️ 자유 입력창에 짧은 장면을 먼저 적어주세요'); return; }
+
+  const btn = document.getElementById('doubleBtn');
+  const wrap = document.getElementById('progressWrap');
+  const step1 = document.getElementById('pStep1');
+  const step2 = document.getElementById('pStep2');
+  const fill  = document.getElementById('progressFill');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ 2단계 처리 중...';
+  wrap.classList.add('visible');
+  step1.className = 'progress-step active';
+  step2.className = 'progress-step';
+  step2.style.opacity = '0.3';
+  fill.style.width = '10%';
+
+  try {
+    // ── 1단계: 짧은 묘사 → 상세 장면 확장
+    const expandInstruction = `${GEMINI_SCENE_EXPAND[currentIntensity]}\n\nUser scene (Korean): "${seedText}"`;
+    fill.style.width = '30%';
+    const expandedScene = await callGemini(expandInstruction, [0.7, 0.75, 0.85, 0.95][currentIntensity]);
+    step1.className = 'progress-step done';
+    step1.textContent = '✅ 1단계: 장면 묘사 완료';
+    fill.style.width = '55%';
+
+    // ── 2단계: 상세 장면 → 완성 프롬프트 변환
+    step2.className = 'progress-step active';
+    step2.style.opacity = '1';
+
+    // 현재 선택된 태그도 함께 넘기기
+    const activeTags = [
+      ...getActive('styleTags'), ...getActive('cameraTags'), ...getActive('qualityTags'),
+      ...getActive('fantasyLv1Tags'), ...getActive('fantasyLv2Tags'), ...getActive('fantasyLv3Tags')
+    ];
+    const tagHint = activeTags.length > 0
+      ? `\n\nAlso incorporate these selected style/quality tags: ${activeTags.join(', ')}`
+      : '';
+
+    const convertInstruction = `${GEMINI_PROMPT_CONVERT[currentIntensity]}\n\nScene description:\n${expandedScene}${tagHint}\n\nAdditional suffix to append: ${INTENSITY_CFG[currentIntensity].suffix}`;
+    fill.style.width = '80%';
+    const finalPrompt = await callGemini(convertInstruction, [0.65, 0.70, 0.80, 0.90][currentIntensity]);
+
+    step2.className = 'progress-step done';
+    step2.textContent = '✅ 2단계: 프롬프트 변환 완료';
+    fill.style.width = '100%';
+
+    document.getElementById('outputBox').textContent = finalPrompt;
+    document.getElementById('promptCount').textContent = `${finalPrompt.length}자`;
+    showToast('🔮 2단계 자동화 완료!');
+
+  } catch(e) {
+    showToast(`❌ 오류: ${e.message.slice(0, 60)}`);
+    step1.className = 'progress-step';
+    step2.className = 'progress-step';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔮 Gemini 2단계 자동화 (짧은 입력 → 풀 프롬프트)';
+    setTimeout(() => {
+      wrap.classList.remove('visible');
+      fill.style.width = '0%';
+      step1.textContent = '⏳ 1단계: 장면 묘사 생성 중...';
+      step2.textContent = '⏳ 2단계: 완성 프롬프트 변환 중...';
+      step1.className = 'progress-step';
+      step2.className = 'progress-step';
+      step2.style.opacity = '0.3';
+    }, 3000);
+  }
+}
+
+// ─────────────────────────────────────
+// CORE GEMINI CALL
+// ─────────────────────────────────────
+async function callGemini(instruction, temperature = 0.75) {
+  const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
+  if (!apiKey) throw new Error('API 키 없음');
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: instruction }] }],
+        generationConfig: { temperature, maxOutputTokens: 1024 }
+      })
+    }
+  );
+
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.error?.message || `HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+  if (!text) throw new Error('빈 응답');
+  return text;
+}
+
+// ─────────────────────────────────────
+// EDITOR
+// ─────────────────────────────────────
 function sendToEditor(type) {
   if (type === 'prompt') {
     const txt = document.getElementById('outputBox').textContent.trim();
-    if (!txt || txt.startsWith('태그를')) { showToast('⚠️ 생성된 프롬프트가 없습니다'); return; }
+    const placeholder = '태그를 선택하거나 프리셋을 클릭한 뒤 생성 버튼을 누르세요.';
+    if (!txt || txt === placeholder) { showToast('⚠️ 생성된 프롬프트가 없습니다'); return; }
     appendToEditor(txt + '\n\n');
   } else {
     const txt = document.getElementById('negBox').textContent.trim();
@@ -1082,22 +1613,24 @@ function clearEditor() {
 }
 
 function updateEditorCount() {
-  const len = document.getElementById('editorBox').value.length;
-  document.getElementById('editorCount').textContent = `${len} 자`;
+  document.getElementById('editorCount').textContent =
+    document.getElementById('editorBox').value.length + '자';
 }
 
-// ========================
+// ─────────────────────────────────────
 // COPY
-// ========================
+// ─────────────────────────────────────
 function copyPrompt(boxId) {
   const txt = document.getElementById(boxId).textContent.trim();
   if (!txt) { showToast('⚠️ 복사할 내용이 없습니다'); return; }
   copyText(txt, '📋 복사됨!');
 }
 
-function copyText(text, msg='📋 복사됨') {
+function copyText(text, msg = '📋 복사됨') {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => fallbackCopy(text, msg));
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(msg))
+      .catch(() => fallbackCopy(text, msg));
   } else {
     fallbackCopy(text, msg);
   }
@@ -1105,18 +1638,23 @@ function copyText(text, msg='📋 복사됨') {
 
 function fallbackCopy(text, msg) {
   const ta = document.createElement('textarea');
-  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); showToast(msg); } catch(e) { showToast('❌ 복사 실패'); }
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); showToast(msg); }
+  catch(e) { showToast('❌ 복사 실패'); }
   document.body.removeChild(ta);
 }
 
-// ========================
+// ─────────────────────────────────────
 // TOAST
-// ========================
-function showToast(msg, duration=2500) {
+// ─────────────────────────────────────
+function showToast(msg, duration = 2500) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
+  t.textContent = msg;
+  t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), duration);
 }
 </script>
