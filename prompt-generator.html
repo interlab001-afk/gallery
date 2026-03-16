@@ -5,342 +5,304 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>✨ Prompt Generator</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background:#0f0f13; color:#e2e8f0;
-  font-family:'Segoe UI',sans-serif; min-height:100vh;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f13;color:#e2e8f0;font-family:'Segoe UI',sans-serif;min-height:100vh}
 
-/* ── 헤더 ── */
-.header {
-  background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);
-  padding:16px 24px; display:flex; align-items:center;
-  justify-content:space-between; border-bottom:1px solid #2d3748;
-  position:sticky; top:0; z-index:100;
-}
-.header h1 {
-  font-size:1.4rem;
-  background:linear-gradient(90deg,#a78bfa,#60a5fa,#34d399);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  font-weight:700;
-}
-.back-btn {
-  background:#2d3748; border:1px solid #4a5568; color:#e2e8f0;
-  padding:8px 16px; border-radius:8px; cursor:pointer;
-  font-size:.85rem; text-decoration:none; transition:.2s;
-}
-.back-btn:hover { background:#4a5568; }
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2d3748;position:sticky;top:0;z-index:100}
+.header h1{font-size:1.4rem;background:linear-gradient(90deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+.back-btn{background:#2d3748;border:1px solid #4a5568;color:#e2e8f0;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;text-decoration:none;transition:.2s}
+.back-btn:hover{background:#4a5568}
 
-/* ── API 바 ── */
-.api-bar {
-  background:#1a1a2e; border-bottom:1px solid #2d3748;
-  padding:10px 24px; display:flex; align-items:center;
-  gap:12px; flex-wrap:wrap;
-}
-.api-bar label { margin:0; font-size:.8rem; color:#94a3b8; white-space:nowrap; }
-.api-bar input {
-  flex:1; min-width:200px; background:#0f0f13;
-  border:1px solid #2d3748; border-radius:8px;
-  color:#e2e8f0; padding:7px 12px; font-size:.82rem; outline:none;
-}
-.api-bar input:focus { border-color:#a78bfa; }
+.api-bar{background:#1a1a2e;border-bottom:1px solid #2d3748;padding:10px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.api-bar label{margin:0;font-size:.8rem;color:#94a3b8;white-space:nowrap}
+.api-bar input{flex:1;min-width:200px;background:#0f0f13;border:1px solid #2d3748;border-radius:8px;color:#e2e8f0;padding:7px 12px;font-size:.82rem;outline:none}
+.api-bar input:focus{border-color:#a78bfa}
 
-/* ── 환상 강도 바 ── */
-.fantasy-bar {
-  background:#13111f; border-bottom:1px solid #2d3748;
-  padding:12px 24px; display:flex; align-items:center;
-  gap:20px; flex-wrap:wrap;
-}
-.fantasy-bar-title {
-  font-size:.85rem; font-weight:700; color:#a78bfa; white-space:nowrap;
-}
-.intensity-group {
-  display:flex; gap:8px; flex-wrap:wrap;
-}
-.intensity-btn {
-  padding:7px 18px; border-radius:20px; border:2px solid transparent;
-  cursor:pointer; font-size:.82rem; font-weight:600;
-  transition:all .25s; white-space:nowrap;
-}
-.intensity-btn[data-level="0"] {
-  background:#1e293b; color:#64748b; border-color:#334155;
-}
-.intensity-btn[data-level="0"].active {
-  background:#334155; color:#e2e8f0; border-color:#64748b;
-}
-.intensity-btn[data-level="1"] {
-  background:#1a2744; color:#60a5fa; border-color:#1e3a5f;
-}
-.intensity-btn[data-level="1"].active {
-  background:#1e3a5f; color:#93c5fd; border-color:#3b82f6;
-  box-shadow:0 0 12px #3b82f633;
-}
-.intensity-btn[data-level="2"] {
-  background:#2d1a4e; color:#c4b5fd; border-color:#4c1d95;
-}
-.intensity-btn[data-level="2"].active {
-  background:#4c1d95; color:#e9d5ff; border-color:#a78bfa;
-  box-shadow:0 0 12px #7c3aed44;
-}
-.intensity-btn[data-level="3"] {
-  background:#3b0a2e; color:#f9a8d4; border-color:#831843;
-}
-.intensity-btn[data-level="3"].active {
-  background:linear-gradient(135deg,#7c3aed,#ec4899);
-  color:#fff; border-color:#ec4899;
-  box-shadow:0 0 16px #ec489955;
-  animation:pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.85} }
+/* 강도 바 */
+.intensity-bar{background:#13111f;border-bottom:1px solid #2d3748;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.intensity-bar-title{font-size:.85rem;font-weight:700;color:#a78bfa;white-space:nowrap}
+.intensity-group{display:flex;gap:8px;flex-wrap:wrap}
+.ibtn{padding:7px 16px;border-radius:20px;border:2px solid transparent;cursor:pointer;font-size:.8rem;font-weight:600;transition:.25s;white-space:nowrap}
+.ibtn[data-lv="0"]{background:#1e293b;color:#64748b;border-color:#334155}
+.ibtn[data-lv="0"].active{background:#334155;color:#e2e8f0;border-color:#64748b}
+.ibtn[data-lv="1"]{background:#1a2744;color:#60a5fa;border-color:#1e3a5f}
+.ibtn[data-lv="1"].active{background:#1e3a5f;color:#93c5fd;border-color:#3b82f6;box-shadow:0 0 12px #3b82f633}
+.ibtn[data-lv="2"]{background:#2d1a4e;color:#c4b5fd;border-color:#4c1d95}
+.ibtn[data-lv="2"].active{background:#4c1d95;color:#e9d5ff;border-color:#a78bfa;box-shadow:0 0 12px #7c3aed44}
+.ibtn[data-lv="3"]{background:#3b0a2e;color:#f9a8d4;border-color:#831843}
+.ibtn[data-lv="3"].active{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border-color:#ec4899;box-shadow:0 0 16px #ec489955;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.8}}
+.intensity-desc{font-size:.74rem;color:#6b7280;flex:1;min-width:180px}
 
-.intensity-desc {
-  font-size:.75rem; color:#6b7280; flex:1; min-width:200px;
-}
+/* 프리셋 바 */
+.preset-bar{background:#0f0f13;border-bottom:1px solid #1e1b4b;padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.preset-bar-title{font-size:.78rem;color:#6b7280;white-space:nowrap}
+.preset-btn{padding:6px 14px;border-radius:20px;border:1px solid #3730a3;background:#1a1a2e;color:#a78bfa;cursor:pointer;font-size:.76rem;font-weight:600;transition:.2s;white-space:nowrap}
+.preset-btn:hover{background:#4c1d95;color:#fff;border-color:#7c3aed}
+.random-btn{padding:6px 14px;border-radius:20px;border:1px solid #059669;background:#022c22;color:#34d399;cursor:pointer;font-size:.76rem;font-weight:600;transition:.2s;white-space:nowrap}
+.random-btn:hover{background:#065f46;color:#6ee7b7}
 
-/* ── 컨테이너 ── */
-.container {
-  max-width:920px; margin:0 auto; padding:28px 20px;
-  display:grid; grid-template-columns:1fr 1fr; gap:20px;
-}
-@media(max-width:640px){ .container{ grid-template-columns:1fr; } }
+/* 주제 탭 */
+.subject-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.stab{padding:5px 14px;border-radius:20px;border:1px solid #2d3748;background:#0f0f13;color:#6b7280;cursor:pointer;font-size:.76rem;font-weight:600;transition:.2s}
+.stab.active{background:#4c1d95;color:#e9d5ff;border-color:#7c3aed}
 
-/* ── 카드 ── */
-.card {
-  background:#1a1a2e; border:1px solid #2d3748;
-  border-radius:16px; padding:22px;
-}
-.card.full-width { grid-column:1/-1; }
-.card.fantasy-card {
-  border-color:#7c3aed; box-shadow:0 0 20px #7c3aed18;
-}
+.container{max-width:920px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.container{grid-template-columns:1fr}}
 
-.card-title {
-  font-size:.8rem; color:#a78bfa; font-weight:600;
-  text-transform:uppercase; letter-spacing:.1em;
-  margin-bottom:14px; display:flex; align-items:center; gap:8px;
-}
+.card{background:#1a1a2e;border:1px solid #2d3748;border-radius:16px;padding:20px}
+.card.full-width{grid-column:1/-1}
+.card.fantasy-card{border-color:#7c3aed;box-shadow:0 0 20px #7c3aed15}
 
-/* ── 레이블 ── */
-label {
-  display:block; font-size:.78rem; color:#94a3b8;
-  margin-bottom:5px; margin-top:13px;
-}
-label:first-of-type { margin-top:0; }
+.card-title{font-size:.78rem;color:#a78bfa;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 
-/* ── 입력 ── */
-input[type="text"] {
-  width:100%; background:#0f0f13; border:1px solid #2d3748;
-  border-radius:10px; color:#e2e8f0; padding:9px 13px;
-  font-size:.88rem; outline:none; transition:.2s; font-family:inherit;
-}
-input[type="text"]:focus {
-  border-color:#a78bfa; box-shadow:0 0 0 3px #a78bfa18;
-}
+label{display:block;font-size:.76rem;color:#94a3b8;margin-bottom:5px;margin-top:12px}
+label:first-of-type{margin-top:0}
 
-/* ── 태그 ── */
-.tag-group { display:flex; flex-wrap:wrap; gap:7px; margin-top:7px; }
-.tag-chip {
-  background:#0f0f13; border:1px solid #2d3748;
-  border-radius:20px; padding:5px 12px; font-size:.76rem;
-  cursor:pointer; transition:all .2s; color:#94a3b8; user-select:none;
-}
-.tag-chip:hover { border-color:#a78bfa; color:#a78bfa; }
-.tag-chip.active {
-  background:#4c1d95; border-color:#a78bfa; color:#e9d5ff;
-}
+input[type="text"]{width:100%;background:#0f0f13;border:1px solid #2d3748;border-radius:10px;color:#e2e8f0;padding:9px 13px;font-size:.85rem;outline:none;transition:.2s;font-family:inherit}
+input[type="text"]:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #a78bfa15}
 
-/* 환상 태그 — 현실적 (파란 계열) */
-.tag-chip.f-real { border-color:#1e3a5f; color:#60a5fa; background:#0d1f36; }
-.tag-chip.f-real:hover { border-color:#3b82f6; color:#93c5fd; }
-.tag-chip.f-real.active { background:#1e3a5f; border-color:#3b82f6; color:#bfdbfe; box-shadow:0 0 8px #3b82f622; }
+.tag-group{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag-chip{background:#0f0f13;border:1px solid #2d3748;border-radius:20px;padding:4px 11px;font-size:.74rem;cursor:pointer;transition:.2s;color:#94a3b8;user-select:none}
+.tag-chip:hover{border-color:#a78bfa;color:#a78bfa}
+.tag-chip.active{background:#4c1d95;border-color:#a78bfa;color:#e9d5ff}
 
-/* 환상 태그 — 중간 (보라 계열) */
-.tag-chip.f-mid { border-color:#4c1d95; color:#c4b5fd; background:#1a0a2e; }
-.tag-chip.f-mid:hover { border-color:#7c3aed; color:#e9d5ff; }
-.tag-chip.f-mid.active { background:#4c1d95; border-color:#a78bfa; color:#f5f3ff; box-shadow:0 0 8px #7c3aed33; }
+/* 환상 태그 3단계 */
+.tag-chip.f-real{border-color:#1e3a5f;color:#60a5fa;background:#0d1f36}
+.tag-chip.f-real:hover{border-color:#3b82f6;color:#93c5fd}
+.tag-chip.f-real.active{background:#1e3a5f;border-color:#3b82f6;color:#bfdbfe;box-shadow:0 0 8px #3b82f620}
+.tag-chip.f-mid{border-color:#4c1d95;color:#c4b5fd;background:#1a0a2e}
+.tag-chip.f-mid:hover{border-color:#7c3aed;color:#e9d5ff}
+.tag-chip.f-mid.active{background:#4c1d95;border-color:#a78bfa;color:#f5f3ff;box-shadow:0 0 8px #7c3aed30}
+.tag-chip.f-strong{border-color:#831843;color:#f9a8d4;background:#2d0a1e}
+.tag-chip.f-strong:hover{border-color:#ec4899;color:#fce7f3}
+.tag-chip.f-strong.active{background:linear-gradient(135deg,#4c1d95,#831843);border-color:#ec4899;color:#fce7f3;box-shadow:0 0 10px #ec489940}
 
-/* 환상 태그 — 강한 (핑크 계열) */
-.tag-chip.f-strong { border-color:#831843; color:#f9a8d4; background:#2d0a1e; }
-.tag-chip.f-strong:hover { border-color:#ec4899; color:#fce7f3; }
-.tag-chip.f-strong.active { background:linear-gradient(135deg,#4c1d95,#831843); border-color:#ec4899; color:#fce7f3; box-shadow:0 0 10px #ec489944; }
+/* 주제 패널 */
+.subject-panel{display:none}
+.subject-panel.active{display:block}
 
-/* 강도 표시 뱃지 */
-.level-badge {
-  display:inline-block; font-size:.62rem; font-weight:700;
-  padding:1px 6px; border-radius:8px; margin-left:4px; vertical-align:middle;
-}
-.lb-real { background:#1e3a5f; color:#60a5fa; }
-.lb-mid  { background:#4c1d95; color:#c4b5fd; }
-.lb-str  { background:#831843; color:#f9a8d4; }
+.btn{padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-size:.88rem;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:100%;justify-content:center;font-size:1rem;padding:14px}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-primary.lv1{background:linear-gradient(135deg,#1e40af,#1e3a5f)}
+.btn-primary.lv2{background:linear-gradient(135deg,#6d28d9,#4f46e5)}
+.btn-primary.lv3{background:linear-gradient(135deg,#7c3aed,#ec4899);animation:gradShift 3s ease infinite;background-size:200%}
+@keyframes gradShift{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+.btn-secondary{background:#2d3748;color:#e2e8f0;border:1px solid #4a5568}
+.btn-secondary:hover{background:#4a5568}
+.btn-gemini{background:linear-gradient(135deg,#059669,#0891b2);color:#fff}
+.btn-gemini:hover{opacity:.9}
+.btn-copy{background:linear-gradient(135deg,#d97706,#b45309);color:#fff}
+.btn-copy:hover{opacity:.9}
+.btn-test{background:#064e3b;border:1px solid #059669;color:#e2e8f0;padding:7px 14px;font-size:.82rem}
+.btn-test:hover{background:#065f46}
+.btn-neg{background:#1a0a0a;color:#f87171;border:1px solid #7f1d1d}
+.btn-neg:hover{background:#7f1d1d;color:#fca5a5}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
 
-/* ── 버튼 ── */
-.btn {
-  padding:10px 18px; border-radius:10px; border:none;
-  cursor:pointer; font-size:.88rem; font-weight:600;
-  transition:all .2s; display:inline-flex; align-items:center; gap:8px;
-}
-.btn-primary {
-  background:linear-gradient(135deg,#7c3aed,#4f46e5);
-  color:#fff; width:100%; justify-content:center;
-  font-size:1rem; padding:14px;
-}
-.btn-primary:hover { opacity:.9; transform:translateY(-1px); }
-.btn-primary.lv1 { background:linear-gradient(135deg,#1e40af,#1e3a5f); }
-.btn-primary.lv2 { background:linear-gradient(135deg,#6d28d9,#4f46e5); }
-.btn-primary.lv3 { background:linear-gradient(135deg,#7c3aed,#ec4899,#f59e0b); background-size:200%; animation:gradShift 3s ease infinite; }
-@keyframes gradShift { 0%{background-position:0%} 50%{background-position:100%} 100%{background-position:0%} }
+.output-box{background:#0f0f13;border:1px solid #2d3748;border-radius:10px;padding:14px;font-size:.83rem;line-height:1.75;color:#cbd5e1;min-height:110px;white-space:pre-wrap;word-break:break-word;transition:.3s}
+.output-box.lv0{border-color:#4a5568}
+.output-box.lv1{border-color:#3b82f6;box-shadow:0 0 10px #3b82f618}
+.output-box.lv2{border-color:#a78bfa;box-shadow:0 0 12px #7c3aed22}
+.output-box.lv3{border-color:#ec4899;box-shadow:0 0 18px #ec489928}
 
-.btn-secondary { background:#2d3748; color:#e2e8f0; border:1px solid #4a5568; }
-.btn-secondary:hover { background:#4a5568; }
-.btn-gemini { background:linear-gradient(135deg,#059669,#0891b2); color:#fff; }
-.btn-gemini:hover { opacity:.9; }
-.btn-copy { background:linear-gradient(135deg,#d97706,#b45309); color:#fff; }
-.btn-copy:hover { opacity:.9; }
-.btn-test { background:#064e3b; border:1px solid #059669; color:#e2e8f0; padding:7px 14px; font-size:.82rem; }
-.btn-test:hover { background:#065f46; }
-.btn-neg { background:#1a0a0a; color:#f87171; border:1px solid #7f1d1d; }
-.btn-neg:hover { background:#7f1d1d; color:#fca5a5; }
+.neg-box{background:#0a0a0f;border:1px solid #374151;border-radius:10px;padding:12px;font-size:.78rem;line-height:1.7;color:#9ca3af;min-height:55px;white-space:pre-wrap;word-break:break-word}
 
-.btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+.neg-auto-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:#0a0a0f;border-radius:8px;border:1px solid #1f2937}
+.neg-auto-row label{margin:0;font-size:.76rem;color:#9ca3af;cursor:pointer;display:flex;align-items:center;gap:6px}
+input[type="checkbox"]{accent-color:#a78bfa;width:14px;height:14px;cursor:pointer}
 
-/* ── 출력박스 ── */
-.output-box {
-  background:#0f0f13; border:1px solid #2d3748; border-radius:10px;
-  padding:14px; font-size:.84rem; line-height:1.75; color:#cbd5e1;
-  min-height:110px; white-space:pre-wrap; word-break:break-word; transition:.3s;
-}
-.output-box.lv0 { border-color:#4a5568; }
-.output-box.lv1 { border-color:#3b82f6; box-shadow:0 0 10px #3b82f620; }
-.output-box.lv2 { border-color:#a78bfa; box-shadow:0 0 12px #7c3aed25; }
-.output-box.lv3 { border-color:#ec4899; box-shadow:0 0 18px #ec489930; }
+.editor-box{width:100%;min-height:100px;background:#0f0f13;border:1px solid #2d3748;border-radius:10px;padding:12px;font-size:.82rem;line-height:1.7;color:#cbd5e1;resize:vertical;font-family:inherit;outline:none;transition:.2s}
+.editor-box:focus{border-color:#a78bfa}
 
-.neg-box {
-  background:#0a0a0f; border:1px solid #374151; border-radius:10px;
-  padding:12px; font-size:.8rem; line-height:1.7; color:#9ca3af;
-  min-height:55px; white-space:pre-wrap; word-break:break-word;
-}
-
-/* ── 네거티브 자동추가 ── */
-.neg-auto-row {
-  display:flex; align-items:center; gap:8px; margin-top:10px;
-  padding:8px 12px; background:#0a0a0f; border-radius:8px;
-  border:1px solid #1f2937;
-}
-.neg-auto-row label {
-  margin:0; font-size:.78rem; color:#9ca3af; cursor:pointer;
-  display:flex; align-items:center; gap:6px;
-}
-input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:pointer; }
-
-/* ── 편집기 ── */
-.editor-box {
-  width:100%; min-height:100px; background:#0f0f13;
-  border:1px solid #2d3748; border-radius:10px;
-  padding:12px; font-size:.83rem; line-height:1.7;
-  color:#cbd5e1; resize:vertical; font-family:inherit; outline:none; transition:.2s;
-}
-.editor-box:focus { border-color:#a78bfa; }
-
-/* ── 토스트 ── */
-.toast {
-  position:fixed; bottom:28px; left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#1e293b; color:#e2e8f0; padding:11px 22px;
-  border-radius:12px; border:1px solid #4a5568;
-  font-size:.88rem; transition:.3s; z-index:9999; white-space:nowrap;
-}
-.toast.show { transform:translateX(-50%) translateY(0); }
-
-.spinner {
-  display:inline-block; width:15px; height:15px;
-  border:2px solid rgba(255,255,255,.3); border-top-color:#fff;
-  border-radius:50%; animation:spin .7s linear infinite;
-}
-@keyframes spin { to{ transform:rotate(360deg); } }
-
-.key-status { font-size:.78rem; color:#94a3b8; min-width:150px; }
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);background:#1e293b;color:#e2e8f0;padding:11px 22px;border-radius:12px;border:1px solid #4a5568;font-size:.88rem;transition:.3s;z-index:9999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.key-status{font-size:.78rem;color:#94a3b8;min-width:140px}
 </style>
 </head>
 <body>
 
-<!-- 헤더 -->
 <div class="header">
   <h1>✨ Prompt Generator</h1>
   <a href="gall.html" class="back-btn">← 갤러리로</a>
 </div>
 
-<!-- API 바 -->
 <div class="api-bar">
   <label>🔑 Gemini API Key</label>
   <input type="password" id="geminiKey" placeholder="AIza...">
-  <button class="btn btn-secondary" onclick="saveKey()" style="padding:7px 14px;font-size:.82rem;">저장</button>
+  <button class="btn btn-secondary" onclick="saveKey()" style="padding:7px 14px;font-size:.82rem">저장</button>
   <button class="btn btn-test" onclick="testKey()">🔍 키 테스트</button>
   <span class="key-status" id="keyStatus"></span>
 </div>
 
 <!-- 환상 강도 바 -->
-<div class="fantasy-bar">
-  <span class="fantasy-bar-title">🌟 환상 강도:</span>
+<div class="intensity-bar">
+  <span class="intensity-bar-title">🌟 환상 강도:</span>
   <div class="intensity-group">
-    <button class="intensity-btn active" data-level="0" onclick="setIntensity(0)">
-      ⚪ OFF — 기본
-    </button>
-    <button class="intensity-btn" data-level="1" onclick="setIntensity(1)">
-      💙 중간 — 자연스러운 환상
-    </button>
-    <button class="intensity-btn" data-level="2" onclick="setIntensity(2)">
-      💜 강함 — 시네마틱 환상
-    </button>
-    <button class="intensity-btn" data-level="3" onclick="setIntensity(3)">
-      🌟 극강 — 완전 환상
-    </button>
+    <button class="ibtn active" data-lv="0" onclick="setIntensity(0)">⚪ OFF</button>
+    <button class="ibtn" data-lv="1" onclick="setIntensity(1)">💙 자연스러운 환상</button>
+    <button class="ibtn" data-lv="2" onclick="setIntensity(2)">💜 시네마틱 환상</button>
+    <button class="ibtn" data-lv="3" onclick="setIntensity(3)">🌟 극강 환상</button>
   </div>
-  <span class="intensity-desc" id="intensityDesc">
-    기본 모드 — 선택한 태그만 사용
-  </span>
+  <span class="intensity-desc" id="intensityDesc">기본 모드 — 선택한 태그만 사용</span>
 </div>
 
-<!-- 메인 -->
+<!-- 프리셋 바 -->
+<div class="preset-bar">
+  <span class="preset-bar-title">🎬 프리셋:</span>
+  <button class="preset-btn" onclick="applyPreset('sunset_kiss')">🌅 석양 키스</button>
+  <button class="preset-btn" onclick="applyPreset('cherry_hug')">🌸 벚꽃 포옹</button>
+  <button class="preset-btn" onclick="applyPreset('rain_cafe')">☔ 빗속 카페</button>
+  <button class="preset-btn" onclick="applyPreset('night_rooftop')">🌃 루프탑 야경</button>
+  <button class="preset-btn" onclick="applyPreset('snow_winter')">❄️ 설경 속 두 사람</button>
+  <button class="preset-btn" onclick="applyPreset('forest_magic')">🌲 마법의 숲</button>
+  <button class="preset-btn" onclick="applyPreset('wuxia_scene')">⚔️ 무협 장면</button>
+  <button class="random-btn" onclick="randomGenerate()">🎲 랜덤 생성</button>
+</div>
+
 <div class="container">
 
-  <!-- ① 주제/인물 -->
-  <div class="card">
-    <div class="card-title">👤 주제 / 인물</div>
-    <label>인물 구성</label>
-    <div class="tag-group" id="subjectTags">
-      <span class="tag-chip" data-val="Korean woman">한국인 여성</span>
-      <span class="tag-chip" data-val="Korean man">한국인 남성</span>
-      <span class="tag-chip active" data-val="romantic Korean couple, exactly two people">한국인 커플</span>
-      <span class="tag-chip" data-val="solo Korean woman">솔로 여성</span>
-      <span class="tag-chip" data-val="two women">여성 둘</span>
+  <!-- ① 주제 카테고리 -->
+  <div class="card full-width">
+    <div class="card-title">👤 주제 카테고리</div>
+    <div class="subject-tabs">
+      <button class="stab active" data-cat="human" onclick="switchSubject('human')">👤 인간</button>
+      <button class="stab" data-cat="animal" onclick="switchSubject('animal')">🐾 동물</button>
+      <button class="stab" data-cat="nature" onclick="switchSubject('nature')">🌿 식물/자연</button>
+      <button class="stab" data-cat="arch" onclick="switchSubject('arch')">🏛️ 건축/도시</button>
+      <button class="stab" data-cat="abstract" onclick="switchSubject('abstract')">🎨 추상/판타지</button>
     </div>
-    <label>헤어 (여성)</label>
-    <div class="tag-group" id="hairTags">
-      <span class="tag-chip active" data-val="woman with silver gray hair in high ponytail">실버그레이 포니테일</span>
-      <span class="tag-chip" data-val="woman with long black wavy hair">긴 검은 웨이브</span>
-      <span class="tag-chip" data-val="woman with short bob cut hair">숏 보브컷</span>
-      <span class="tag-chip" data-val="woman with blonde highlights">블론드 하이라이트</span>
-      <span class="tag-chip" data-val="woman with messy bun upstyle">업스타일 번</span>
-      <span class="tag-chip" data-val="woman with long straight black hair">긴 생머리</span>
+
+    <!-- 인간 패널 -->
+    <div class="subject-panel active" id="panel-human">
+      <label>인물 구성</label>
+      <div class="tag-group" id="subjectTags">
+        <span class="tag-chip active" data-val="romantic Korean couple, exactly two people">한국인 커플</span>
+        <span class="tag-chip" data-val="Korean woman">한국인 여성</span>
+        <span class="tag-chip" data-val="Korean man">한국인 남성</span>
+        <span class="tag-chip" data-val="solo Korean woman">솔로 여성</span>
+        <span class="tag-chip" data-val="two women">여성 둘</span>
+        <span class="tag-chip" data-val="family together">가족</span>
+        <span class="tag-chip" data-val="group of friends">친구들</span>
+      </div>
+      <label>헤어 (여성)</label>
+      <div class="tag-group" id="hairTags">
+        <span class="tag-chip active" data-val="woman with silver gray hair in high ponytail">실버그레이 포니테일</span>
+        <span class="tag-chip" data-val="woman with long black wavy hair">긴 검은 웨이브</span>
+        <span class="tag-chip" data-val="woman with short bob cut hair">숏 보브컷</span>
+        <span class="tag-chip" data-val="woman with blonde highlights">블론드 하이라이트</span>
+        <span class="tag-chip" data-val="woman with messy bun upstyle">업스타일 번</span>
+        <span class="tag-chip" data-val="woman with long straight black hair">긴 생머리</span>
+        <span class="tag-chip" data-val="woman with pink hair">핑크 헤어</span>
+      </div>
+      <label>헤어 (남성)</label>
+      <div class="tag-group" id="hairMaleTags">
+        <span class="tag-chip active" data-val="man with neat black hair">검은 단발</span>
+        <span class="tag-chip" data-val="man with tousled dark hair">헝클어진 다크헤어</span>
+        <span class="tag-chip" data-val="man with short silver hair">실버 숏컷</span>
+        <span class="tag-chip" data-val="man with undercut hairstyle">언더컷</span>
+      </div>
+      <label>체형 / 특징</label>
+      <div class="tag-group" id="bodyTags">
+        <span class="tag-chip active" data-val="medium breast size">미디엄 브레스트</span>
+        <span class="tag-chip" data-val="slim elegant figure">슬림 체형</span>
+        <span class="tag-chip" data-val="athletic build">애슬레틱</span>
+        <span class="tag-chip" data-val="late 20s">20대 후반</span>
+        <span class="tag-chip" data-val="early 30s">30대 초반</span>
+        <span class="tag-chip" data-val="tall slim man broad shoulders">넓은 어깨 남성</span>
+      </div>
+      <label>추가 설명</label>
+      <input type="text" id="subjectCustom" placeholder="예: wearing white dress, gentle smile...">
     </div>
-    <label>헤어 (남성)</label>
-    <div class="tag-group" id="hairMaleTags">
-      <span class="tag-chip active" data-val="man with neat black hair">검은 단발</span>
-      <span class="tag-chip" data-val="man with tousled dark hair">헝클어진 다크헤어</span>
-      <span class="tag-chip" data-val="man with short silver hair">실버 숏컷</span>
-      <span class="tag-chip" data-val="man with undercut hairstyle">언더컷</span>
+
+    <!-- 동물 패널 -->
+    <div class="subject-panel" id="panel-animal">
+      <label>동물 종류</label>
+      <div class="tag-group" id="animalTags">
+        <span class="tag-chip" data-val="majestic white horse running freely">백마</span>
+        <span class="tag-chip" data-val="lone wolf howling at full moon">늑대</span>
+        <span class="tag-chip" data-val="golden retriever puppy playful">골든 리트리버</span>
+        <span class="tag-chip" data-val="elegant white cat with blue eyes">흰 고양이</span>
+        <span class="tag-chip" data-val="giant panda sitting in bamboo forest">자이언트 판다</span>
+        <span class="tag-chip" data-val="majestic eagle soaring above mountains">독수리</span>
+        <span class="tag-chip" data-val="colorful koi fish in clear water">비단잉어</span>
+        <span class="tag-chip" data-val="arctic fox in snowy tundra">북극여우</span>
+        <span class="tag-chip" data-val="magnificent lion pride on savanna">사자</span>
+        <span class="tag-chip" data-val="humpback whale breaching ocean">혹등고래</span>
+        <span class="tag-chip" data-val="red-crowned crane dancing in snow">두루미</span>
+        <span class="tag-chip" data-val="fantasy dragon with iridescent scales">판타지 드래곤</span>
+        <span class="tag-chip" data-val="unicorn in enchanted forest">유니콘</span>
+        <span class="tag-chip" data-val="phoenix rising from flames">불사조</span>
+      </div>
+      <label>추가 설명</label>
+      <input type="text" id="animalCustom" placeholder="예: glowing eyes, mystical aura...">
     </div>
-    <label>체형 / 특징</label>
-    <div class="tag-group" id="bodyTags">
-      <span class="tag-chip active" data-val="medium breast size">미디엄 브레스트</span>
-      <span class="tag-chip" data-val="slim elegant figure">슬림 체형</span>
-      <span class="tag-chip" data-val="athletic build">애슬레틱</span>
-      <span class="tag-chip" data-val="late 20s">20대 후반</span>
-      <span class="tag-chip" data-val="early 30s">30대 초반</span>
-      <span class="tag-chip" data-val="tall slim man broad shoulders">넓은 어깨 남성</span>
+
+    <!-- 식물/자연 패널 -->
+    <div class="subject-panel" id="panel-nature">
+      <label>식물 / 자연</label>
+      <div class="tag-group" id="natureTags">
+        <span class="tag-chip" data-val="ancient massive oak tree with golden leaves">고목 참나무</span>
+        <span class="tag-chip" data-val="cherry blossom tree in full bloom">벚꽃나무</span>
+        <span class="tag-chip" data-val="lotus flower blooming in still water">연꽃</span>
+        <span class="tag-chip" data-val="sunflower field stretching to horizon">해바라기 밭</span>
+        <span class="tag-chip" data-val="ancient bonsai tree with gnarled branches">분재</span>
+        <span class="tag-chip" data-val="weeping willow by misty lake">수양버들 호수</span>
+        <span class="tag-chip" data-val="glowing mushroom forest at night">발광 버섯 숲</span>
+        <span class="tag-chip" data-val="overgrown ruins covered in vines flowers">덩굴 폐허</span>
+        <span class="tag-chip" data-val="macro close-up of morning dew on spider web">이슬 거미줄</span>
+        <span class="tag-chip" data-val="vast lavender field in Provence">라벤더 밭</span>
+        <span class="tag-chip" data-val="deep underwater kelp forest sunbeams">켈프 숲 수중</span>
+        <span class="tag-chip" data-val="autumn maple forest floor golden red">단풍 숲 바닥</span>
+      </div>
+      <label>추가 설명</label>
+      <input type="text" id="natureCustom" placeholder="예: morning mist, dew drops...">
     </div>
-    <label>추가 설명 (직접 입력)</label>
-    <input type="text" id="subjectCustom" placeholder="예: wearing white dress, gentle smile...">
+
+    <!-- 건축/도시 패널 -->
+    <div class="subject-panel" id="panel-arch">
+      <label>건축 / 도시</label>
+      <div class="tag-group" id="archTags">
+        <span class="tag-chip" data-val="ancient Korean palace Gyeongbokgung at golden hour">경복궁 황혼</span>
+        <span class="tag-chip" data-val="cyberpunk Tokyo neon streets rain reflection">사이버펑크 도쿄</span>
+        <span class="tag-chip" data-val="floating sky castle above clouds fantasy">하늘 성</span>
+        <span class="tag-chip" data-val="gothic cathedral interior stained glass light">고딕 성당</span>
+        <span class="tag-chip" data-val="abandoned overgrown library books">버려진 도서관</span>
+        <span class="tag-chip" data-val="modern minimalist glass architecture">미니멀 유리 건축</span>
+        <span class="tag-chip" data-val="ancient Roman colosseum ruins dramatic sky">로마 콜로세움</span>
+        <span class="tag-chip" data-val="underwater submerged city coral covered">수중 도시</span>
+        <span class="tag-chip" data-val="Santorini white blue buildings sunset">산토리니</span>
+        <span class="tag-chip" data-val="Han River Seoul bridge night lights">한강 야경</span>
+        <span class="tag-chip" data-val="spiral tower reaching into storm clouds">나선형 탑</span>
+        <span class="tag-chip" data-val="traditional Korean hanok village snow">한옥 설경</span>
+      </div>
+      <label>추가 설명</label>
+      <input type="text" id="archCustom" placeholder="예: dramatic lighting, aerial view...">
+    </div>
+
+    <!-- 추상/판타지 패널 -->
+    <div class="subject-panel" id="panel-abstract">
+      <label>추상 / 판타지</label>
+      <div class="tag-group" id="abstractTags">
+        <span class="tag-chip" data-val="swirling galaxy nebula cosmic energy abstract">은하 성운 추상</span>
+        <span class="tag-chip" data-val="fractal geometry infinite patterns colorful">프랙탈 기하학</span>
+        <span class="tag-chip" data-val="liquid metal mercury abstract flowing">액체 금속</span>
+        <span class="tag-chip" data-val="portal vortex dimensional rift energy">차원 포탈</span>
+        <span class="tag-chip" data-val="shattered mirror reality reflection abstract">깨진 거울 현실</span>
+        <span class="tag-chip" data-val="abstract emotion visualization love red gold">감정 시각화</span>
+        <span class="tag-chip" data-val="crystalline ice structure macro detail">크리스탈 구조</span>
+        <span class="tag-chip" data-val="northern lights aurora borealis abstract">오로라 추상</span>
+        <span class="tag-chip" data-val="ink drop in water slow motion abstract">잉크 물속 추상</span>
+        <span class="tag-chip" data-val="geometric sacred geometry glowing lines">신성 기하학</span>
+        <span class="tag-chip" data-val="storm electricity lightning abstract power">번개 에너지 추상</span>
+        <span class="tag-chip" data-val="time spiral past future merging surreal">시간 나선 초현실</span>
+      </div>
+      <label>추가 설명</label>
+      <input type="text" id="abstractCustom" placeholder="예: ethereal, otherworldly...">
+    </div>
   </div>
 
   <!-- ② 스타일/분위기 -->
@@ -357,6 +319,8 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <span class="tag-chip" data-val="anime illustration soft cel shading">애니메이션</span>
       <span class="tag-chip" data-val="watercolor painting soft brushstrokes">수채화</span>
       <span class="tag-chip" data-val="oil painting classical fine art">유화 클래식</span>
+      <span class="tag-chip" data-val="concept art digital painting detailed">컨셉 아트</span>
+      <span class="tag-chip" data-val="macro photography ultra close detail">매크로 사진</span>
     </div>
     <label>조명 & 색감</label>
     <div class="tag-group" id="lightTags">
@@ -367,6 +331,8 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <span class="tag-chip" data-val="dramatic storm dark contrast lightning">드라마틱 스톰</span>
       <span class="tag-chip" data-val="cherry blossom pink pastel soft tones">벚꽃 핑크</span>
       <span class="tag-chip" data-val="warm candlelight amber cozy glow">캔들라이트</span>
+      <span class="tag-chip" data-val="underwater caustic light shimmering blue">수중 빛</span>
+      <span class="tag-chip" data-val="aurora borealis green purple sky">오로라</span>
     </div>
     <label>퀄리티</label>
     <div class="tag-group" id="qualityTags">
@@ -392,8 +358,12 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <span class="tag-chip" data-val="spring meadow wildflowers gentle breeze">봄 들판</span>
       <span class="tag-chip" data-val="autumn forest red orange maple leaves falling">가을 단풍</span>
       <span class="tag-chip" data-val="rainy street at night reflections wet pavement">빗속 거리</span>
+      <span class="tag-chip" data-val="deep space nebula stars cosmic void">우주 성운</span>
+      <span class="tag-chip" data-val="underwater coral reef tropical fish">산호초 수중</span>
+      <span class="tag-chip" data-val="desert sand dunes dramatic shadow">사막 모래언덕</span>
+      <span class="tag-chip" data-val="volcanic landscape molten lava glow">화산 지형</span>
     </div>
-    <label>추가 장소 (직접 입력)</label>
+    <label>추가 장소</label>
     <input type="text" id="sceneCustom" placeholder="예: midnight, foggy morning...">
   </div>
 
@@ -407,9 +377,10 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <span class="tag-chip" data-val="warm embrace holding each other tightly">따뜻한 포옹</span>
       <span class="tag-chip" data-val="holding hands walking together">손잡고 걷기</span>
       <span class="tag-chip" data-val="soft vulnerable smile lips gently parted">부드러운 미소</span>
-      <span class="tag-chip" data-val="looking into distance wistful thoughtful gaze">먼 곳 응시</span>
       <span class="tag-chip" data-val="almost kissing noses barely touching">거의 키스</span>
       <span class="tag-chip" data-val="back hug from behind protective gentle">백허그</span>
+      <span class="tag-chip" data-val="dynamic action pose powerful movement">다이나믹 액션</span>
+      <span class="tag-chip" data-val="peaceful serene stillness meditation">평온한 정지</span>
     </div>
     <label>분위기 강화</label>
     <div class="tag-group" id="moodTags">
@@ -419,56 +390,59 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <span class="tag-chip" data-val="glowing magical particles dust floating in air">마법 파티클</span>
       <span class="tag-chip" data-val="soft mist fog ethereal atmosphere">안개 분위기</span>
       <span class="tag-chip" data-val="dramatic cinematic shadows and light contrast">드라마틱 그림자</span>
+      <span class="tag-chip" data-val="rain drops falling glistening wet surfaces">빗방울 반짝임</span>
+      <span class="tag-chip" data-val="snow falling softly gentle winter atmosphere">눈 내리기</span>
     </div>
-    <label>추가 키워드 (직접 입력)</label>
-    <input type="text" id="moodCustom" placeholder="예: rain drops, sparkles...">
+    <label>추가 키워드</label>
+    <input type="text" id="moodCustom" placeholder="예: sparkles, dramatic shadows...">
   </div>
 
-  <!-- ⑤ 환상 증폭 태그 (3단계) -->
+  <!-- ⑤ 환상 증폭 태그 3단계 -->
   <div class="card full-width fantasy-card">
-    <div class="card-title" style="color:#ec4899;">
+    <div class="card-title" style="color:#ec4899">
       🌟 환상 증폭 태그
-      <span style="font-size:.68rem;color:#6b7280;font-weight:400;text-transform:none;margin-left:4px;">
-        💙현실적 &nbsp;|&nbsp; 💜중간 &nbsp;|&nbsp; 🩷강한
-      </span>
+      <span style="font-size:.68rem;color:#6b7280;font-weight:400;text-transform:none;margin-left:6px">💙 현실적 | 💜 중간 | 🩷 강한 (비현실 OK)</span>
     </div>
 
-    <label style="color:#93c5fd;">💙 현실적 환상 — 조명/빛 강화 (피부 자연스러움 유지)</label>
+    <label style="color:#93c5fd">💙 현실적 환상 — 조명/빛 강화만 (피부 자연스러움 유지)</label>
     <div class="tag-group" id="fantasyRealTags">
       <span class="tag-chip f-real" data-val="soft volumetric lighting warm depth and dimension">볼류메트릭 라이팅</span>
       <span class="tag-chip f-real" data-val="golden hour god rays gently filtering through scene">골든아워 갓레이</span>
       <span class="tag-chip f-real" data-val="soft cinematic rim lighting warm hair glow">시네마틱 림 라이팅</span>
       <span class="tag-chip f-real" data-val="natural skin warmth sun-kissed healthy glow">선키스드 피부 광채</span>
-      <span class="tag-chip f-real" data-val="shallow depth of field smooth creamy bokeh background">크리미 보케 배경</span>
-      <span class="tag-chip f-real" data-val="soft warm light wrapping around their figures">따뜻한 빛 감싸기</span>
-      <span class="tag-chip f-real" data-val="natural catch light in eyes realistic eye shine">눈의 자연스러운 빛반사</span>
+      <span class="tag-chip f-real" data-val="shallow depth of field smooth creamy bokeh background">크리미 보케</span>
+      <span class="tag-chip f-real" data-val="natural catch light in eyes realistic eye shine">눈의 자연 빛반사</span>
+      <span class="tag-chip f-real" data-val="soft warm light wrapping gently around figures">따뜻한 빛 감싸기</span>
+      <span class="tag-chip f-real" data-val="realistic skin subsurface scattering natural texture">피부 SSS 텍스처</span>
     </div>
 
-    <label style="color:#c4b5fd;margin-top:14px;">💜 중간 환상 — 시네마틱+감성 (살짝 마법 느낌)</label>
+    <label style="color:#c4b5fd;margin-top:14px">💜 중간 환상 — 시네마틱+감성 (살짝 마법 허용)</label>
     <div class="tag-group" id="fantasyMidTags">
-      <span class="tag-chip f-mid" data-val="dramatic volumetric god rays piercing through golden mist">드라마틱 갓레이+안개</span>
-      <span class="tag-chip f-mid" data-val="soft ethereal atmospheric glow around the scene not skin">에테리얼 씬 글로우</span>
-      <span class="tag-chip f-mid" data-val="gentle floating dust particles in warm sunbeams">따뜻한 빛 먼지 파티클</span>
-      <span class="tag-chip f-mid" data-val="cinematic anamorphic lens flare streak warm orange">아나모픽 렌즈플레어</span>
+      <span class="tag-chip f-mid" data-val="dramatic volumetric god rays piercing golden mist">드라마틱 갓레이</span>
+      <span class="tag-chip f-mid" data-val="soft ethereal atmospheric glow around scene not on skin">씬 에테리얼 글로우</span>
+      <span class="tag-chip f-mid" data-val="gentle floating dust particles in warm sunbeams">빛속 먼지 파티클</span>
+      <span class="tag-chip f-mid" data-val="cinematic anamorphic lens flare warm orange streak">아나모픽 렌즈플레어</span>
       <span class="tag-chip f-mid" data-val="misty ethereal fog in background distance only">원거리 안개 효과</span>
       <span class="tag-chip f-mid" data-val="intense unspoken passion electric tension between them">전기같은 긴장감</span>
       <span class="tag-chip f-mid" data-val="time frozen suspended romantic moment">시간이 멈춘 순간</span>
+      <span class="tag-chip f-mid" data-val="soft rainbow light refraction in background elements">배경 빛 굴절</span>
     </div>
 
-    <label style="color:#f9a8d4;margin-top:14px;">🩷 강한 환상 — 비현실 OK (크리스탈/홀로그램 가능)</label>
+    <label style="color:#f9a8d4;margin-top:14px">🩷 강한 환상 — 비현실 OK (크리스탈/홀로그램 가능)</label>
     <div class="tag-group" id="fantasyStrongTags">
-      <span class="tag-chip f-strong" data-val="iridescent light diffraction rainbow skin highlights">이리데슨트 피부 광회절</span>
-      <span class="tag-chip f-strong" data-val="full ethereal divine glow emanating from their bodies">신체 발광 에테리얼</span>
-      <span class="tag-chip f-strong" data-val="glowing magical fireflies surrounding them bioluminescent">마법 반딧불 발광</span>
-      <span class="tag-chip f-strong" data-val="surreal dreamlike impossible beauty magical realism scene">초현실 마법적 사실주의</span>
-      <span class="tag-chip f-strong" data-val="crystalline sparkling tears and glowing eyes supernatural">크리스탈 눈물 발광 눈</span>
-      <span class="tag-chip f-strong" data-val="flower petals raining transforming into glowing light particles">꽃비→발광 파티클 변환</span>
-      <span class="tag-chip f-strong" data-val="time distortion silky motion blur surreal slow motion">타임 왜곡 슬로우모션</span>
+      <span class="tag-chip f-strong" data-val="iridescent light diffraction rainbow skin highlights">이리데슨트 피부</span>
+      <span class="tag-chip f-strong" data-val="full ethereal divine glow emanating from bodies">신체 발광 에테리얼</span>
+      <span class="tag-chip f-strong" data-val="glowing magical fireflies bioluminescent surrounding">마법 반딧불 발광</span>
+      <span class="tag-chip f-strong" data-val="surreal dreamlike impossible beauty magical realism">초현실 마법 사실주의</span>
+      <span class="tag-chip f-strong" data-val="crystalline sparkling tears glowing supernatural eyes">크리스탈 눈물 발광</span>
+      <span class="tag-chip f-strong" data-val="flower petals transforming into glowing light particles">꽃비→발광 파티클</span>
+      <span class="tag-chip f-strong" data-val="time distortion silky surreal slow motion blur">타임 왜곡 슬로우</span>
+      <span class="tag-chip f-strong" data-val="holographic aura shimmering dimensional energy field">홀로그램 오라 필드</span>
     </div>
   </div>
 
   <!-- 생성 버튼 -->
-  <div class="card full-width" style="padding:18px;">
+  <div class="card full-width" style="padding:16px">
     <button class="btn btn-primary" id="generateBtn" onclick="generatePrompt()">
       ✨ 프롬프트 생성하기
     </button>
@@ -476,8 +450,6 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
 
   <!-- 출력 + 편집기 -->
   <div class="card full-width">
-
-    <!-- 생성된 프롬프트 -->
     <div class="card-title">📋 생성된 프롬프트</div>
     <div class="output-box lv0" id="outputBox">여기에 생성된 프롬프트가 나타납니다...</div>
     <div class="btn-row">
@@ -486,34 +458,28 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
       <button class="btn btn-secondary" onclick="sendToEditor('output')">📤 편집기에 추가</button>
     </div>
 
-    <!-- 네거티브 프롬프트 -->
-    <div class="card-title" style="margin-top:22px;">
+    <div class="card-title" style="margin-top:20px">
       🚫 네거티브 프롬프트
-      <span style="font-size:.68rem;color:#6b7280;font-weight:400;text-transform:none;">
-        — 강도에 따라 자동 강화됨
-      </span>
+      <span style="font-size:.66rem;color:#6b7280;font-weight:400;text-transform:none">— 강도에 따라 자동 강화</span>
     </div>
     <div class="neg-box" id="negBox">네거티브 프롬프트가 여기 나타납니다...</div>
     <div class="btn-row">
       <button class="btn btn-copy" onclick="copyText('negBox')">📋 복사</button>
       <button class="btn btn-neg" onclick="sendToEditor('neg')">📤 편집기에 추가</button>
     </div>
-    <!-- 자동추가 체크박스 -->
-    <div class="neg-auto-row" style="margin-top:8px;">
+    <div class="neg-auto-row">
       <label>
         <input type="checkbox" id="chkNegAuto">
         🚫 생성 시 네거티브 자동으로 편집기에 추가
       </label>
     </div>
 
-    <!-- 편집기 -->
-    <div class="card-title" style="margin-top:22px;">🖊️ 편집기</div>
-    <textarea class="editor-box" id="editorBox"
-      placeholder="생성된 프롬프트나 네거티브를 여기에 쌓아요..."></textarea>
+    <div class="card-title" style="margin-top:20px">🖊️ 편집기</div>
+    <textarea class="editor-box" id="editorBox" placeholder="프롬프트와 네거티브를 여기에 쌓아요..."></textarea>
     <div class="btn-row">
       <button class="btn btn-copy" onclick="copyEditor()">📋 편집기 복사</button>
       <button class="btn btn-secondary" onclick="clearEditor()">🗑️ 초기화</button>
-      <span id="editorCount" style="font-size:.74rem;color:#6b7280;margin-left:auto;"></span>
+      <span id="editorCount" style="font-size:.72rem;color:#6b7280;margin-left:auto"></span>
     </div>
   </div>
 
@@ -524,56 +490,186 @@ input[type="checkbox"] { accent-color:#a78bfa; width:14px; height:14px; cursor:p
 <script>
 const GEMINI_MODEL = 'gemini-2.5-flash';
 
-// ── 환상 강도 레이어 정의 ──
-const INTENSITY = {
-  0: {
-    label: '기본 모드 — 선택한 태그만 사용',
-    prefix: '',
-    suffix: '',
-    btnClass: ''
-  },
-  1: {
-    label: '💙 중간 — 자연스러운 조명 강화 (피부 현실감 유지)',
-    prefix: 'masterpiece, best quality, ultra detailed, 8k, sharp focus',
-    suffix: 'soft volumetric lighting, golden hour god rays gently diffused, natural skin warmth sun-kissed glow, creamy bokeh background, realistic skin texture subsurface scattering, flawless but natural skin, heartwarming romantic atmosphere',
-    btnClass: 'lv1'
-  },
-  2: {
-    label: '💜 강함 — 시네마틱 환상 (살짝 마법 허용)',
-    prefix: 'masterpiece, best quality, ultra detailed, 8k sharp focus, cinematic',
-    suffix: 'dramatic volumetric god rays, cinematic anamorphic lens flare, soft ethereal scene glow not on skin, gentle floating dust particles in sunbeams, misty background depth, intense emotional cinematic moment, realistic skin subsurface scattering natural texture, deeply emotional romantic scene',
-    btnClass: 'lv2'
-  },
-  3: {
-    label: '🌟 극강 — 완전 환상 (비현실 OK)',
-    prefix: 'masterpiece, best quality, ultra detailed, 8k sharp focus, absurdres, cinematic lighting',
-    suffix: 'dramatic volumetric god rays, ethereal divine glow, iridescent highlights, floating magical particles, bioluminescent environment, surreal dreamlike atmosphere, magical realism, crystalline beauty, time suspended romantic moment, deeply emotional epic cinematic love scene',
-    btnClass: 'lv3'
-  }
+// ── 환상 강도 설정 ──
+const INTENSITY_CFG = {
+  0: { label:'기본 모드 — 선택한 태그만 사용', prefix:'', suffix:'', btnClass:'' },
+  1: { label:'💙 자연스러운 환상 — 조명 강화, 피부 현실감 유지',
+       prefix:'masterpiece, best quality, ultra detailed, 8k, sharp focus',
+       suffix:'soft volumetric lighting, golden hour god rays gently diffused, natural skin warmth sun-kissed glow, creamy bokeh background, realistic skin texture subsurface scattering, flawless but natural human skin, heartwarming romantic atmosphere',
+       btnClass:'lv1' },
+  2: { label:'💜 시네마틱 환상 — 살짝 마법 허용',
+       prefix:'masterpiece, best quality, ultra detailed, 8k sharp focus, cinematic',
+       suffix:'dramatic volumetric god rays, cinematic anamorphic lens flare, soft ethereal scene glow not on skin, gentle floating dust particles in sunbeams, misty background depth, realistic skin subsurface scattering natural texture, deeply emotional romantic scene',
+       btnClass:'lv2' },
+  3: { label:'🌟 극강 환상 — 비현실 완전 허용',
+       prefix:'masterpiece, best quality, ultra detailed, 8k sharp focus, absurdres, cinematic lighting',
+       suffix:'dramatic volumetric god rays, ethereal divine glow, iridescent highlights, floating magical particles, bioluminescent environment, surreal dreamlike atmosphere, magical realism, crystalline beauty, time suspended moment, epic cinematic love scene',
+       btnClass:'lv3' }
 };
 
-// ── 네거티브 (강도별) ──
 const NEGATIVES = {
   0: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated, poorly drawn face, bad proportions, ugly, watermark, text, logo, out of frame, worst quality, low quality, jpeg artifacts',
-  1: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, watermark, text, logo, out of frame, worst quality, low quality, jpeg artifacts, grainy, plastic skin, waxy skin, doll-like skin, unnatural skin tone, artificial look',
-  2: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, worst quality, low quality, jpeg artifacts, grainy, extra fingers, missing limbs, plastic skin, waxy skin, doll-like skin, unnatural skin, crystal skin, glass skin appearance, hologram skin, unrealistic skin texture, artificial glowing skin, neon skin, oversaturated skin',
+  1: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, watermark, text, logo, out of frame, worst quality, low quality, jpeg artifacts, grainy, plastic skin, waxy skin, doll-like skin, unnatural skin tone, artificial look, overly smooth skin, airbrushed skin',
+  2: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, worst quality, low quality, jpeg artifacts, grainy, extra fingers, missing limbs, plastic skin, waxy skin, doll-like skin, unnatural skin, crystal skin, glass skin, hologram skin, unrealistic skin texture, artificial glowing skin, neon skin, oversaturated skin, mannequin-like',
   3: 'blurry, lowres, bad anatomy, deformed hands, extra limbs, mutated fingers, poorly drawn face, bad proportions, ugly, morbid, watermark, text, logo, out of frame, cropped, worst quality, low quality, jpeg artifacts, grainy, extra fingers, fused fingers, missing limbs, cloned face, bad feet, poorly drawn hands, malformed limbs'
 };
 
+// ── 프리셋 정의 ──
+const PRESETS = {
+  sunset_kiss: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with silver gray hair in high ponytail'], hairMale:['man with neat black hair'], body:['late 20s'],
+    style:['romantic dreamy ethereal'], light:['golden hour warm sunset lighting'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['majestic mountain sunset misty peaks'], pose:['almost kissing noses barely touching','intense tender eye contact filled with deep affection'],
+    mood:['flowing hair gently dancing in breeze','soft lens flare dreamy bokeh depth of field'],
+    fReal:['golden hour god rays gently filtering through scene','soft cinematic rim lighting warm hair glow'],
+    fMid:['dramatic volumetric god rays piercing golden mist','time frozen suspended romantic moment'], fStrong:[], intensity:2
+  },
+  cherry_hug: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with long black wavy hair'], hairMale:['man with tousled dark hair'], body:['late 20s'],
+    style:['romantic dreamy ethereal'], light:['cherry blossom pink pastel soft tones'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['cherry blossom park path petals falling'], pose:['warm embrace holding each other tightly'],
+    mood:['floating cherry blossom petals drifting softly','flowing hair gently dancing in breeze'],
+    fReal:['soft volumetric lighting warm depth and dimension','natural skin warmth sun-kissed healthy glow'],
+    fMid:['gentle floating dust particles in warm sunbeams'], fStrong:[], intensity:1
+  },
+  rain_cafe: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with short bob cut hair'], hairMale:['man with neat black hair'], body:['early 30s'],
+    style:['cinematic photorealistic'], light:['warm candlelight amber cozy glow'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['cozy cafe interior warm amber light'], pose:['intense tender eye contact filled with deep affection','soft vulnerable smile lips gently parted'],
+    mood:['rain drops falling glistening wet surfaces','soft lens flare dreamy bokeh depth of field'],
+    fReal:['natural catch light in eyes realistic eye shine','shallow depth of field smooth creamy bokeh background'],
+    fMid:['time frozen suspended romantic moment'], fStrong:[], intensity:1
+  },
+  night_rooftop: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with long straight black hair'], hairMale:['man with undercut hairstyle'], body:['late 20s'],
+    style:['cinematic photorealistic'], light:['neon city lights vibrant purple pink'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['rooftop city skyline night stars twinkling'], pose:['back hug from behind protective gentle'],
+    mood:['soft lens flare dreamy bokeh depth of field','dramatic cinematic shadows and light contrast'],
+    fReal:['soft cinematic rim lighting warm hair glow'], fMid:['cinematic anamorphic lens flare warm orange streak','intense unspoken passion electric tension between them'],
+    fStrong:[], intensity:2
+  },
+  snow_winter: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with silver gray hair in high ponytail'], hairMale:['man with neat black hair'], body:['late 20s'],
+    style:['romantic dreamy ethereal'], light:['soft moonlight cool blue silver tones'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['snowy winter landscape frozen lake soft snowfall'], pose:['warm embrace holding each other tightly','soft vulnerable smile lips gently parted'],
+    mood:['snow falling softly gentle winter atmosphere','soft lens flare dreamy bokeh depth of field'],
+    fReal:['soft warm light wrapping gently around figures','realistic skin subsurface scattering natural texture'],
+    fMid:['misty ethereal fog in background distance only'], fStrong:[], intensity:1
+  },
+  forest_magic: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with blonde highlights'], hairMale:['man with tousled dark hair'], body:['late 20s'],
+    style:['romantic dreamy ethereal'], light:['ethereal white glow divine light'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['enchanted forest bioluminescent glow'], pose:['foreheads gently touching intimate close pose'],
+    mood:['glowing magical particles dust floating in air','soft mist fog ethereal atmosphere'],
+    fReal:['golden hour god rays gently filtering through scene'], fMid:['soft ethereal atmospheric glow around scene not on skin','gentle floating dust particles in warm sunbeams'],
+    fStrong:['glowing magical fireflies bioluminescent surrounding','surreal dreamlike impossible beauty magical realism'], intensity:3
+  },
+  wuxia_scene: {
+    subject:['romantic Korean couple, exactly two people'], hair:['woman with long straight black hair'], hairMale:['man with undercut hairstyle'], body:['late 20s'],
+    style:['wuxia martial arts fantasy ink painting'], light:['dramatic storm dark contrast lightning'], quality:['masterpiece, best quality, ultra detailed, 8k, sharp focus'],
+    scene:['ancient wuxia temple bamboo forest morning mist'], pose:['dynamic action pose powerful movement'],
+    mood:['soft mist fog ethereal atmosphere','dramatic cinematic shadows and light contrast'],
+    fReal:['soft cinematic rim lighting warm hair glow'], fMid:['dramatic volumetric god rays piercing golden mist'],
+    fStrong:['surreal dreamlike impossible beauty magical realism'], intensity:2
+  }
+};
+
+// ── 랜덤 풀 ──
+const RANDOM_POOL = {
+  subject: ['romantic Korean couple, exactly two people','Korean woman','Korean man','solo Korean woman'],
+  hair: ['woman with silver gray hair in high ponytail','woman with long black wavy hair','woman with short bob cut hair','woman with blonde highlights','woman with long straight black hair'],
+  hairMale: ['man with neat black hair','man with tousled dark hair','man with short silver hair','man with undercut hairstyle'],
+  body: ['late 20s','early 30s','slim elegant figure','athletic build'],
+  style: ['romantic dreamy ethereal','cinematic photorealistic','anime illustration soft cel shading','dark fantasy gothic dramatic','watercolor painting soft brushstrokes'],
+  light: ['golden hour warm sunset lighting','soft moonlight cool blue silver tones','neon city lights vibrant purple pink','cherry blossom pink pastel soft tones','warm candlelight amber cozy glow'],
+  scene: ['majestic mountain sunset misty peaks','cherry blossom park path petals falling','Han River Seoul city skyline evening','cozy cafe interior warm amber light','enchanted forest bioluminescent glow','snowy winter landscape frozen lake soft snowfall','beach sunset golden ocean waves warm sand','rooftop city skyline night stars twinkling','rainy street at night reflections wet pavement'],
+  pose: ['foreheads gently touching intimate close pose','warm embrace holding each other tightly','almost kissing noses barely touching','back hug from behind protective gentle','holding hands walking together','intense tender eye contact filled with deep affection'],
+  mood: ['flowing hair gently dancing in breeze','floating cherry blossom petals drifting softly','soft lens flare dreamy bokeh depth of field','glowing magical particles dust floating in air','rain drops falling glistening wet surfaces','snow falling softly gentle winter atmosphere']
+};
+
 let currentIntensity = 0;
+let currentSubjectCat = 'human';
+
+// ── 주제 카테고리 전환 ──
+function switchSubject(cat) {
+  currentSubjectCat = cat;
+  document.querySelectorAll('.stab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  document.querySelectorAll('.subject-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + cat).classList.add('active');
+}
 
 // ── 강도 설정 ──
-function setIntensity(level) {
-  currentIntensity = level;
-  document.querySelectorAll('.intensity-btn').forEach(btn => {
-    btn.classList.toggle('active', parseInt(btn.dataset.level) === level);
-  });
-  document.getElementById('intensityDesc').textContent = INTENSITY[level].label;
+function setIntensity(lv) {
+  currentIntensity = lv;
+  document.querySelectorAll('.ibtn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.lv) === lv));
+  document.getElementById('intensityDesc').textContent = INTENSITY_CFG[lv].label;
   const btn = document.getElementById('generateBtn');
-  btn.className = 'btn btn-primary ' + (INTENSITY[level].btnClass || '');
-  const labels = ['✨ 프롬프트 생성하기', '💙 자연스러운 환상 생성', '💜 시네마틱 환상 생성', '🌟 극강 환상 생성'];
-  btn.textContent = labels[level];
-  showToast(['기본 모드', '💙 중간 환상 모드', '💜 강한 환상 모드', '🌟 극강 환상 모드'][level] + ' 선택됨');
+  btn.className = 'btn btn-primary ' + (INTENSITY_CFG[lv].btnClass || '');
+  btn.textContent = ['✨ 프롬프트 생성하기','💙 자연 환상 생성','💜 시네마틱 환상 생성','🌟 극강 환상 생성'][lv];
+  showToast(['기본 모드','💙 자연스러운 환상','💜 시네마틱 환상','🌟 극강 환상'][lv] + ' 선택됨');
+}
+
+// ── 프리셋 적용 ──
+function applyPreset(key) {
+  const p = PRESETS[key];
+  if (!p) return;
+  clearAllTags();
+  const setTags = (groupId, vals) => {
+    document.querySelectorAll(`#${groupId} .tag-chip`).forEach(chip => {
+      chip.classList.toggle('active', vals.includes(chip.dataset.val));
+    });
+  };
+  switchSubject('human');
+  setTags('subjectTags', p.subject);
+  setTags('hairTags', p.hair);
+  setTags('hairMaleTags', p.hairMale);
+  setTags('bodyTags', p.body);
+  setTags('styleTags', p.style);
+  setTags('lightTags', p.light);
+  setTags('qualityTags', p.quality);
+  setTags('sceneTags', p.scene);
+  setTags('poseTags', p.pose);
+  setTags('moodTags', p.mood);
+  setTags('fantasyRealTags', p.fReal);
+  setTags('fantasyMidTags', p.fMid);
+  setTags('fantasyStrongTags', p.fStrong);
+  setIntensity(p.intensity);
+  showToast('🎬 프리셋 적용됨!', '#059669');
+  setTimeout(() => generatePrompt(), 300);
+}
+
+// ── 랜덤 생성 ──
+function randomGenerate() {
+  clearAllTags();
+  switchSubject('human');
+  const pick = (arr, n=1) => {
+    const shuffled = [...arr].sort(() => Math.random() - .5);
+    return shuffled.slice(0, n);
+  };
+  const setRandom = (groupId, pool, count=1) => {
+    const chosen = pick(pool, count);
+    document.querySelectorAll(`#${groupId} .tag-chip`).forEach(chip => {
+      chip.classList.toggle('active', chosen.includes(chip.dataset.val));
+    });
+  };
+  setRandom('subjectTags', RANDOM_POOL.subject, 1);
+  setRandom('hairTags', RANDOM_POOL.hair, 1);
+  setRandom('hairMaleTags', RANDOM_POOL.hairMale, 1);
+  setRandom('bodyTags', RANDOM_POOL.body, 1);
+  setRandom('styleTags', RANDOM_POOL.style, 1);
+  setRandom('lightTags', RANDOM_POOL.light, 1);
+  document.querySelectorAll('#qualityTags .tag-chip')[0].classList.add('active');
+  setRandom('sceneTags', RANDOM_POOL.scene, 1);
+  setRandom('poseTags', RANDOM_POOL.pose, 2);
+  setRandom('moodTags', RANDOM_POOL.mood, 2);
+  const randomLv = Math.floor(Math.random() * 3);
+  setIntensity(randomLv);
+  showToast('🎲 랜덤 생성됨!', '#059669');
+  setTimeout(() => generatePrompt(), 300);
+}
+
+function clearAllTags() {
+  document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
 }
 
 // ── 태그 토글 ──
@@ -581,13 +677,157 @@ document.querySelectorAll('.tag-chip').forEach(chip => {
   chip.addEventListener('click', () => chip.classList.toggle('active'));
 });
 
-// ── API 키 ──
-function saveKey() {
-  const key = document.getElementById('geminiKey').value.trim();
-  if (key) { localStorage.setItem('geminiApiKey', key); showToast('✅ 저장됨'); }
-  else showToast('⚠️ 키를 입력해주세요');
+// ── 활성 태그 수집 ──
+function getActive(id) {
+  return [...document.querySelectorAll(`#${id} .tag-chip.active`)]
+    .map(c => c.dataset.val).filter(Boolean);
 }
 
+// ── 현재 주제 카테고리 태그 수집 ──
+function getSubjectParts() {
+  const catMap = {
+    human: ['subjectTags','hairTags','hairMaleTags','bodyTags'],
+    animal: ['animalTags'],
+    nature: ['natureTags'],
+    arch: ['archTags'],
+    abstract: ['abstractTags']
+  };
+  const customMap = {
+    human: 'subjectCustom', animal: 'animalCustom',
+    nature: 'natureCustom', arch: 'archCustom', abstract: 'abstractCustom'
+  };
+  const parts = [];
+  (catMap[currentSubjectCat] || []).forEach(id => parts.push(...getActive(id)));
+  const customVal = document.getElementById(customMap[currentSubjectCat])?.value.trim();
+  if (customVal) parts.push(customVal);
+  if (currentSubjectCat === 'human') {
+    parts.push('flawless natural skin, realistic skin texture, subsurface scattering');
+    parts.push('ultra detailed hair strands, natural hair physics');
+  }
+  return parts;
+}
+
+// ── 프롬프트 생성 ──
+function generatePrompt() {
+  const parts = [
+    ...getSubjectParts(),
+    ...getActive('styleTags'),
+    ...getActive('lightTags'),
+    ...getActive('qualityTags'),
+    ...getActive('sceneTags'),
+    document.getElementById('sceneCustom').value.trim(),
+    ...getActive('poseTags'),
+    ...getActive('moodTags'),
+    document.getElementById('moodCustom').value.trim(),
+    ...getActive('fantasyRealTags'),
+    ...getActive('fantasyMidTags'),
+    ...getActive('fantasyStrongTags'),
+    'heartwarming mood, deeply emotional scene',
+    'no explicit elements'
+  ].filter(p => p && p.trim());
+
+  const cfg = INTENSITY_CFG[currentIntensity];
+  let final = parts;
+  if (cfg.prefix) final = [cfg.prefix, ...final];
+  if (cfg.suffix) final = [...final, cfg.suffix];
+
+  const prompt = final.join(', ');
+  const negative = NEGATIVES[currentIntensity];
+
+  const outBox = document.getElementById('outputBox');
+  outBox.textContent = prompt;
+  outBox.className = `output-box lv${currentIntensity}`;
+  document.getElementById('negBox').textContent = negative;
+
+  if (document.getElementById('chkNegAuto').checked) {
+    appendToEditor('Negative:\n' + negative);
+  }
+  showToast(['✨ 생성 완료!','💙 자연 환상 생성!','💜 시네마틱 환상 생성!','🌟 극강 환상 생성!'][currentIntensity]);
+}
+
+// ── Gemini 다듬기 ──
+async function refineWithGemini() {
+  const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
+  if (!apiKey) { showToast('⚠️ API 키를 입력하세요'); return; }
+  const prompt = document.getElementById('outputBox').textContent;
+  if (!prompt || prompt.includes('여기에')) { showToast('⚠️ 먼저 생성하세요'); return; }
+  const btn = document.getElementById('geminiBtn');
+  btn.innerHTML = '<span class="spinner"></span> 다듬는 중...';
+  btn.disabled = true;
+  const instructions = [
+    'Enhance this image prompt. Keep it natural and realistic. Output comma-separated tags only.',
+    'Enhance with natural cinematic lighting. Keep skin realistic. Comma-separated tags only.',
+    'Enhance with cinematic fantasy. Keep skin natural, add atmospheric effects. Comma-separated tags only.',
+    'Enhance to be breathtakingly fantastical. Output comma-separated tags only.'
+  ];
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ contents:[{parts:[{text:`${instructions[currentIntensity]}\n\nPrompt:\n${prompt}`}]}],
+          generationConfig:{ temperature:[.7,.75,.85,.95][currentIntensity], maxOutputTokens:1024 } }) }
+    );
+    const data = await res.json();
+    if (!res.ok) { showToast('❌ ' + (data?.error?.message || '오류'), 4000); return; }
+    const refined = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (refined) { document.getElementById('outputBox').textContent = refined.trim(); showToast('🤖 Gemini 다듬기 완료!'); }
+  } catch(e) { showToast('❌ ' + e.message, 4000); }
+  finally { btn.innerHTML = '🤖 Gemini 다듬기'; btn.disabled = false; }
+}
+
+// ── 편집기 ──
+function appendToEditor(text) {
+  const ed = document.getElementById('editorBox');
+  const cur = ed.value.trim();
+  ed.value = cur ? cur + '\n\n' + text : text;
+  updateEditorCount();
+}
+function sendToEditor(type) {
+  if (type === 'output') {
+    const t = document.getElementById('outputBox').textContent;
+    if (!t || t.includes('여기에')) { showToast('⚠️ 먼저 생성하세요'); return; }
+    appendToEditor(t); showToast('📤 편집기에 추가됨!', '#059669');
+  } else {
+    const t = document.getElementById('negBox').textContent;
+    if (!t || t.includes('네거티브')) { showToast('⚠️ 먼저 생성하세요'); return; }
+    appendToEditor('Negative:\n' + t); showToast('📤 네거티브 추가됨!', '#059669');
+  }
+}
+function copyEditor() {
+  const t = document.getElementById('editorBox').value;
+  if (!t) { showToast('⚠️ 편집기가 비어있어요'); return; }
+  navigator.clipboard.writeText(t).then(() => showToast('📋 편집기 복사 완료!')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = t;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showToast('📋 복사 완료!');
+  });
+}
+function clearEditor() {
+  if (document.getElementById('editorBox').value && !confirm('초기화할까요?')) return;
+  document.getElementById('editorBox').value = ''; updateEditorCount(); showToast('🗑️ 초기화됨');
+}
+function updateEditorCount() {
+  const len = document.getElementById('editorBox').value.length;
+  document.getElementById('editorCount').textContent = len ? len + '자' : '';
+}
+
+// ── 복사 ──
+function copyText(id) {
+  const t = document.getElementById(id).textContent;
+  if (!t || t.includes('여기에') || t.includes('네거티브 프롬프트가')) { showToast('⚠️ 복사할 내용 없음'); return; }
+  navigator.clipboard.writeText(t).then(() => showToast('📋 복사 완료!')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = t;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showToast('📋 복사 완료!');
+  });
+}
+
+// ── API 키 ──
+function saveKey() {
+  const k = document.getElementById('geminiKey').value.trim();
+  if (k) { localStorage.setItem('geminiApiKey', k); showToast('✅ 저장됨'); }
+  else showToast('⚠️ 키를 입력하세요');
+}
 async function testKey() {
   const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
   const st = document.getElementById('keyStatus');
@@ -602,184 +842,16 @@ async function testKey() {
     if (res.ok) { st.textContent = '✅ 정상!'; st.style.color = '#34d399'; showToast('✅ API 키 정상!'); }
     else {
       const err = await res.json();
-      const msg = err?.error?.message || '오류';
-      st.textContent = '❌ ' + msg; st.style.color = '#f87171';
-      showToast('❌ ' + msg, 4000);
+      st.textContent = '❌ ' + (err?.error?.message || '오류'); st.style.color = '#f87171';
+      showToast('❌ ' + (err?.error?.message || '오류'), 4000);
     }
-  } catch(e) {
-    st.textContent = '❌ 연결 실패'; st.style.color = '#f87171';
-    showToast('❌ ' + e.message, 4000);
-  }
-}
-
-// ── 활성 태그 수집 ──
-function getActive(id) {
-  return [...document.querySelectorAll(`#${id} .tag-chip.active`)]
-    .map(c => c.dataset.val).filter(Boolean);
-}
-
-// ── 프롬프트 생성 ──
-function generatePrompt() {
-  const parts = [
-    ...getActive('subjectTags'),
-    ...getActive('hairTags'),
-    ...getActive('hairMaleTags'),
-    'flawless natural skin, realistic skin texture, subsurface scattering',
-    'ultra detailed hair strands, natural hair physics',
-    ...getActive('bodyTags'),
-    document.getElementById('subjectCustom').value.trim(),
-    ...getActive('styleTags'),
-    ...getActive('lightTags'),
-    ...getActive('qualityTags'),
-    ...getActive('sceneTags'),
-    document.getElementById('sceneCustom').value.trim(),
-    ...getActive('poseTags'),
-    ...getActive('moodTags'),
-    document.getElementById('moodCustom').value.trim(),
-    // 환상 태그 3단계 전부 수집
-    ...getActive('fantasyRealTags'),
-    ...getActive('fantasyMidTags'),
-    ...getActive('fantasyStrongTags'),
-    'heartwarming romantic mood, deeply emotional scene',
-    'no explicit elements'
-  ].filter(p => p && p.trim());
-
-  const lvCfg = INTENSITY[currentIntensity];
-  let finalParts = parts;
-  if (lvCfg.prefix) finalParts = [lvCfg.prefix, ...finalParts];
-  if (lvCfg.suffix) finalParts = [...finalParts, lvCfg.suffix];
-
-  const prompt = finalParts.join(', ');
-  const negative = NEGATIVES[currentIntensity];
-
-  const outBox = document.getElementById('outputBox');
-  outBox.textContent = prompt;
-  outBox.className = `output-box lv${currentIntensity}`;
-
-  document.getElementById('negBox').textContent = negative;
-
-  if (document.getElementById('chkNegAuto').checked) {
-    appendToEditor('Negative:\n' + negative);
-  }
-
-  showToast(['✨ 생성 완료!', '💙 자연 환상 생성!', '💜 시네마틱 환상 생성!', '🌟 극강 환상 생성!'][currentIntensity]);
-}
-
-// ── Gemini 다듬기 ──
-async function refineWithGemini() {
-  const apiKey = document.getElementById('geminiKey').value.trim() || localStorage.getItem('geminiApiKey') || '';
-  if (!apiKey) { showToast('⚠️ API 키를 입력하세요'); return; }
-  const prompt = document.getElementById('outputBox').textContent;
-  if (!prompt || prompt.includes('여기에')) { showToast('⚠️ 먼저 생성하세요'); return; }
-
-  const btn = document.getElementById('geminiBtn');
-  btn.innerHTML = '<span class="spinner"></span> 다듬는 중...';
-  btn.disabled = true;
-
-   const instructions = [
-    'Enhance this image prompt. Keep it natural and realistic. Output comma-separated tags only, no explanation.',
-    'Enhance this image prompt with natural cinematic lighting. Keep skin realistic and natural. Output comma-separated tags only, no explanation.',
-    'Enhance this image prompt with cinematic fantasy atmosphere. Keep skin texture realistic, add atmospheric lighting effects. Output comma-separated tags only.',
-    'Enhance this image prompt to be breathtakingly fantastical and visually stunning. Output comma-separated tags only, no explanation.'
-  ];
-
-  try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `${instructions[currentIntensity]}\n\nPrompt:\n${prompt}` }] }],
-          generationConfig: { temperature: [0.7, 0.75, 0.85, 0.95][currentIntensity], maxOutputTokens: 1024 }
-        })
-      }
-    );
-    const data = await res.json();
-    if (!res.ok) { showToast('❌ ' + (data?.error?.message || '오류'), 4000); return; }
-    const refined = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    if (refined) {
-      document.getElementById('outputBox').textContent = refined.trim();
-      showToast('🤖 Gemini 다듬기 완료!');
-    }
-  } catch(e) { showToast('❌ ' + e.message, 4000); }
-  finally { btn.innerHTML = '🤖 Gemini 다듬기'; btn.disabled = false; }
-}
-
-// ── 편집기 ──
-function appendToEditor(text) {
-  const ed = document.getElementById('editorBox');
-  const cur = ed.value.trim();
-  ed.value = cur ? cur + '\n\n' + text : text;
-  updateEditorCount();
-}
-
-function sendToEditor(type) {
-  if (type === 'output') {
-    const text = document.getElementById('outputBox').textContent;
-    if (!text || text.includes('여기에')) { showToast('⚠️ 먼저 생성하세요'); return; }
-    appendToEditor(text);
-    showToast('📤 프롬프트 편집기에 추가됨!', '#059669');
-  } else {
-    const text = document.getElementById('negBox').textContent;
-    if (!text || text.includes('네거티브')) { showToast('⚠️ 먼저 생성하세요'); return; }
-    appendToEditor('Negative:\n' + text);
-    showToast('📤 네거티브 편집기에 추가됨!', '#059669');
-  }
-}
-
-function copyEditor() {
-  const text = document.getElementById('editorBox').value;
-  if (!text) { showToast('⚠️ 편집기가 비어있어요'); return; }
-  navigator.clipboard.writeText(text)
-    .then(() => showToast('📋 편집기 복사 완료!'))
-    .catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('📋 복사 완료!');
-    });
-}
-
-function clearEditor() {
-  if (document.getElementById('editorBox').value && !confirm('편집기를 초기화할까요?')) return;
-  document.getElementById('editorBox').value = '';
-  updateEditorCount();
-  showToast('🗑️ 초기화됨');
-}
-
-function updateEditorCount() {
-  const len = document.getElementById('editorBox').value.length;
-  document.getElementById('editorCount').textContent = len ? len + '자' : '';
-}
-
-// ── 복사 ──
-function copyText(boxId) {
-  const text = document.getElementById(boxId).textContent;
-  if (!text || text.includes('여기에') || text.includes('네거티브 프롬프트가')) {
-    showToast('⚠️ 복사할 내용이 없어요'); return;
-  }
-  navigator.clipboard.writeText(text)
-    .then(() => showToast('📋 복사 완료!'))
-    .catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('📋 복사 완료!');
-    });
+  } catch(e) { st.textContent = '❌ 연결 실패'; st.style.color = '#f87171'; showToast('❌ ' + e.message, 4000); }
 }
 
 // ── 토스트 ──
-function showToast(msg, duration = 2500) {
+function showToast(msg, duration=2500) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), duration);
 }
 
