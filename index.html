@@ -9,9 +9,6 @@
 * { box-sizing:border-box; margin:0; padding:0; }
 body { background:#fafafa; color:#1a1a2e; font-family:'Segoe UI',sans-serif; overflow-x:hidden; }
 
-/* ===========================
-   🌐 NAVBAR
-=========================== */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
   padding:16px 40px; display:flex; align-items:center; justify-content:space-between;
@@ -29,9 +26,6 @@ nav {
 .nav-links a:hover { color:#7c3aed; background:#f3f0ff; }
 .nav-links a.active { color:#7c3aed; background:#f3f0ff; }
 
-/* ===========================
-   🦸 HERO
-=========================== */
 .hero {
   min-height:100vh; display:flex; align-items:center;
   padding:100px 40px 60px; max-width:1200px; margin:0 auto;
@@ -59,7 +53,6 @@ nav {
 .hero h1 em { font-style:normal; color:#7c3aed; }
 .hero p { color:#6b7280; font-size:1rem; line-height:1.8; max-width:440px; margin-bottom:24px; }
 
-/* ⏰ 클락바 */
 .clock-bar {
   display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap;
   background:#fff; border:1px solid #e5e7eb;
@@ -97,7 +90,6 @@ nav {
 }
 .btn-outline:hover { background:#f3f0ff; }
 
-/* 히어로 우측 카드 */
 .hero-right { flex:1; min-width:280px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .hero-card {
   background:#fff; border-radius:16px; padding:20px;
@@ -112,9 +104,6 @@ nav {
 .hero-card.featured .hero-card-title { color:#fff; }
 .hero-card.featured .hero-card-desc { color:#fce7f3; }
 
-/* ===========================
-   📊 HERO 통계
-=========================== */
 .hero-stats {
   display:flex; gap:24px; flex-wrap:wrap;
   margin-top:32px; padding-top:24px; border-top:1px solid #f3f4f6;
@@ -123,9 +112,6 @@ nav {
 .hero-stat .num { font-size:1.6rem; font-weight:900; color:#7c3aed; }
 .hero-stat .label { font-size:0.72rem; color:#9ca3af; margin-top:2px; }
 
-/* ===========================
-   📦 SECTION 공통
-=========================== */
 section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 .section-chip {
   display:inline-block; background:#f3f0ff; color:#7c3aed;
@@ -144,9 +130,6 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 }
 .section-more:hover { color:#7c3aed; }
 
-/* ===========================
-   🧭 서비스 카드
-=========================== */
 .services { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
 .svc-card {
   background:#fff; border-radius:16px; padding:24px;
@@ -163,9 +146,6 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 .svc-desc { font-size:0.82rem; color:#9ca3af; line-height:1.5; }
 .svc-arrow { color:#7c3aed; font-size:0.85rem; margin-top:12px; font-weight:600; }
 
-/* ===========================
-   📊 FIREBASE 미리보기
-=========================== */
 .preview-grid {
   display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;
   margin-bottom:24px;
@@ -190,31 +170,19 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 }
 .preview-item:last-child { border-bottom:none; }
 .preview-item:hover { padding-left:4px; }
-.preview-item-dot {
-  width:6px; height:6px; border-radius:50%;
-  background:#7c3aed; flex-shrink:0;
-}
+.preview-item-dot { width:6px; height:6px; border-radius:50%; background:#7c3aed; flex-shrink:0; }
 .preview-item-text {
   font-size:0.82rem; color:#4b5563;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;
 }
 .preview-item-time { font-size:0.7rem; color:#d1d5db; flex-shrink:0; }
-.preview-empty {
-  text-align:center; padding:20px 0;
-  color:#d1d5db; font-size:0.8rem;
-}
+.preview-empty { text-align:center; padding:20px 0; color:#d1d5db; font-size:0.8rem; }
 .preview-empty i { font-size:1.8rem; display:block; margin-bottom:6px; opacity:0.4; }
 
-/* ===========================
-   ✅ TODO 진행률 + 🖼️ 갤러리
-=========================== */
-.bottom-grid {
-  display:grid; grid-template-columns:1fr 2fr; gap:16px; margin-bottom:0;
-}
+.bottom-grid { display:grid; grid-template-columns:1fr 2fr; gap:16px; margin-bottom:0; }
 .todo-card {
   background:#fff; border-radius:16px; padding:24px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid #f3f4f6;
-  transition:all 0.3s;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid #f3f4f6; transition:all 0.3s;
 }
 .todo-card:hover { box-shadow:0 8px 32px rgba(124,58,237,0.08); border-color:#e9d5ff; }
 .todo-card-title {
@@ -234,41 +202,25 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 }
 .progress-percent { font-size:0.8rem; color:#9ca3af; }
 
-/* 갤러리 썸네일 */
 .gallery-card {
   background:#fff; border-radius:16px; padding:20px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid #f3f4f6;
-  transition:all 0.3s;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid #f3f4f6; transition:all 0.3s;
 }
 .gallery-card:hover { box-shadow:0 8px 32px rgba(124,58,237,0.08); border-color:#e9d5ff; }
 .gallery-card-header {
   display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
 }
-.gallery-card-title {
-  display:flex; align-items:center; gap:6px;
-  font-size:0.9rem; font-weight:700; color:#1a1a2e;
-}
-.gallery-thumb-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
-}
+.gallery-card-title { display:flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:700; color:#1a1a2e; }
+.gallery-thumb-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
 .gallery-thumb {
   aspect-ratio:1; border-radius:10px; overflow:hidden;
-  background:#f9fafb; border:1px solid #f3f4f6;
-  transition:all 0.3s; cursor:pointer;
+  background:#f9fafb; border:1px solid #f3f4f6; transition:all 0.3s; cursor:pointer;
 }
 .gallery-thumb:hover { transform:scale(1.04); border-color:#e9d5ff; }
 .gallery-thumb img { width:100%; height:100%; object-fit:cover; }
-.gallery-thumb-empty {
-  display:flex; align-items:center; justify-content:center;
-  height:100%; color:#d1d5db; font-size:1.2rem;
-}
+.gallery-thumb-empty { display:flex; align-items:center; justify-content:center; height:100%; color:#d1d5db; font-size:1.2rem; }
 
-/* ===========================
-   🤖 AI TOOLS
-=========================== */
-.ai-tools-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px;
-}
+.ai-tools-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px; }
 .ai-tool-card {
   background:#fff; border-radius:14px; padding:16px 10px;
   text-align:center; text-decoration:none; color:#1a1a2e;
@@ -276,32 +228,19 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
   display:flex; flex-direction:column; align-items:center; gap:8px;
   box-shadow:0 2px 8px rgba(0,0,0,0.04);
 }
-.ai-tool-card:hover {
-  transform:translateY(-3px); border-color:#e9d5ff;
-  box-shadow:0 8px 24px rgba(124,58,237,0.1);
-}
-.ai-tool-icon {
-  width:40px; height:40px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center; font-size:1.1rem;
-}
+.ai-tool-card:hover { transform:translateY(-3px); border-color:#e9d5ff; box-shadow:0 8px 24px rgba(124,58,237,0.1); }
+.ai-tool-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
 .ai-tool-name { font-size:0.78rem; font-weight:700; color:#1a1a2e; }
 .ai-tool-desc { font-size:0.68rem; color:#9ca3af; }
 
-/* ===========================
-   📈 통계 카드
-=========================== */
 .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:16px; margin-top:40px; }
 .stat { text-align:center; padding:24px; background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid #f3f4f6; }
 .stat-n { font-size:2.2rem; font-weight:900; color:#7c3aed; }
 .stat-l { font-size:0.8rem; color:#9ca3af; margin-top:4px; }
 
-/* ===========================
-   💜 CTA
-=========================== */
 .cta {
   background:linear-gradient(135deg,#7c3aed,#ec4899);
-  border-radius:24px; padding:60px 40px; text-align:center;
-  margin:0 40px 80px;
+  border-radius:24px; padding:60px 40px; text-align:center; margin:0 40px 80px;
 }
 .cta h2 { font-size:2.2rem; font-weight:900; color:#fff; margin-bottom:12px; }
 .cta p { color:#fce7f3; margin-bottom:28px; }
@@ -314,9 +253,6 @@ section { padding:80px 40px; max-width:1200px; margin:0 auto; }
 
 footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; border-top:1px solid #f3f4f6; }
 
-/* ===========================
-   ⚡ SKELETON
-=========================== */
 .skeleton {
   background:linear-gradient(90deg,#f3f4f6 25%,#e9d5ff22 50%,#f3f4f6 75%);
   background-size:200% 100%;
@@ -328,9 +264,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   100%{background-position:-200% 0;}
 }
 
-/* ===========================
-   📱 RESPONSIVE
-=========================== */
 @media(max-width:768px){
   nav { padding:12px 16px; }
   .nav-links a span { display:none; }
@@ -354,9 +287,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
 </head>
 <body>
 
-<!-- ===========================
-     🌐 NAVBAR
-=========================== -->
 <nav>
   <div class="nav-logo">My<span>AI</span>Studio</div>
   <div class="nav-links">
@@ -370,16 +300,11 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   </div>
 </nav>
 
-<!-- ===========================
-     🦸 HERO
-=========================== -->
 <div class="hero">
   <div class="hero-left fade-up">
     <div class="hero-tag"><span class="dot"></span> AI 창작 스튜디오</div>
     <h1>AI로 만드는<br><em>무한한</em><br>가능성</h1>
     <p>프롬프트 생성부터 이미지 갤러리, 아이디어 관리까지 — AI 창작의 모든 것을 한 곳에서</p>
-
-    <!-- ⏰ 클락바 -->
     <div class="clock-bar">
       <div class="clock-time" id="clock-time">00:00:00</div>
       <div class="clock-date" id="clock-date">—</div>
@@ -389,33 +314,17 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
         <span>방문 <strong id="visitor-count">...</strong>회</span>
       </div>
     </div>
-
     <div class="hero-btns">
       <a href="gall.html" class="btn-purple"><i class="fa-solid fa-images"></i> 갤러리 보기</a>
       <a href="prompt-generator.html" class="btn-outline"><i class="fa-solid fa-wand-magic-sparkles"></i> 프롬프트 생성</a>
     </div>
-
-    <!-- 📊 실시간 통계 -->
     <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="num" id="stat-ideas">—</div>
-        <div class="label">💡 아이디어</div>
-      </div>
-      <div class="hero-stat">
-        <div class="num" id="stat-links">—</div>
-        <div class="label">🔗 링크</div>
-      </div>
-      <div class="hero-stat">
-        <div class="num" id="stat-todos">—</div>
-        <div class="label">✅ 할일</div>
-      </div>
-      <div class="hero-stat">
-        <div class="num" id="stat-memos">—</div>
-        <div class="label">📝 메모</div>
-      </div>
+      <div class="hero-stat"><div class="num" id="stat-ideas">—</div><div class="label">💡 아이디어</div></div>
+      <div class="hero-stat"><div class="num" id="stat-links">—</div><div class="label">🔗 링크</div></div>
+      <div class="hero-stat"><div class="num" id="stat-todos">—</div><div class="label">✅ 할일</div></div>
+      <div class="hero-stat"><div class="num" id="stat-memos">—</div><div class="label">📝 메모</div></div>
     </div>
   </div>
-
   <div class="hero-right fade-up">
     <a href="gall.html" class="hero-card featured">
       <div class="hero-card-icon">🖼️</div>
@@ -445,56 +354,20 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   </div>
 </div>
 
-<!-- ===========================
-     🧭 서비스 섹션
-=========================== -->
 <section class="fade-up">
   <div class="section-chip">Services</div>
   <div class="section-h">모든 도구를 한눈에</div>
   <div class="section-sub">AI 창작을 위한 6가지 핵심 도구</div>
   <div class="services">
-    <a href="gall.html" class="svc-card">
-      <div class="svc-icon-wrap">🖼️</div>
-      <div class="svc-title">AI 갤러리</div>
-      <div class="svc-desc">이미지 저장 및 프롬프트 관리</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
-    <a href="prompt-generator.html" class="svc-card">
-      <div class="svc-icon-wrap">✨</div>
-      <div class="svc-title">프롬프트 생성기</div>
-      <div class="svc-desc">Gemini AI 기반 자동 생성</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
-    <a href="links.html" class="svc-card">
-      <div class="svc-icon-wrap">🔗</div>
-      <div class="svc-title">링크 모음</div>
-      <div class="svc-desc">AI 툴 및 참고자료</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
-    <a href="ideas.html" class="svc-card">
-      <div class="svc-icon-wrap">💡</div>
-      <div class="svc-title">아이디어</div>
-      <div class="svc-desc">프로젝트 기획 기록</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
-    <a href="todos.html" class="svc-card">
-      <div class="svc-icon-wrap">✅</div>
-      <div class="svc-title">할일 목록</div>
-      <div class="svc-desc">작업 관리 및 진행률</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
-    <a href="memo.html" class="svc-card">
-      <div class="svc-icon-wrap">📝</div>
-      <div class="svc-title">메모</div>
-      <div class="svc-desc">자유로운 메모</div>
-      <div class="svc-arrow">자세히 보기 →</div>
-    </a>
+    <a href="gall.html" class="svc-card"><div class="svc-icon-wrap">🖼️</div><div class="svc-title">AI 갤러리</div><div class="svc-desc">이미지 저장 및 프롬프트 관리</div><div class="svc-arrow">자세히 보기 →</div></a>
+    <a href="prompt-generator.html" class="svc-card"><div class="svc-icon-wrap">✨</div><div class="svc-title">프롬프트 생성기</div><div class="svc-desc">Gemini AI 기반 자동 생성</div><div class="svc-arrow">자세히 보기 →</div></a>
+    <a href="links.html" class="svc-card"><div class="svc-icon-wrap">🔗</div><div class="svc-title">링크 모음</div><div class="svc-desc">AI 툴 및 참고자료</div><div class="svc-arrow">자세히 보기 →</div></a>
+    <a href="ideas.html" class="svc-card"><div class="svc-icon-wrap">💡</div><div class="svc-title">아이디어</div><div class="svc-desc">프로젝트 기획 기록</div><div class="svc-arrow">자세히 보기 →</div></a>
+    <a href="todos.html" class="svc-card"><div class="svc-icon-wrap">✅</div><div class="svc-title">할일 목록</div><div class="svc-desc">작업 관리 및 진행률</div><div class="svc-arrow">자세히 보기 →</div></a>
+    <a href="memo.html" class="svc-card"><div class="svc-icon-wrap">📝</div><div class="svc-title">메모</div><div class="svc-desc">자유로운 메모</div><div class="svc-arrow">자세히 보기 →</div></a>
   </div>
 </section>
 
-<!-- ===========================
-     📊 실시간 미리보기
-=========================== -->
 <section class="fade-up">
   <div class="section-chip">Live Data</div>
   <div class="section-header-row">
@@ -504,8 +377,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
     </div>
   </div>
   <div class="preview-grid">
-
-    <!-- 💡 아이디어 -->
     <div class="preview-card">
       <div class="preview-card-header">
         <div class="preview-card-title">💡 최근 아이디어</div>
@@ -517,8 +388,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
         <div class="skeleton" style="width:60%"></div>
       </div>
     </div>
-
-    <!-- 🔗 링크 -->
     <div class="preview-card">
       <div class="preview-card-header">
         <div class="preview-card-title">🔗 최근 링크</div>
@@ -530,8 +399,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
         <div class="skeleton" style="width:55%"></div>
       </div>
     </div>
-
-    <!-- 📝 메모 -->
     <div class="preview-card">
       <div class="preview-card-header">
         <div class="preview-card-title">📝 최근 메모</div>
@@ -543,10 +410,8 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
         <div class="skeleton" style="width:65%"></div>
       </div>
     </div>
-
   </div>
 
-  <!-- ✅ 할일 진행률 + 🖼️ 갤러리 -->
   <div class="bottom-grid">
     <div class="todo-card">
       <div class="todo-card-title">✅ 할일 진행률</div>
@@ -577,9 +442,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   </div>
 </section>
 
-<!-- ===========================
-     🤖 AI TOOLS
-=========================== -->
 <section class="fade-up">
   <div class="section-chip">AI Tools</div>
   <div class="section-h">AI 툴 바로가기</div>
@@ -587,55 +449,43 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   <div class="ai-tools-grid">
     <a href="https://chat.openai.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#e6f9f5;color:#10a37f"><i class="fa-solid fa-comment-dots"></i></div>
-      <div class="ai-tool-name">ChatGPT</div>
-      <div class="ai-tool-desc">OpenAI</div>
+      <div class="ai-tool-name">ChatGPT</div><div class="ai-tool-desc">OpenAI</div>
     </a>
     <a href="https://claude.ai" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#fef3e8;color:#d79b64"><i class="fa-solid fa-brain"></i></div>
-      <div class="ai-tool-name">Claude</div>
-      <div class="ai-tool-desc">Anthropic</div>
+      <div class="ai-tool-name">Claude</div><div class="ai-tool-desc">Anthropic</div>
     </a>
     <a href="https://grok.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#f3f4f6;color:#374151"><i class="fa-solid fa-bolt"></i></div>
-      <div class="ai-tool-name">Grok</div>
-      <div class="ai-tool-desc">xAI</div>
+      <div class="ai-tool-name">Grok</div><div class="ai-tool-desc">xAI</div>
     </a>
     <a href="https://gemini.google.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#e8f0fe;color:#4285f4"><i class="fa-solid fa-gem"></i></div>
-      <div class="ai-tool-name">Gemini</div>
-      <div class="ai-tool-desc">Google</div>
+      <div class="ai-tool-name">Gemini</div><div class="ai-tool-desc">Google</div>
     </a>
     <a href="https://www.midjourney.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#f3f0ff;color:#7c3aed"><i class="fa-solid fa-palette"></i></div>
-      <div class="ai-tool-name">Midjourney</div>
-      <div class="ai-tool-desc">이미지 생성</div>
+      <div class="ai-tool-name">Midjourney</div><div class="ai-tool-desc">이미지 생성</div>
     </a>
     <a href="https://stability.ai" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#fdf2f8;color:#ec4899"><i class="fa-solid fa-image"></i></div>
-      <div class="ai-tool-name">Stable Diffusion</div>
-      <div class="ai-tool-desc">이미지 생성</div>
+      <div class="ai-tool-name">Stable Diffusion</div><div class="ai-tool-desc">이미지 생성</div>
     </a>
     <a href="https://suno.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#ecfdf5;color:#10b981"><i class="fa-solid fa-music"></i></div>
-      <div class="ai-tool-name">Suno</div>
-      <div class="ai-tool-desc">AI 음악</div>
+      <div class="ai-tool-name">Suno</div><div class="ai-tool-desc">AI 음악</div>
     </a>
     <a href="https://runwayml.com" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#fffbeb;color:#f59e0b"><i class="fa-solid fa-video"></i></div>
-      <div class="ai-tool-name">Runway</div>
-      <div class="ai-tool-desc">AI 영상</div>
+      <div class="ai-tool-name">Runway</div><div class="ai-tool-desc">AI 영상</div>
     </a>
     <a href="https://perplexity.ai" target="_blank" class="ai-tool-card">
       <div class="ai-tool-icon" style="background:#eff6ff;color:#6366f1"><i class="fa-solid fa-magnifying-glass"></i></div>
-      <div class="ai-tool-name">Perplexity</div>
-      <div class="ai-tool-desc">AI 검색</div>
+      <div class="ai-tool-name">Perplexity</div><div class="ai-tool-desc">AI 검색</div>
     </a>
   </div>
 </section>
 
-<!-- ===========================
-     📈 통계
-=========================== -->
 <section class="fade-up">
   <div class="stats">
     <div class="stat"><div class="stat-n">6</div><div class="stat-l">서비스</div></div>
@@ -646,9 +496,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   </div>
 </section>
 
-<!-- ===========================
-     💜 CTA
-=========================== -->
 <div class="cta fade-up">
   <h2>지금 시작하세요 🚀</h2>
   <p>AI 창작의 모든 것을 한 곳에서 경험하세요</p>
@@ -657,9 +504,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
 
 <footer>Powered by Firebase + GitHub Pages · My AI Studio</footer>
 
-<!-- ===========================
-     🔥 FIREBASE + JS
-=========================== -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, getDocs, query, orderBy, limit, doc, getDoc, setDoc, increment }
@@ -710,11 +554,15 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   }
   updateVisitor();
 
-  // 🕐 시간 포맷
+  // 🕐 시간 포맷 — date 필드 대응
   function timeAgo(ts) {
     if (!ts) return '';
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    let d;
+    if (ts.toDate) d = ts.toDate();           // Firestore Timestamp
+    else if (typeof ts === 'string') d = new Date(ts); // ISO 문자열
+    else d = new Date(ts);
     const diff = (Date.now() - d) / 1000;
+    if (isNaN(diff)) return '';
     if (diff < 60) return '방금';
     if (diff < 3600) return `${Math.floor(diff/60)}분 전`;
     if (diff < 86400) return `${Math.floor(diff/3600)}시간 전`;
@@ -741,11 +589,11 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   }
   loadStats();
 
-  // 💡 아이디어 미리보기
+  // 💡 아이디어 미리보기 — date 필드
   async function loadIdeas() {
     const el = document.getElementById('preview-ideas');
     try {
-      const q = query(collection(db,'ideas'), orderBy('createdAt','desc'), limit(4));
+      const q = query(collection(db,'ideas'), orderBy('date','desc'), limit(4));
       const snap = await getDocs(q);
       if (snap.empty) {
         el.innerHTML = '<div class="preview-empty"><i class="fa-regular fa-lightbulb"></i>아이디어를 추가해보세요</div>';
@@ -757,8 +605,8 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
         el.innerHTML += `
           <div class="preview-item">
             <div class="preview-item-dot" style="background:#f59e0b"></div>
-            <div class="preview-item-text">${data.title || data.content || '(제목 없음)'}</div>
-            <div class="preview-item-time">${timeAgo(data.createdAt)}</div>
+            <div class="preview-item-text">${data.title || data.content || data.text || '(제목 없음)'}</div>
+            <div class="preview-item-time">${timeAgo(data.date)}</div>
           </div>`;
       });
     } catch(e) {
@@ -767,11 +615,11 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   }
   loadIdeas();
 
-  // 🔗 링크 미리보기
+  // 🔗 링크 미리보기 — date 필드
   async function loadLinks() {
     const el = document.getElementById('preview-links');
     try {
-      const q = query(collection(db,'links'), orderBy('createdAt','desc'), limit(4));
+      const q = query(collection(db,'links'), orderBy('date','desc'), limit(4));
       const snap = await getDocs(q);
       if (snap.empty) {
         el.innerHTML = '<div class="preview-empty"><i class="fa-solid fa-link"></i>링크를 추가해보세요</div>';
@@ -784,7 +632,7 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
           <div class="preview-item">
             <div class="preview-item-dot" style="background:#6366f1"></div>
             <div class="preview-item-text">${data.title || data.url || '(링크 없음)'}</div>
-            <div class="preview-item-time">${timeAgo(data.createdAt)}</div>
+            <div class="preview-item-time">${timeAgo(data.date)}</div>
           </div>`;
       });
     } catch(e) {
@@ -793,11 +641,11 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   }
   loadLinks();
 
-  // 📝 메모 미리보기
+  // 📝 메모 미리보기 — date 필드
   async function loadMemos() {
     const el = document.getElementById('preview-memos');
     try {
-      const q = query(collection(db,'memos'), orderBy('createdAt','desc'), limit(4));
+      const q = query(collection(db,'memos'), orderBy('date','desc'), limit(4));
       const snap = await getDocs(q);
       if (snap.empty) {
         el.innerHTML = '<div class="preview-empty"><i class="fa-regular fa-note-sticky"></i>메모를 추가해보세요</div>';
@@ -806,12 +654,12 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
       el.innerHTML = '';
       snap.forEach(d => {
         const data = d.data();
-        const text = (data.content || data.text || '(내용 없음)').split('\n')[0];
+        const text = (data.content || data.text || data.note || '(내용 없음)').split('\n')[0];
         el.innerHTML += `
           <div class="preview-item">
             <div class="preview-item-dot" style="background:#ef4444"></div>
             <div class="preview-item-text">${text}</div>
-            <div class="preview-item-time">${timeAgo(data.createdAt)}</div>
+            <div class="preview-item-time">${timeAgo(data.date)}</div>
           </div>`;
       });
     } catch(e) {
@@ -820,14 +668,15 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   }
   loadMemos();
 
-  // ✅ 할일 진행률
+  // ✅ 할일 진행률 — completed / done / checked 다 대응
   async function loadTodos() {
     try {
       const snap = await getDocs(collection(db,'todos'));
       let total = 0, done = 0;
       snap.forEach(d => {
         total++;
-        if (d.data().completed || d.data().done) done++;
+        const data = d.data();
+        if (data.completed || data.done || data.checked) done++;
       });
       document.getElementById('todo-done').textContent = done;
       document.getElementById('todo-total').textContent = `/ ${total}`;
@@ -870,7 +719,6 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
 
 </script>
 
-<!-- 페이드업 옵저버 -->
 <script>
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
