@@ -25,10 +25,10 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   transition: all 0.2s;
 }
 .navbar a:hover { opacity: 0.8; }
-.nav-home { background:#1a1a2e; border:1px solid #2d2d5e; color:#94a3b8; }
+.nav-home    { background:#1a1a2e; border:1px solid #2d2d5e; color:#94a3b8; }
 .nav-gallery { background:#1a1a2e; border:1px solid #1d4ed8; color:#93c5fd; }
-.nav-gen { background:#1a1a2e; border:1px solid #5b21b6; color:#c4b5fd; }
-.nav-memo { background:#1a1a2e; border:1px solid #059669; color:#6ee7b7; }
+.nav-gen     { background:#1a1a2e; border:1px solid #5b21b6; color:#c4b5fd; }
+.nav-memo    { background:#1a1a2e; border:1px solid #059669; color:#6ee7b7; }
 
 /* ── 헤더 ── */
 .header {
@@ -50,7 +50,6 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   margin-bottom: 24px;
 }
 .write-card h2 { font-size: 0.95rem; color: #6ee7b7; margin-bottom: 14px; }
-
 .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
 .form-input {
   background: #0f0f1a;
@@ -64,7 +63,6 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   min-width: 140px;
 }
 .form-input:focus { outline: none; border-color: #059669; }
-
 .form-select {
   background: #0f0f1a;
   border: 1px solid #374151;
@@ -75,7 +73,6 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   cursor: pointer;
 }
 .form-select:focus { outline: none; border-color: #059669; }
-
 .form-textarea {
   width: 100%;
   background: #0f0f1a;
@@ -91,6 +88,43 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
 }
 .form-textarea:focus { outline: none; border-color: #059669; }
 
+/* ── 이미지 업로드 ── */
+.img-upload-area {
+  border: 2px dashed #374151;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+  position: relative;
+}
+.img-upload-area:hover { border-color: #059669; background: #0a1a12; }
+.img-upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.img-upload-area .upload-label { font-size: 0.85rem; color: #64748b; pointer-events: none; }
+.img-preview {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: none;
+}
+.upload-progress {
+  background: #0f0f1a;
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+  margin-top: 8px;
+  display: none;
+}
+.upload-progress-fill {
+  background: linear-gradient(90deg, #059669, #6ee7b7);
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s;
+  width: 0%;
+}
+
 .btn-submit {
   background: linear-gradient(135deg, #064e3b, #059669);
   border: none;
@@ -103,8 +137,9 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   transition: all 0.2s;
 }
 .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px #05996944; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-/* ── 필터/검색 바 ── */
+/* ── 필터/검색 ── */
 .filter-bar {
   display: flex;
   gap: 8px;
@@ -136,35 +171,35 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
 .filter-btn.active { background: #064e3b; border-color: #059669; color: #6ee7b7; }
 
 /* ── 메모 카드 ── */
-.memo-grid { display: flex; flex-direction: column; gap: 12px; }
-
+.memo-grid { display: flex; flex-direction: column; gap: 16px; }
 .memo-card {
   background: #1a1a2e;
   border: 1px solid #2d2d5e;
-  border-radius: 12px;
-  padding: 16px 18px;
+  border-radius: 14px;
+  padding: 18px;
   transition: all 0.2s;
-  position: relative;
 }
 .memo-card:hover { border-color: #374151; }
-.memo-card.pinned { border-color: #d97706; background: #1a1a2e; }
-
+.memo-card.pinned { border-color: #d97706; }
+.memo-card-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
 .memo-top {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   margin-bottom: 8px;
 }
-.memo-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #e2e8f0;
-  flex: 1;
-}
+.memo-title { font-size: 0.95rem; font-weight: 700; color: #e2e8f0; flex: 1; }
 .memo-body {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   color: #94a3b8;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -172,7 +207,7 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
 .memo-category {
@@ -181,20 +216,13 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   border-radius: 20px;
   font-weight: 600;
 }
-.cat-ai { background: #1e3a5f; color: #93c5fd; }
-.cat-link { background: #3b1f6e; color: #c4b5fd; }
-.cat-idea { background: #064e3b; color: #6ee7b7; }
-.cat-todo { background: #7f1d1d; color: #fca5a5; }
-.cat-etc { background: #374151; color: #94a3b8; }
-
+.cat-ai   { background:#1e3a5f; color:#93c5fd; }
+.cat-link { background:#3b1f6e; color:#c4b5fd; }
+.cat-idea { background:#064e3b; color:#6ee7b7; }
+.cat-todo { background:#7f1d1d; color:#fca5a5; }
+.cat-etc  { background:#374151; color:#94a3b8; }
 .memo-date { font-size: 0.72rem; color: #4b5563; margin-left: auto; }
-.pin-badge {
-  font-size: 0.72rem;
-  background: #78350f;
-  color: #fcd34d;
-  padding: 2px 8px;
-  border-radius: 20px;
-}
+.pin-badge { font-size: 0.72rem; background:#78350f; color:#fcd34d; padding:2px 8px; border-radius:20px; }
 
 .memo-actions { display: flex; gap: 6px; }
 .btn-icon {
@@ -208,9 +236,22 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   transition: all 0.2s;
 }
 .btn-icon:hover { border-color: #6b7280; color: #e2e8f0; }
-.btn-pin:hover { border-color: #d97706; color: #fcd34d; }
-.btn-del:hover { border-color: #ef4444; color: #fca5a5; }
+.btn-pin:hover  { border-color: #d97706; color: #fcd34d; }
+.btn-del:hover  { border-color: #ef4444; color: #fca5a5; }
 .btn-copy:hover { border-color: #059669; color: #6ee7b7; }
+
+/* ── 이미지 라이트박스 ── */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+}
+.lightbox.show { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 10px; }
 
 /* ── 빈 상태 ── */
 .empty-state {
@@ -228,7 +269,7 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
   background: #064e3b; color: #6ee7b7;
   padding: 12px 24px; border-radius: 50px;
   font-size: 0.88rem; opacity: 0; transition: all 0.4s;
-  z-index: 9999; pointer-events: none;
+  z-index: 9998; pointer-events: none;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -267,19 +308,31 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
         <option value="todo">✅ 할일</option>
       </select>
     </div>
-    <textarea class="form-textarea" id="memoBody" placeholder="내용을 입력하세요...&#10;링크, 아이디어, 메모 뭐든 OK!"></textarea>
-    <button class="btn-submit" onclick="addMemo()">💾 저장</button>
+    <textarea class="form-textarea" id="memoBody"
+      placeholder="내용을 입력하세요...&#10;링크, 아이디어, 메모 뭐든 OK!"></textarea>
+
+    <!-- 이미지 업로드 -->
+    <div class="img-upload-area" id="uploadArea">
+      <input type="file" id="imgFile" accept="image/*" onchange="previewImage(event)">
+      <div class="upload-label" id="uploadLabel">🖼️ 이미지 첨부 (선택사항) — 클릭하거나 드래그</div>
+      <img id="imgPreview" class="img-preview">
+    </div>
+    <div class="upload-progress" id="uploadProgress">
+      <div class="upload-progress-fill" id="uploadProgressFill"></div>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="addMemo()">💾 저장</button>
   </div>
 
   <!-- 필터/검색 -->
   <div class="filter-bar">
     <input class="search-input" id="searchInput" placeholder="🔍 검색..." oninput="renderMemos()">
-    <button class="filter-btn active" data-cat="all" onclick="setFilter('all', this)">전체</button>
-    <button class="filter-btn" data-cat="ai" onclick="setFilter('ai', this)">🤖 AI</button>
-    <button class="filter-btn" data-cat="link" onclick="setFilter('link', this)">🔗 링크</button>
-    <button class="filter-btn" data-cat="idea" onclick="setFilter('idea', this)">💡 아이디어</button>
-    <button class="filter-btn" data-cat="todo" onclick="setFilter('todo', this)">✅ 할일</button>
-    <button class="filter-btn" data-cat="etc" onclick="setFilter('etc', this)">📌 기타</button>
+    <button class="filter-btn active" onclick="setFilter('all', this)">전체</button>
+    <button class="filter-btn" onclick="setFilter('ai', this)">🤖 AI</button>
+    <button class="filter-btn" onclick="setFilter('link', this)">🔗 링크</button>
+    <button class="filter-btn" onclick="setFilter('idea', this)">💡 아이디어</button>
+    <button class="filter-btn" onclick="setFilter('todo', this)">✅ 할일</button>
+    <button class="filter-btn" onclick="setFilter('etc', this)">📌 기타</button>
   </div>
 
   <!-- 메모 목록 -->
@@ -287,80 +340,184 @@ body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif;
 
 </div>
 
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="">
+</div>
+
 <div class="toast" id="toast"></div>
 
-<script>
-// ── 상수 ──
-const STORAGE_KEY = 'myMemos_v1';
-let currentFilter = 'all';
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
-const CAT_LABELS = {
-  ai:   { label: '🤖 AI툴',    cls: 'cat-ai' },
-  link: { label: '🔗 링크',    cls: 'cat-link' },
-  idea: { label: '💡 아이디어', cls: 'cat-idea' },
-  todo: { label: '✅ 할일',    cls: 'cat-todo' },
-  etc:  { label: '📌 기타',    cls: 'cat-etc' }
+const firebaseConfig = {
+  apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
+  authDomain: "claude-grok-gallery.firebaseapp.com",
+  projectId: "claude-grok-gallery",
+  storageBucket: "claude-grok-gallery.firebasestorage.app",
+  messagingSenderId: "907968891772",
+  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9",
+  measurementId: "G-5C2V22BYMS"
 };
 
-// ── 데이터 로드/저장 ──
-function loadMemos() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
-}
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+const storage = getStorage(app);
 
-function saveMemos(memos) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
-}
+const CAT_LABELS = {
+  ai:   { label: '🤖 AI툴',     cls: 'cat-ai' },
+  link: { label: '🔗 링크',     cls: 'cat-link' },
+  idea: { label: '💡 아이디어', cls: 'cat-idea' },
+  todo: { label: '✅ 할일',     cls: 'cat-todo' },
+  etc:  { label: '📌 기타',     cls: 'cat-etc' }
+};
+
+let allMemos = [];
+let currentFilter = 'all';
+let selectedFile = null;
+
+// ── 이미지 미리보기 ──
+window.previewImage = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  selectedFile = file;
+  const preview = document.getElementById('imgPreview');
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  document.getElementById('uploadLabel').textContent = '✅ ' + file.name;
+};
 
 // ── 메모 추가 ──
-function addMemo() {
+window.addMemo = async function() {
   const title = document.getElementById('memoTitle').value.trim();
   const body  = document.getElementById('memoBody').value.trim();
   const cat   = document.getElementById('memoCat').value;
+  if (!body && !selectedFile) { showToast('⚠️ 내용이나 이미지를 추가해주세요'); return; }
 
-  if (!body) { showToast('⚠️ 내용을 입력해주세요'); return; }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 저장 중...';
 
-  const memos = loadMemos();
-  memos.unshift({
-    id: Date.now(),
-    title,
-    body,
-    cat,
-    pinned: false,
-    date: new Date().toLocaleString('ko-KR', {
-      month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit'
-    })
-  });
-  saveMemos(memos);
+  let imageUrl = '';
+  let imagePath = '';
 
-  document.getElementById('memoTitle').value = '';
-  document.getElementById('memoBody').value = '';
-  renderMemos();
-  showToast('💾 메모 저장 완료!');
+  // 이미지 업로드
+  if (selectedFile) {
+    try {
+      imagePath = `memos/${Date.now()}_${selectedFile.name}`;
+      const storageRef = ref(storage, imagePath);
+      const progressBar = document.getElementById('uploadProgress');
+      const progressFill = document.getElementById('uploadProgressFill');
+      progressBar.style.display = 'block';
+
+      await new Promise((resolve, reject) => {
+        const task = uploadBytesResumable(storageRef, selectedFile);
+        task.on('state_changed',
+          snap => {
+            const pct = (snap.bytesTransferred / snap.totalBytes) * 100;
+            progressFill.style.width = pct + '%';
+          },
+          reject,
+          async () => {
+            imageUrl = await getDownloadURL(task.snapshot.ref);
+            resolve();
+          }
+        );
+      });
+      progressBar.style.display = 'none';
+    } catch(e) {
+      showToast('❌ 이미지 업로드 실패');
+      btn.disabled = false;
+      btn.textContent = '💾 저장';
+      return;
+    }
+  }
+
+  // Firestore 저장
+  try {
+    await addDoc(collection(db, 'memos'), {
+      title,
+      body,
+      cat,
+      imageUrl,
+      imagePath,
+      pinned: false,
+      date: new Date().toLocaleString('ko-KR', {
+        month:'2-digit', day:'2-digit',
+        hour:'2-digit', minute:'2-digit'
+      }),
+      createdAt: Date.now()
+    });
+
+    // 폼 초기화
+    document.getElementById('memoTitle').value = '';
+    document.getElementById('memoBody').value = '';
+    document.getElementById('memoCat').value = 'etc';
+    document.getElementById('imgPreview').style.display = 'none';
+    document.getElementById('imgPreview').src = '';
+    document.getElementById('uploadLabel').textContent = '🖼️ 이미지 첨부 (선택사항) — 클릭하거나 드래그';
+    document.getElementById('imgFile').value = '';
+    selectedFile = null;
+
+    showToast('💾 저장 완료!');
+    await loadMemos();
+  } catch(e) {
+    showToast('❌ 저장 실패: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 저장';
+  }
+};
+
+// ── 메모 불러오기 ──
+async function loadMemos() {
+  try {
+    const q = query(collection(db, 'memos'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    allMemos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderMemos();
+  } catch(e) {
+    showToast('❌ 불러오기 실패');
+  }
 }
 
 // ── 삭제 ──
-function deleteMemo(id) {
+window.deleteMemo = async function(id) {
   if (!confirm('삭제하시겠습니까?')) return;
-  saveMemos(loadMemos().filter(m => m.id !== id));
-  renderMemos();
-  showToast('🗑️ 삭제 완료');
-}
+  const memo = allMemos.find(m => m.id === id);
+  try {
+    if (memo?.imagePath) {
+      try { await deleteObject(ref(storage, memo.imagePath)); } catch {}
+    }
+    await deleteDoc(doc(db, 'memos', id));
+    showToast('🗑️ 삭제 완료');
+    await loadMemos();
+  } catch(e) {
+    showToast('❌ 삭제 실패');
+  }
+};
 
 // ── 핀 고정 ──
-function togglePin(id) {
-  const memos = loadMemos().map(m =>
-    m.id === id ? { ...m, pinned: !m.pinned } : m
-  );
-  saveMemos(memos);
-  renderMemos();
-  showToast('📌 고정 변경');
-}
+window.togglePin = async function(id) {
+  const memo = allMemos.find(m => m.id === id);
+  if (!memo) return;
+  try {
+    await updateDoc(doc(db, 'memos', id), { pinned: !memo.pinned });
+    showToast(memo.pinned ? '📌 고정 해제' : '📌 고정됨');
+    await loadMemos();
+  } catch(e) {
+    showToast('❌ 오류');
+  }
+};
 
 // ── 복사 ──
-function copyMemo(id) {
-  const memo = loadMemos().find(m => m.id === id);
+window.copyMemo = function(id) {
+  const memo = allMemos.find(m => m.id === id);
   if (!memo) return;
   const text = memo.title ? `${memo.title}\n\n${memo.body}` : memo.body;
   if (navigator.clipboard) {
@@ -368,42 +525,47 @@ function copyMemo(id) {
   } else {
     const ta = document.createElement('textarea');
     ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
+    ta.style.cssText = 'position:fixed;opacity:0';
     document.body.appendChild(ta);
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
     showToast('📋 복사됨!');
   }
-}
+};
+
+// ── 라이트박스 ──
+window.openLightbox = function(url) {
+  document.getElementById('lightboxImg').src = url;
+  document.getElementById('lightbox').classList.add('show');
+};
+window.closeLightbox = function() {
+  document.getElementById('lightbox').classList.remove('show');
+};
 
 // ── 필터 ──
-function setFilter(cat, btn) {
+window.setFilter = function(cat, btn) {
   currentFilter = cat;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderMemos();
-}
+};
 
 // ── 렌더링 ──
-function renderMemos() {
-  const memos = loadMemos();
+window.renderMemos = function() {
   const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-
-  let filtered = memos.filter(m => {
+  let filtered = allMemos.filter(m => {
     const matchCat = currentFilter === 'all' || m.cat === currentFilter;
     const matchKey = !keyword ||
-      m.title.toLowerCase().includes(keyword) ||
-      m.body.toLowerCase().includes(keyword);
+      (m.title||'').toLowerCase().includes(keyword) ||
+      (m.body||'').toLowerCase().includes(keyword);
     return matchCat && matchKey;
   });
 
-  // 핀 고정 먼저
+  // 핀 먼저
   filtered.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
 
   const grid = document.getElementById('memoGrid');
-
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div class="empty-state">
@@ -417,15 +579,17 @@ function renderMemos() {
     const cat = CAT_LABELS[m.cat] || CAT_LABELS.etc;
     return `
       <div class="memo-card ${m.pinned ? 'pinned' : ''}">
+        ${m.imageUrl ? `<img class="memo-card-img" src="${m.imageUrl}"
+          onclick="openLightbox('${m.imageUrl}')" alt="첨부 이미지">` : ''}
         <div class="memo-top">
-          <div class="memo-title">${m.title || '(제목 없음)'}</div>
+          <div class="memo-title">${escapeHtml(m.title || '(제목 없음)')}</div>
           <div class="memo-actions">
-            <button class="btn-icon btn-pin" onclick="togglePin(${m.id})" title="고정">📌</button>
-            <button class="btn-icon btn-copy" onclick="copyMemo(${m.id})" title="복사">📋</button>
-            <button class="btn-icon btn-del" onclick="deleteMemo(${m.id})" title="삭제">🗑️</button>
+            <button class="btn-icon btn-pin"  onclick="togglePin('${m.id}')" title="고정">📌</button>
+            <button class="btn-icon btn-copy" onclick="copyMemo('${m.id}')"  title="복사">📋</button>
+            <button class="btn-icon btn-del"  onclick="deleteMemo('${m.id}')" title="삭제">🗑️</button>
           </div>
         </div>
-        <div class="memo-body">${escapeHtml(m.body)}</div>
+        ${m.body ? `<div class="memo-body">${escapeHtml(m.body)}</div>` : ''}
         <div class="memo-footer">
           <span class="memo-category ${cat.cls}">${cat.label}</span>
           ${m.pinned ? '<span class="pin-badge">📌 고정</span>' : ''}
@@ -433,31 +597,27 @@ function renderMemos() {
         </div>
       </div>`;
   }).join('');
-}
+};
 
 function escapeHtml(str) {
+  if (!str) return '';
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
 }
 
 // ── 토스트 ──
-function showToast(msg, duration = 2500) {
+window.showToast = function(msg, duration = 2500) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), duration);
-}
+};
 
-// ── Enter 키로 저장 ──
-document.addEventListener('DOMContentLoaded', () => {
-  renderMemos();
-  document.getElementById('memoTitle').addEventListener('keydown', e => {
-    if (e.key === 'Enter') document.getElementById('memoBody').focus();
-  });
-});
+// ── 초기 로드 ──
+loadMemos();
 </script>
 </body>
 </html>
