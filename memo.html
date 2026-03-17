@@ -1,1 +1,463 @@
-https://interlab001-afk.github.io/gallery/index.html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📝 메모방</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+/* ── 네비바 ── */
+.navbar {
+  background: #0a0a14;
+  border-bottom: 1px solid #1e1e3a;
+  padding: 10px 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.navbar a {
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.navbar a:hover { opacity: 0.8; }
+.nav-home { background:#1a1a2e; border:1px solid #2d2d5e; color:#94a3b8; }
+.nav-gallery { background:#1a1a2e; border:1px solid #1d4ed8; color:#93c5fd; }
+.nav-gen { background:#1a1a2e; border:1px solid #5b21b6; color:#c4b5fd; }
+.nav-memo { background:#1a1a2e; border:1px solid #059669; color:#6ee7b7; }
+
+/* ── 헤더 ── */
+.header {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  padding: 16px 24px;
+  border-bottom: 1px solid #059669;
+}
+.header h1 { font-size: 1.3rem; font-weight: 700; color: #6ee7b7; }
+
+/* ── 컨테이너 ── */
+.container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+/* ── 작성 폼 ── */
+.write-card {
+  background: #1a1a2e;
+  border: 1px solid #2d2d5e;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.write-card h2 { font-size: 0.95rem; color: #6ee7b7; margin-bottom: 14px; }
+
+.form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.form-input {
+  background: #0f0f1a;
+  border: 1px solid #374151;
+  color: #e2e8f0;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  flex: 1;
+  min-width: 140px;
+}
+.form-input:focus { outline: none; border-color: #059669; }
+
+.form-select {
+  background: #0f0f1a;
+  border: 1px solid #374151;
+  color: #e2e8f0;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.form-select:focus { outline: none; border-color: #059669; }
+
+.form-textarea {
+  width: 100%;
+  background: #0f0f1a;
+  border: 1px solid #374151;
+  color: #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  min-height: 100px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+.form-textarea:focus { outline: none; border-color: #059669; }
+
+.btn-submit {
+  background: linear-gradient(135deg, #064e3b, #059669);
+  border: none;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px #05996944; }
+
+/* ── 필터/검색 바 ── */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-input {
+  background: #1a1a2e;
+  border: 1px solid #374151;
+  color: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  flex: 1;
+  min-width: 180px;
+}
+.search-input:focus { outline: none; border-color: #059669; }
+.filter-btn {
+  background: #1a1a2e;
+  border: 1px solid #374151;
+  color: #94a3b8;
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.filter-btn.active { background: #064e3b; border-color: #059669; color: #6ee7b7; }
+
+/* ── 메모 카드 ── */
+.memo-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.memo-card {
+  background: #1a1a2e;
+  border: 1px solid #2d2d5e;
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: all 0.2s;
+  position: relative;
+}
+.memo-card:hover { border-color: #374151; }
+.memo-card.pinned { border-color: #d97706; background: #1a1a2e; }
+
+.memo-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.memo-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  flex: 1;
+}
+.memo-body {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.memo-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.memo-category {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.cat-ai { background: #1e3a5f; color: #93c5fd; }
+.cat-link { background: #3b1f6e; color: #c4b5fd; }
+.cat-idea { background: #064e3b; color: #6ee7b7; }
+.cat-todo { background: #7f1d1d; color: #fca5a5; }
+.cat-etc { background: #374151; color: #94a3b8; }
+
+.memo-date { font-size: 0.72rem; color: #4b5563; margin-left: auto; }
+.pin-badge {
+  font-size: 0.72rem;
+  background: #78350f;
+  color: #fcd34d;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.memo-actions { display: flex; gap: 6px; }
+.btn-icon {
+  background: none;
+  border: 1px solid #374151;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+.btn-icon:hover { border-color: #6b7280; color: #e2e8f0; }
+.btn-pin:hover { border-color: #d97706; color: #fcd34d; }
+.btn-del:hover { border-color: #ef4444; color: #fca5a5; }
+.btn-copy:hover { border-color: #059669; color: #6ee7b7; }
+
+/* ── 빈 상태 ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #374151;
+  font-size: 0.9rem;
+}
+.empty-state .emoji { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+/* ── 토스트 ── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #064e3b; color: #6ee7b7;
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 0.88rem; opacity: 0; transition: all 0.4s;
+  z-index: 9999; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 600px) {
+  .form-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- 네비바 -->
+<nav class="navbar">
+  <a href="index.html" class="nav-home">🏠 홈</a>
+  <a href="gall.html" class="nav-gallery">🖼️ 갤러리</a>
+  <a href="prompt-generator.html" class="nav-gen">✨ 생성기</a>
+  <a href="memo.html" class="nav-memo">📝 메모방</a>
+</nav>
+
+<!-- 헤더 -->
+<div class="header">
+  <h1>📝 메모방 — 나만의 유틸 공간</h1>
+</div>
+
+<div class="container">
+
+  <!-- 작성 폼 -->
+  <div class="write-card">
+    <h2>✏️ 새 메모 작성</h2>
+    <div class="form-row">
+      <input class="form-input" id="memoTitle" placeholder="제목 (선택사항)">
+      <select class="form-select" id="memoCat">
+        <option value="etc">📌 기타</option>
+        <option value="ai">🤖 AI 툴</option>
+        <option value="link">🔗 링크</option>
+        <option value="idea">💡 아이디어</option>
+        <option value="todo">✅ 할일</option>
+      </select>
+    </div>
+    <textarea class="form-textarea" id="memoBody" placeholder="내용을 입력하세요...&#10;링크, 아이디어, 메모 뭐든 OK!"></textarea>
+    <button class="btn-submit" onclick="addMemo()">💾 저장</button>
+  </div>
+
+  <!-- 필터/검색 -->
+  <div class="filter-bar">
+    <input class="search-input" id="searchInput" placeholder="🔍 검색..." oninput="renderMemos()">
+    <button class="filter-btn active" data-cat="all" onclick="setFilter('all', this)">전체</button>
+    <button class="filter-btn" data-cat="ai" onclick="setFilter('ai', this)">🤖 AI</button>
+    <button class="filter-btn" data-cat="link" onclick="setFilter('link', this)">🔗 링크</button>
+    <button class="filter-btn" data-cat="idea" onclick="setFilter('idea', this)">💡 아이디어</button>
+    <button class="filter-btn" data-cat="todo" onclick="setFilter('todo', this)">✅ 할일</button>
+    <button class="filter-btn" data-cat="etc" onclick="setFilter('etc', this)">📌 기타</button>
+  </div>
+
+  <!-- 메모 목록 -->
+  <div class="memo-grid" id="memoGrid"></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 상수 ──
+const STORAGE_KEY = 'myMemos_v1';
+let currentFilter = 'all';
+
+const CAT_LABELS = {
+  ai:   { label: '🤖 AI툴',    cls: 'cat-ai' },
+  link: { label: '🔗 링크',    cls: 'cat-link' },
+  idea: { label: '💡 아이디어', cls: 'cat-idea' },
+  todo: { label: '✅ 할일',    cls: 'cat-todo' },
+  etc:  { label: '📌 기타',    cls: 'cat-etc' }
+};
+
+// ── 데이터 로드/저장 ──
+function loadMemos() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveMemos(memos) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
+}
+
+// ── 메모 추가 ──
+function addMemo() {
+  const title = document.getElementById('memoTitle').value.trim();
+  const body  = document.getElementById('memoBody').value.trim();
+  const cat   = document.getElementById('memoCat').value;
+
+  if (!body) { showToast('⚠️ 내용을 입력해주세요'); return; }
+
+  const memos = loadMemos();
+  memos.unshift({
+    id: Date.now(),
+    title,
+    body,
+    cat,
+    pinned: false,
+    date: new Date().toLocaleString('ko-KR', {
+      month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit'
+    })
+  });
+  saveMemos(memos);
+
+  document.getElementById('memoTitle').value = '';
+  document.getElementById('memoBody').value = '';
+  renderMemos();
+  showToast('💾 메모 저장 완료!');
+}
+
+// ── 삭제 ──
+function deleteMemo(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  saveMemos(loadMemos().filter(m => m.id !== id));
+  renderMemos();
+  showToast('🗑️ 삭제 완료');
+}
+
+// ── 핀 고정 ──
+function togglePin(id) {
+  const memos = loadMemos().map(m =>
+    m.id === id ? { ...m, pinned: !m.pinned } : m
+  );
+  saveMemos(memos);
+  renderMemos();
+  showToast('📌 고정 변경');
+}
+
+// ── 복사 ──
+function copyMemo(id) {
+  const memo = loadMemos().find(m => m.id === id);
+  if (!memo) return;
+  const text = memo.title ? `${memo.title}\n\n${memo.body}` : memo.body;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 복사됨!');
+  }
+}
+
+// ── 필터 ──
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMemos();
+}
+
+// ── 렌더링 ──
+function renderMemos() {
+  const memos = loadMemos();
+  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  let filtered = memos.filter(m => {
+    const matchCat = currentFilter === 'all' || m.cat === currentFilter;
+    const matchKey = !keyword ||
+      m.title.toLowerCase().includes(keyword) ||
+      m.body.toLowerCase().includes(keyword);
+    return matchCat && matchKey;
+  });
+
+  // 핀 고정 먼저
+  filtered.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+  const grid = document.getElementById('memoGrid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <span class="emoji">📭</span>
+        메모가 없어요!<br>위에서 새 메모를 작성해보세요.
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(m => {
+    const cat = CAT_LABELS[m.cat] || CAT_LABELS.etc;
+    return `
+      <div class="memo-card ${m.pinned ? 'pinned' : ''}">
+        <div class="memo-top">
+          <div class="memo-title">${m.title || '(제목 없음)'}</div>
+          <div class="memo-actions">
+            <button class="btn-icon btn-pin" onclick="togglePin(${m.id})" title="고정">📌</button>
+            <button class="btn-icon btn-copy" onclick="copyMemo(${m.id})" title="복사">📋</button>
+            <button class="btn-icon btn-del" onclick="deleteMemo(${m.id})" title="삭제">🗑️</button>
+          </div>
+        </div>
+        <div class="memo-body">${escapeHtml(m.body)}</div>
+        <div class="memo-footer">
+          <span class="memo-category ${cat.cls}">${cat.label}</span>
+          ${m.pinned ? '<span class="pin-badge">📌 고정</span>' : ''}
+          <span class="memo-date">${m.date}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── 토스트 ──
+function showToast(msg, duration = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── Enter 키로 저장 ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderMemos();
+  document.getElementById('memoTitle').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('memoBody').focus();
+  });
+});
+</script>
+</body>
+</html>
