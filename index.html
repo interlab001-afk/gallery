@@ -693,9 +693,15 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
   async function loadGallery() {
     const el = document.getElementById('gallery-thumbs');
     try {
-      const storageRef = ref(storage, 'gallery/');
+      const storageRef = ref(storage, 'users/');
       const result = await listAll(storageRef);
-      const items = result.items.slice(-4).reverse();
+      let allItems = [];
+      for (const folderRef of result.prefixes) {
+        const inner = await listAll(folderRef);
+        allItems = allItems.concat(inner.items);
+      }
+      const items = allItems.slice(-4).reverse();
+
       if (items.length === 0) {
         el.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#d1d5db;padding:2rem;font-size:0.8rem"><i class="fa-solid fa-images" style="font-size:2rem;display:block;margin-bottom:0.5rem;opacity:0.3"></i>갤러리가 비어있어요</div>';
         return;
