@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Style 2 — 시네마틱</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; overflow-x:hidden; }
+
+/* 히어로 */
+.hero {
+  min-height:100vh; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background:linear-gradient(135deg,#0a0a0a 0%,#1a0a00 40%,#0a0a0a 100%);
+}
+.hero-bg::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 50%, #d9770622 0%, transparent 70%);
+}
+.hero-lines {
+  position:absolute; inset:0; overflow:hidden;
+  background:repeating-linear-gradient(
+    0deg, transparent, transparent 80px,
+    #d9770608 80px, #d9770608 81px
+  );
+}
+.hero-content { position:relative; z-index:1; text-align:center; padding:40px 20px; }
+.hero-eyebrow {
+  font-size:0.75rem; letter-spacing:4px; text-transform:uppercase;
+  color:#d97706; margin-bottom:24px; font-weight:600;
+}
+.hero h1 {
+  font-size:clamp(3rem,9vw,6rem); font-weight:900; line-height:1.05;
+  color:#f5f5f0; margin-bottom:8px; letter-spacing:-2px;
+  text-shadow:0 0 60px #d9770633;
+}
+.hero h1 span {
+  background:linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-sub {
+  font-size:1rem; color:#78716c; margin:24px auto; max-width:480px; line-height:1.7;
+}
+.hero-line { width:60px; height:2px; background:linear-gradient(90deg,#d97706,#f59e0b); margin:0 auto 32px; }
+.hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.btn-gold {
+  padding:14px 32px; border:2px solid #d97706; color:#d97706;
+  background:transparent; border-radius:4px; font-size:0.9rem;
+  font-weight:700; cursor:pointer; transition:all 0.3s;
+  text-decoration:none; letter-spacing:1px; text-transform:uppercase;
+}
+.btn-gold:hover { background:#d97706; color:#000; box-shadow:0 0 30px #d9770666; }
+.btn-gold-fill {
+  padding:14px 32px; background:linear-gradient(135deg,#d97706,#f59e0b);
+  color:#000; border:none; border-radius:4px; font-size:0.9rem;
+  font-weight:700; cursor:pointer; transition:all 0.3s;
+  text-decoration:none; letter-spacing:1px; text-transform:uppercase;
+}
+.btn-gold-fill:hover { filter:brightness(1.2); box-shadow:0 8px 30px #d9770666; transform:translateY(-2px); }
+
+/* 구분선 */
+.divider { display:flex; align-items:center; gap:16px; padding:0 20px; max-width:1100px; margin:0 auto; }
+.divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,#2d2d2d,transparent); }
+.divider-icon { color:#d97706; font-size:1.2rem; }
+
+/* 섹션 */
+section { padding:80px 20px; max-width:1100px; margin:0 auto; }
+.section-label {
+  font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
+  color:#d97706; margin-bottom:12px; font-weight:600;
+}
+.section-title { font-size:2.2rem; font-weight:800; color:#f5f5f0; margin-bottom:48px; }
+
+/* 피처 리스트 */
+.features-list { display:flex; flex-direction:column; gap:1px; }
+.feature-item {
+  display:flex; align-items:center; gap:20px;
+  padding:20px; border-bottom:1px solid #1a1a1a;
+  transition:all 0.3s; cursor:pointer; text-decoration:none;
+}
+.feature-item:hover { background:#111; padding-left:28px; }
+.feature-num { font-size:0.75rem; color:#d97706; font-weight:700; min-width:30px; }
+.feature-icon { font-size:1.5rem; min-width:40px; }
+.feature-info { flex:1; }
+.feature-name { font-size:1rem; font-weight:700; color:#e2e8f0; margin-bottom:4px; }
+.feature-desc { font-size:0.82rem; color:#6b7280; }
+.feature-arrow { color:#d97706; font-size:1.2rem; opacity:0; transition:opacity 0.3s; }
+.feature-item:hover .feature-arrow { opacity:1; }
+
+/* 카드 그리드 */
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1px; background:#1a1a1a; }
+.cinema-card {
+  background:#0a0a0a; padding:32px; transition:all 0.3s;
+  text-decoration:none; display:block;
+}
+.cinema-card:hover { background:#111; }
+.cinema-card:hover .cinema-card-title { color:#d97706; }
+.cinema-card-num { font-size:0.7rem; color:#d97706; letter-spacing:2px; margin-bottom:12px; }
+.cinema-card-icon { font-size:2rem; margin-bottom:12px; }
+.cinema-card-title { font-size:1.1rem; font-weight:700; color:#e2e8f0; margin-bottom:8px; transition:color 0.3s; }
+.cinema-card-desc { font-size:0.82rem; color:#6b7280; line-height:1.6; }
+
+/* CTA */
+.cta { text-align:center; padding:100px 20px; position:relative; overflow:hidden; }
+.cta::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%, #d9770611 0%, transparent 70%);
+}
+.cta-content { position:relative; z-index:1; }
+.cta h2 { font-size:3rem; font-weight:900; color:#f5f5f0; margin-bottom:16px; letter-spacing:-1px; }
+.cta p { color:#78716c; margin-bottom:32px; }
+
+footer { text-align:center; padding:32px; color:#3d3d3d; font-size:0.78rem; border-top:1px solid #1a1a1a; }
+
+.fade-up { opacity:0; transform:translateY(20px); transition:all 0.7s ease; }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ My AI Studio ✦</div>
+    <h1>Create.<br><span>Imagine.</span><br>Build.</h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">AI 이미지 생성부터 아이디어 관리까지<br>창작의 모든 순간을 기록하는 공간</p>
+    <div class="hero-btns">
+      <a href="gall.html" class="btn-gold-fill">갤러리 입장</a>
+      <a href="prompt-generator.html" class="btn-gold">프롬프트 생성</a>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+<section class="fade-up">
+  <div class="section-label">Services</div>
+  <div class="section-title">모든 도구</div>
+  <div class="features-list">
+    <a href="gall.html" class="feature-item">
+      <span class="feature-num">01</span>
+      <span class="feature-icon">🖼️</span>
+      <div class="feature-info"><div class="feature-name">AI 갤러리</div><div class="feature-desc">생성한 AI 이미지 저장 및 관리</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+    <a href="prompt-generator.html" class="feature-item">
+      <span class="feature-num">02</span>
+      <span class="feature-icon">✨</span>
+      <div class="feature-info"><div class="feature-name">프롬프트 생성기</div><div class="feature-desc">Gemini AI 기반 프롬프트 자동 생성</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+    <a href="links.html" class="feature-item">
+      <span class="feature-num">03</span>
+      <span class="feature-icon">🔗</span>
+      <div class="feature-info"><div class="feature-name">링크 모음</div><div class="feature-desc">AI 툴 및 참고자료 링크 저장</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+    <a href="ideas.html" class="feature-item">
+      <span class="feature-num">04</span>
+      <span class="feature-icon">💡</span>
+      <div class="feature-info"><div class="feature-name">아이디어</div><div class="feature-desc">프로젝트 기획 및 아이디어 기록</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+    <a href="todos.html" class="feature-item">
+      <span class="feature-num">05</span>
+      <span class="feature-icon">✅</span>
+      <div class="feature-info"><div class="feature-name">할일 목록</div><div class="feature-desc">작업 관리 및 진행률 추적</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+    <a href="memo.html" class="feature-item">
+      <span class="feature-num">06</span>
+      <span class="feature-icon">📝</span>
+      <div class="feature-info"><div class="feature-name">메모</div><div class="feature-desc">자유로운 메모 및 빠른 기록</div></div>
+      <span class="feature-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="cta fade-up">
+  <div class="cta-content">
+    <h2>지금 시작하세요</h2>
+    <p>AI 창작의 모든 것을 한 곳에서</p>
+    <a href="gall.html" class="btn-gold-fill" style="font-size:1rem;padding:16px 40px;">갤러리 열기 →</a>
+  </div>
+</div>
+
+<footer>Powered by Firebase + GitHub Pages · My AI Studio</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
