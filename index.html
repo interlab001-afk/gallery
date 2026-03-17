@@ -654,7 +654,7 @@ footer { text-align:center; padding:32px; color:#d1d5db; font-size:0.8rem; borde
       el.innerHTML = '';
       snap.forEach(d => {
         const data = d.data();
-        const text = (data.content || data.text || data.note || '(내용 없음)').split('\n')[0];
+        const text = (data.body || data.title || data.content || '(내용 없음)').split('\n')[0];
         el.innerHTML += `
           <div class="preview-item">
             <div class="preview-item-dot" style="background:#ef4444"></div>
