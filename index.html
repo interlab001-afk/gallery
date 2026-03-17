@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 My AI Studio</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0f0f1a;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #c4b5fd;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.nav-card {
+  background: #1a1a2e;
+  border: 1px solid #2d2d5e;
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  text-decoration: none;
+  color: #e2e8f0;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.nav-card:hover {
+  transform: translateY(-6px);
+  border-color: #7c3aed;
+  box-shadow: 0 12px 40px #7c3aed33;
+}
+.nav-card .icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+}
+.nav-card .name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #c4b5fd;
+  margin-bottom: 8px;
+}
+.nav-card .desc {
+  font-size: 0.82rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.nav-card.gallery { border-color: #1d4ed8; }
+.nav-card.gallery:hover { border-color: #3b82f6; box-shadow: 0 12px 40px #3b82f633; }
+
+.nav-card.generator { border-color: #5b21b6; }
+.nav-card.generator:hover { border-color: #7c3aed; box-shadow: 0 12px 40px #7c3aed33; }
+
+.nav-card.memo { border-color: #065f46; }
+.nav-card.memo:hover { border-color: #059669; box-shadow: 0 12px 40px #05996933; }
+
+.footer {
+  margin-top: 48px;
+  font-size: 0.78rem;
+  color: #374151;
+}
+</style>
+</head>
+<body>
+
+<div class="title">🏠 My AI Studio</div>
+<div class="subtitle">Claude + Grok + 삼촌의 작업실</div>
+
+<div class="nav-grid">
+  <a href="gall.html" class="nav-card gallery">
+    <span class="icon">🖼️</span>
+    <div class="name">갤러리</div>
+    <div class="desc">프롬프트 저장<br>이미지 관리</div>
+  </a>
+
+  <a href="prompt-generator.html" class="nav-card generator">
+    <span class="icon">✨</span>
+    <div class="name">프롬프트 생성기</div>
+    <div class="desc">태그 클릭으로<br>AI 프롬프트 자동 생성</div>
+  </a>
+
+  <a href="memo.html" class="nav-card memo">
+    <span class="icon">📝</span>
+    <div class="name">메모방</div>
+    <div class="desc">아이디어·링크<br>메모 저장</div>
+  </a>
+</div>
+
+<div class="footer">Powered by Firebase + GitHub Pages</div>
+
+</body>
+</html>
