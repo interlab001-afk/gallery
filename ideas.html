@@ -1,1 +1,231 @@
-ideas.html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💡 아이디어</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min-height:100vh; }
+.navbar { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; background:#1e1b4b; border-bottom:1px solid #3730a3; position:sticky; top:0; z-index:100; }
+.navbar a { padding:6px 12px; border-radius:20px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+.nav-home   { background:#1a1a2e; border:1px solid #6366f1; color:#a5b4fc; }
+.nav-gallery{ background:#1a1a2e; border:1px solid #8b5cf6; color:#c4b5fd; }
+.nav-gen    { background:#1a1a2e; border:1px solid #ec4899; color:#f9a8d4; }
+.nav-links  { background:#1a1a2e; border:1px solid #3b82f6; color:#93c5fd; }
+.nav-ideas  { background:#1a1a2e; border:1px solid #fbbf24; color:#fbbf24; }
+.nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
+.nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
+.navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+.header { background:linear-gradient(135deg,#451a03,#92400e); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
+.header h1 { font-size:1.3rem; font-weight:700; color:#fbbf24; }
+.badge { background:#451a03; border:1px solid #fbbf24; color:#fbbf24; padding:4px 12px; border-radius:12px; font-size:0.8rem; }
+.form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:16px; }
+.form-card h3 { font-size:0.95rem; color:#fbbf24; margin-bottom:12px; font-weight:700; }
+.form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.form-row input, .form-row select, .form-row textarea {
+  background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit;
+}
+.form-row input { flex:1; min-width:200px; }
+.form-row select { min-width:140px; }
+.form-row textarea { flex:1; min-width:200px; min-height:90px; resize:vertical; }
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline:none; border-color:#fbbf24; }
+.btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-primary { background:linear-gradient(135deg,#92400e,#d97706); color:white; }
+.btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
+.filter-section input:focus { outline:none; border-color:#fbbf24; }
+.filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
+.filter-btn.active { background:#d97706; border-color:#fbbf24; color:white; }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:0 16px 24px; }
+.idea-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; transition:all 0.3s; }
+.idea-card:hover { border-color:#fbbf24; transform:translateY(-2px); box-shadow:0 4px 16px rgba(251,191,36,0.15); }
+.idea-card.pinned { border-color:#fbbf24; background:#1c1a10; }
+.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.card-title { font-weight:700; color:#fbbf24; font-size:0.95rem; flex:1; }
+.pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
+.pin-icon.active { opacity:1; }
+.card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
+.card-meta { display:flex; justify-content:space-between; align-items:center; }
+.card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#451a03; color:#fbbf24; border:1px solid #92400e; }
+.card-date { color:#6b7280; font-size:0.72rem; }
+.card-actions { display:flex; gap:6px; margin-top:8px; }
+.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
+.btn-copy-c { background:#1c2a1c; color:#6ee7b7; border:1px solid #10b981 !important; }
+.btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
+.empty-state .icon { font-size:3rem; margin-bottom:12px; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#d97706; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+.toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-home">🏠 홈</a>
+  <a href="gall.html" class="nav-gallery">🖼️ 갤러리</a>
+  <a href="prompt-generator.html" class="nav-gen">✨ 생성기</a>
+  <a href="links.html" class="nav-links">🔗 링크</a>
+  <a href="ideas.html" class="nav-ideas">💡 아이디어</a>
+  <a href="todos.html" class="nav-todos">✅ 할일</a>
+  <a href="memo.html" class="nav-memo">📝 메모</a>
+</nav>
+
+<div class="header">
+  <h1>💡 아이디어</h1>
+  <span class="badge" id="ideaCount">0개</span>
+</div>
+
+<div class="form-card">
+  <h3>➕ 아이디어 추가</h3>
+  <div class="form-row">
+    <input type="text" id="ideaTitle" placeholder="아이디어 제목">
+    <select id="ideaCategory">
+      <option value="project">🚀 프로젝트</option>
+      <option value="ai">🤖 AI 활용</option>
+      <option value="design">🎨 디자인</option>
+      <option value="content">📝 콘텐츠</option>
+      <option value="life">🌟 생활</option>
+      <option value="other">💭 기타</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <textarea id="ideaBody" placeholder="아이디어 내용을 자유롭게 적으세요..."></textarea>
+  </div>
+  <button class="btn btn-primary" onclick="addIdea()">💡 저장</button>
+</div>
+
+<div class="filter-section">
+  <input type="text" id="searchInput" placeholder="🔍 검색..." oninput="renderIdeas()">
+  <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
+  <button class="filter-btn" onclick="setFilter('project',this)">🚀 프로젝트</button>
+  <button class="filter-btn" onclick="setFilter('ai',this)">🤖 AI</button>
+  <button class="filter-btn" onclick="setFilter('design',this)">🎨 디자인</button>
+  <button class="filter-btn" onclick="setFilter('content',this)">📝 콘텐츠</button>
+  <button class="filter-btn" onclick="setFilter('life',this)">🌟 생활</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid"></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
+  authDomain: "claude-grok-gallery.firebaseapp.com",
+  projectId: "claude-grok-gallery",
+  storageBucket: "claude-grok-gallery.firebasestorage.app",
+  messagingSenderId: "907968891772",
+  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+let items = [];
+let currentFilter = 'all';
+
+const CAT_LABELS = { project:'🚀 프로젝트', ai:'🤖 AI 활용', design:'🎨 디자인', content:'📝 콘텐츠', life:'🌟 생활', other:'💭 기타' };
+
+async function loadIdeas() {
+  try {
+    const q = query(collection(db,'ideas'), orderBy('date','desc'));
+    const snap = await getDocs(q);
+    items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    renderIdeas();
+  } catch(e) { showToast('❌ 로드 실패'); }
+}
+
+window.addIdea = async function() {
+  const title = document.getElementById('ideaTitle').value.trim();
+  const body  = document.getElementById('ideaBody').value.trim();
+  const cat   = document.getElementById('ideaCategory').value;
+  if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
+  try {
+    await addDoc(collection(db,'ideas'), { title, body, cat, pinned:false, date:new Date().toISOString() });
+    document.getElementById('ideaTitle').value = '';
+    document.getElementById('ideaBody').value = '';
+    await loadIdeas();
+    showToast('✅ 아이디어 저장됨!');
+  } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
+};
+
+window.setFilter = function(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderIdeas();
+};
+
+window.renderIdeas = function() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = items.filter(it => {
+    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
+    if (search && !it.title.toLowerCase().includes(search) && !it.body.toLowerCase().includes(search)) return false;
+    return true;
+  }).sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0));
+
+  document.getElementById('ideaCount').textContent = filtered.length + '개';
+  const grid = document.getElementById('cardsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">💡</div><p>아이디어를 기록해보세요</p></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(it => `
+    <div class="idea-card${it.pinned?' pinned':''}">
+      <div class="card-top">
+        <div class="card-title">${escapeHtml(it.title)}</div>
+        <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
+      </div>
+      <div class="card-body-text">${escapeHtml(it.body)}</div>
+      <div class="card-meta">
+        <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
+        <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-copy-c" onclick="copyText('${escapeHtml(it.title)}\\n${escapeHtml(it.body)}')">📋 복사</button>
+        <button class="btn-del" onclick="deleteIdea('${it.id}')">🗑️ 삭제</button>
+      </div>
+    </div>
+  `).join('');
+};
+
+window.togglePin = async function(id, pinned) {
+  try {
+    await updateDoc(doc(db,'ideas',id), { pinned:!pinned });
+    await loadIdeas();
+    showToast(pinned ? '📌 핀 해제' : '📌 핀 고정!');
+  } catch(e) { showToast('❌ 오류'); }
+};
+
+window.deleteIdea = async function(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db,'ideas',id));
+    await loadIdeas();
+    showToast('🗑️ 삭제됨!');
+  } catch(e) { showToast('❌ 삭제 실패'); }
+};
+
+window.copyText = function(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!')).catch(() => showToast('❌ 복사 실패'));
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+loadIdeas();
+</script>
+</body>
+</html>
