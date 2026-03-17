@@ -47,7 +47,14 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .card-title { font-weight:700; color:#6ee7b7; font-size:0.95rem; flex:1; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
-.card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; max-height:120px; overflow:hidden; }
+
+/* ✅ 핵심 수정: max-height 제거, 전체 내용 표시 */
+.card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
+
+/* ✅ 펼치기/접기 버튼 */
+.expand-btn { background:none; border:none; color:#10b981; font-size:0.75rem; cursor:pointer; padding:0 0 8px 0; font-weight:600; }
+.expand-btn:hover { text-decoration:underline; }
+
 .card-meta { display:flex; justify-content:space-between; align-items:center; }
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#064e3b; color:#6ee7b7; border:1px solid #10b981; }
 .card-date { color:#6b7280; font-size:0.72rem; }
@@ -127,8 +134,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
+// ✅ 펼쳐진 카드 ID 추적
+const expandedIds = new Set();
 
 const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
+const PREVIEW_LENGTH = 200; // 접힌 상태에서 보여줄 글자 수
 
 async function loadMemos() {
   try {
@@ -160,6 +170,16 @@ window.setFilter = function(f, btn) {
   renderMemos();
 };
 
+// ✅ 펼치기/접기 토글
+window.toggleExpand = function(id) {
+  if (expandedIds.has(id)) {
+    expandedIds.delete(id);
+  } else {
+    expandedIds.add(id);
+  }
+  renderMemos();
+};
+
 window.renderMemos = function() {
   const search = document.getElementById('searchInput').value.toLowerCase();
   let filtered = items.filter(it => {
@@ -174,23 +194,36 @@ window.renderMemos = function() {
     grid.innerHTML = '<div class="empty-state"><div class="icon">📝</div><p>메모를 작성해보세요</p></div>';
     return;
   }
-  grid.innerHTML = filtered.map(it => `
+  grid.innerHTML = filtered.map(it => {
+    const isExpanded = expandedIds.has(it.id);
+    const isLong = it.body.length > PREVIEW_LENGTH;
+    // 접힌 상태면 미리보기, 펼쳐진 상태면 전체 표시
+    const displayText = isLong && !isExpanded
+      ? it.body.substring(0, PREVIEW_LENGTH) + '...'
+      : it.body;
+    const expandBtn = isLong ? `
+      <button class="expand-btn" onclick="toggleExpand('${it.id}')">
+        ${isExpanded ? '🔼 접기' : '🔽 더 보기'}
+      </button>` : '';
+
+    return `
     <div class="memo-card${it.pinned?' pinned':''}">
       <div class="card-top">
         <div class="card-title">${escapeHtml(it.title)}</div>
         <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
       </div>
-      <div class="card-body-text">${escapeHtml(it.body)}</div>
+      <div class="card-body-text">${escapeHtml(displayText)}</div>
+      ${expandBtn}
       <div class="card-meta">
         <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
         <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
       </div>
       <div class="card-actions">
-        <button class="btn-copy-c" onclick="copyText('${escapeHtml(it.title)}\\n${escapeHtml(it.body)}')">📋 복사</button>
+        <button class="btn-copy-c" onclick="copyMemo('${it.id}')">📋 복사</button>
         <button class="btn-del" onclick="deleteMemo('${it.id}')">🗑️ 삭제</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 };
 
 window.togglePin = async function(id, pinned) {
@@ -205,13 +238,19 @@ window.deleteMemo = async function(id) {
   if (!confirm('삭제하시겠습니까?')) return;
   try {
     await deleteDoc(doc(db,'memos',id));
+    expandedIds.delete(id);
     await loadMemos();
     showToast('🗑️ 삭제됨!');
   } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
-window.copyText = function(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!')).catch(() => showToast('❌ 복사 실패'));
+// ✅ id로 찾아서 복사 (onclick 인라인에서 escapeHtml 이중처리 방지)
+window.copyMemo = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  navigator.clipboard.writeText(it.title + '\n' + it.body)
+    .then(() => showToast('📋 복사됨!'))
+    .catch(() => showToast('❌ 복사 실패'));
 };
 
 function escapeHtml(s) {
