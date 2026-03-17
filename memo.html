@@ -3,357 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📝 메모방</title>
+<title>📝 메모</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0f0f1a; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
-
-/* ── 네비바 ── */
-.navbar {
-  background: #0a0a14;
-  border-bottom: 1px solid #1e1e3a;
-  padding: 10px 24px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min-height:100vh; }
+.navbar { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; background:#1e1b4b; border-bottom:1px solid #3730a3; position:sticky; top:0; z-index:100; }
+.navbar a { padding:6px 12px; border-radius:20px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+.nav-home   { background:#1a1a2e; border:1px solid #6366f1; color:#a5b4fc; }
+.nav-gallery{ background:#1a1a2e; border:1px solid #8b5cf6; color:#c4b5fd; }
+.nav-gen    { background:#1a1a2e; border:1px solid #ec4899; color:#f9a8d4; }
+.nav-links  { background:#1a1a2e; border:1px solid #3b82f6; color:#93c5fd; }
+.nav-ideas  { background:#1a1a2e; border:1px solid #fbbf24; color:#fbbf24; }
+.nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
+.nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
+.navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+.header { background:linear-gradient(135deg,#064e3b,#065f46); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
+.header h1 { font-size:1.3rem; font-weight:700; color:#6ee7b7; }
+.badge { background:#064e3b; border:1px solid #10b981; color:#6ee7b7; padding:4px 12px; border-radius:12px; font-size:0.8rem; }
+.form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:16px; }
+.form-card h3 { font-size:0.95rem; color:#6ee7b7; margin-bottom:12px; font-weight:700; }
+.form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.form-row input, .form-row select, .form-row textarea {
+  background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit;
 }
-.navbar a {
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-}
-.navbar a:hover { opacity: 0.8; }
-.nav-home    { background:#1a1a2e; border:1px solid #2d2d5e; color:#94a3b8; }
-.nav-gallery { background:#1a1a2e; border:1px solid #1d4ed8; color:#93c5fd; }
-.nav-gen     { background:#1a1a2e; border:1px solid #5b21b6; color:#c4b5fd; }
-.nav-memo    { background:#1a1a2e; border:1px solid #059669; color:#6ee7b7; }
-
-/* ── 헤더 ── */
-.header {
-  background: linear-gradient(135deg, #064e3b, #065f46);
-  padding: 16px 24px;
-  border-bottom: 1px solid #059669;
-}
-.header h1 { font-size: 1.3rem; font-weight: 700; color: #6ee7b7; }
-
-/* ── 컨테이너 ── */
-.container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
-
-/* ── 작성 폼 ── */
-.write-card {
-  background: #1a1a2e;
-  border: 1px solid #2d2d5e;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 24px;
-}
-.write-card h2 { font-size: 0.95rem; color: #6ee7b7; margin-bottom: 14px; }
-.form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-.form-input {
-  background: #0f0f1a;
-  border: 1px solid #374151;
-  color: #e2e8f0;
-  padding: 9px 14px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  flex: 1;
-  min-width: 140px;
-}
-.form-input:focus { outline: none; border-color: #059669; }
-.form-select {
-  background: #0f0f1a;
-  border: 1px solid #374151;
-  color: #e2e8f0;
-  padding: 9px 14px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.form-select:focus { outline: none; border-color: #059669; }
-.form-textarea {
-  width: 100%;
-  background: #0f0f1a;
-  border: 1px solid #374151;
-  color: #e2e8f0;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  min-height: 100px;
-  resize: vertical;
-  margin-bottom: 10px;
-}
-.form-textarea:focus { outline: none; border-color: #059669; }
-
-/* ── 이미지 업로드 ── */
-.img-upload-area {
-  border: 2px dashed #374151;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 10px;
-  position: relative;
-}
-.img-upload-area:hover { border-color: #059669; background: #0a1a12; }
-.img-upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-.img-upload-area .upload-label { font-size: 0.85rem; color: #64748b; pointer-events: none; }
-.img-preview {
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
-  margin-top: 10px;
-  display: none;
-}
-.upload-progress {
-  background: #0f0f1a;
-  border-radius: 999px;
-  height: 6px;
-  overflow: hidden;
-  margin-top: 8px;
-  display: none;
-}
-.upload-progress-fill {
-  background: linear-gradient(90deg, #059669, #6ee7b7);
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s;
-  width: 0%;
-}
-
-.btn-submit {
-  background: linear-gradient(135deg, #064e3b, #059669);
-  border: none;
-  color: #fff;
-  padding: 10px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px #05996944; }
-.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-/* ── 필터/검색 ── */
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.search-input {
-  background: #1a1a2e;
-  border: 1px solid #374151;
-  color: #e2e8f0;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 0.82rem;
-  flex: 1;
-  min-width: 180px;
-}
-.search-input:focus { outline: none; border-color: #059669; }
-.filter-btn {
-  background: #1a1a2e;
-  border: 1px solid #374151;
-  color: #94a3b8;
-  padding: 7px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-}
-.filter-btn.active { background: #064e3b; border-color: #059669; color: #6ee7b7; }
-
-/* ── 메모 카드 ── */
-.memo-grid { display: flex; flex-direction: column; gap: 16px; }
-.memo-card {
-  background: #1a1a2e;
-  border: 1px solid #2d2d5e;
-  border-radius: 14px;
-  padding: 18px;
-  transition: all 0.2s;
-}
-.memo-card:hover { border-color: #374151; }
-.memo-card.pinned { border-color: #d97706; }
-.memo-card-img {
-  width: 100%;
-  max-height: 280px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  cursor: pointer;
-}
-.memo-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.memo-title { font-size: 0.95rem; font-weight: 700; color: #e2e8f0; flex: 1; }
-.memo-body {
-  font-size: 0.83rem;
-  color: #94a3b8;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.memo-footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-.memo-category {
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-.cat-ai   { background:#1e3a5f; color:#93c5fd; }
-.cat-link { background:#3b1f6e; color:#c4b5fd; }
-.cat-idea { background:#064e3b; color:#6ee7b7; }
-.cat-todo { background:#7f1d1d; color:#fca5a5; }
-.cat-etc  { background:#374151; color:#94a3b8; }
-.memo-date { font-size: 0.72rem; color: #4b5563; margin-left: auto; }
-.pin-badge { font-size: 0.72rem; background:#78350f; color:#fcd34d; padding:2px 8px; border-radius:20px; }
-
-.memo-actions { display: flex; gap: 6px; }
-.btn-icon {
-  background: none;
-  border: 1px solid #374151;
-  color: #64748b;
-  padding: 4px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.75rem;
-  transition: all 0.2s;
-}
-.btn-icon:hover { border-color: #6b7280; color: #e2e8f0; }
-.btn-pin:hover  { border-color: #d97706; color: #fcd34d; }
-.btn-del:hover  { border-color: #ef4444; color: #fca5a5; }
-.btn-copy:hover { border-color: #059669; color: #6ee7b7; }
-
-/* ── 이미지 라이트박스 ── */
-.lightbox {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  cursor: pointer;
-}
-.lightbox.show { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 10px; }
-
-/* ── 빈 상태 ── */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: #374151;
-  font-size: 0.9rem;
-}
-.empty-state .emoji { font-size: 3rem; margin-bottom: 12px; display: block; }
-
-/* ── 토스트 ── */
-.toast {
-  position: fixed; bottom: 30px; left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: #064e3b; color: #6ee7b7;
-  padding: 12px 24px; border-radius: 50px;
-  font-size: 0.88rem; opacity: 0; transition: all 0.4s;
-  z-index: 9998; pointer-events: none;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-@media (max-width: 600px) {
-  .form-row { flex-direction: column; }
-}
+.form-row input { flex:1; min-width:200px; }
+.form-row select { min-width:140px; }
+.form-row textarea { flex:1; min-width:200px; min-height:100px; resize:vertical; }
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline:none; border-color:#10b981; }
+.btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-primary { background:linear-gradient(135deg,#065f46,#10b981); color:white; }
+.btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
+.filter-section input:focus { outline:none; border-color:#10b981; }
+.filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
+.filter-btn.active { background:#065f46; border-color:#10b981; color:white; }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:0 16px 24px; }
+.memo-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; transition:all 0.3s; }
+.memo-card:hover { border-color:#10b981; transform:translateY(-2px); box-shadow:0 4px 16px rgba(16,185,129,0.15); }
+.memo-card.pinned { border-color:#10b981; background:#0a1f18; }
+.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.card-title { font-weight:700; color:#6ee7b7; font-size:0.95rem; flex:1; }
+.pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
+.pin-icon.active { opacity:1; }
+.card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; max-height:120px; overflow:hidden; }
+.card-meta { display:flex; justify-content:space-between; align-items:center; }
+.card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#064e3b; color:#6ee7b7; border:1px solid #10b981; }
+.card-date { color:#6b7280; font-size:0.72rem; }
+.card-actions { display:flex; gap:6px; margin-top:8px; }
+.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
+.btn-copy-c { background:#0a1f18; color:#6ee7b7; border:1px solid #10b981 !important; }
+.btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
+.empty-state .icon { font-size:3rem; margin-bottom:12px; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#065f46; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+.toast.show { opacity:1; }
 </style>
 </head>
 <body>
 
-<!-- 네비바 -->
 <nav class="navbar">
   <a href="index.html" class="nav-home">🏠 홈</a>
   <a href="gall.html" class="nav-gallery">🖼️ 갤러리</a>
   <a href="prompt-generator.html" class="nav-gen">✨ 생성기</a>
-  <a href="memo.html" class="nav-memo">📝 메모방</a>
+  <a href="links.html" class="nav-links">🔗 링크</a>
+  <a href="ideas.html" class="nav-ideas">💡 아이디어</a>
+  <a href="todos.html" class="nav-todos">✅ 할일</a>
+  <a href="memo.html" class="nav-memo">📝 메모</a>
 </nav>
 
-<!-- 헤더 -->
 <div class="header">
-  <h1>📝 메모방 — 나만의 유틸 공간</h1>
+  <h1>📝 메모</h1>
+  <span class="badge" id="memoCount">0개</span>
 </div>
 
-<div class="container">
-
-  <!-- 작성 폼 -->
-  <div class="write-card">
-    <h2>✏️ 새 메모 작성</h2>
-    <div class="form-row">
-      <input class="form-input" id="memoTitle" placeholder="제목 (선택사항)">
-      <select class="form-select" id="memoCat">
-        <option value="etc">📌 기타</option>
-        <option value="ai">🤖 AI 툴</option>
-        <option value="link">🔗 링크</option>
-        <option value="idea">💡 아이디어</option>
-        <option value="todo">✅ 할일</option>
-      </select>
-    </div>
-    <textarea class="form-textarea" id="memoBody"
-      placeholder="내용을 입력하세요...&#10;링크, 아이디어, 메모 뭐든 OK!"></textarea>
-
-    <!-- 이미지 업로드 -->
-    <div class="img-upload-area" id="uploadArea">
-      <input type="file" id="imgFile" accept="image/*" onchange="previewImage(event)">
-      <div class="upload-label" id="uploadLabel">🖼️ 이미지 첨부 (선택사항) — 클릭하거나 드래그</div>
-      <img id="imgPreview" class="img-preview">
-    </div>
-    <div class="upload-progress" id="uploadProgress">
-      <div class="upload-progress-fill" id="uploadProgressFill"></div>
-    </div>
-
-    <button class="btn-submit" id="submitBtn" onclick="addMemo()">💾 저장</button>
+<div class="form-card">
+  <h3>➕ 메모 작성</h3>
+  <div class="form-row">
+    <input type="text" id="memoTitle" placeholder="제목">
+    <select id="memoCategory">
+      <option value="general">📝 일반</option>
+      <option value="ai">🤖 AI</option>
+      <option value="prompt">✨ 프롬프트</option>
+      <option value="ref">📚 참고</option>
+      <option value="temp">⏰ 임시</option>
+      <option value="other">💭 기타</option>
+    </select>
   </div>
-
-  <!-- 필터/검색 -->
-  <div class="filter-bar">
-    <input class="search-input" id="searchInput" placeholder="🔍 검색..." oninput="renderMemos()">
-    <button class="filter-btn active" onclick="setFilter('all', this)">전체</button>
-    <button class="filter-btn" onclick="setFilter('ai', this)">🤖 AI</button>
-    <button class="filter-btn" onclick="setFilter('link', this)">🔗 링크</button>
-    <button class="filter-btn" onclick="setFilter('idea', this)">💡 아이디어</button>
-    <button class="filter-btn" onclick="setFilter('todo', this)">✅ 할일</button>
-    <button class="filter-btn" onclick="setFilter('etc', this)">📌 기타</button>
+  <div class="form-row">
+    <textarea id="memoBody" placeholder="내용을 자유롭게 입력하세요..."></textarea>
   </div>
-
-  <!-- 메모 목록 -->
-  <div class="memo-grid" id="memoGrid"></div>
-
+  <button class="btn btn-primary" onclick="addMemo()">📝 저장</button>
 </div>
 
-<!-- 라이트박스 -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightboxImg" src="">
+<div class="filter-section">
+  <input type="text" id="searchInput" placeholder="🔍 검색..." oninput="renderMemos()">
+  <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
+  <button class="filter-btn" onclick="setFilter('ai',this)">🤖 AI</button>
+  <button class="filter-btn" onclick="setFilter('prompt',this)">✨ 프롬프트</button>
+  <button class="filter-btn" onclick="setFilter('ref',this)">📚 참고</button>
+  <button class="filter-btn" onclick="setFilter('temp',this)">⏰ 임시</button>
 </div>
 
+<div class="cards-grid" id="cardsGrid"></div>
 <div class="toast" id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
@@ -361,262 +120,110 @@ const firebaseConfig = {
   projectId: "claude-grok-gallery",
   storageBucket: "claude-grok-gallery.firebasestorage.app",
   messagingSenderId: "907968891772",
-  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9",
-  measurementId: "G-5C2V22BYMS"
+  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9"
 };
 
-const app  = initializeApp(firebaseConfig);
-const db   = getFirestore(app);
-const storage = getStorage(app);
-
-const CAT_LABELS = {
-  ai:   { label: '🤖 AI툴',     cls: 'cat-ai' },
-  link: { label: '🔗 링크',     cls: 'cat-link' },
-  idea: { label: '💡 아이디어', cls: 'cat-idea' },
-  todo: { label: '✅ 할일',     cls: 'cat-todo' },
-  etc:  { label: '📌 기타',     cls: 'cat-etc' }
-};
-
-let allMemos = [];
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+let items = [];
 let currentFilter = 'all';
-let selectedFile = null;
 
-// ── 이미지 미리보기 ──
-window.previewImage = function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  selectedFile = file;
-  const preview = document.getElementById('imgPreview');
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = 'block';
-  document.getElementById('uploadLabel').textContent = '✅ ' + file.name;
-};
+const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
 
-// ── 메모 추가 ──
+async function loadMemos() {
+  try {
+    const q = query(collection(db,'memos'), orderBy('date','desc'));
+    const snap = await getDocs(q);
+    items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    renderMemos();
+  } catch(e) { showToast('❌ 로드 실패'); }
+}
+
 window.addMemo = async function() {
   const title = document.getElementById('memoTitle').value.trim();
   const body  = document.getElementById('memoBody').value.trim();
-  const cat   = document.getElementById('memoCat').value;
-  if (!body && !selectedFile) { showToast('⚠️ 내용이나 이미지를 추가해주세요'); return; }
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ 저장 중...';
-
-  let imageUrl = '';
-  let imagePath = '';
-
-  // 이미지 업로드
-  if (selectedFile) {
-    try {
-      imagePath = `memos/${Date.now()}_${selectedFile.name}`;
-      const storageRef = ref(storage, imagePath);
-      const progressBar = document.getElementById('uploadProgress');
-      const progressFill = document.getElementById('uploadProgressFill');
-      progressBar.style.display = 'block';
-
-      await new Promise((resolve, reject) => {
-        const task = uploadBytesResumable(storageRef, selectedFile);
-        task.on('state_changed',
-          snap => {
-            const pct = (snap.bytesTransferred / snap.totalBytes) * 100;
-            progressFill.style.width = pct + '%';
-          },
-          reject,
-          async () => {
-            imageUrl = await getDownloadURL(task.snapshot.ref);
-            resolve();
-          }
-        );
-      });
-      progressBar.style.display = 'none';
-    } catch(e) {
-      showToast('❌ 이미지 업로드 실패');
-      btn.disabled = false;
-      btn.textContent = '💾 저장';
-      return;
-    }
-  }
-
-  // Firestore 저장
+  const cat   = document.getElementById('memoCategory').value;
+  if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
   try {
-    await addDoc(collection(db, 'memos'), {
-      title,
-      body,
-      cat,
-      imageUrl,
-      imagePath,
-      pinned: false,
-      date: new Date().toLocaleString('ko-KR', {
-        month:'2-digit', day:'2-digit',
-        hour:'2-digit', minute:'2-digit'
-      }),
-      createdAt: Date.now()
-    });
-
-    // 폼 초기화
+    await addDoc(collection(db,'memos'), { title, body, cat, pinned:false, date:new Date().toISOString() });
     document.getElementById('memoTitle').value = '';
     document.getElementById('memoBody').value = '';
-    document.getElementById('memoCat').value = 'etc';
-    document.getElementById('imgPreview').style.display = 'none';
-    document.getElementById('imgPreview').src = '';
-    document.getElementById('uploadLabel').textContent = '🖼️ 이미지 첨부 (선택사항) — 클릭하거나 드래그';
-    document.getElementById('imgFile').value = '';
-    selectedFile = null;
-
-    showToast('💾 저장 완료!');
     await loadMemos();
-  } catch(e) {
-    showToast('❌ 저장 실패: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '💾 저장';
-  }
+    showToast('✅ 메모 저장됨!');
+  } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
 };
 
-// ── 메모 불러오기 ──
-async function loadMemos() {
-  try {
-    const q = query(collection(db, 'memos'), orderBy('createdAt', 'desc'));
-    const snap = await getDocs(q);
-    allMemos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderMemos();
-  } catch(e) {
-    showToast('❌ 불러오기 실패');
-  }
-}
-
-// ── 삭제 ──
-window.deleteMemo = async function(id) {
-  if (!confirm('삭제하시겠습니까?')) return;
-  const memo = allMemos.find(m => m.id === id);
-  try {
-    if (memo?.imagePath) {
-      try { await deleteObject(ref(storage, memo.imagePath)); } catch {}
-    }
-    await deleteDoc(doc(db, 'memos', id));
-    showToast('🗑️ 삭제 완료');
-    await loadMemos();
-  } catch(e) {
-    showToast('❌ 삭제 실패');
-  }
-};
-
-// ── 핀 고정 ──
-window.togglePin = async function(id) {
-  const memo = allMemos.find(m => m.id === id);
-  if (!memo) return;
-  try {
-    await updateDoc(doc(db, 'memos', id), { pinned: !memo.pinned });
-    showToast(memo.pinned ? '📌 고정 해제' : '📌 고정됨');
-    await loadMemos();
-  } catch(e) {
-    showToast('❌ 오류');
-  }
-};
-
-// ── 복사 ──
-window.copyMemo = function(id) {
-  const memo = allMemos.find(m => m.id === id);
-  if (!memo) return;
-  const text = memo.title ? `${memo.title}\n\n${memo.body}` : memo.body;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!'));
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.cssText = 'position:fixed;opacity:0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('📋 복사됨!');
-  }
-};
-
-// ── 라이트박스 ──
-window.openLightbox = function(url) {
-  document.getElementById('lightboxImg').src = url;
-  document.getElementById('lightbox').classList.add('show');
-};
-window.closeLightbox = function() {
-  document.getElementById('lightbox').classList.remove('show');
-};
-
-// ── 필터 ──
-window.setFilter = function(cat, btn) {
-  currentFilter = cat;
+window.setFilter = function(f, btn) {
+  currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
   renderMemos();
 };
 
-// ── 렌더링 ──
 window.renderMemos = function() {
-  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-  let filtered = allMemos.filter(m => {
-    const matchCat = currentFilter === 'all' || m.cat === currentFilter;
-    const matchKey = !keyword ||
-      (m.title||'').toLowerCase().includes(keyword) ||
-      (m.body||'').toLowerCase().includes(keyword);
-    return matchCat && matchKey;
-  });
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = items.filter(it => {
+    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
+    if (search && !it.title.toLowerCase().includes(search) && !it.body.toLowerCase().includes(search)) return false;
+    return true;
+  }).sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0));
 
-  // 핀 먼저
-  filtered.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-
-  const grid = document.getElementById('memoGrid');
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <span class="emoji">📭</span>
-        메모가 없어요!<br>위에서 새 메모를 작성해보세요.
-      </div>`;
+  document.getElementById('memoCount').textContent = filtered.length + '개';
+  const grid = document.getElementById('cardsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">📝</div><p>메모를 작성해보세요</p></div>';
     return;
   }
-
-  grid.innerHTML = filtered.map(m => {
-    const cat = CAT_LABELS[m.cat] || CAT_LABELS.etc;
-    return `
-      <div class="memo-card ${m.pinned ? 'pinned' : ''}">
-        ${m.imageUrl ? `<img class="memo-card-img" src="${m.imageUrl}"
-          onclick="openLightbox('${m.imageUrl}')" alt="첨부 이미지">` : ''}
-        <div class="memo-top">
-          <div class="memo-title">${escapeHtml(m.title || '(제목 없음)')}</div>
-          <div class="memo-actions">
-            <button class="btn-icon btn-pin"  onclick="togglePin('${m.id}')" title="고정">📌</button>
-            <button class="btn-icon btn-copy" onclick="copyMemo('${m.id}')"  title="복사">📋</button>
-            <button class="btn-icon btn-del"  onclick="deleteMemo('${m.id}')" title="삭제">🗑️</button>
-          </div>
-        </div>
-        ${m.body ? `<div class="memo-body">${escapeHtml(m.body)}</div>` : ''}
-        <div class="memo-footer">
-          <span class="memo-category ${cat.cls}">${cat.label}</span>
-          ${m.pinned ? '<span class="pin-badge">📌 고정</span>' : ''}
-          <span class="memo-date">${m.date}</span>
-        </div>
-      </div>`;
-  }).join('');
+  grid.innerHTML = filtered.map(it => `
+    <div class="memo-card${it.pinned?' pinned':''}">
+      <div class="card-top">
+        <div class="card-title">${escapeHtml(it.title)}</div>
+        <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
+      </div>
+      <div class="card-body-text">${escapeHtml(it.body)}</div>
+      <div class="card-meta">
+        <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
+        <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-copy-c" onclick="copyText('${escapeHtml(it.title)}\\n${escapeHtml(it.body)}')">📋 복사</button>
+        <button class="btn-del" onclick="deleteMemo('${it.id}')">🗑️ 삭제</button>
+      </div>
+    </div>
+  `).join('');
 };
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return str
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+window.togglePin = async function(id, pinned) {
+  try {
+    await updateDoc(doc(db,'memos',id), { pinned:!pinned });
+    await loadMemos();
+    showToast(pinned ? '📌 핀 해제' : '📌 핀 고정!');
+  } catch(e) { showToast('❌ 오류'); }
+};
+
+window.deleteMemo = async function(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db,'memos',id));
+    await loadMemos();
+    showToast('🗑️ 삭제됨!');
+  } catch(e) { showToast('❌ 삭제 실패'); }
+};
+
+window.copyText = function(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!')).catch(() => showToast('❌ 복사 실패'));
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── 토스트 ──
-window.showToast = function(msg, duration = 2500) {
+function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
-};
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
 
-// ── 초기 로드 ──
 loadMemos();
 </script>
 </body>
