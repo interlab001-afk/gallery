@@ -5,96 +5,134 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🏠 My AI Studio</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: #0f0f1a;
-  color: #e2e8f0;
-  font-family: 'Segoe UI', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min-height:100vh; }
+.navbar { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; background:#1e1b4b; border-bottom:1px solid #3730a3; position:sticky; top:0; z-index:100; }
+.navbar a { padding:6px 12px; border-radius:20px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+.nav-home   { background:#1a1a2e; border:1px solid #6366f1; color:#a5b4fc; }
+.nav-gallery{ background:#1a1a2e; border:1px solid #8b5cf6; color:#c4b5fd; }
+.nav-gen    { background:#1a1a2e; border:1px solid #ec4899; color:#f9a8d4; }
+.nav-links  { background:#1a1a2e; border:1px solid #3b82f6; color:#93c5fd; }
+.nav-ideas  { background:#1a1a2e; border:1px solid #fbbf24; color:#fbbf24; }
+.nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
+.nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
+.navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+
+.hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a5f 100%);
+  padding: 48px 24px; text-align: center;
 }
-.title { font-size: 2rem; font-weight: 800; color: #c4b5fd; margin-bottom: 8px; text-align: center; }
-.subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 48px; text-align: center; }
-.nav-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-}
+.hero h1 { font-size: 2rem; font-weight: 800; color: #c4b5fd; margin-bottom: 8px; }
+.hero p { color: #9ca3af; font-size: 1rem; margin-bottom: 4px; }
+.hero .sub { color: #6b7280; font-size: 0.85rem; }
+
+.cards-section { padding: 24px 16px; max-width: 900px; margin: 0 auto; }
+.section-title { font-size: 1rem; font-weight: 700; color: #6b7280; margin-bottom: 16px; letter-spacing: 1px; text-transform: uppercase; }
+
+.nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
 .nav-card {
-  background: #1a1a2e;
-  border: 1px solid #2d2d5e;
-  border-radius: 20px;
-  padding: 32px 20px;
-  text-align: center;
-  text-decoration: none;
-  color: #e2e8f0;
-  transition: all 0.3s;
+  border-radius: 16px; padding: 24px; text-decoration: none;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: all 0.3s; border: 1px solid transparent;
+  cursor: pointer;
 }
-.nav-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px #7c3aed33; }
-.nav-card .icon { font-size: 2.5rem; margin-bottom: 14px; display: block; }
-.nav-card .name { font-size: 1rem; font-weight: 700; color: #c4b5fd; margin-bottom: 6px; }
-.nav-card .desc { font-size: 0.78rem; color: #64748b; line-height: 1.5; }
+.nav-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
 
-.nav-card.gallery   { border-color: #1d4ed8; }
-.nav-card.gallery:hover   { border-color: #3b82f6; box-shadow: 0 12px 40px #3b82f633; }
-.nav-card.generator { border-color: #5b21b6; }
-.nav-card.generator:hover { border-color: #7c3aed; box-shadow: 0 12px 40px #7c3aed33; }
-.nav-card.links     { border-color: #1d4ed8; }
-.nav-card.links:hover     { border-color: #60a5fa; box-shadow: 0 12px 40px #60a5fa33; }
-.nav-card.ideas     { border-color: #d97706; }
-.nav-card.ideas:hover     { border-color: #fbbf24; box-shadow: 0 12px 40px #fbbf2433; }
-.nav-card.todos     { border-color: #7f1d1d; }
-.nav-card.todos:hover     { border-color: #ef4444; box-shadow: 0 12px 40px #ef444433; }
-.nav-card.memo      { border-color: #065f46; }
-.nav-card.memo:hover      { border-color: #059669; box-shadow: 0 12px 40px #05996933; }
+.card-gallery { background: linear-gradient(135deg,#1e1b4b,#2e1065); border-color:#4c1d95; }
+.card-gallery:hover { border-color:#7c3aed; box-shadow:0 8px 24px rgba(124,58,237,0.3); }
 
-.footer { margin-top: 48px; font-size: 0.78rem; color: #374151; }
+.card-gen { background: linear-gradient(135deg,#1e1b4b,#500724); border-color:#831843; }
+.card-gen:hover { border-color:#ec4899; box-shadow:0 8px 24px rgba(236,72,153,0.3); }
+
+.card-links { background: linear-gradient(135deg,#1e1b4b,#1e3a5f); border-color:#1e40af; }
+.card-links:hover { border-color:#3b82f6; box-shadow:0 8px 24px rgba(59,130,246,0.3); }
+
+.card-ideas { background: linear-gradient(135deg,#1e1b4b,#451a03); border-color:#92400e; }
+.card-ideas:hover { border-color:#fbbf24; box-shadow:0 8px 24px rgba(251,191,36,0.3); }
+
+.card-todos { background: linear-gradient(135deg,#1e1b4b,#450a0a); border-color:#991b1b; }
+.card-todos:hover { border-color:#ef4444; box-shadow:0 8px 24px rgba(239,68,68,0.3); }
+
+.card-memo { background: linear-gradient(135deg,#1e1b4b,#064e3b); border-color:#065f46; }
+.card-memo:hover { border-color:#10b981; box-shadow:0 8px 24px rgba(16,185,129,0.3); }
+
+.card-icon { font-size: 2rem; margin-bottom: 4px; }
+.card-title { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; }
+.card-desc { font-size: 0.82rem; color: #9ca3af; line-height: 1.4; }
+
+.footer { text-align:center; padding:32px 16px; color:#4b5563; font-size:0.8rem; border-top:1px solid #1f2937; margin-top:24px; }
+
+@media (max-width:600px) {
+  .hero h1 { font-size:1.5rem; }
+  .nav-grid { grid-template-columns:1fr 1fr; }
+}
 </style>
 </head>
 <body>
 
-<div class="title">🏠 My AI Studio</div>
-<div class="subtitle">Claude + Grok + 삼촌의 작업실</div>
+<nav class="navbar">
+  <a href="index.html" class="nav-home">🏠 홈</a>
+  <a href="gall.html" class="nav-gallery">🖼️ 갤러리</a>
+  <a href="prompt-generator.html" class="nav-gen">✨ 생성기</a>
+  <a href="links.html" class="nav-links">🔗 링크</a>
+  <a href="ideas.html" class="nav-ideas">💡 아이디어</a>
+  <a href="todos.html" class="nav-todos">✅ 할일</a>
+  <a href="memo.html" class="nav-memo">📝 메모</a>
+</nav>
 
-<div class="nav-grid">
-  <a href="gall.html" class="nav-card gallery">
-    <span class="icon">🖼️</span>
-    <div class="name">갤러리</div>
-    <div class="desc">프롬프트 저장<br>이미지 관리</div>
-  </a>
-  <a href="prompt-generator.html" class="nav-card generator">
-    <span class="icon">✨</span>
-    <div class="name">프롬프트 생성기</div>
-    <div class="desc">태그 클릭으로<br>AI 프롬프트 자동 생성</div>
-  </a>
-  <a href="links.html" class="nav-card links">
-    <span class="icon">🔗</span>
-    <div class="name">링크 모음</div>
-    <div class="desc">유용한 사이트<br>AI 툴 링크</div>
-  </a>
-  <a href="ideas.html" class="nav-card ideas">
-    <span class="icon">💡</span>
-    <div class="name">아이디어</div>
-    <div class="desc">떠오른 생각<br>기획 메모</div>
-  </a>
-  <a href="todos.html" class="nav-card todos">
-    <span class="icon">✅</span>
-    <div class="name">할일</div>
-    <div class="desc">해야 할 것들<br>체크리스트</div>
-  </a>
-  <a href="memo.html" class="nav-card memo">
-    <span class="icon">📝</span>
-    <div class="name">메모</div>
-    <div class="desc">자유 메모<br>뭐든 적어두기</div>
-  </a>
+<div class="hero">
+  <h1>🏠 My AI Studio</h1>
+  <p>Claude + Grok + 삼촌의 작업실</p>
+  <p class="sub">AI 이미지 생성 · 프롬프트 관리 · 아이디어 기록</p>
 </div>
 
-<div class="footer">Powered by Firebase + GitHub Pages</div>
+<div class="cards-section">
+  <div class="section-title">🚀 바로가기</div>
+  <div class="nav-grid">
+
+    <a href="gall.html" class="nav-card card-gallery">
+      <div class="card-icon">🖼️</div>
+      <div class="card-title">AI 갤러리</div>
+      <div class="card-desc">생성한 AI 이미지를 저장하고<br>프롬프트와 함께 관리</div>
+    </a>
+
+    <a href="prompt-generator.html" class="nav-card card-gen">
+      <div class="card-icon">✨</div>
+      <div class="card-title">프롬프트 생성기</div>
+      <div class="card-desc">태그 선택 + Gemini AI로<br>최적의 이미지 프롬프트 생성</div>
+    </a>
+
+    <a href="links.html" class="nav-card card-links">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">링크 모음</div>
+      <div class="card-desc">AI 툴, 참고자료, 유틸 링크를<br>카테고리별로 저장</div>
+    </a>
+
+    <a href="ideas.html" class="nav-card card-ideas">
+      <div class="card-icon">💡</div>
+      <div class="card-title">아이디어</div>
+      <div class="card-desc">떠오르는 아이디어와<br>프로젝트 기획을 기록</div>
+    </a>
+
+    <a href="todos.html" class="nav-card card-todos">
+      <div class="card-icon">✅</div>
+      <div class="card-title">할일 목록</div>
+      <div class="card-desc">작업 목록과 진행률을<br>한눈에 관리</div>
+    </a>
+
+    <a href="memo.html" class="nav-card card-memo">
+      <div class="card-icon">📝</div>
+      <div class="card-title">메모</div>
+      <div class="card-desc">자유로운 메모와<br>중요 내용 빠른 기록</div>
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">
+  Powered by Firebase + GitHub Pages &nbsp;·&nbsp; My AI Studio
+</div>
+
 </body>
 </html>
