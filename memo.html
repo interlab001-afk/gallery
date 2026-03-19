@@ -168,7 +168,7 @@ let currentFilter = 'all';
 let editingId = null;
 const expandedIds = new Set();
 const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
-const PREVIEW_LENGTH = 60;
+const PREVIEW_LENGTH = 40;
 
 // ✅ 핵심 수정: orderBy 없이 전체 로드 후 JS에서 정렬
 async function loadMemos() {
