@@ -34,6 +34,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#065f46,#10b981); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-cancel { background:#374151; color:#e2e8f0; margin-left:8px; }
+.btn-cancel:hover { opacity:0.9; }
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
 .filter-section input:focus { outline:none; border-color:#10b981; }
@@ -47,25 +49,34 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .card-title { font-weight:700; color:#6ee7b7; font-size:0.95rem; flex:1; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
-
-/* ✅ 핵심 수정: max-height 제거, 전체 내용 표시 */
 .card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
-
-/* ✅ 펼치기/접기 버튼 */
 .expand-btn { background:none; border:none; color:#10b981; font-size:0.75rem; cursor:pointer; padding:0 0 8px 0; font-weight:600; }
 .expand-btn:hover { text-decoration:underline; }
-
 .card-meta { display:flex; justify-content:space-between; align-items:center; }
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#064e3b; color:#6ee7b7; border:1px solid #10b981; }
 .card-date { color:#6b7280; font-size:0.72rem; }
 .card-actions { display:flex; gap:6px; margin-top:8px; }
 .card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
 .btn-copy-c { background:#0a1f18; color:#6ee7b7; border:1px solid #10b981 !important; }
+.btn-edit { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
 .btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
 .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#065f46; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
 .toast.show { opacity:1; }
+
+/* 수정 모달 */
+.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+.modal-overlay.show { display:flex; }
+.modal { background:#1e1b4b; border:1px solid #10b981; border-radius:16px; padding:24px; width:90%; max-width:560px; }
+.modal h3 { color:#6ee7b7; font-size:1rem; margin-bottom:16px; }
+.modal input, .modal select, .modal textarea {
+  width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px;
+}
+.modal textarea { min-height:120px; resize:vertical; }
+.modal input:focus, .modal select:focus, .modal textarea:focus { outline:none; border-color:#10b981; }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
 </style>
 </head>
 <body>
@@ -114,6 +125,28 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 </div>
 
 <div class="cards-grid" id="cardsGrid"></div>
+
+<!-- 수정 모달 -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ 메모 수정</h3>
+    <input type="text" id="editTitle" placeholder="제목">
+    <select id="editCategory">
+      <option value="general">📝 일반</option>
+      <option value="ai">🤖 AI</option>
+      <option value="prompt">✨ 프롬프트</option>
+      <option value="ref">📚 참고</option>
+      <option value="temp">⏰ 임시</option>
+      <option value="other">💭 기타</option>
+    </select>
+    <textarea id="editBody" placeholder="내용"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeEditModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveEdit()">💾 저장</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -134,11 +167,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
-// ✅ 펼쳐진 카드 ID 추적
+let editingId = null;
 const expandedIds = new Set();
 
 const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
-const PREVIEW_LENGTH = 200; // 접힌 상태에서 보여줄 글자 수
+const PREVIEW_LENGTH = 200;
 
 async function loadMemos() {
   try {
@@ -170,14 +203,42 @@ window.setFilter = function(f, btn) {
   renderMemos();
 };
 
-// ✅ 펼치기/접기 토글
 window.toggleExpand = function(id) {
-  if (expandedIds.has(id)) {
-    expandedIds.delete(id);
-  } else {
-    expandedIds.add(id);
-  }
+  if (expandedIds.has(id)) expandedIds.delete(id);
+  else expandedIds.add(id);
   renderMemos();
+};
+
+// ✅ 수정 모달 열기
+window.openEditModal = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  editingId = id;
+  document.getElementById('editTitle').value = it.title;
+  document.getElementById('editBody').value = it.body;
+  document.getElementById('editCategory').value = it.cat || 'general';
+  document.getElementById('editModal').classList.add('show');
+};
+
+// ✅ 수정 모달 닫기
+window.closeEditModal = function() {
+  editingId = null;
+  document.getElementById('editModal').classList.remove('show');
+};
+
+// ✅ 수정 저장
+window.saveEdit = async function() {
+  if (!editingId) return;
+  const title = document.getElementById('editTitle').value.trim();
+  const body  = document.getElementById('editBody').value.trim();
+  const cat   = document.getElementById('editCategory').value;
+  if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
+  try {
+    await updateDoc(doc(db,'memos',editingId), { title, body, cat });
+    closeEditModal();
+    await loadMemos();
+    showToast('✅ 수정 완료!');
+  } catch(e) { showToast('❌ 수정 실패: ' + e.message); }
 };
 
 window.renderMemos = function() {
@@ -197,14 +258,8 @@ window.renderMemos = function() {
   grid.innerHTML = filtered.map(it => {
     const isExpanded = expandedIds.has(it.id);
     const isLong = it.body.length > PREVIEW_LENGTH;
-    // 접힌 상태면 미리보기, 펼쳐진 상태면 전체 표시
-    const displayText = isLong && !isExpanded
-      ? it.body.substring(0, PREVIEW_LENGTH) + '...'
-      : it.body;
-    const expandBtn = isLong ? `
-      <button class="expand-btn" onclick="toggleExpand('${it.id}')">
-        ${isExpanded ? '🔼 접기' : '🔽 더 보기'}
-      </button>` : '';
+    const displayText = isLong && !isExpanded ? it.body.substring(0, PREVIEW_LENGTH) + '...' : it.body;
+    const expandBtn = isLong ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>` : '';
 
     return `
     <div class="memo-card${it.pinned?' pinned':''}">
@@ -220,6 +275,7 @@ window.renderMemos = function() {
       </div>
       <div class="card-actions">
         <button class="btn-copy-c" onclick="copyMemo('${it.id}')">📋 복사</button>
+        <button class="btn-edit" onclick="openEditModal('${it.id}')">✏️ 수정</button>
         <button class="btn-del" onclick="deleteMemo('${it.id}')">🗑️ 삭제</button>
       </div>
     </div>`;
@@ -244,7 +300,6 @@ window.deleteMemo = async function(id) {
   } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
-// ✅ id로 찾아서 복사 (onclick 인라인에서 escapeHtml 이중처리 방지)
 window.copyMemo = function(id) {
   const it = items.find(x => x.id === id);
   if (!it) return;
@@ -262,6 +317,11 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// 모달 외부 클릭시 닫기
+document.getElementById('editModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
 
 loadMemos();
 </script>
