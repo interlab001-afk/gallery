@@ -170,22 +170,19 @@ const expandedIds = new Set();
 const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
 const PREVIEW_LENGTH = 200;
 
+// ✅ 핵심 수정: orderBy 없이 전체 로드 후 JS에서 정렬
 async function loadMemos() {
   try {
-    const q = query(collection(db,'memos'), orderBy('order','asc'));
-    const snap = await getDocs(q);
-    items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    // order 필드 없는 기존 데이터 처리
-    items.forEach((it, i) => { if (it.order === undefined) it.order = i; });
+    const snap = await getDocs(collection(db, 'memos'));
+    items = snap.docs.map((d, i) => ({
+      id: d.id,
+      order: d.data().order !== undefined ? d.data().order : i,
+      ...d.data()
+    }));
+    items.sort((a, b) => (a.order || 0) - (b.order || 0));
     renderMemos();
   } catch(e) {
-    // order 필드 없을 경우 date로 폴백
-    try {
-      const q2 = query(collection(db,'memos'), orderBy('date','desc'));
-      const snap2 = await getDocs(q2);
-      items = snap2.docs.map((d,i) => ({ id:d.id, order:i, ...d.data() }));
-      renderMemos();
-    } catch(e2) { showToast('❌ 로드 실패'); }
+    showToast('❌ 로드 실패: ' + e.message);
   }
 }
 
@@ -288,27 +285,23 @@ window.renderMemos = function() {
     </div>`;
   }).join('');
 
-  // SortableJS 초기화
   Sortable.create(grid, {
     animation: 150,
     ghostClass: 'sortable-ghost',
     chosenClass: 'sortable-chosen',
     handle: '.drag-handle',
-    onEnd: async function(evt) {
-      // 현재 카드 순서 가져오기
+    onEnd: async function() {
       const cards = grid.querySelectorAll('.memo-card');
       const newOrder = Array.from(cards).map((card, index) => ({
         id: card.dataset.id,
         order: index
       }));
-      // Firebase에 순서 저장
       try {
         const batch = writeBatch(db);
         newOrder.forEach(({ id, order }) => {
           batch.update(doc(db,'memos',id), { order });
         });
         await batch.commit();
-        // 로컬 items 순서도 업데이트
         newOrder.forEach(({ id, order }) => {
           const item = items.find(x => x.id === id);
           if (item) item.order = order;
