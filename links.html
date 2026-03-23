@@ -34,6 +34,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-cancel { background:#374151; color:#e2e8f0; }
+.btn-cancel:hover { background:#4b5563; }
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
 .filter-section input:focus { outline:none; border-color:#3b82f6; }
@@ -47,7 +49,7 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .card-title { font-weight:700; color:#93c5fd; font-size:0.95rem; flex:1; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
-.card-url { color:#3b82f6; font-size:0.78rem; word-break:break-all; margin-bottom:8px; text-decoration:none; }
+.card-url { color:#3b82f6; font-size:0.78rem; word-break:break-all; margin-bottom:8px; text-decoration:none; display:block; }
 .card-url:hover { text-decoration:underline; }
 .card-note { color:#9ca3af; font-size:0.8rem; margin-bottom:10px; line-height:1.4; }
 .card-meta { display:flex; justify-content:space-between; align-items:center; }
@@ -56,11 +58,27 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .card-actions { display:flex; gap:6px; margin-top:8px; }
 .card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; transition:all 0.2s; }
 .btn-open { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-edit { background:#1c2a1c; color:#6ee7b7; border:1px solid #10b981 !important; }
 .btn-copy-link { background:#064e3b; color:#6ee7b7; border:1px solid #10b981 !important; }
 .btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1d4ed8; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+/* 수정 모달 */
+.modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#1e1b4b; border:1px solid #3b82f6; border-radius:16px; padding:24px; width:92%; max-width:480px; max-height:90vh; overflow-y:auto; }
+.modal-title { font-size:1.1rem; font-weight:700; color:#93c5fd; margin-bottom:16px; }
+.modal-row { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.modal-row label { font-size:0.8rem; color:#9ca3af; }
+.modal-row input, .modal-row select, .modal-row textarea {
+  background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; width:100%;
+}
+.modal-row textarea { min-height:80px; resize:vertical; }
+.modal-row input:focus, .modal-row select:focus, .modal-row textarea:focus { outline:none; border-color:#3b82f6; }
+.modal-btns { display:flex; gap:8px; margin-top:16px; }
+.modal-btns button { flex:1; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1d4ed8; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:10000; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; }
 </style>
 </head>
@@ -113,6 +131,30 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 </div>
 
 <div class="cards-grid" id="cardsGrid"></div>
+
+<!-- 수정 모달 -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ 링크 수정</div>
+    <div class="modal-row"><label>제목</label><input type="text" id="editTitle"></div>
+    <div class="modal-row"><label>URL</label><input type="url" id="editUrl"></div>
+    <div class="modal-row"><label>메모</label><textarea id="editNote"></textarea></div>
+    <div class="modal-row"><label>카테고리</label>
+      <select id="editCategory">
+        <option value="ai">🤖 AI 툴</option>
+        <option value="ref">📚 참고자료</option>
+        <option value="tool">🛠️ 유틸</option>
+        <option value="news">📰 뉴스</option>
+        <option value="other">📌 기타</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEdit()">💾 저장</button>
+      <button class="btn btn-cancel" onclick="closeModal()">✕ 취소</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -131,9 +173,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let items = [];
 let currentFilter = 'all';
+let editingId = null;
 
 const CAT_LABELS = { ai:'🤖 AI 툴', ref:'📚 참고자료', tool:'🛠️ 유틸', news:'📰 뉴스', other:'📌 기타' };
 
@@ -197,11 +239,43 @@ window.renderLinks = function() {
       </div>
       <div class="card-actions">
         <button class="btn-open" onclick="window.open('${escapeHtml(it.url)}','_blank')">🌐 열기</button>
+        <button class="btn-edit" onclick="openEdit('${it.id}')">✏️ 수정</button>
         <button class="btn-copy-link" onclick="copyText('${escapeHtml(it.url)}')">📋 복사</button>
         <button class="btn-del" onclick="deleteLink('${it.id}')">🗑️</button>
       </div>
     </div>
   `).join('');
+};
+
+window.openEdit = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  editingId = id;
+  document.getElementById('editTitle').value = it.title || '';
+  document.getElementById('editUrl').value = it.url || '';
+  document.getElementById('editNote').value = it.note || '';
+  document.getElementById('editCategory').value = it.cat || 'other';
+  document.getElementById('editModal').classList.add('open');
+};
+
+window.closeModal = function() {
+  document.getElementById('editModal').classList.remove('open');
+  editingId = null;
+};
+
+window.saveEdit = async function() {
+  if (!editingId) return;
+  const title = document.getElementById('editTitle').value.trim();
+  const url   = document.getElementById('editUrl').value.trim();
+  const note  = document.getElementById('editNote').value.trim();
+  const cat   = document.getElementById('editCategory').value;
+  if (!title || !url) { showToast('⚠️ 제목과 URL을 입력하세요'); return; }
+  try {
+    await updateDoc(doc(db,'links',editingId), { title, url, note, cat });
+    closeModal();
+    await loadLinks();
+    showToast('✅ 수정 완료!');
+  } catch(e) { showToast('❌ 수정 실패'); }
 };
 
 window.togglePin = async function(id, pinned) {
