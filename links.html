@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔗 링크 모음</title>
+<title>🔗 링크</title>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <style>
 * { box-sizing:border-box; margin:0; padding:0; }
 body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min-height:100vh; }
@@ -17,9 +18,12 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
 .nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
 .navbar a:hover { opacity:0.8; transform:translateY(-1px); }
-.header { background:linear-gradient(135deg,#1e3a5f,#1e40af); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
+
+/* 링크 테마 = 파란색 */
+.header { background:linear-gradient(135deg,#1e3a5f,#1d4ed8); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
 .header h1 { font-size:1.3rem; font-weight:700; color:#93c5fd; }
 .badge { background:#1e3a5f; border:1px solid #3b82f6; color:#93c5fd; padding:4px 12px; border-radius:12px; font-size:0.8rem; }
+
 .form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:16px; }
 .form-card h3 { font-size:0.95rem; color:#93c5fd; margin-bottom:12px; font-weight:700; }
 .form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
@@ -29,57 +33,62 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 }
 .form-row input { flex:1; min-width:200px; }
 .form-row select { min-width:140px; }
-.form-row textarea { flex:1; min-width:200px; min-height:70px; resize:vertical; }
+.form-row textarea { flex:1; min-width:200px; min-height:80px; resize:vertical; }
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline:none; border-color:#3b82f6; }
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
-.btn-primary { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; }
+.btn-primary { background:linear-gradient(135deg,#1e3a5f,#3b82f6); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
-.btn-cancel { background:#374151; color:#e2e8f0; }
-.btn-cancel:hover { background:#4b5563; }
+.btn-cancel { background:#374151; color:#e2e8f0; margin-left:8px; }
+
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
 .filter-section input:focus { outline:none; border-color:#3b82f6; }
 .filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
-.filter-btn.active { background:#1d4ed8; border-color:#3b82f6; color:white; }
+.filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:white; }
+
 .cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:0 16px 24px; }
-.link-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; transition:all 0.3s; }
-.link-card:hover { border-color:#3b82f6; transform:translateY(-2px); box-shadow:0 4px 16px rgba(59,130,246,0.2); }
-.link-card.pinned { border-color:#fbbf24; }
+.memo-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; transition:all 0.3s; cursor:grab; }
+.memo-card:active { cursor:grabbing; }
+.memo-card:hover { border-color:#3b82f6; transform:translateY(-2px); box-shadow:0 4px 16px rgba(59,130,246,0.15); }
+.memo-card.pinned { border-color:#3b82f6; background:#0a1525; }
+.memo-card.sortable-ghost { opacity:0.3; background:#1e3a5f; }
+.memo-card.sortable-chosen { box-shadow:0 8px 24px rgba(59,130,246,0.3); }
+
+.drag-handle { color:#374151; font-size:0.8rem; margin-bottom:6px; cursor:grab; user-select:none; }
 .card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
 .card-title { font-weight:700; color:#93c5fd; font-size:0.95rem; flex:1; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
-.card-url { color:#3b82f6; font-size:0.78rem; word-break:break-all; margin-bottom:8px; text-decoration:none; display:block; }
+
+.card-url { display:block; color:#60a5fa; font-size:0.78rem; margin-bottom:8px; word-break:break-all; text-decoration:none; }
 .card-url:hover { text-decoration:underline; }
-.card-note { color:#9ca3af; font-size:0.8rem; margin-bottom:10px; line-height:1.4; }
+.card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
+.expand-btn { background:none; border:none; color:#3b82f6; font-size:0.75rem; cursor:pointer; padding:0 0 8px 0; font-weight:600; }
+.expand-btn:hover { text-decoration:underline; }
+
 .card-meta { display:flex; justify-content:space-between; align-items:center; }
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6; }
 .card-date { color:#6b7280; font-size:0.72rem; }
 .card-actions { display:flex; gap:6px; margin-top:8px; }
-.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; transition:all 0.2s; }
-.btn-open { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
-.btn-edit { background:#1c2a1c; color:#6ee7b7; border:1px solid #10b981 !important; }
-.btn-copy-link { background:#064e3b; color:#6ee7b7; border:1px solid #10b981 !important; }
-.btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
+.btn-open  { background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-copy-c{ background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-edit  { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-del   { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
-/* 수정 모달 */
-.modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; }
-.modal-overlay.open { display:flex; }
-.modal-box { background:#1e1b4b; border:1px solid #3b82f6; border-radius:16px; padding:24px; width:92%; max-width:480px; max-height:90vh; overflow-y:auto; }
-.modal-title { font-size:1.1rem; font-weight:700; color:#93c5fd; margin-bottom:16px; }
-.modal-row { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
-.modal-row label { font-size:0.8rem; color:#9ca3af; }
-.modal-row input, .modal-row select, .modal-row textarea {
-  background:#12122a; border:1px solid #374151; color:#e2e8f0;
-  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; width:100%;
-}
-.modal-row textarea { min-height:80px; resize:vertical; }
-.modal-row input:focus, .modal-row select:focus, .modal-row textarea:focus { outline:none; border-color:#3b82f6; }
-.modal-btns { display:flex; gap:8px; margin-top:16px; }
-.modal-btns button { flex:1; }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1d4ed8; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:10000; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1e3a5f; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
 .toast.show { opacity:1; }
+
+.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+.modal-overlay.show { display:flex; }
+.modal { background:#1e1b4b; border:1px solid #3b82f6; border-radius:16px; padding:24px; width:90%; max-width:560px; }
+.modal h3 { color:#93c5fd; font-size:1rem; margin-bottom:16px; }
+.modal input, .modal select, .modal textarea { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px; }
+.modal textarea { min-height:100px; resize:vertical; }
+.modal input:focus, .modal select:focus, .modal textarea:focus { outline:none; border-color:#3b82f6; }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
 </style>
 </head>
 <body>
@@ -104,18 +113,19 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <div class="form-row">
     <input type="text" id="linkTitle" placeholder="제목">
     <select id="linkCategory">
-      <option value="ai">🤖 AI 툴</option>
-      <option value="ref">📚 참고자료</option>
-      <option value="tool">🛠️ 유틸</option>
-      <option value="news">📰 뉴스</option>
-      <option value="other">📌 기타</option>
+      <option value="general">🔗 일반</option>
+      <option value="ai">🤖 AI</option>
+      <option value="tool">🛠️ 툴</option>
+      <option value="ref">📚 참고</option>
+      <option value="video">🎬 영상</option>
+      <option value="other">💭 기타</option>
     </select>
   </div>
   <div class="form-row">
     <input type="url" id="linkUrl" placeholder="https://...">
   </div>
   <div class="form-row">
-    <textarea id="linkNote" placeholder="메모 (선택)"></textarea>
+    <textarea id="linkNote" placeholder="메모 (선택사항)"></textarea>
   </div>
   <button class="btn btn-primary" onclick="addLink()">🔗 저장</button>
 </div>
@@ -124,33 +134,30 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <input type="text" id="searchInput" placeholder="🔍 검색..." oninput="renderLinks()">
   <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
   <button class="filter-btn" onclick="setFilter('ai',this)">🤖 AI</button>
+  <button class="filter-btn" onclick="setFilter('tool',this)">🛠️ 툴</button>
   <button class="filter-btn" onclick="setFilter('ref',this)">📚 참고</button>
-  <button class="filter-btn" onclick="setFilter('tool',this)">🛠️ 유틸</button>
-  <button class="filter-btn" onclick="setFilter('news',this)">📰 뉴스</button>
-  <button class="filter-btn" onclick="setFilter('other',this)">📌 기타</button>
+  <button class="filter-btn" onclick="setFilter('video',this)">🎬 영상</button>
 </div>
 
 <div class="cards-grid" id="cardsGrid"></div>
 
-<!-- 수정 모달 -->
 <div class="modal-overlay" id="editModal">
-  <div class="modal-box">
-    <div class="modal-title">✏️ 링크 수정</div>
-    <div class="modal-row"><label>제목</label><input type="text" id="editTitle"></div>
-    <div class="modal-row"><label>URL</label><input type="url" id="editUrl"></div>
-    <div class="modal-row"><label>메모</label><textarea id="editNote"></textarea></div>
-    <div class="modal-row"><label>카테고리</label>
-      <select id="editCategory">
-        <option value="ai">🤖 AI 툴</option>
-        <option value="ref">📚 참고자료</option>
-        <option value="tool">🛠️ 유틸</option>
-        <option value="news">📰 뉴스</option>
-        <option value="other">📌 기타</option>
-      </select>
-    </div>
-    <div class="modal-btns">
+  <div class="modal">
+    <h3>✏️ 링크 수정</h3>
+    <input type="text" id="editTitle" placeholder="제목">
+    <input type="url" id="editUrl" placeholder="https://...">
+    <select id="editCategory">
+      <option value="general">🔗 일반</option>
+      <option value="ai">🤖 AI</option>
+      <option value="tool">🛠️ 툴</option>
+      <option value="ref">📚 참고</option>
+      <option value="video">🎬 영상</option>
+      <option value="other">💭 기타</option>
+    </select>
+    <textarea id="editNote" placeholder="메모 (선택사항)"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeEditModal()">취소</button>
       <button class="btn btn-primary" onclick="saveEdit()">💾 저장</button>
-      <button class="btn btn-cancel" onclick="closeModal()">✕ 취소</button>
     </div>
   </div>
 </div>
@@ -159,7 +166,7 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, writeBatch }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -176,16 +183,21 @@ const db = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
 let editingId = null;
-
-const CAT_LABELS = { ai:'🤖 AI 툴', ref:'📚 참고자료', tool:'🛠️ 유틸', news:'📰 뉴스', other:'📌 기타' };
+const expandedIds = new Set();
+const CAT_LABELS = { general:'🔗 일반', ai:'🤖 AI', tool:'🛠️ 툴', ref:'📚 참고', video:'🎬 영상', other:'💭 기타' };
+const PREVIEW_LENGTH = 60;
 
 async function loadLinks() {
   try {
-    const q = query(collection(db,'links'), orderBy('date','desc'));
-    const snap = await getDocs(q);
-    items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    const snap = await getDocs(collection(db, 'links'));
+    items = snap.docs.map((d, i) => ({
+      id: d.id,
+      order: d.data().order !== undefined ? d.data().order : i,
+      ...d.data()
+    }));
+    items.sort((a, b) => (a.order || 0) - (b.order || 0));
     renderLinks();
-  } catch(e) { showToast('❌ 로드 실패'); }
+  } catch(e) { showToast('❌ 로드 실패: ' + e.message); }
 }
 
 window.addLink = async function() {
@@ -195,7 +207,8 @@ window.addLink = async function() {
   const cat   = document.getElementById('linkCategory').value;
   if (!title || !url) { showToast('⚠️ 제목과 URL을 입력하세요'); return; }
   try {
-    await addDoc(collection(db,'links'), { title, url, note, cat, pinned:false, date:new Date().toISOString() });
+    const newOrder = items.length > 0 ? Math.max(...items.map(x => x.order || 0)) + 1 : 0;
+    await addDoc(collection(db,'links'), { title, url, note, cat, pinned:false, order:newOrder, date:new Date().toISOString() });
     document.getElementById('linkTitle').value = '';
     document.getElementById('linkUrl').value = '';
     document.getElementById('linkNote').value = '';
@@ -211,56 +224,26 @@ window.setFilter = function(f, btn) {
   renderLinks();
 };
 
-window.renderLinks = function() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  let filtered = items.filter(it => {
-    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
-    if (search && !it.title.toLowerCase().includes(search) && !(it.note||'').toLowerCase().includes(search) && !it.url.toLowerCase().includes(search)) return false;
-    return true;
-  }).sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0));
-
-  document.getElementById('linkCount').textContent = filtered.length + '개';
-  const grid = document.getElementById('cardsGrid');
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="empty-state"><div class="icon">🔗</div><p>저장된 링크가 없어요</p></div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(it => `
-    <div class="link-card${it.pinned?' pinned':''}">
-      <div class="card-top">
-        <div class="card-title">${escapeHtml(it.title)}</div>
-        <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})" title="핀고정">📌</span>
-      </div>
-      <a class="card-url" href="${escapeHtml(it.url)}" target="_blank" rel="noopener">${escapeHtml(it.url)}</a>
-      ${it.note ? `<div class="card-note">${escapeHtml(it.note)}</div>` : ''}
-      <div class="card-meta">
-        <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
-        <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-open" onclick="window.open('${escapeHtml(it.url)}','_blank')">🌐 열기</button>
-        <button class="btn-edit" onclick="openEdit('${it.id}')">✏️ 수정</button>
-        <button class="btn-copy-link" onclick="copyText('${escapeHtml(it.url)}')">📋 복사</button>
-        <button class="btn-del" onclick="deleteLink('${it.id}')">🗑️</button>
-      </div>
-    </div>
-  `).join('');
+window.toggleExpand = function(id) {
+  if (expandedIds.has(id)) expandedIds.delete(id);
+  else expandedIds.add(id);
+  renderLinks();
 };
 
-window.openEdit = function(id) {
+window.openEditModal = function(id) {
   const it = items.find(x => x.id === id);
   if (!it) return;
   editingId = id;
-  document.getElementById('editTitle').value = it.title || '';
-  document.getElementById('editUrl').value = it.url || '';
+  document.getElementById('editTitle').value = it.title;
+  document.getElementById('editUrl').value = it.url;
   document.getElementById('editNote').value = it.note || '';
-  document.getElementById('editCategory').value = it.cat || 'other';
-  document.getElementById('editModal').classList.add('open');
+  document.getElementById('editCategory').value = it.cat || 'general';
+  document.getElementById('editModal').classList.add('show');
 };
 
-window.closeModal = function() {
-  document.getElementById('editModal').classList.remove('open');
+window.closeEditModal = function() {
   editingId = null;
+  document.getElementById('editModal').classList.remove('show');
 };
 
 window.saveEdit = async function() {
@@ -272,10 +255,76 @@ window.saveEdit = async function() {
   if (!title || !url) { showToast('⚠️ 제목과 URL을 입력하세요'); return; }
   try {
     await updateDoc(doc(db,'links',editingId), { title, url, note, cat });
-    closeModal();
+    closeEditModal();
     await loadLinks();
     showToast('✅ 수정 완료!');
-  } catch(e) { showToast('❌ 수정 실패'); }
+  } catch(e) { showToast('❌ 수정 실패: ' + e.message); }
+};
+
+window.renderLinks = function() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = items.filter(it => {
+    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
+    if (search && !it.title.toLowerCase().includes(search) &&
+        !(it.note||'').toLowerCase().includes(search) &&
+        !it.url.toLowerCase().includes(search)) return false;
+    return true;
+  }).sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0) || (a.order||0) - (b.order||0));
+
+  document.getElementById('linkCount').textContent = filtered.length + '개';
+  const grid = document.getElementById('cardsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">🔗</div><p>링크를 추가해보세요</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(it => {
+    const isExpanded = expandedIds.has(it.id);
+    const note = it.note || '';
+    const isLong = note.length > PREVIEW_LENGTH;
+    const displayNote = isLong && !isExpanded ? note.substring(0, PREVIEW_LENGTH) + '...' : note;
+    const expandBtn = isLong ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>` : '';
+
+    return `
+    <div class="memo-card${it.pinned?' pinned':''}" data-id="${it.id}">
+      <div class="drag-handle">⠿ 드래그로 순서 변경</div>
+      <div class="card-top">
+        <div class="card-title">${escapeHtml(it.title)}</div>
+        <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
+      </div>
+      <a class="card-url" href="${escapeHtml(it.url)}" target="_blank" rel="noopener">🔗 ${escapeHtml(it.url)}</a>
+      ${displayNote ? `<div class="card-body-text">${escapeHtml(displayNote)}</div>` : ''}
+      ${expandBtn}
+      <div class="card-meta">
+        <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
+        <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-open"   onclick="window.open('${escapeHtml(it.url)}','_blank')">🌐 열기</button>
+        <button class="btn-copy-c" onclick="copyLink('${it.id}')">📋 복사</button>
+        <button class="btn-edit"   onclick="openEditModal('${it.id}')">✏️ 수정</button>
+        <button class="btn-del"    onclick="deleteLink('${it.id}')">🗑️ 삭제</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  Sortable.create(grid, {
+    animation: 150,
+    ghostClass: 'sortable-ghost',
+    chosenClass: 'sortable-chosen',
+    handle: '.drag-handle',
+    onEnd: async function() {
+      const cards = grid.querySelectorAll('.memo-card');
+      const newOrder = Array.from(cards).map((card, index) => ({ id: card.dataset.id, order: index }));
+      try {
+        const batch = writeBatch(db);
+        newOrder.forEach(({ id, order }) => batch.update(doc(db,'links',id), { order }));
+        await batch.commit();
+        newOrder.forEach(({ id, order }) => { const it = items.find(x => x.id === id); if(it) it.order = order; });
+        showToast('✅ 순서 저장됨!');
+      } catch(e) { showToast('❌ 순서 저장 실패'); }
+    }
+  });
 };
 
 window.togglePin = async function(id, pinned) {
@@ -290,13 +339,18 @@ window.deleteLink = async function(id) {
   if (!confirm('삭제하시겠습니까?')) return;
   try {
     await deleteDoc(doc(db,'links',id));
+    expandedIds.delete(id);
     await loadLinks();
     showToast('🗑️ 삭제됨!');
   } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
-window.copyText = function(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('📋 복사됨!')).catch(() => showToast('❌ 복사 실패'));
+window.copyLink = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  navigator.clipboard.writeText(it.url)
+    .then(() => showToast('📋 URL 복사됨!'))
+    .catch(() => showToast('❌ 복사 실패'));
 };
 
 function escapeHtml(s) {
@@ -308,6 +362,10 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+document.getElementById('editModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
 
 loadLinks();
 </script>
