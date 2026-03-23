@@ -30,12 +30,23 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   background:#12122a; border:1px solid #374151; color:#e2e8f0;
   padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit;
 }
-.form-row input { flex:1; min-width:200px; }
-.form-row select { min-width:140px; }
+.form-row input { flex:1; min-width:160px; }
+.form-row select { min-width:130px; }
 .form-row input:focus, .form-row select:focus { outline:none; border-color:#ef4444; }
+.form-row input[type=datetime-local]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#991b1b,#ef4444); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-notify { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; width:100%; margin-top:8px; }
+.btn-notify:hover { opacity:0.9; }
+.notify-status { font-size:0.78rem; margin-top:8px; padding:6px 10px; border-radius:6px; text-align:center; }
+.notify-on  { background:#052e16; color:#4ade80; border:1px solid #166534; }
+.notify-off { background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
+.alarm-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.alarm-check { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#9ca3af; cursor:pointer; }
+.alarm-check input { accent-color:#ef4444; }
+.repeat-check { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#fbbf24; cursor:pointer; margin-top:6px; }
+.repeat-check input { accent-color:#fbbf24; }
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; }
 .filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
 .filter-btn.active { background:#991b1b; border-color:#ef4444; color:white; }
@@ -43,19 +54,22 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .todo-item { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:12px 14px; display:flex; align-items:flex-start; gap:10px; transition:all 0.2s; }
 .todo-item:hover { border-color:#ef4444; }
 .todo-item.done { opacity:0.6; }
+.todo-item.alarm-soon { border-color:#fbbf24!important; box-shadow:0 0 8px #fbbf2440; }
 .todo-checkbox { width:20px; height:20px; border-radius:50%; border:2px solid #ef4444; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; margin-top:2px; }
 .todo-checkbox.checked { background:#10b981; border-color:#10b981; }
 .todo-content { flex:1; }
 .todo-title { font-size:0.9rem; font-weight:600; color:#e2e8f0; margin-bottom:4px; }
 .todo-item.done .todo-title { text-decoration:line-through; color:#6b7280; }
-.todo-meta { display:flex; gap:8px; align-items:center; }
+.todo-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
 .todo-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
 .todo-date { color:#6b7280; font-size:0.72rem; }
+.todo-alarm { color:#fbbf24; font-size:0.72rem; display:flex; align-items:center; gap:3px; }
+.todo-repeat { color:#a78bfa; font-size:0.7rem; }
 .todo-del { background:none; border:none; color:#6b7280; cursor:pointer; font-size:1rem; padding:4px; border-radius:4px; transition:color 0.2s; }
 .todo-del:hover { color:#ef4444; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; }
 </style>
 </head>
@@ -95,16 +109,30 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
       <option value="ai">🤖 AI 작업</option>
       <option value="study">📚 공부</option>
       <option value="personal">🌟 개인</option>
+      <option value="birthday">🎂 생일</option>
       <option value="other">📌 기타</option>
     </select>
+  </div>
+  <div class="form-row">
+    <input type="datetime-local" id="todoDue" placeholder="날짜/시간">
     <button class="btn btn-primary" onclick="addTodo()">➕ 추가</button>
   </div>
+  <div class="alarm-options">
+    <label class="alarm-check"><input type="checkbox" id="alarm7d"> 🔔 1주일 전</label>
+    <label class="alarm-check"><input type="checkbox" id="alarm1d" checked> 🔔 하루 전</label>
+    <label class="alarm-check"><input type="checkbox" id="alarm0d" checked> 🔔 당일 아침 9시</label>
+  </div>
+  <label class="repeat-check"><input type="checkbox" id="alarmRepeat"> 🔁 매년 반복 (생일용)</label>
+
+  <button class="btn btn-notify" onclick="requestNotify()">🔔 브라우저 알림 허용</button>
+  <div class="notify-status notify-off" id="notifyStatus">알림 상태 확인 중...</div>
 </div>
 
 <div class="filter-section">
   <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
   <button class="filter-btn" onclick="setFilter('todo',this)">⏳ 미완료</button>
   <button class="filter-btn" onclick="setFilter('done',this)">✅ 완료</button>
+  <button class="filter-btn" onclick="setFilter('alarm',this)">🔔 알림있는것</button>
 </div>
 
 <div class="todos-list" id="todosList"></div>
@@ -129,8 +157,95 @@ const db = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
 
-const CAT_LABELS = { work:'💼 업무', ai:'🤖 AI 작업', study:'📚 공부', personal:'🌟 개인', other:'📌 기타' };
+const CAT_LABELS = {
+  work:'💼 업무', ai:'🤖 AI 작업', study:'📚 공부',
+  personal:'🌟 개인', birthday:'🎂 생일', other:'📌 기타'
+};
 
+/* ===== 알림 권한 ===== */
+window.requestNotify = async function() {
+  if (!('Notification' in window)) {
+    showToast('❌ 이 브라우저는 알림 미지원');
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  updateNotifyStatus();
+  if (perm === 'granted') showToast('✅ 알림 허용됨!');
+  else showToast('❌ 알림 거부됨');
+};
+
+function updateNotifyStatus() {
+  const el = document.getElementById('notifyStatus');
+  if (!('Notification' in window)) {
+    el.textContent = '❌ 이 브라우저는 알림 미지원';
+    el.className = 'notify-status notify-off';
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    el.textContent = '✅ 알림 허용됨 — 예약 알림 작동 중';
+    el.className = 'notify-status notify-on';
+  } else if (Notification.permission === 'denied') {
+    el.textContent = '❌ 알림 차단됨 — 브라우저 설정에서 허용해주세요';
+    el.className = 'notify-status notify-off';
+  } else {
+    el.textContent = '⚠️ 알림 미허용 — 위 버튼을 눌러 허용해주세요';
+    el.className = 'notify-status notify-off';
+  }
+}
+updateNotifyStatus();
+
+/* ===== 알림 발송 ===== */
+function sendNotification(title, body) {
+  if (Notification.permission !== 'granted') return;
+  new Notification(title, {
+    body,
+    icon: 'https://interlab001-afk.github.io/favicon.ico',
+    badge: 'https://interlab001-afk.github.io/favicon.ico'
+  });
+}
+
+/* ===== 알림 체크 (1분마다) ===== */
+function checkAlarms() {
+  if (Notification.permission !== 'granted') return;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  items.forEach(it => {
+    if (it.done || !it.due) return;
+    let dueDate = new Date(it.due);
+
+    // 매년 반복 (생일)
+    if (it.repeat) {
+      dueDate = new Date(now.getFullYear(), dueDate.getMonth(), dueDate.getDate(), 9, 0, 0);
+      if (dueDate < today) dueDate.setFullYear(dueDate.getFullYear() + 1);
+    }
+
+    const diff = dueDate - now;
+    const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hh = now.getHours(), mm = now.getMinutes();
+
+    // 1주일 전 알림 (아침 9시)
+    if (it.alarm7d && diffDays === 7 && hh === 9 && mm === 0) {
+      sendNotification(`🔔 1주일 후 일정!`, `📌 ${it.text} — 7일 후`);
+    }
+    // 하루 전 알림 (아침 9시)
+    if (it.alarm1d && diffDays === 1 && hh === 9 && mm === 0) {
+      sendNotification(`🔔 내일 일정!`, `📌 ${it.text} — 내일`);
+    }
+    // 당일 아침 9시 알림
+    if (it.alarm0d && diffDays === 0 && hh === 9 && mm === 0) {
+      sendNotification(`🔔 오늘 일정!`, `📌 ${it.text} — 오늘`);
+    }
+    // 정확한 시간 알림 (±1분)
+    if (Math.abs(diff) < 60000 && diff > 0) {
+      sendNotification(`⏰ 지금 일정!`, `📌 ${it.text}`);
+    }
+  });
+}
+setInterval(checkAlarms, 60000);
+checkAlarms();
+
+/* ===== 데이터 로드 ===== */
 async function loadTodos() {
   try {
     const q = query(collection(db,'todos'), orderBy('date','desc'));
@@ -140,18 +255,32 @@ async function loadTodos() {
   } catch(e) { showToast('❌ 로드 실패'); }
 }
 
+/* ===== 할일 추가 ===== */
 window.addTodo = async function() {
   const text = document.getElementById('todoInput').value.trim();
   const cat  = document.getElementById('todoCategory').value;
+  const due  = document.getElementById('todoDue').value;
+  const alarm7d = document.getElementById('alarm7d').checked;
+  const alarm1d = document.getElementById('alarm1d').checked;
+  const alarm0d = document.getElementById('alarm0d').checked;
+  const repeat  = document.getElementById('alarmRepeat').checked;
+
   if (!text) { showToast('⚠️ 할일을 입력하세요'); return; }
   try {
-    await addDoc(collection(db,'todos'), { text, cat, done:false, date:new Date().toISOString() });
+    await addDoc(collection(db,'todos'), {
+      text, cat, done:false,
+      due: due || null,
+      alarm7d, alarm1d, alarm0d, repeat,
+      date: new Date().toISOString()
+    });
     document.getElementById('todoInput').value = '';
+    document.getElementById('todoDue').value = '';
     await loadTodos();
     showToast('✅ 할일 추가됨!');
   } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
 };
 
+/* ===== 필터 ===== */
 window.setFilter = function(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -159,6 +288,24 @@ window.setFilter = function(f, btn) {
   renderTodos();
 };
 
+/* ===== D-day 계산 ===== */
+function getDday(due, repeat) {
+  if (!due) return null;
+  const now = new Date();
+  let d = new Date(due);
+  if (repeat) {
+    d = new Date(now.getFullYear(), d.getMonth(), d.getDate());
+    if (d < new Date(now.getFullYear(), now.getMonth(), now.getDate())) {
+      d.setFullYear(d.getFullYear() + 1);
+    }
+  }
+  const diff = Math.ceil((d - now) / (1000 * 60 * 60 * 24));
+  if (diff < 0) return `D+${Math.abs(diff)}`;
+  if (diff === 0) return 'D-Day!';
+  return `D-${diff}`;
+}
+
+/* ===== 렌더링 ===== */
 window.renderTodos = function() {
   const total = items.length;
   const doneCount = items.filter(i => i.done).length;
@@ -170,6 +317,7 @@ window.renderTodos = function() {
   let filtered = items.filter(it => {
     if (currentFilter === 'todo') return !it.done;
     if (currentFilter === 'done') return it.done;
+    if (currentFilter === 'alarm') return it.due;
     return true;
   });
 
@@ -178,8 +326,19 @@ window.renderTodos = function() {
     list.innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>할일이 없어요!</p></div>';
     return;
   }
-  list.innerHTML = filtered.map(it => `
-    <div class="todo-item${it.done?' done':''}">
+
+  const now = new Date();
+  list.innerHTML = filtered.map(it => {
+    const dday = getDday(it.due, it.repeat);
+    const isSoon = it.due && !it.done && (new Date(it.due) - now) < 86400000 * 2;
+    const alarmIcons = [
+      it.alarm7d ? '🔔1주전' : '',
+      it.alarm1d ? '🔔하루전' : '',
+      it.alarm0d ? '🔔당일' : ''
+    ].filter(Boolean).join(' ');
+
+    return `
+    <div class="todo-item${it.done?' done':''}${isSoon?' alarm-soon':''}">
       <div class="todo-checkbox${it.done?' checked':''}" onclick="toggleDone('${it.id}',${it.done})">
         ${it.done ? '✓' : ''}
       </div>
@@ -188,11 +347,14 @@ window.renderTodos = function() {
         <div class="todo-meta">
           <span class="todo-tag">${CAT_LABELS[it.cat]||it.cat}</span>
           <span class="todo-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
+          ${it.due ? `<span class="todo-alarm">⏰ ${new Date(it.due).toLocaleString('ko',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})} <strong>${dday||''}</strong></span>` : ''}
+          ${it.repeat ? `<span class="todo-repeat">🔁 매년반복</span>` : ''}
+          ${alarmIcons ? `<span style="font-size:0.68rem;color:#9ca3af">${alarmIcons}</span>` : ''}
         </div>
       </div>
       <button class="todo-del" onclick="deleteTodo('${it.id}')" title="삭제">🗑️</button>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 };
 
 window.toggleDone = async function(id, done) {
