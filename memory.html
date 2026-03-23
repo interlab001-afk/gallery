@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 클로드의 기억</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min-height:100vh; }
+.navbar { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; background:#1e1b4b; border-bottom:1px solid #3730a3; position:sticky; top:0; z-index:100; }
+.navbar a { padding:6px 12px; border-radius:20px; text-decoration:none; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+.nav-home   { background:#1a1a2e; border:1px solid #6366f1; color:#a5b4fc; }
+.nav-gallery{ background:#1a1a2e; border:1px solid #8b5cf6; color:#c4b5fd; }
+.nav-gen    { background:#1a1a2e; border:1px solid #ec4899; color:#f9a8d4; }
+.nav-links  { background:#1a1a2e; border:1px solid #3b82f6; color:#93c5fd; }
+.nav-ideas  { background:#1a1a2e; border:1px solid #fbbf24; color:#fbbf24; }
+.nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
+.nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
+.nav-memory { background:#1a0a2e; border:1px solid #a78bfa; color:#c4b5fd; }
+.navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+
+.header { background:linear-gradient(135deg,#1a0a2e,#2d1b69); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.header h1 { font-size:1.3rem; font-weight:700; color:#c4b5fd; }
+.badge { background:#1a0a2e; border:1px solid #7c3aed; color:#c4b5fd; padding:4px 12px; border-radius:12px; font-size:0.8rem; }
+
+/* 입력 폼 */
+.form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:16px; }
+.form-card h3 { font-size:0.95rem; color:#c4b5fd; margin-bottom:12px; font-weight:700; }
+.date-display { background:#12122a; border:1px solid #4c1d95; color:#a78bfa; padding:8px 12px; border-radius:8px; font-size:0.82rem; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
+.form-card textarea { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:10px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; min-height:120px; resize:vertical; margin-bottom:10px; }
+.form-card textarea:focus { outline:none; border-color:#7c3aed; }
+.btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-primary { background:linear-gradient(135deg,#4c1d95,#7c3aed); color:white; }
+.btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-danger { background:linear-gradient(135deg,#7f1d1d,#ef4444); color:white; }
+.btn-copy { background:linear-gradient(135deg,#1e3a5f,#3b82f6); color:white; }
+
+/* 날짜 범위 복사 섹션 */
+.copy-section { background:#1e1b4b; border:1px solid #4c1d95; border-radius:12px; padding:16px; margin:0 16px 16px; }
+.copy-section h3 { font-size:0.9rem; color:#a78bfa; margin-bottom:12px; font-weight:700; }
+.date-range-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+.date-range-row label { font-size:0.78rem; color:#6b7280; min-width:30px; }
+.date-range-row input[type=date] { background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:7px 10px; border-radius:8px; font-size:0.82rem; font-family:inherit; flex:1; min-width:130px; }
+.date-range-row input[type=date]:focus { outline:none; border-color:#7c3aed; }
+.date-range-row input[type=date]::-webkit-calendar-picker-indicator { filter:invert(1); }
+.copy-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.copy-btns button { flex:1; min-width:120px; }
+.copy-preview { background:#0a0a1a; border:1px solid #2d1b69; border-radius:8px; padding:10px 12px; font-size:0.75rem; color:#a78bfa; white-space:pre-wrap; line-height:1.6; max-height:150px; overflow-y:auto; margin-top:10px; }
+
+/* 기억 목록 */
+.memories-list { padding:0 16px 24px; display:flex; flex-direction:column; gap:10px; }
+.memory-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:14px; transition:all 0.2s; }
+.memory-card:hover { border-color:#7c3aed; box-shadow:0 3px 12px rgba(124,58,237,0.15); }
+.memory-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; flex-wrap:wrap; gap:6px; }
+.memory-date { font-size:0.8rem; font-weight:700; color:#a78bfa; background:#1a0a2e; padding:3px 10px; border-radius:8px; border:1px solid #4c1d95; }
+.memory-actions { display:flex; gap:6px; }
+.memory-actions button { padding:4px 10px; border:none; border-radius:6px; font-size:0.72rem; cursor:pointer; font-weight:600; }
+.btn-mem-copy { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-mem-del  { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.memory-body { font-size:0.82rem; color:#d1d5db; line-height:1.7; white-space:pre-wrap; }
+.empty-state { text-align:center; padding:60px 20px; color:#6b7280; }
+.empty-state .icon { font-size:3rem; margin-bottom:12px; }
+
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#4c1d95; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+.toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-home">🏠 홈</a>
+  <a href="gall.html" class="nav-gallery">🖼️ 갤러리</a>
+  <a href="prompt-generator.html" class="nav-gen">✨ 생성기</a>
+  <a href="links.html" class="nav-links">🔗 링크</a>
+  <a href="ideas.html" class="nav-ideas">💡 아이디어</a>
+  <a href="todos.html" class="nav-todos">✅ 할일</a>
+  <a href="memo.html" class="nav-memo">📝 메모</a>
+  <a href="memory.html" class="nav-memory">🧠 기억</a>
+</nav>
+
+<div class="header">
+  <h1>🧠 클로드의 기억</h1>
+  <span class="badge" id="memoryCount">0개</span>
+</div>
+
+<!-- 입력 폼 -->
+<div class="form-card">
+  <h3>➕ 기억 저장</h3>
+  <div class="date-display">
+    <span>📅 <span id="currentDateDisplay"></span></span>
+    <span style="font-size:0.72rem;color:#6b7280;">자동 입력됨</span>
+  </div>
+  <textarea id="memoryInput" placeholder="오늘 Claude와 한 작업 내용을 요약해서 저장하세요...&#10;&#10;예) ✅ 완성된 것: merge_test.py volumex(0.15) 적용&#10;⏳ 다음 할 일: 썸네일 제작, 유튜브 업로드"></textarea>
+  <button class="btn btn-primary" onclick="saveMemory()">🧠 기억 저장</button>
+</div>
+
+<!-- 날짜 범위 복사 -->
+<div class="copy-section">
+  <h3>📋 Claude에게 전달할 기억 복사</h3>
+  <div class="date-range-row">
+    <label>시작</label>
+    <input type="date" id="copyFrom">
+    <label>끝</label>
+    <input type="date" id="copyTo">
+  </div>
+  <div class="copy-btns">
+    <button class="btn btn-copy" onclick="copyRange()">📋 범위 복사</button>
+    <button class="btn btn-primary" onclick="copyAll()">📋 전체 복사</button>
+  </div>
+  <div class="copy-preview" id="copyPreview">복사할 내용 미리보기...</div>
+</div>
+
+<!-- 기억 목록 -->
+<div class="memories-list" id="memoriesList"></div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
+  authDomain: "claude-grok-gallery.firebaseapp.com",
+  projectId: "claude-grok-gallery",
+  storageBucket: "claude-grok-gallery.firebasestorage.app",
+  messagingSenderId: "907968891772",
+  appId: "1:907968891772:web:50d9f0f9839d949e59b2f9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+let memories = [];
+
+/* ───── 현재 날짜 표시 ───── */
+function updateDateDisplay() {
+  const now = new Date();
+  const str = now.getFullYear() + '년 '
+    + String(now.getMonth()+1).padStart(2,'0') + '월 '
+    + String(now.getDate()).padStart(2,'0') + '일 '
+    + String(now.getHours()).padStart(2,'0') + ':'
+    + String(now.getMinutes()).padStart(2,'0') + ':'
+    + String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('currentDateDisplay').textContent = str;
+}
+updateDateDisplay();
+setInterval(updateDateDisplay, 1000);
+
+/* ───── 기억 저장 ───── */
+window.saveMemory = async function() {
+  const body = document.getElementById('memoryInput').value.trim();
+  if (!body) { showToast('⚠️ 내용을 입력하세요'); return; }
+  const now = new Date();
+  try {
+    await addDoc(collection(db, 'memories'), {
+      body,
+      date: now.toISOString(),
+      dateStr: now.getFullYear() + '년 '
+        + String(now.getMonth()+1).padStart(2,'0') + '월 '
+        + String(now.getDate()).padStart(2,'0') + '일 '
+        + String(now.getHours()).padStart(2,'0') + ':'
+        + String(now.getMinutes()).padStart(2,'0') + ':'
+        + String(now.getSeconds()).padStart(2,'0')
+    });
+    document.getElementById('memoryInput').value = '';
+    await loadMemories();
+    showToast('🧠 기억 저장됨!');
+  } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
+};
+
+/* ───── 기억 로드 ───── */
+async function loadMemories() {
+  try {
+    const snap = await getDocs(query(collection(db, 'memories'), orderBy('date', 'desc')));
+    memories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderMemories();
+    updatePreview();
+  } catch(e) { showToast('❌ 로드 실패'); }
+}
+
+/* ───── 기억 렌더링 ───── */
+function renderMemories() {
+  document.getElementById('memoryCount').textContent = memories.length + '개';
+  const list = document.getElementById('memoriesList');
+  if (!memories.length) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">🧠</div><p>아직 저장된 기억이 없어요</p></div>';
+    return;
+  }
+  list.innerHTML = memories.map(m => `
+    <div class="memory-card">
+      <div class="memory-header">
+        <span class="memory-date">📅 ${m.dateStr || m.date}</span>
+        <div class="memory-actions">
+          <button class="btn-mem-copy" onclick="copyOne('${m.id}')">📋 복사</button>
+          <button class="btn-mem-del"  onclick="deleteMemory('${m.id}')">🗑️ 삭제</button>
+        </div>
+      </div>
+      <div class="memory-body">${escapeHtml(m.body)}</div>
+    </div>
+  `).join('');
+}
+
+/* ───── 미리보기 업데이트 ───── */
+function updatePreview() {
+  const from = document.getElementById('copyFrom').value;
+  const to   = document.getElementById('copyTo').value;
+  const preview = document.getElementById('copyPreview');
+
+  let filtered = memories;
+  if (from || to) {
+    filtered = memories.filter(m => {
+      const d = new Date(m.date);
+      const fromOk = !from || d >= new Date(from);
+      const toOk   = !to   || d <= new Date(to + 'T23:59:59');
+      return fromOk && toOk;
+    });
+  }
+
+  if (!filtered.length) {
+    preview.textContent = '해당 범위에 기억이 없어요';
+    return;
+  }
+
+  const text = filtered
+    .slice().reverse()
+    .map(m => `==================================================\n날짜: ${m.dateStr || m.date}\n\n${m.body}`)
+    .join('\n\n');
+
+  preview.textContent = text.length > 300
+    ? text.substring(0, 300) + '\n...(전체 ' + filtered.length + '개)'
+    : text;
+}
+
+/* ───── 날짜 변경시 미리보기 갱신 ───── */
+document.getElementById('copyFrom').addEventListener('change', updatePreview);
+document.getElementById('copyTo').addEventListener('change', updatePreview);
+
+/* ───── 범위 복사 ───── */
+window.copyRange = async function() {
+  const from = document.getElementById('copyFrom').value;
+  const to   = document.getElementById('copyTo').value;
+  let filtered = memories;
+  if (from || to) {
+    filtered = memories.filter(m => {
+      const d = new Date(m.date);
+      const fromOk = !from || d >= new Date(from);
+      const toOk   = !to   || d <= new Date(to + 'T23:59:59');
+      return fromOk && toOk;
+    });
+  }
+  if (!filtered.length) { showToast('⚠️ 해당 범위에 기억이 없어요'); return; }
+  const text = filtered
+    .slice().reverse()
+    .map(m => `==================================================\n날짜: ${m.dateStr || m.date}\n\n${m.body}`)
+    .join('\n\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 ' + filtered.length + '개 기억 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 전체 복사 ───── */
+window.copyAll = async function() {
+  if (!memories.length) { showToast('⚠️ 저장된 기억이 없어요'); return; }
+  const text = memories
+    .slice().reverse()
+    .map(m => `==================================================\n날짜: ${m.dateStr || m.date}\n\n${m.body}`)
+    .join('\n\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 전체 ' + memories.length + '개 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 개별 복사 ───── */
+window.copyOne = async function(id) {
+  const m = memories.find(x => x.id === id);
+  if (!m) return;
+  const text = `==================================================\n날짜: ${m.dateStr || m.date}\n\n${m.body}`;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 삭제 ───── */
+window.deleteMemory = async function(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db, 'memories', id));
+    await loadMemories();
+    showToast('🗑️ 삭제됨!');
+  } catch(e) { showToast('❌ 삭제 실패'); }
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+loadMemories();
+</script>
+</body>
+</html>
