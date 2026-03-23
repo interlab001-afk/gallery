@@ -439,10 +439,21 @@ window.saveContext = async function() {
     const el = document.getElementById(id);
     if (el) data[id] = el.value.trim();
   });
-  data.updatedAt = new Date().toISOString();
+  const now = new Date();
+  const timestamp = now.toISOString();
+  const dateKey = now.getFullYear() + '-'
+    + String(now.getMonth()+1).padStart(2,'0') + '-'
+    + String(now.getDate()).padStart(2,'0') + '_'
+    + String(now.getHours()).padStart(2,'0')
+    + String(now.getMinutes()).padStart(2,'0');
+
+  data.updatedAt = timestamp;
+  data.dateKey   = dateKey;
+
   try {
     await setDoc(doc(db, 'context', 'main'), data);
-    document.getElementById('ctxStatus').textContent = '✅ 저장됨! ' + new Date().toLocaleTimeString('ko');
+    await setDoc(doc(db, 'context', dateKey), data);
+    document.getElementById('ctxStatus').textContent = '✅ 저장됨! ' + now.toLocaleString('ko');
     updatePreview(data);
     showToast('✅ 컨텍스트 저장 완료!');
   } catch(e) {
@@ -451,6 +462,7 @@ window.saveContext = async function() {
 };
 
 /* ───── 컨텍스트 로드 ───── */
+
 async function loadContext() {
   try {
     const snap = await getDoc(doc(db, 'context', 'main'));
@@ -471,8 +483,12 @@ async function loadContext() {
 
 /* ───── 미리보기 생성 ───── */
 function updatePreview(data) {
+  const savedAt = data.updatedAt
+    ? new Date(data.updatedAt).toLocaleString('ko')
+    : '알 수 없음';
+
   const lines = [
-    '===== AI 컨텍스트 (케이경제 뒷담화) =====',
+    `===== AI 컨텍스트 저장시각: ${savedAt} =====`,
     '',
     '📺 채널 정보',
     `채널명: ${data.ctx_channel||''}`,
@@ -516,6 +532,7 @@ function updatePreview(data) {
 }
 
 /* ───── 전체 복사 ───── */
+
 window.copyContext = async function() {
   const text = document.getElementById('ctxPreview').textContent;
   try {
