@@ -34,6 +34,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#92400e,#d97706); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-cancel { background:#374151; color:#e2e8f0; }
+.btn-cancel:hover { background:#4b5563; }
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
 .filter-section input:focus { outline:none; border-color:#fbbf24; }
@@ -52,12 +54,28 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#451a03; color:#fbbf24; border:1px solid #92400e; }
 .card-date { color:#6b7280; font-size:0.72rem; }
 .card-actions { display:flex; gap:6px; margin-top:8px; }
-.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
+.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; transition:all 0.2s; }
+.btn-edit { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
 .btn-copy-c { background:#1c2a1c; color:#6ee7b7; border:1px solid #10b981 !important; }
 .btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#d97706; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+/* 수정 모달 */
+.modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#1e1b4b; border:1px solid #fbbf24; border-radius:16px; padding:24px; width:92%; max-width:480px; max-height:90vh; overflow-y:auto; }
+.modal-title { font-size:1.1rem; font-weight:700; color:#fbbf24; margin-bottom:16px; }
+.modal-row { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.modal-row label { font-size:0.8rem; color:#9ca3af; }
+.modal-row input, .modal-row select, .modal-row textarea {
+  background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; width:100%;
+}
+.modal-row textarea { min-height:120px; resize:vertical; }
+.modal-row input:focus, .modal-row select:focus, .modal-row textarea:focus { outline:none; border-color:#fbbf24; }
+.modal-btns { display:flex; gap:8px; margin-top:16px; }
+.modal-btns button { flex:1; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#d97706; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:10000; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; }
 </style>
 </head>
@@ -108,6 +126,30 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 </div>
 
 <div class="cards-grid" id="cardsGrid"></div>
+
+<!-- 수정 모달 -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ 아이디어 수정</div>
+    <div class="modal-row"><label>제목</label><input type="text" id="editTitle"></div>
+    <div class="modal-row"><label>내용</label><textarea id="editBody"></textarea></div>
+    <div class="modal-row"><label>카테고리</label>
+      <select id="editCategory">
+        <option value="project">🚀 프로젝트</option>
+        <option value="ai">🤖 AI 활용</option>
+        <option value="design">🎨 디자인</option>
+        <option value="content">📝 콘텐츠</option>
+        <option value="life">🌟 생활</option>
+        <option value="other">💭 기타</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEdit()">💾 저장</button>
+      <button class="btn btn-cancel" onclick="closeModal()">✕ 취소</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -128,6 +170,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
+let editingId = null;
 
 const CAT_LABELS = { project:'🚀 프로젝트', ai:'🤖 AI 활용', design:'🎨 디자인', content:'📝 콘텐츠', life:'🌟 생활', other:'💭 기타' };
 
@@ -187,11 +230,41 @@ window.renderIdeas = function() {
         <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
       </div>
       <div class="card-actions">
+        <button class="btn-edit" onclick="openEdit('${it.id}')">✏️ 수정</button>
         <button class="btn-copy-c" onclick="copyText('${escapeHtml(it.title)}\\n${escapeHtml(it.body)}')">📋 복사</button>
         <button class="btn-del" onclick="deleteIdea('${it.id}')">🗑️ 삭제</button>
       </div>
     </div>
   `).join('');
+};
+
+window.openEdit = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  editingId = id;
+  document.getElementById('editTitle').value = it.title || '';
+  document.getElementById('editBody').value = it.body || '';
+  document.getElementById('editCategory').value = it.cat || 'other';
+  document.getElementById('editModal').classList.add('open');
+};
+
+window.closeModal = function() {
+  document.getElementById('editModal').classList.remove('open');
+  editingId = null;
+};
+
+window.saveEdit = async function() {
+  if (!editingId) return;
+  const title = document.getElementById('editTitle').value.trim();
+  const body  = document.getElementById('editBody').value.trim();
+  const cat   = document.getElementById('editCategory').value;
+  if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
+  try {
+    await updateDoc(doc(db,'ideas',editingId), { title, body, cat });
+    closeModal();
+    await loadIdeas();
+    showToast('✅ 수정 완료!');
+  } catch(e) { showToast('❌ 수정 실패'); }
 };
 
 window.togglePin = async function(id, pinned) {
