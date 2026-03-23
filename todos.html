@@ -17,6 +17,33 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .nav-todos  { background:#3b0d0d; border:1px solid #ef4444; color:#fca5a5; }
 .nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
 .navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+
+/* 탭 */
+.tab-bar { display:flex; gap:0; background:#12122a; border-bottom:1px solid #2d2b5a; }
+.tab-btn { flex:1; padding:10px; background:none; border:none; color:#6b7280; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; border-bottom:2px solid transparent; }
+.tab-btn.active-tab { color:#fca5a5; border-bottom:2px solid #ef4444; background:#1a0a0a; }
+.tab-btn:hover { color:#e2e8f0; }
+.tab-content { display:none; }
+.tab-content.show { display:block; }
+
+/* AI 컨텍스트 탭 */
+.ctx-container { padding:14px 16px; }
+.ctx-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.ctx-header h2 { font-size:1rem; color:#a78bfa; font-weight:700; }
+.ctx-copy-btn { padding:7px 16px; background:linear-gradient(135deg,#4c1d95,#7c3aed); color:white; border:none; border-radius:8px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.ctx-copy-btn:hover { opacity:0.9; transform:translateY(-1px); }
+.ctx-section { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+.ctx-section-title { font-size:0.78rem; color:#7c3aed; font-weight:700; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+.ctx-field { margin-bottom:8px; }
+.ctx-field label { font-size:0.72rem; color:#6b7280; display:block; margin-bottom:3px; }
+.ctx-field input, .ctx-field textarea, .ctx-field select { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:7px 10px; border-radius:7px; font-size:0.8rem; font-family:inherit; }
+.ctx-field textarea { resize:vertical; min-height:60px; }
+.ctx-field input:focus, .ctx-field textarea:focus { outline:none; border-color:#7c3aed; }
+.ctx-save-btn { width:100%; padding:9px; background:linear-gradient(135deg,#1e1b4b,#3730a3); color:#a5b4fc; border:1px solid #4338ca; border-radius:8px; font-size:0.82rem; font-weight:600; cursor:pointer; margin-top:4px; transition:all 0.2s; }
+.ctx-save-btn:hover { background:linear-gradient(135deg,#312e81,#4338ca); }
+.ctx-preview { background:#0a0a1a; border:1px solid #1e3a5f; border-radius:8px; padding:10px 12px; font-size:0.75rem; color:#93c5fd; white-space:pre-wrap; line-height:1.6; max-height:200px; overflow-y:auto; margin-top:8px; }
+.ctx-status { font-size:0.72rem; color:#4ade80; text-align:center; margin-top:6px; height:16px; }
+
 .header { background:linear-gradient(135deg,#450a0a,#991b1b); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .header h1 { font-size:1.2rem; font-weight:700; color:#fca5a5; }
 .count-banner { display:flex; align-items:stretch; margin:12px 16px; background:#12122a; border:1px solid #2d2b5a; border-radius:12px; overflow:hidden; }
@@ -149,6 +176,15 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <span style="color:#fca5a5;font-size:0.82rem;" id="todoCountLabel">0/0</span>
 </div>
 
+<!-- 탭 바 -->
+<div class="tab-bar">
+  <button class="tab-btn active-tab" onclick="switchTab('todo')">✅ 할일</button>
+  <button class="tab-btn" onclick="switchTab('ai')">🤖 AI 컨텍스트</button>
+</div>
+
+<!-- 할일 탭 -->
+<div class="tab-content show" id="tab-todo">
+
 <div class="count-banner">
   <div class="count-side todo-side">
     <span class="count-label">⏳ 할일</span>
@@ -217,6 +253,84 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <div class="pagination" id="donePagination"></div>
 </div>
 
+</div><!-- /tab-todo -->
+
+<!-- AI 컨텍스트 탭 -->
+<div class="tab-content" id="tab-ai">
+<div class="ctx-container">
+  <div class="ctx-header">
+    <h2>🤖 AI 컨텍스트</h2>
+    <button class="ctx-copy-btn" onclick="copyContext()">📋 전체 복사</button>
+  </div>
+
+  <!-- 채널 정보 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">📺 채널 정보</div>
+    <div class="ctx-field"><label>채널명</label><input type="text" id="ctx_channel" placeholder="예: 케이경제 뒷담화"></div>
+    <div class="ctx-field"><label>채널 URL</label><input type="text" id="ctx_channel_url" placeholder="예: www.youtube.com/@k-economy-story"></div>
+    <div class="ctx-field"><label>채널 컨셉</label><input type="text" id="ctx_concept" placeholder="예: 뉴스에 안 나오는 경제 뒷이야기"></div>
+  </div>
+
+  <!-- 스크립트 규칙 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">📝 스크립트 규칙</div>
+    <div class="ctx-field"><label>목표 글자수</label><input type="text" id="ctx_script_len" placeholder="예: 8,000자 (약 10분)"></div>
+    <div class="ctx-field"><label>시작 문구</label><input type="text" id="ctx_script_start" placeholder="예: 야 이거 들어봐"></div>
+    <div class="ctx-field"><label>말투/톤</label><input type="text" id="ctx_tone" placeholder="예: 구어체, 반말, 친근한 형 스타일"></div>
+    <div class="ctx-field"><label>감정 흐름</label><input type="text" id="ctx_emotion" placeholder="예: 충격→분노→반전→국뽕"></div>
+    <div class="ctx-field"><label>기타 규칙</label><textarea id="ctx_script_rules" placeholder="예: 숫자는 한글로, 영어 약자는 한글 발음으로..."></textarea></div>
+  </div>
+
+  <!-- TTS 설정 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">🔊 TTS 설정 (ElevenLabs)</div>
+    <div class="ctx-field"><label>보이스</label><input type="text" id="ctx_voice" placeholder="예: Patrick"></div>
+    <div class="ctx-field"><label>Stability / Similarity / Style / Speed</label><input type="text" id="ctx_tts_settings" placeholder="예: 73 / 56 / 100 / 100"></div>
+    <div class="ctx-field"><label>발음 교정 맵</label><textarea id="ctx_pronunciation" placeholder="예: AI→에이아이, HD현대→에이치디현대, GPT→지피티..."></textarea></div>
+  </div>
+
+  <!-- 이미지/영상 프롬프트 규칙 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">🖼️ 이미지/영상 프롬프트 규칙</div>
+    <div class="ctx-field"><label>이미지 프롬프트 끝 문구</label><input type="text" id="ctx_img_suffix" placeholder="예: no Korean text, English labels only, cinematic motion, 4K"></div>
+    <div class="ctx-field"><label>영상 프롬프트 끝 문구</label><input type="text" id="ctx_vid_suffix" placeholder="예: no dialogue, no voice, only ambient sound, cinematic motion, 4K"></div>
+    <div class="ctx-field"><label>캐릭터 설명 (매 3번째 씬)</label><textarea id="ctx_character" placeholder="예: A Pixar-style 3D animated character. A friendly-looking middle-aged Korean man in his 40s..."></textarea></div>
+    <div class="ctx-field"><label>씬 길이</label><input type="text" id="ctx_scene_len" placeholder="예: 10초당 1씬"></div>
+  </div>
+
+  <!-- 폴더 구조 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">📁 폴더 구조</div>
+    <div class="ctx-field"><label>작업 폴더 경로</label><input type="text" id="ctx_folder" placeholder="예: C:\Users\user\Desktop\작업실"></div>
+    <div class="ctx-field"><label>폴더 구조 메모</label><textarea id="ctx_folder_detail" placeholder="예: mp3완성본\2\, 영상\, 배경음악\ ..."></textarea></div>
+  </div>
+
+  <!-- 프로그램 목록 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">⚙️ 완성된 프로그램</div>
+    <div class="ctx-field"><textarea id="ctx_programs" placeholder="예: tts_el.py - ElevenLabs TTS 생성&#10;merge_test.py - 영상 합치기 (.volumex 0.15)&#10;watcher.py - 폴더 감시 자동 리네임&#10;..."></textarea></div>
+  </div>
+
+  <!-- 현재 진행 상황 -->
+  <div class="ctx-section">
+    <div class="ctx-section-title">🚀 현재 진행 상황</div>
+    <div class="ctx-field"><label>현재 작업 중인 영상 주제</label><input type="text" id="ctx_current_topic" placeholder="예: 한국이 독점하는 산업 (변압기, 선박엔진, 시추선)"></div>
+    <div class="ctx-field"><label>완료된 단계</label><textarea id="ctx_done_steps" placeholder="예: ✅ 스크립트 완성&#10;✅ TTS 생성&#10;✅ 이미지 47장 완성&#10;🔄 영상 생성 중..."></textarea></div>
+    <div class="ctx-field"><label>남은 단계</label><textarea id="ctx_todo_steps" placeholder="예: ⏳ 영상 합치기&#10;⏳ 썸네일 제작&#10;⏳ 유튜브 업로드"></textarea></div>
+    <div class="ctx-field"><label>특이사항/메모</label><textarea id="ctx_memo" placeholder="예: BGM 볼륨 이미 조정됨, 영상 효과음 0.15로 설정..."></textarea></div>
+  </div>
+
+  <button class="ctx-save-btn" onclick="saveContext()">💾 Firebase에 저장</button>
+  <div class="ctx-status" id="ctxStatus"></div>
+
+  <div style="margin-top:12px;">
+    <div style="font-size:0.75rem;color:#6b7280;margin-bottom:6px;">📋 미리보기 (Claude에 붙여넣을 내용)</div>
+    <div class="ctx-preview" id="ctxPreview">저장하면 여기에 미리보기가 표시됩니다...</div>
+  </div>
+
+</div>
+</div><!-- /tab-ai -->
+
 <!-- 상세 모달 -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal">
@@ -268,9 +382,10 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 </div>
 
 <div class="toast" id="toast"></div>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy, setDoc, getDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -298,7 +413,120 @@ const CAT_LABELS = {
   personal:'🌟 개인', birthday:'🎂 생일', other:'📌 기타'
 };
 
-/* 알림 */
+/* ───── 탭 전환 ───── */
+window.switchTab = function(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active-tab'));
+  document.getElementById('tab-' + tab).classList.add('show');
+  event.target.classList.add('active-tab');
+};
+
+/* ───── AI 컨텍스트 필드 목록 ───── */
+const CTX_FIELDS = [
+  'ctx_channel','ctx_channel_url','ctx_concept',
+  'ctx_script_len','ctx_script_start','ctx_tone','ctx_emotion','ctx_script_rules',
+  'ctx_voice','ctx_tts_settings','ctx_pronunciation',
+  'ctx_img_suffix','ctx_vid_suffix','ctx_character','ctx_scene_len',
+  'ctx_folder','ctx_folder_detail',
+  'ctx_programs',
+  'ctx_current_topic','ctx_done_steps','ctx_todo_steps','ctx_memo'
+];
+
+/* ───── 컨텍스트 저장 ───── */
+window.saveContext = async function() {
+  const data = {};
+  CTX_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value.trim();
+  });
+  data.updatedAt = new Date().toISOString();
+  try {
+    await setDoc(doc(db, 'context', 'main'), data);
+    document.getElementById('ctxStatus').textContent = '✅ 저장됨! ' + new Date().toLocaleTimeString('ko');
+    updatePreview(data);
+    showToast('✅ 컨텍스트 저장 완료!');
+  } catch(e) {
+    showToast('❌ 저장 실패: ' + e.message);
+  }
+};
+
+/* ───── 컨텍스트 로드 ───── */
+async function loadContext() {
+  try {
+    const snap = await getDoc(doc(db, 'context', 'main'));
+    if (snap.exists()) {
+      const data = snap.data();
+      CTX_FIELDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && data[id] !== undefined) el.value = data[id];
+      });
+      updatePreview(data);
+      if (data.updatedAt) {
+        document.getElementById('ctxStatus').textContent =
+          '✅ 마지막 저장: ' + new Date(data.updatedAt).toLocaleString('ko');
+      }
+    }
+  } catch(e) { /* 무시 */ }
+}
+
+/* ───── 미리보기 생성 ───── */
+function updatePreview(data) {
+  const lines = [
+    '===== AI 컨텍스트 (케이경제 뒷담화) =====',
+    '',
+    '📺 채널 정보',
+    `채널명: ${data.ctx_channel||''}`,
+    `URL: ${data.ctx_channel_url||''}`,
+    `컨셉: ${data.ctx_concept||''}`,
+    '',
+    '📝 스크립트 규칙',
+    `목표 글자수: ${data.ctx_script_len||''}`,
+    `시작 문구: ${data.ctx_script_start||''}`,
+    `말투: ${data.ctx_tone||''}`,
+    `감정 흐름: ${data.ctx_emotion||''}`,
+    `기타 규칙: ${data.ctx_script_rules||''}`,
+    '',
+    '🔊 TTS 설정',
+    `보이스: ${data.ctx_voice||''}`,
+    `설정값: ${data.ctx_tts_settings||''}`,
+    `발음 교정: ${data.ctx_pronunciation||''}`,
+    '',
+    '🖼️ 프롬프트 규칙',
+    `이미지 끝 문구: ${data.ctx_img_suffix||''}`,
+    `영상 끝 문구: ${data.ctx_vid_suffix||''}`,
+    `캐릭터: ${data.ctx_character||''}`,
+    `씬 길이: ${data.ctx_scene_len||''}`,
+    '',
+    '📁 폴더',
+    `경로: ${data.ctx_folder||''}`,
+    `구조: ${data.ctx_folder_detail||''}`,
+    '',
+    '⚙️ 완성된 프로그램',
+    data.ctx_programs||'',
+    '',
+    '🚀 현재 진행 상황',
+    `현재 주제: ${data.ctx_current_topic||''}`,
+    `완료 단계:\n${data.ctx_done_steps||''}`,
+    `남은 단계:\n${data.ctx_todo_steps||''}`,
+    `메모: ${data.ctx_memo||''}`,
+    '',
+    '===== END ====='
+  ];
+  document.getElementById('ctxPreview').textContent = lines.join('\n');
+}
+
+/* ───── 전체 복사 ───── */
+window.copyContext = async function() {
+  const text = document.getElementById('ctxPreview').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 클립보드에 복사됨!');
+  } catch(e) {
+    showToast('❌ 복사 실패');
+  }
+};
+
+/* ───── 알림 ───── */
 window.requestNotify = async function() {
   if (!('Notification' in window)) { showToast('❌ 알림 미지원'); return; }
   const perm = await Notification.requestPermission();
@@ -335,7 +563,7 @@ function checkAlarms() {
 setInterval(checkAlarms,60000);
 checkAlarms();
 
-/* 로드 */
+/* ───── 할일 로드 ───── */
 async function loadTodos() {
   try {
     const snap = await getDocs(query(collection(db,'todos'), orderBy('date','desc')));
@@ -344,7 +572,7 @@ async function loadTodos() {
   } catch(e) { showToast('❌ 로드 실패'); }
 }
 
-/* 추가 */
+/* ───── 추가 ───── */
 window.addTodo = async function() {
   const text=document.getElementById('todoInput').value.trim();
   const cat=document.getElementById('todoCategory').value;
@@ -364,7 +592,7 @@ window.addTodo = async function() {
   } catch(e) { showToast('❌ 저장 실패: '+e.message); }
 };
 
-/* 필터 */
+/* ───── 필터 ───── */
 window.setFilter = function(f,btn) {
   currentFilter=f; todoPage=1; donePage=1;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -372,7 +600,7 @@ window.setFilter = function(f,btn) {
   renderTodos();
 };
 
-/* D-day */
+/* ───── D-day ───── */
 function getDday(due,repeat) {
   if (!due) return null;
   const now=new Date(); let d=new Date(due);
@@ -385,7 +613,6 @@ function getDday(due,repeat) {
   return {label:`D-${diff}`,cls:'dday-ok'};
 }
 
-/* 날짜 포맷 */
 function fmtShort(iso) {
   if (!iso) return '';
   const d=new Date(iso), M=d.getMonth()+1, D=d.getDate();
@@ -398,29 +625,24 @@ function fmtReg(iso) {
   return `${d.getMonth()+1}/${d.getDate()}`;
 }
 
-/* 페이지네이션 렌더 */
+/* ───── 페이지네이션 ───── */
 function renderPagination(containerId, total, currentPg, onClickFn, activeCls) {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const container  = document.getElementById(containerId);
   if (totalPages <= 1) { container.innerHTML=''; return; }
   let html = '';
-  // 이전
   html += `<button class="pg-btn" ${currentPg===1?'disabled':''} onclick="${onClickFn}(${currentPg-1})">‹</button>`;
-  // 페이지 번호
   for (let i=1; i<=totalPages; i++) {
-    const isCur = i===currentPg;
-    html += `<button class="pg-btn${isCur?' '+activeCls:''}" onclick="${onClickFn}(${i})">${i}</button>`;
+    html += `<button class="pg-btn${i===currentPg?' '+activeCls:''}" onclick="${onClickFn}(${i})">${i}</button>`;
   }
-  // 다음
   html += `<button class="pg-btn" ${currentPg===totalPages?'disabled':''} onclick="${onClickFn}(${currentPg+1})">›</button>`;
   container.innerHTML = html;
 }
 
-/* 페이지 이동 */
 window.goTodoPage = function(p) { todoPage=p; renderTodos(); };
 window.goDonePage = function(p) { donePage=p; renderTodos(); };
 
-/* 렌더링 */
+/* ───── 렌더링 ───── */
 window.renderTodos = function() {
   const total=items.length, doneCount=items.filter(i=>i.done).length;
   const pct=total?Math.round((doneCount/total)*100):0;
@@ -439,13 +661,11 @@ window.renderTodos = function() {
   const todoAll=filtered.filter(it=>!it.done);
   const doneAll=filtered.filter(it=>it.done);
 
-  // 배너 카운터
   document.getElementById('bannerTodo').textContent=todoAll.length;
   document.getElementById('bannerDone').textContent=doneAll.length;
   document.getElementById('todoColCount').textContent=todoAll.length;
   document.getElementById('doneColCount').textContent=doneAll.length;
 
-  // 페이지 슬라이스
   const todoSlice=todoAll.slice((todoPage-1)*PAGE_SIZE, todoPage*PAGE_SIZE);
   const doneSlice=doneAll.slice((donePage-1)*PAGE_SIZE, donePage*PAGE_SIZE);
 
@@ -480,7 +700,7 @@ window.renderTodos = function() {
   renderPagination('donePagination',doneAll.length,donePage,'goDonePage','active-done');
 };
 
-/* 상세 모달 */
+/* ───── 상세 모달 ───── */
 window.openDetailModal = function(id) {
   const it=items.find(x=>x.id===id); if(!it) return;
   detailId=id;
@@ -523,7 +743,7 @@ window.deleteFromDetail=async function(){
   catch(e){showToast('❌ 삭제 실패');}
 };
 
-/* 수정 모달 */
+/* ───── 수정 모달 ───── */
 window.openEditModal=function(id){
   const it=items.find(x=>x.id===id); if(!it) return;
   editingId=id;
@@ -566,6 +786,7 @@ document.getElementById('editModal').addEventListener('click',function(e){if(e.t
 document.getElementById('detailModal').addEventListener('click',function(e){if(e.target===this)closeDetailModal();});
 
 loadTodos();
+loadContext();
 </script>
 </body>
 </html>
