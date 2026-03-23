@@ -46,24 +46,34 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .memo-card:active { cursor:grabbing; }
 .memo-card:hover { border-color:#10b981; transform:translateY(-2px); box-shadow:0 4px 16px rgba(16,185,129,0.15); }
 .memo-card.pinned { border-color:#10b981; background:#0a1f18; }
+.memo-card.status-todo { border-left:4px solid #f59e0b; }
+.memo-card.status-done { border-left:4px solid #6366f1; opacity:0.85; }
 .memo-card.sortable-ghost { opacity:0.3; background:#064e3b; }
 .memo-card.sortable-chosen { box-shadow:0 8px 24px rgba(16,185,129,0.3); }
 .drag-handle { color:#374151; font-size:0.8rem; margin-bottom:6px; cursor:grab; user-select:none; }
 .card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
 .card-title { font-weight:700; color:#6ee7b7; font-size:0.95rem; flex:1; }
+.card-title.done-title { text-decoration:line-through; opacity:0.6; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
 .card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
 .expand-btn { background:none; border:none; color:#10b981; font-size:0.75rem; cursor:pointer; padding:0 0 8px 0; font-weight:600; }
 .expand-btn:hover { text-decoration:underline; }
-.card-meta { display:flex; justify-content:space-between; align-items:center; }
+.card-meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; }
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#064e3b; color:#6ee7b7; border:1px solid #10b981; }
+.status-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; }
+.status-badge.todo  { background:#451a03; color:#fde68a; border:1px solid #f59e0b; }
+.status-badge.done  { background:#1e1b4b; color:#a5b4fc; border:1px solid #6366f1; }
+.status-badge.memo  { background:#064e3b; color:#6ee7b7; border:1px solid #10b981; }
 .card-date { color:#6b7280; font-size:0.72rem; }
-.card-actions { display:flex; gap:6px; margin-top:8px; }
-.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
-.btn-copy-c { background:#0a1f18; color:#6ee7b7; border:1px solid #10b981 !important; }
-.btn-edit { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
-.btn-del { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.card-actions { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+.card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; min-width:48px; }
+.btn-copy-c  { background:#0a1f18; color:#6ee7b7; border:1px solid #10b981 !important; }
+.btn-edit    { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-del     { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
+.btn-todo    { background:#451a03; color:#fde68a; border:1px solid #f59e0b !important; }
+.btn-done    { background:#1e1b4b; color:#a5b4fc; border:1px solid #6366f1 !important; }
+.btn-memo-st { background:#064e3b; color:#6ee7b7; border:1px solid #10b981 !important; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
 .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#065f46; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
@@ -107,6 +117,11 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
       <option value="temp">⏰ 임시</option>
       <option value="other">💭 기타</option>
     </select>
+    <select id="memoStatus">
+      <option value="memo">📝 메모</option>
+      <option value="todo">📋 해야할일</option>
+      <option value="done">✅ 한일</option>
+    </select>
   </div>
   <div class="form-row">
     <textarea id="memoBody" placeholder="내용을 자유롭게 입력하세요..."></textarea>
@@ -117,6 +132,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 <div class="filter-section">
   <input type="text" id="searchInput" placeholder="🔍 검색..." oninput="renderMemos()">
   <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
+  <button class="filter-btn" onclick="setFilter('status-todo',this)">📋 해야할일</button>
+  <button class="filter-btn" onclick="setFilter('status-done',this)">✅ 한일</button>
   <button class="filter-btn" onclick="setFilter('ai',this)">🤖 AI</button>
   <button class="filter-btn" onclick="setFilter('prompt',this)">✨ 프롬프트</button>
   <button class="filter-btn" onclick="setFilter('ref',this)">📚 참고</button>
@@ -137,6 +154,11 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
       <option value="temp">⏰ 임시</option>
       <option value="other">💭 기타</option>
     </select>
+    <select id="editStatus">
+      <option value="memo">📝 메모</option>
+      <option value="todo">📋 해야할일</option>
+      <option value="done">✅ 한일</option>
+    </select>
     <textarea id="editBody" placeholder="내용"></textarea>
     <div class="modal-actions">
       <button class="btn btn-cancel" onclick="closeEditModal()">취소</button>
@@ -149,7 +171,7 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy, writeBatch }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, writeBatch }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -168,9 +190,9 @@ let currentFilter = 'all';
 let editingId = null;
 const expandedIds = new Set();
 const CAT_LABELS = { general:'📝 일반', ai:'🤖 AI', prompt:'✨ 프롬프트', ref:'📚 참고', temp:'⏰ 임시', other:'💭 기타' };
-const PREVIEW_LENGTH = 40;
+const STATUS_LABELS = { memo:'📝 메모', todo:'📋 해야할일', done:'✅ 한일' };
+const PREVIEW_LENGTH = 80;
 
-// ✅ 핵심 수정: orderBy 없이 전체 로드 후 JS에서 정렬
 async function loadMemos() {
   try {
     const snap = await getDocs(collection(db, 'memos'));
@@ -181,21 +203,25 @@ async function loadMemos() {
     }));
     items.sort((a, b) => (a.order || 0) - (b.order || 0));
     renderMemos();
-  } catch(e) {
-    showToast('❌ 로드 실패: ' + e.message);
-  }
+  } catch(e) { showToast('❌ 로드 실패: ' + e.message); }
 }
 
 window.addMemo = async function() {
-  const title = document.getElementById('memoTitle').value.trim();
-  const body  = document.getElementById('memoBody').value.trim();
-  const cat   = document.getElementById('memoCategory').value;
+  const title  = document.getElementById('memoTitle').value.trim();
+  const body   = document.getElementById('memoBody').value.trim();
+  const cat    = document.getElementById('memoCategory').value;
+  const status = document.getElementById('memoStatus').value;
   if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
   try {
     const newOrder = items.length > 0 ? Math.max(...items.map(x => x.order || 0)) + 1 : 0;
-    await addDoc(collection(db,'memos'), { title, body, cat, pinned:false, order:newOrder, date:new Date().toISOString() });
+    await addDoc(collection(db,'memos'), {
+      title, body, cat, status,
+      pinned: false, order: newOrder,
+      date: new Date().toISOString()
+    });
     document.getElementById('memoTitle').value = '';
-    document.getElementById('memoBody').value = '';
+    document.getElementById('memoBody').value  = '';
+    document.getElementById('memoStatus').value = 'memo';
     await loadMemos();
     showToast('✅ 메모 저장됨!');
   } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
@@ -218,9 +244,10 @@ window.openEditModal = function(id) {
   const it = items.find(x => x.id === id);
   if (!it) return;
   editingId = id;
-  document.getElementById('editTitle').value = it.title;
-  document.getElementById('editBody').value = it.body;
+  document.getElementById('editTitle').value    = it.title;
+  document.getElementById('editBody').value     = it.body;
   document.getElementById('editCategory').value = it.cat || 'general';
+  document.getElementById('editStatus').value   = it.status || 'memo';
   document.getElementById('editModal').classList.add('show');
 };
 
@@ -231,25 +258,37 @@ window.closeEditModal = function() {
 
 window.saveEdit = async function() {
   if (!editingId) return;
-  const title = document.getElementById('editTitle').value.trim();
-  const body  = document.getElementById('editBody').value.trim();
-  const cat   = document.getElementById('editCategory').value;
+  const title  = document.getElementById('editTitle').value.trim();
+  const body   = document.getElementById('editBody').value.trim();
+  const cat    = document.getElementById('editCategory').value;
+  const status = document.getElementById('editStatus').value;
   if (!title || !body) { showToast('⚠️ 제목과 내용을 입력하세요'); return; }
   try {
-    await updateDoc(doc(db,'memos',editingId), { title, body, cat });
+    await updateDoc(doc(db,'memos',editingId), { title, body, cat, status });
     closeEditModal();
     await loadMemos();
     showToast('✅ 수정 완료!');
   } catch(e) { showToast('❌ 수정 실패: ' + e.message); }
 };
 
+window.quickStatus = async function(id, newStatus) {
+  try {
+    await updateDoc(doc(db,'memos',id), { status: newStatus });
+    await loadMemos();
+    const labels = { memo:'📝 메모로 변경', todo:'📋 해야할일로 변경', done:'✅ 한일로 변경' };
+    showToast(labels[newStatus] || '✅ 변경됨!');
+  } catch(e) { showToast('❌ 오류'); }
+};
+
 window.renderMemos = function() {
   const search = document.getElementById('searchInput').value.toLowerCase();
   let filtered = items.filter(it => {
-    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
+    if (currentFilter === 'status-todo' && it.status !== 'todo') return false;
+    if (currentFilter === 'status-done' && it.status !== 'done') return false;
+    if (currentFilter !== 'all' && currentFilter !== 'status-todo' && currentFilter !== 'status-done' && it.cat !== currentFilter) return false;
     if (search && !it.title.toLowerCase().includes(search) && !it.body.toLowerCase().includes(search)) return false;
     return true;
-  }).sort((a,b) => (a.order||0) - (b.order||0));
+  }).sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || (a.order||0)-(b.order||0));
 
   document.getElementById('memoCount').textContent = filtered.length + '개';
   const grid = document.getElementById('cardsGrid');
@@ -259,28 +298,44 @@ window.renderMemos = function() {
   }
 
   grid.innerHTML = filtered.map(it => {
+    const st = it.status || 'memo';
     const isExpanded = expandedIds.has(it.id);
     const isLong = it.body.length > PREVIEW_LENGTH;
     const displayText = isLong && !isExpanded ? it.body.substring(0, PREVIEW_LENGTH) + '...' : it.body;
-    const expandBtn = isLong ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>` : '';
+    const expandBtn = isLong
+      ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>`
+      : '';
+
+    // 빠른 상태변경 버튼: 현재 상태 제외한 2개 표시
+    const statusBtns = ['memo','todo','done']
+      .filter(s => s !== st)
+      .map(s => {
+        const cls = s==='todo'?'btn-todo': s==='done'?'btn-done':'btn-memo-st';
+        const lbl = s==='todo'?'📋 해야할일': s==='done'?'✅ 한일':'📝 메모';
+        return `<button class="${cls}" onclick="quickStatus('${it.id}','${s}')">${lbl}</button>`;
+      }).join('');
 
     return `
-    <div class="memo-card${it.pinned?' pinned':''}" data-id="${it.id}">
+    <div class="memo-card${it.pinned?' pinned':''} status-${st}" data-id="${it.id}">
       <div class="drag-handle">⠿ 드래그로 순서 변경</div>
       <div class="card-top">
-        <div class="card-title">${escapeHtml(it.title)}</div>
+        <div class="card-title${st==='done'?' done-title':''}">${escapeHtml(it.title)}</div>
         <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
       </div>
       <div class="card-body-text">${escapeHtml(displayText)}</div>
       ${expandBtn}
       <div class="card-meta">
         <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
+        <span class="status-badge ${st}">${STATUS_LABELS[st]||st}</span>
         <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
       </div>
       <div class="card-actions">
         <button class="btn-copy-c" onclick="copyMemo('${it.id}')">📋 복사</button>
-        <button class="btn-edit" onclick="openEditModal('${it.id}')">✏️ 수정</button>
-        <button class="btn-del" onclick="deleteMemo('${it.id}')">🗑️ 삭제</button>
+        <button class="btn-edit"   onclick="openEditModal('${it.id}')">✏️ 수정</button>
+        <button class="btn-del"    onclick="deleteMemo('${it.id}')">🗑️ 삭제</button>
+      </div>
+      <div class="card-actions" style="margin-top:4px;">
+        ${statusBtns}
       </div>
     </div>`;
   }).join('');
@@ -292,20 +347,12 @@ window.renderMemos = function() {
     handle: '.drag-handle',
     onEnd: async function() {
       const cards = grid.querySelectorAll('.memo-card');
-      const newOrder = Array.from(cards).map((card, index) => ({
-        id: card.dataset.id,
-        order: index
-      }));
+      const newOrder = Array.from(cards).map((card, index) => ({ id: card.dataset.id, order: index }));
       try {
         const batch = writeBatch(db);
-        newOrder.forEach(({ id, order }) => {
-          batch.update(doc(db,'memos',id), { order });
-        });
+        newOrder.forEach(({ id, order }) => batch.update(doc(db,'memos',id), { order }));
         await batch.commit();
-        newOrder.forEach(({ id, order }) => {
-          const item = items.find(x => x.id === id);
-          if (item) item.order = order;
-        });
+        newOrder.forEach(({ id, order }) => { const item = items.find(x=>x.id===id); if(item) item.order=order; });
         showToast('✅ 순서 저장됨!');
       } catch(e) { showToast('❌ 순서 저장 실패'); }
     }
