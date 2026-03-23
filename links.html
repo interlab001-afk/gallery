@@ -18,12 +18,9 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
 .nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
 .navbar a:hover { opacity:0.8; transform:translateY(-1px); }
-
-/* 링크 테마 = 파란색 */
 .header { background:linear-gradient(135deg,#1e3a5f,#1d4ed8); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
 .header h1 { font-size:1.3rem; font-weight:700; color:#93c5fd; }
 .badge { background:#1e3a5f; border:1px solid #3b82f6; color:#93c5fd; padding:4px 12px; border-radius:12px; font-size:0.8rem; }
-
 .form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:16px; }
 .form-card h3 { font-size:0.95rem; color:#93c5fd; margin-bottom:12px; font-weight:700; }
 .form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
@@ -35,60 +32,73 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .form-row select { min-width:140px; }
 .form-row textarea { flex:1; min-width:200px; min-height:80px; resize:vertical; }
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline:none; border-color:#3b82f6; }
+.img-upload-area { border:2px dashed #374151; border-radius:10px; padding:16px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
+.img-upload-area:hover { border-color:#3b82f6; background:#12122a; }
+.img-upload-area input { display:none; }
+.img-upload-area .upload-label { color:#6b7280; font-size:0.85rem; cursor:pointer; }
+.img-upload-area .upload-label span { color:#3b82f6; font-weight:600; }
+.img-preview-wrap { position:relative; display:inline-block; margin-top:10px; }
+.img-preview-wrap img { width:120px; height:80px; object-fit:cover; border-radius:8px; border:2px solid #3b82f6; display:block; }
+.img-preview-rm { position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:20px; height:20px; font-size:0.7rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:700; }
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#1e3a5f,#3b82f6); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
-.btn-cancel { background:#374151; color:#e2e8f0; margin-left:8px; }
-
+.btn-cancel { background:#374151; color:#e2e8f0; }
 .filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-section input { background:#1e1b4b; border:1px solid #374151; color:#e2e8f0; padding:8px 14px; border-radius:20px; font-size:0.85rem; flex:1; min-width:180px; }
 .filter-section input:focus { outline:none; border-color:#3b82f6; }
 .filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
 .filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:white; }
-
-.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:0 16px 24px; }
-.memo-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; transition:all 0.3s; cursor:grab; }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; padding:0 16px 24px; }
+.memo-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; overflow:hidden; transition:all 0.3s; cursor:grab; }
 .memo-card:active { cursor:grabbing; }
 .memo-card:hover { border-color:#3b82f6; transform:translateY(-2px); box-shadow:0 4px 16px rgba(59,130,246,0.15); }
 .memo-card.pinned { border-color:#3b82f6; background:#0a1525; }
 .memo-card.sortable-ghost { opacity:0.3; background:#1e3a5f; }
 .memo-card.sortable-chosen { box-shadow:0 8px 24px rgba(59,130,246,0.3); }
-
+/* 썸네일 이미지 */
+.card-thumbnail { width:100%; height:160px; object-fit:cover; display:block; background:#12122a; }
+.card-thumbnail-empty { width:100%; height:160px; background:linear-gradient(135deg,#1e3a5f,#12122a); display:flex; align-items:center; justify-content:center; font-size:3rem; color:#374151; }
+.card-inner { padding:14px; }
 .drag-handle { color:#374151; font-size:0.8rem; margin-bottom:6px; cursor:grab; user-select:none; }
 .card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
 .card-title { font-weight:700; color:#93c5fd; font-size:0.95rem; flex:1; }
 .pin-icon { cursor:pointer; font-size:1rem; opacity:0.5; transition:opacity 0.2s; }
 .pin-icon.active { opacity:1; }
-
-.card-url { display:block; color:#60a5fa; font-size:0.78rem; margin-bottom:8px; word-break:break-all; text-decoration:none; }
+.card-url { display:block; color:#60a5fa; font-size:0.78rem; margin-bottom:8px; word-break:break-all; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .card-url:hover { text-decoration:underline; }
 .card-body-text { color:#d1d5db; font-size:0.85rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap; }
 .expand-btn { background:none; border:none; color:#3b82f6; font-size:0.75rem; cursor:pointer; padding:0 0 8px 0; font-weight:600; }
 .expand-btn:hover { text-decoration:underline; }
-
-.card-meta { display:flex; justify-content:space-between; align-items:center; }
+.card-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .card-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6; }
 .card-date { color:#6b7280; font-size:0.72rem; }
-.card-actions { display:flex; gap:6px; margin-top:8px; }
+.card-actions { display:flex; gap:6px; }
 .card-actions button { flex:1; padding:6px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600; }
-.btn-open  { background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
-.btn-copy-c{ background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
-.btn-edit  { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
-.btn-del   { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
-
+.btn-open   { background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-copy-c { background:#0a1525; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-edit   { background:#1e3a5f; color:#93c5fd; border:1px solid #3b82f6 !important; }
+.btn-del    { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444 !important; }
 .empty-state { text-align:center; padding:60px 20px; color:#6b7280; grid-column:1/-1; }
 .empty-state .icon { font-size:3rem; margin-bottom:12px; }
 .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1e3a5f; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
 .toast.show { opacity:1; }
-
 .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.show { display:flex; }
-.modal { background:#1e1b4b; border:1px solid #3b82f6; border-radius:16px; padding:24px; width:90%; max-width:560px; }
+.modal { background:#1e1b4b; border:1px solid #3b82f6; border-radius:16px; padding:24px; width:90%; max-width:560px; max-height:90vh; overflow-y:auto; }
 .modal h3 { color:#93c5fd; font-size:1rem; margin-bottom:16px; }
 .modal input, .modal select, .modal textarea { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px; }
 .modal textarea { min-height:100px; resize:vertical; }
 .modal input:focus, .modal select:focus, .modal textarea:focus { outline:none; border-color:#3b82f6; }
+.modal-img-area { border:2px dashed #374151; border-radius:10px; padding:14px; text-align:center; margin-bottom:10px; cursor:pointer; transition:all 0.2s; }
+.modal-img-area:hover { border-color:#3b82f6; }
+.modal-img-area input { display:none; }
+.modal-img-preview { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+.modal-img-prev-wrap { position:relative; }
+.modal-img-prev-wrap img { width:80px; height:60px; object-fit:cover; border-radius:6px; border:1px solid #3b82f6; }
+.modal-img-prev-rm { position:absolute; top:-5px; right:-5px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:0.65rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:700; }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+.upload-progress { font-size:0.78rem; color:#60a5fa; margin-top:4px; text-align:center; min-height:20px; }
 </style>
 </head>
 <body>
@@ -127,6 +137,13 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <div class="form-row">
     <textarea id="linkNote" placeholder="메모 (선택사항)"></textarea>
   </div>
+  <!-- 이미지 업로드 영역 -->
+  <div class="img-upload-area" onclick="document.getElementById('linkImageInput').click()">
+    <input type="file" id="linkImageInput" accept="image/*">
+    <div class="upload-label">🖼️ 클릭하여 <span>썸네일 이미지</span> 업로드 (선택사항)</div>
+    <div id="addImgPreview"></div>
+  </div>
+  <div class="upload-progress" id="addUploadProgress"></div>
   <button class="btn btn-primary" onclick="addLink()">🔗 저장</button>
 </div>
 
@@ -137,10 +154,12 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <button class="filter-btn" onclick="setFilter('tool',this)">🛠️ 툴</button>
   <button class="filter-btn" onclick="setFilter('ref',this)">📚 참고</button>
   <button class="filter-btn" onclick="setFilter('video',this)">🎬 영상</button>
+  <button class="filter-btn" onclick="setFilter('img',this)">🖼️ 이미지있는것</button>
 </div>
 
 <div class="cards-grid" id="cardsGrid"></div>
 
+<!-- 수정 모달 -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <h3>✏️ 링크 수정</h3>
@@ -155,6 +174,13 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
       <option value="other">💭 기타</option>
     </select>
     <textarea id="editNote" placeholder="메모 (선택사항)"></textarea>
+    <!-- 수정 모달 이미지 -->
+    <div class="modal-img-area" onclick="document.getElementById('editImageInput').click()">
+      <input type="file" id="editImageInput" accept="image/*">
+      <span style="color:#6b7280;font-size:0.82rem;">🖼️ 클릭하여 <span style="color:#3b82f6;font-weight:600;">썸네일 변경</span></span>
+      <div class="modal-img-preview" id="editImgPreview"></div>
+    </div>
+    <div class="upload-progress" id="editUploadProgress"></div>
     <div class="modal-actions">
       <button class="btn btn-cancel" onclick="closeEditModal()">취소</button>
       <button class="btn btn-primary" onclick="saveEdit()">💾 저장</button>
@@ -168,6 +194,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, writeBatch }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadString, getDownloadURL, deleteObject }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
@@ -180,13 +208,37 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
 let items = [];
 let currentFilter = 'all';
 let editingId = null;
+let addImgData = null;    // { dataURL, fileName }
+let editImgData = null;   // { dataURL, fileName, isNew }
+
 const expandedIds = new Set();
 const CAT_LABELS = { general:'🔗 일반', ai:'🤖 AI', tool:'🛠️ 툴', ref:'📚 참고', video:'🎬 영상', other:'💭 기타' };
 const PREVIEW_LENGTH = 60;
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const fileToDataURL = f => new Promise(r => { const fr = new FileReader(); fr.onload = e => r(e.target.result); fr.readAsDataURL(f) });
+const getExt = d => { const t = d.split(';')[0].split(':')[1]; return t==='image/png'?'png':t==='image/webp'?'webp':'jpg' };
 
+/* ===== Firebase Storage 업로드 ===== */
+async function uploadImage(dataURL, fileName) {
+  const storageRef = ref(storage, `links/${fileName}`);
+  await uploadString(storageRef, dataURL, 'data_url');
+  return await getDownloadURL(storageRef);
+}
+
+async function deleteImage(fileName) {
+  if (!fileName) return;
+  try {
+    const storageRef = ref(storage, `links/${fileName}`);
+    await deleteObject(storageRef);
+  } catch(e) {}
+}
+
+/* ===== 데이터 로드 ===== */
 async function loadLinks() {
   try {
     const snap = await getDocs(collection(db, 'links'));
@@ -200,23 +252,66 @@ async function loadLinks() {
   } catch(e) { showToast('❌ 로드 실패: ' + e.message); }
 }
 
+/* ===== 추가 이미지 미리보기 ===== */
+document.getElementById('linkImageInput').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const dataURL = await fileToDataURL(file);
+  addImgData = { dataURL, fileName: uid() + '.' + getExt(dataURL) };
+  const prev = document.getElementById('addImgPreview');
+  prev.innerHTML = `<div class="img-preview-wrap" style="margin-top:10px;display:inline-block;">
+    <img src="${dataURL}" style="width:120px;height:80px;object-fit:cover;border-radius:8px;border:2px solid #3b82f6;">
+    <button class="img-preview-rm" onclick="clearAddImg(event)">×</button>
+  </div>`;
+});
+
+window.clearAddImg = function(e) {
+  e.stopPropagation();
+  addImgData = null;
+  document.getElementById('addImgPreview').innerHTML = '';
+  document.getElementById('linkImageInput').value = '';
+};
+
+/* ===== 링크 추가 ===== */
 window.addLink = async function() {
   const title = document.getElementById('linkTitle').value.trim();
   const url   = document.getElementById('linkUrl').value.trim();
   const note  = document.getElementById('linkNote').value.trim();
   const cat   = document.getElementById('linkCategory').value;
   if (!title || !url) { showToast('⚠️ 제목과 URL을 입력하세요'); return; }
+
+  document.getElementById('addUploadProgress').textContent = addImgData ? '⏳ 이미지 업로드 중...' : '';
   try {
+    let imageUrl = null, imageFileName = null;
+    if (addImgData) {
+      showToast('⏳ 이미지 업로드 중...');
+      imageUrl = await uploadImage(addImgData.dataURL, addImgData.fileName);
+      imageFileName = addImgData.fileName;
+    }
     const newOrder = items.length > 0 ? Math.max(...items.map(x => x.order || 0)) + 1 : 0;
-    await addDoc(collection(db,'links'), { title, url, note, cat, pinned:false, order:newOrder, date:new Date().toISOString() });
+    await addDoc(collection(db,'links'), {
+      title, url, note, cat,
+      imageUrl: imageUrl || null,
+      imageFileName: imageFileName || null,
+      pinned: false, order: newOrder,
+      date: new Date().toISOString()
+    });
     document.getElementById('linkTitle').value = '';
     document.getElementById('linkUrl').value = '';
     document.getElementById('linkNote').value = '';
+    document.getElementById('addImgPreview').innerHTML = '';
+    document.getElementById('linkImageInput').value = '';
+    document.getElementById('addUploadProgress').textContent = '';
+    addImgData = null;
     await loadLinks();
     showToast('✅ 링크 저장됨!');
-  } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
+  } catch(e) {
+    document.getElementById('addUploadProgress').textContent = '';
+    showToast('❌ 저장 실패: ' + e.message);
+  }
 };
 
+/* ===== 필터 ===== */
 window.setFilter = function(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -230,22 +325,57 @@ window.toggleExpand = function(id) {
   renderLinks();
 };
 
+/* ===== 수정 모달 열기 ===== */
 window.openEditModal = function(id) {
   const it = items.find(x => x.id === id);
   if (!it) return;
   editingId = id;
-  document.getElementById('editTitle').value = it.title;
-  document.getElementById('editUrl').value = it.url;
-  document.getElementById('editNote').value = it.note || '';
+  editImgData = null;
+  document.getElementById('editTitle').value    = it.title;
+  document.getElementById('editUrl').value      = it.url;
+  document.getElementById('editNote').value     = it.note || '';
   document.getElementById('editCategory').value = it.cat || 'general';
+
+  // 기존 이미지 미리보기
+  const prev = document.getElementById('editImgPreview');
+  if (it.imageUrl) {
+    prev.innerHTML = `<div class="modal-img-prev-wrap">
+      <img src="${it.imageUrl}">
+      <button class="modal-img-prev-rm" onclick="clearEditImg()">×</button>
+    </div>`;
+  } else {
+    prev.innerHTML = '';
+  }
+  document.getElementById('editUploadProgress').textContent = '';
   document.getElementById('editModal').classList.add('show');
+};
+
+/* ===== 수정 모달 이미지 변경 ===== */
+document.getElementById('editImageInput').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const dataURL = await fileToDataURL(file);
+  editImgData = { dataURL, fileName: uid() + '.' + getExt(dataURL), isNew: true };
+  const prev = document.getElementById('editImgPreview');
+  prev.innerHTML = `<div class="modal-img-prev-wrap">
+    <img src="${dataURL}">
+    <button class="modal-img-prev-rm" onclick="clearEditImg()">×</button>
+  </div>`;
+});
+
+window.clearEditImg = function() {
+  editImgData = { cleared: true };
+  document.getElementById('editImgPreview').innerHTML = '<span style="font-size:0.75rem;color:#6b7280">이미지 삭제됨</span>';
+  document.getElementById('editImageInput').value = '';
 };
 
 window.closeEditModal = function() {
   editingId = null;
+  editImgData = null;
   document.getElementById('editModal').classList.remove('show');
 };
 
+/* ===== 수정 저장 ===== */
 window.saveEdit = async function() {
   if (!editingId) return;
   const title = document.getElementById('editTitle').value.trim();
@@ -253,23 +383,47 @@ window.saveEdit = async function() {
   const note  = document.getElementById('editNote').value.trim();
   const cat   = document.getElementById('editCategory').value;
   if (!title || !url) { showToast('⚠️ 제목과 URL을 입력하세요'); return; }
+
+  const it = items.find(x => x.id === editingId);
+  document.getElementById('editUploadProgress').textContent = '⏳ 저장 중...';
   try {
-    await updateDoc(doc(db,'links',editingId), { title, url, note, cat });
+    let imageUrl = it.imageUrl || null;
+    let imageFileName = it.imageFileName || null;
+
+    if (editImgData?.cleared) {
+      // 이미지 삭제
+      await deleteImage(it.imageFileName);
+      imageUrl = null; imageFileName = null;
+    } else if (editImgData?.isNew) {
+      // 기존 이미지 삭제 후 새 이미지 업로드
+      await deleteImage(it.imageFileName);
+      showToast('⏳ 이미지 업로드 중...');
+      imageUrl = await uploadImage(editImgData.dataURL, editImgData.fileName);
+      imageFileName = editImgData.fileName;
+    }
+
+    await updateDoc(doc(db,'links',editingId), { title, url, note, cat, imageUrl, imageFileName });
+    document.getElementById('editUploadProgress').textContent = '';
     closeEditModal();
     await loadLinks();
     showToast('✅ 수정 완료!');
-  } catch(e) { showToast('❌ 수정 실패: ' + e.message); }
+  } catch(e) {
+    document.getElementById('editUploadProgress').textContent = '';
+    showToast('❌ 수정 실패: ' + e.message);
+  }
 };
 
+/* ===== 렌더링 ===== */
 window.renderLinks = function() {
   const search = document.getElementById('searchInput').value.toLowerCase();
   let filtered = items.filter(it => {
-    if (currentFilter !== 'all' && it.cat !== currentFilter) return false;
+    if (currentFilter === 'img' && !it.imageUrl) return false;
+    if (currentFilter !== 'all' && currentFilter !== 'img' && it.cat !== currentFilter) return false;
     if (search && !it.title.toLowerCase().includes(search) &&
         !(it.note||'').toLowerCase().includes(search) &&
         !it.url.toLowerCase().includes(search)) return false;
     return true;
-  }).sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0) || (a.order||0) - (b.order||0));
+  }).sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || (a.order||0)-(b.order||0));
 
   document.getElementById('linkCount').textContent = filtered.length + '개';
   const grid = document.getElementById('cardsGrid');
@@ -283,27 +437,36 @@ window.renderLinks = function() {
     const note = it.note || '';
     const isLong = note.length > PREVIEW_LENGTH;
     const displayNote = isLong && !isExpanded ? note.substring(0, PREVIEW_LENGTH) + '...' : note;
-    const expandBtn = isLong ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>` : '';
+    const expandBtn = isLong
+      ? `<button class="expand-btn" onclick="toggleExpand('${it.id}')">${isExpanded ? '🔼 접기' : '🔽 더 보기'}</button>`
+      : '';
+    const thumbHTML = it.imageUrl
+      ? `<img class="card-thumbnail" src="${it.imageUrl}" alt="${escapeHtml(it.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        + `<div class="card-thumbnail-empty" style="display:none">🔗</div>`
+      : `<div class="card-thumbnail-empty">🔗</div>`;
 
     return `
     <div class="memo-card${it.pinned?' pinned':''}" data-id="${it.id}">
-      <div class="drag-handle">⠿ 드래그로 순서 변경</div>
-      <div class="card-top">
-        <div class="card-title">${escapeHtml(it.title)}</div>
-        <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
-      </div>
-      <a class="card-url" href="${escapeHtml(it.url)}" target="_blank" rel="noopener">🔗 ${escapeHtml(it.url)}</a>
-      ${displayNote ? `<div class="card-body-text">${escapeHtml(displayNote)}</div>` : ''}
-      ${expandBtn}
-      <div class="card-meta">
-        <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
-        <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-open"   onclick="window.open('${escapeHtml(it.url)}','_blank')">🌐 열기</button>
-        <button class="btn-copy-c" onclick="copyLink('${it.id}')">📋 복사</button>
-        <button class="btn-edit"   onclick="openEditModal('${it.id}')">✏️ 수정</button>
-        <button class="btn-del"    onclick="deleteLink('${it.id}')">🗑️ 삭제</button>
+      ${thumbHTML}
+      <div class="card-inner">
+        <div class="drag-handle">⠿ 드래그로 순서 변경</div>
+        <div class="card-top">
+          <div class="card-title">${escapeHtml(it.title)}</div>
+          <span class="pin-icon${it.pinned?' active':''}" onclick="togglePin('${it.id}',${it.pinned})">📌</span>
+        </div>
+        <a class="card-url" href="${escapeHtml(it.url)}" target="_blank" rel="noopener" title="${escapeHtml(it.url)}">🔗 ${escapeHtml(it.url)}</a>
+        ${displayNote ? `<div class="card-body-text">${escapeHtml(displayNote)}</div>` : ''}
+        ${expandBtn}
+        <div class="card-meta">
+          <span class="card-tag">${CAT_LABELS[it.cat]||it.cat}</span>
+          <span class="card-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-open"   onclick="window.open('${escapeHtml(it.url)}','_blank')">🌐 열기</button>
+          <button class="btn-copy-c" onclick="copyLink('${it.id}')">📋 복사</button>
+          <button class="btn-edit"   onclick="openEditModal('${it.id}')">✏️ 수정</button>
+          <button class="btn-del"    onclick="deleteLink('${it.id}')">🗑️ 삭제</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -320,7 +483,7 @@ window.renderLinks = function() {
         const batch = writeBatch(db);
         newOrder.forEach(({ id, order }) => batch.update(doc(db,'links',id), { order }));
         await batch.commit();
-        newOrder.forEach(({ id, order }) => { const it = items.find(x => x.id === id); if(it) it.order = order; });
+        newOrder.forEach(({ id, order }) => { const it = items.find(x=>x.id===id); if(it) it.order=order; });
         showToast('✅ 순서 저장됨!');
       } catch(e) { showToast('❌ 순서 저장 실패'); }
     }
@@ -338,6 +501,8 @@ window.togglePin = async function(id, pinned) {
 window.deleteLink = async function(id) {
   if (!confirm('삭제하시겠습니까?')) return;
   try {
+    const it = items.find(x => x.id === id);
+    if (it?.imageFileName) await deleteImage(it.imageFileName);
     await deleteDoc(doc(db,'links',id));
     expandedIds.delete(id);
     await loadLinks();
