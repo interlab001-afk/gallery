@@ -18,129 +18,171 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
 .navbar a:hover { opacity:0.8; transform:translateY(-1px); }
 
-.header { background:linear-gradient(135deg,#450a0a,#991b1b); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
-.header h1 { font-size:1.3rem; font-weight:700; color:#fca5a5; }
+.header { background:linear-gradient(135deg,#450a0a,#991b1b); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; }
+.header h1 { font-size:1.2rem; font-weight:700; color:#fca5a5; }
 
-.progress-section { margin:16px; background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; }
-.progress-label { display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem; color:#9ca3af; }
-.progress-bar { background:#12122a; border-radius:10px; height:10px; overflow:hidden; }
+.progress-section { margin:10px 16px; background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:10px 14px; }
+.progress-label { display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.8rem; color:#9ca3af; }
+.progress-bar { background:#12122a; border-radius:10px; height:8px; overflow:hidden; }
 .progress-fill { height:100%; background:linear-gradient(90deg,#ef4444,#10b981); border-radius:10px; transition:width 0.5s; }
 
-.form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:0 16px 16px; }
-.form-card h3 { font-size:0.95rem; color:#fca5a5; margin-bottom:12px; font-weight:700; }
-.form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; margin:0 16px 12px; }
+.form-card h3 { font-size:0.9rem; color:#fca5a5; margin-bottom:10px; font-weight:700; }
+.form-row { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
 .form-row input, .form-row select {
   background:#12122a; border:1px solid #374151; color:#e2e8f0;
-  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit;
+  padding:8px 10px; border-radius:8px; font-size:0.82rem; font-family:inherit;
 }
-.form-row input { flex:1; min-width:160px; }
-.form-row select { min-width:130px; }
+.form-row input { flex:1; min-width:140px; }
+.form-row select { min-width:120px; }
 .form-row input:focus, .form-row select:focus { outline:none; border-color:#ef4444; }
 .form-row input[type=datetime-local]::-webkit-calendar-picker-indicator { filter:invert(1); }
-.btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn { padding:8px 16px; border:none; border-radius:8px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#991b1b,#ef4444); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
 .btn-success { background:linear-gradient(135deg,#065f46,#10b981); color:white; }
 .btn-success:hover { opacity:0.9; }
 .btn-cancel { background:#374151; color:#e2e8f0; }
-.btn-notify { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; width:100%; margin-top:8px; }
+.btn-notify { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; width:100%; margin-top:6px; }
 .btn-notify:hover { opacity:0.9; }
-.notify-status { font-size:0.78rem; margin-top:8px; padding:6px 10px; border-radius:6px; text-align:center; }
+.notify-status { font-size:0.75rem; margin-top:6px; padding:5px 10px; border-radius:6px; text-align:center; }
 .notify-on  { background:#052e16; color:#4ade80; border:1px solid #166534; }
 .notify-off { background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
-.alarm-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-.alarm-check { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#9ca3af; cursor:pointer; }
+.alarm-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+.alarm-check { display:flex; align-items:center; gap:4px; font-size:0.78rem; color:#9ca3af; cursor:pointer; }
 .alarm-check input { accent-color:#ef4444; }
-.repeat-check { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#fbbf24; cursor:pointer; margin-top:6px; }
+.repeat-check { display:flex; align-items:center; gap:4px; font-size:0.78rem; color:#fbbf24; cursor:pointer; margin-top:5px; }
 .repeat-check input { accent-color:#fbbf24; }
 
-.filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
+.filter-section { padding:0 16px 10px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.filter-btn { padding:5px 12px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.78rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
 .filter-btn.active { background:#991b1b; border-color:#ef4444; color:white; }
-.search-input { flex:1; min-width:140px; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:6px 12px; border-radius:20px; font-size:0.82rem; outline:none; }
+.search-input { flex:1; min-width:120px; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:5px 12px; border-radius:20px; font-size:0.78rem; outline:none; }
 .search-input:focus { border-color:#ef4444; }
 
-/* ===== 2컬럼 그리드 ===== */
-.board-container { display:grid; grid-template-columns:1fr 1fr; gap:0 12px; padding:0 16px 24px; }
-.board-col-header { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px 10px 0 0; font-size:0.88rem; font-weight:700; margin-bottom:4px; }
+/* ===== 2컬럼 보드 ===== */
+.board-container { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; padding:0 12px 24px; }
+.board-col-header { display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:8px 8px 0 0; font-size:0.82rem; font-weight:700; margin-bottom:3px; }
 .col-todo .board-col-header { background:linear-gradient(135deg,#450a0a,#7f1d1d); color:#fca5a5; border:1px solid #991b1b; border-bottom:none; }
 .col-done .board-col-header { background:linear-gradient(135deg,#052e16,#065f46); color:#6ee7b7; border:1px solid #10b981; border-bottom:none; }
-.col-badge { background:rgba(0,0,0,0.3); padding:2px 8px; border-radius:10px; font-size:0.75rem; }
-
-.cards-col { display:flex; flex-direction:column; gap:6px; }
+.col-badge { background:rgba(0,0,0,0.35); padding:1px 7px; border-radius:10px; font-size:0.72rem; }
+.cards-col { display:flex; flex-direction:column; gap:4px; }
 
 /* ===== 미니 카드 ===== */
 .mini-card {
-  background:#1e1b4b;
-  border:1px solid #2d2b5a;
-  border-radius:8px;
-  padding:10px 12px;
+  background:#1a1838;
+  border:1px solid #252347;
+  border-radius:7px;
+  padding:7px 9px;
   cursor:pointer;
-  transition:all 0.18s;
+  transition:all 0.15s;
   position:relative;
 }
-.mini-card:hover { border-color:#ef4444; transform:translateY(-1px); box-shadow:0 4px 12px rgba(239,68,68,0.15); }
-.col-done .mini-card:hover { border-color:#10b981; box-shadow:0 4px 12px rgba(16,185,129,0.15); }
-.mini-card.alarm-soon { border-color:#fbbf24 !important; box-shadow:0 0 6px #fbbf2430; }
-.mini-card.done-card { border-left:3px solid #10b981; opacity:0.85; }
+.mini-card:hover { border-color:#ef4444; transform:translateY(-1px); box-shadow:0 3px 10px rgba(239,68,68,0.18); }
+.col-done .mini-card:hover { border-color:#10b981; box-shadow:0 3px 10px rgba(16,185,129,0.18); }
+.mini-card.alarm-soon { border-color:#fbbf24 !important; box-shadow:0 0 5px #fbbf2430; }
+.mini-card.done-card { border-left:3px solid #10b981; opacity:0.82; }
 .mini-card.todo-card { border-left:3px solid #ef4444; }
 
-.mini-title { font-size:0.85rem; font-weight:600; color:#e2e8f0; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* 제목 */
+.mini-title {
+  font-size:0.8rem;
+  font-weight:600;
+  color:#e2e8f0;
+  margin-bottom:5px;
+  /* 2줄까지 표시 */
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  line-height:1.35;
+}
 .mini-card.done-card .mini-title { text-decoration:line-through; color:#6b7280; }
 
-.mini-footer { display:flex; align-items:center; justify-content:space-between; gap:4px; flex-wrap:wrap; }
-.mini-tag { display:inline-block; padding:2px 6px; border-radius:8px; font-size:0.66rem; font-weight:600; }
+/* 날짜 행 */
+.mini-date-row {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-bottom:4px;
+  flex-wrap:wrap;
+}
+.mini-due {
+  font-size:0.67rem;
+  color:#93c5fd;
+  background:#0c1a33;
+  padding:1px 6px;
+  border-radius:6px;
+  border:1px solid #1e3a5f;
+}
+.mini-reg {
+  font-size:0.65rem;
+  color:#4b5563;
+}
+
+/* 하단 행 */
+.mini-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:4px;
+  flex-wrap:wrap;
+}
+.mini-tag { display:inline-block; padding:1px 6px; border-radius:6px; font-size:0.63rem; font-weight:600; }
 .todo-tag-color { background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
 .done-tag-color { background:#052e16; color:#6ee7b7; border:1px solid #10b981; }
-.mini-dday { font-size:0.7rem; font-weight:700; }
+
+.mini-dday { font-size:0.68rem; font-weight:700; }
 .dday-hot  { color:#ef4444; }
 .dday-warn { color:#fbbf24; }
 .dday-ok   { color:#6ee7b7; }
-.dday-past { color:#6b7280; }
-.mini-icons { font-size:0.68rem; color:#6b7280; }
+.dday-past { color:#4b5563; }
 
-.empty-col { text-align:center; padding:30px 10px; color:#4b5563; font-size:0.8rem; }
-.empty-col .icon { font-size:2rem; margin-bottom:8px; }
+.mini-icons { font-size:0.65rem; color:#6b7280; }
+
+.empty-col { text-align:center; padding:24px 10px; color:#4b5563; font-size:0.78rem; }
+.empty-col .icon { font-size:1.8rem; margin-bottom:6px; }
 
 /* ===== 상세 모달 ===== */
 .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.78); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.show { display:flex; }
-.modal { background:#1e1b4b; border:1px solid #374151; border-radius:16px; padding:24px; width:92%; max-width:500px; max-height:90vh; overflow-y:auto; }
-.modal-detail-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; gap:10px; }
-.modal-detail-title { font-size:1.05rem; font-weight:700; color:#e2e8f0; flex:1; line-height:1.4; }
-.modal-close-btn { background:none; border:none; color:#6b7280; font-size:1.3rem; cursor:pointer; padding:0 4px; line-height:1; }
+.modal { background:#1e1b4b; border:1px solid #374151; border-radius:16px; padding:22px; width:92%; max-width:480px; max-height:90vh; overflow-y:auto; }
+.modal-detail-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px; gap:10px; }
+.modal-detail-title { font-size:1rem; font-weight:700; color:#e2e8f0; flex:1; line-height:1.45; }
+.modal-close-btn { background:none; border:none; color:#6b7280; font-size:1.2rem; cursor:pointer; padding:0 4px; line-height:1; }
 .modal-close-btn:hover { color:#e2e8f0; }
-.detail-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; font-size:0.85rem; flex-wrap:wrap; }
-.detail-label { color:#6b7280; min-width:70px; font-size:0.78rem; }
+.detail-row { display:flex; gap:8px; align-items:center; margin-bottom:9px; font-size:0.83rem; flex-wrap:wrap; }
+.detail-label { color:#6b7280; min-width:68px; font-size:0.76rem; }
 .detail-value { color:#e2e8f0; font-weight:500; }
-.detail-dday { font-weight:700; font-size:0.9rem; }
-.detail-divider { border:none; border-top:1px solid #2d2b5a; margin:14px 0; }
-.detail-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; margin-top:16px; }
+.detail-dday { font-weight:700; font-size:0.88rem; }
+.detail-divider { border:none; border-top:1px solid #2d2b5a; margin:12px 0; }
+.detail-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; margin-top:14px; }
 .detail-toggle-btn { flex:1; min-width:120px; }
 
 /* ===== 수정 모달 ===== */
 .edit-modal { border-color:#ef4444; }
-.modal h3 { color:#fca5a5; font-size:1rem; margin-bottom:16px; font-weight:700; }
-.modal input, .modal select, .modal textarea {
+.modal h3 { color:#fca5a5; font-size:0.95rem; margin-bottom:14px; font-weight:700; }
+.modal input, .modal select {
   width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0;
-  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px;
+  padding:8px 12px; border-radius:8px; font-size:0.83rem; font-family:inherit; margin-bottom:9px;
 }
 .modal input[type=datetime-local]::-webkit-calendar-picker-indicator { filter:invert(1); }
-.modal input:focus, .modal select:focus, .modal textarea:focus { outline:none; border-color:#ef4444; }
-.modal-alarm { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
-.modal-alarm label { display:flex; align-items:center; gap:5px; font-size:0.82rem; color:#9ca3af; cursor:pointer; }
+.modal input:focus, .modal select:focus { outline:none; border-color:#ef4444; }
+.modal-alarm { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:9px; }
+.modal-alarm label { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#9ca3af; cursor:pointer; }
 .modal-alarm input { accent-color:#ef4444; width:auto; margin-bottom:0; }
-.modal-repeat { display:flex; align-items:center; gap:6px; font-size:0.82rem; color:#fbbf24; margin-bottom:14px; cursor:pointer; }
+.modal-repeat { display:flex; align-items:center; gap:6px; font-size:0.8rem; color:#fbbf24; margin-bottom:12px; cursor:pointer; }
 .modal-repeat input { accent-color:#fbbf24; width:auto; }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
 
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:10px 22px; border-radius:22px; font-size:0.87rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; }
 
-@media(max-width:480px){
-  .board-container { grid-template-columns:1fr 1fr; gap:0 8px; padding:0 8px 24px; }
-  .mini-title { font-size:0.78rem; }
-  .board-col-header { font-size:0.78rem; padding:8px 10px; }
+@media(max-width:400px){
+  .board-container { padding:0 8px 20px; gap:0 6px; }
+  .mini-title { font-size:0.75rem; }
+  .board-col-header { font-size:0.75rem; padding:7px 8px; }
+  .mini-card { padding:6px 7px; }
 }
 </style>
 </head>
@@ -158,7 +200,7 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 
 <div class="header">
   <h1>✅ 할일 목록</h1>
-  <span style="color:#fca5a5;font-size:0.85rem;" id="todoCountLabel">0/0</span>
+  <span style="color:#fca5a5;font-size:0.82rem;" id="todoCountLabel">0/0</span>
 </div>
 
 <div class="progress-section">
@@ -208,14 +250,12 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 
 <!-- 2컬럼 보드 -->
 <div class="board-container">
-  <!-- 미완료 컬럼 -->
   <div class="col-todo">
     <div class="board-col-header">
       ⏳ 할일 <span class="col-badge" id="todoColCount">0</span>
     </div>
     <div class="cards-col" id="todoCol"></div>
   </div>
-  <!-- 완료 컬럼 -->
   <div class="col-done">
     <div class="board-col-header">
       ✅ 한일 <span class="col-badge" id="doneColCount">0</span>
@@ -313,8 +353,8 @@ const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
-let editingId  = null;
-let detailId   = null;
+let editingId = null;
+let detailId  = null;
 
 const CAT_LABELS = {
   work:'💼 업무', ai:'🤖 AI 작업', study:'📚 공부',
@@ -367,10 +407,10 @@ function checkAlarms() {
     const diff     = dueDate - now;
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hh = now.getHours(), mm = now.getMinutes();
-    if (it.alarm7d && diffDays === 7 && hh === 9 && mm === 0) sendNotification('🔔 1주일 후!', `📌 ${it.text}`);
-    if (it.alarm1d && diffDays === 1 && hh === 9 && mm === 0) sendNotification('🔔 내일!',     `📌 ${it.text}`);
-    if (it.alarm0d && diffDays === 0 && hh === 9 && mm === 0) sendNotification('🔔 오늘!',     `📌 ${it.text}`);
-    if (Math.abs(diff) < 60000 && diff > 0)                   sendNotification('⏰ 지금!',     `📌 ${it.text}`);
+    if (it.alarm7d && diffDays===7 && hh===9 && mm===0) sendNotification('🔔 1주일 후!', `📌 ${it.text}`);
+    if (it.alarm1d && diffDays===1 && hh===9 && mm===0) sendNotification('🔔 내일!',     `📌 ${it.text}`);
+    if (it.alarm0d && diffDays===0 && hh===9 && mm===0) sendNotification('🔔 오늘!',     `📌 ${it.text}`);
+    if (Math.abs(diff) < 60000 && diff > 0)             sendNotification('⏰ 지금!',     `📌 ${it.text}`);
   });
 }
 setInterval(checkAlarms, 60000);
@@ -425,21 +465,39 @@ function getDday(due, repeat) {
   let d = new Date(due);
   if (repeat) {
     d = new Date(now.getFullYear(), d.getMonth(), d.getDate());
-    if (d < new Date(now.getFullYear(), now.getMonth(), now.getDate())) d.setFullYear(d.getFullYear() + 1);
+    if (d < new Date(now.getFullYear(), now.getMonth(), now.getDate())) d.setFullYear(d.getFullYear()+1);
   }
-  const diff = Math.ceil((d - now) / (1000 * 60 * 60 * 24));
-  if (diff < 0)  return { label:`D+${Math.abs(diff)}`, cls:'dday-past' };
+  const diff = Math.ceil((d - now) / (1000*60*60*24));
+  if (diff < 0)   return { label:`D+${Math.abs(diff)}`, cls:'dday-past' };
   if (diff === 0) return { label:'D-Day!',              cls:'dday-hot'  };
   if (diff <= 3)  return { label:`D-${diff}`,           cls:'dday-hot'  };
   if (diff <= 7)  return { label:`D-${diff}`,           cls:'dday-warn' };
   return                  { label:`D-${diff}`,           cls:'dday-ok'   };
 }
 
+/* ===== 날짜 포맷 (짧게) ===== */
+function fmtShort(isoStr) {
+  if (!isoStr) return '';
+  const d = new Date(isoStr);
+  const M = d.getMonth()+1, D = d.getDate();
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  // 시간이 00:00이면 날짜만
+  if (hh==='00' && mm==='00') return `${M}/${D}`;
+  return `${M}/${D} ${hh}:${mm}`;
+}
+
+function fmtRegDate(isoStr) {
+  if (!isoStr) return '';
+  const d = new Date(isoStr);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
 /* ===== 렌더링 ===== */
 window.renderTodos = function() {
   const total     = items.length;
   const doneCount = items.filter(i => i.done).length;
-  const pct       = total ? Math.round((doneCount / total) * 100) : 0;
+  const pct       = total ? Math.round((doneCount/total)*100) : 0;
   document.getElementById('progressFill').style.width   = pct + '%';
   document.getElementById('progressPct').textContent    = pct + '%';
   document.getElementById('todoCountLabel').textContent = doneCount + '/' + total;
@@ -463,26 +521,39 @@ window.renderTodos = function() {
 
   function makeCard(it) {
     const dday   = getDday(it.due, it.repeat);
-    const isSoon = it.due && !it.done && (new Date(it.due) - now) < 86400000 * 2;
+    const isSoon = it.due && !it.done && (new Date(it.due) - now) < 86400000*2;
+    const tagCls  = it.done ? 'done-tag-color' : 'todo-tag-color';
+    const cardCls = it.done ? 'done-card' : 'todo-card';
+
+    // 날짜 행: 마감일 있으면 마감일, 없으면 등록일만
+    const duePart = it.due
+      ? `<span class="mini-due">⏰ ${fmtShort(it.due)}</span>`
+      : '';
+    const regPart = `<span class="mini-reg">등록 ${fmtRegDate(it.date)}</span>`;
+
     const ddayHtml = dday
       ? `<span class="mini-dday ${dday.cls}">${dday.label}</span>`
       : '';
-    const icons = [
-      it.alarm7d || it.alarm1d || it.alarm0d ? '🔔' : '',
-      it.repeat ? '🔁' : ''
-    ].filter(Boolean).join(' ');
 
-    const tagCls = it.done ? 'done-tag-color' : 'todo-tag-color';
-    const cardCls = it.done ? 'done-card' : 'todo-card';
+    const icons = [
+      (it.alarm7d||it.alarm1d||it.alarm0d) ? '🔔' : '',
+      it.repeat ? '🔁' : ''
+    ].filter(Boolean).join('');
 
     return `
-    <div class="mini-card ${cardCls}${isSoon ? ' alarm-soon' : ''}"
+    <div class="mini-card ${cardCls}${isSoon?' alarm-soon':''}"
          onclick="openDetailModal('${it.id}')">
       <div class="mini-title">${escapeHtml(it.text)}</div>
+      <div class="mini-date-row">
+        ${duePart}
+        ${regPart}
+      </div>
       <div class="mini-footer">
-        <span class="mini-tag ${tagCls}">${CAT_LABELS[it.cat] || it.cat}</span>
-        ${ddayHtml}
-        ${icons ? `<span class="mini-icons">${icons}</span>` : ''}
+        <span class="mini-tag ${tagCls}">${CAT_LABELS[it.cat]||it.cat}</span>
+        <span style="display:flex;gap:4px;align-items:center;">
+          ${ddayHtml}
+          ${icons ? `<span class="mini-icons">${icons}</span>` : ''}
+        </span>
       </div>
     </div>`;
   }
@@ -513,7 +584,6 @@ window.openDetailModal = function(id) {
     ? '<span style="color:#10b981;font-weight:700;">✅ 완료</span>'
     : '<span style="color:#ef4444;font-weight:700;">⏳ 미완료</span>';
 
-  // 마감일
   const dueRow = document.getElementById('detailDueRow');
   if (it.due) {
     dueRow.style.display = 'flex';
@@ -526,7 +596,6 @@ window.openDetailModal = function(id) {
     dueRow.style.display = 'none';
   }
 
-  // 알림
   const alarms = [
     it.alarm7d ? '1주일 전' : '',
     it.alarm1d ? '하루 전'  : '',
@@ -540,10 +609,8 @@ window.openDetailModal = function(id) {
     alarmRow.style.display = 'none';
   }
 
-  // 반복
   document.getElementById('detailRepeatRow').style.display = it.repeat ? 'flex' : 'none';
 
-  // 토글 버튼
   const btn = document.getElementById('detailToggleBtn');
   if (it.done) { btn.textContent = '↩️ 미완료로 변경'; btn.className = 'btn btn-cancel detail-toggle-btn'; }
   else         { btn.textContent = '✅ 완료로 표시';   btn.className = 'btn btn-success detail-toggle-btn'; }
@@ -556,7 +623,6 @@ window.closeDetailModal = function() {
   document.getElementById('detailModal').classList.remove('show');
 };
 
-/* 상세 모달 → 완료 토글 */
 window.toggleFromDetail = async function() {
   const it = items.find(x => x.id === detailId);
   if (!it) return;
@@ -568,13 +634,12 @@ window.toggleFromDetail = async function() {
   } catch(e) { showToast('❌ 오류'); }
 };
 
-/* 상세 모달 → 수정 */
 window.openEditFromDetail = function() {
+  const id = detailId;
   closeDetailModal();
-  openEditModal(detailId || editingId);
+  openEditModal(id);
 };
 
-/* 상세 모달 → 삭제 */
 window.deleteFromDetail = async function() {
   if (!confirm('삭제하시겠습니까?')) return;
   const id = detailId;
@@ -586,7 +651,6 @@ window.deleteFromDetail = async function() {
   } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
-/* ===== 완료 토글 (직접) ===== */
 window.toggleDone = async function(id, done) {
   try {
     await updateDoc(doc(db,'todos',id), { done:!done });
@@ -595,7 +659,7 @@ window.toggleDone = async function(id, done) {
   } catch(e) { showToast('❌ 오류'); }
 };
 
-/* ===== 수정 모달 열기 ===== */
+/* ===== 수정 모달 ===== */
 window.openEditModal = function(id) {
   const it = items.find(x => x.id === id);
   if (!it) return;
@@ -616,7 +680,6 @@ window.closeEditModal = function() {
   document.getElementById('editModal').classList.remove('show');
 };
 
-/* ===== 수정 저장 ===== */
 window.saveEdit = async function() {
   if (!editingId) return;
   const text    = document.getElementById('editText').value.trim();
@@ -629,7 +692,7 @@ window.saveEdit = async function() {
   if (!text) { showToast('⚠️ 내용을 입력하세요'); return; }
   try {
     await updateDoc(doc(db,'todos',editingId), {
-      text, cat, due: due || null, alarm7d, alarm1d, alarm0d, repeat
+      text, cat, due: due||null, alarm7d, alarm1d, alarm0d, repeat
     });
     closeEditModal();
     await loadTodos();
@@ -637,7 +700,6 @@ window.saveEdit = async function() {
   } catch(e) { showToast('❌ 수정 실패: ' + e.message); }
 };
 
-/* ===== 삭제 ===== */
 window.deleteTodo = async function(id) {
   if (!confirm('삭제하시겠습니까?')) return;
   try {
@@ -657,7 +719,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-/* 모달 외부 클릭 닫기 */
 document.getElementById('editModal').addEventListener('click', function(e) {
   if (e.target === this) closeEditModal();
 });
