@@ -14,15 +14,18 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .nav-gen    { background:#1a1a2e; border:1px solid #ec4899; color:#f9a8d4; }
 .nav-links  { background:#1a1a2e; border:1px solid #3b82f6; color:#93c5fd; }
 .nav-ideas  { background:#1a1a2e; border:1px solid #fbbf24; color:#fbbf24; }
-.nav-todos  { background:#1a1a2e; border:1px solid #ef4444; color:#fca5a5; }
+.nav-todos  { background:#3b0d0d; border:1px solid #ef4444; color:#fca5a5; }
 .nav-memo   { background:#1a1a2e; border:1px solid #10b981; color:#6ee7b7; }
 .navbar a:hover { opacity:0.8; transform:translateY(-1px); }
+
 .header { background:linear-gradient(135deg,#450a0a,#991b1b); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
 .header h1 { font-size:1.3rem; font-weight:700; color:#fca5a5; }
+
 .progress-section { margin:16px; background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; }
 .progress-label { display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem; color:#9ca3af; }
 .progress-bar { background:#12122a; border-radius:10px; height:10px; overflow:hidden; }
 .progress-fill { height:100%; background:linear-gradient(90deg,#ef4444,#10b981); border-radius:10px; transition:width 0.5s; }
+
 .form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:16px; margin:0 16px 16px; }
 .form-card h3 { font-size:0.95rem; color:#fca5a5; margin-bottom:12px; font-weight:700; }
 .form-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
@@ -37,6 +40,8 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .btn { padding:9px 18px; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
 .btn-primary { background:linear-gradient(135deg,#991b1b,#ef4444); color:white; }
 .btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-success { background:linear-gradient(135deg,#065f46,#10b981); color:white; }
+.btn-success:hover { opacity:0.9; }
 .btn-cancel { background:#374151; color:#e2e8f0; }
 .btn-notify { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; width:100%; margin-top:8px; }
 .btn-notify:hover { opacity:0.9; }
@@ -48,48 +53,95 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .alarm-check input { accent-color:#ef4444; }
 .repeat-check { display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#fbbf24; cursor:pointer; margin-top:6px; }
 .repeat-check input { accent-color:#fbbf24; }
-.filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; }
+
+.filter-section { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #374151; background:#1e1b4b; color:#9ca3af; font-size:0.8rem; cursor:pointer; transition:all 0.2s; font-weight:600; }
 .filter-btn.active { background:#991b1b; border-color:#ef4444; color:white; }
-.todos-list { padding:0 16px 24px; display:flex; flex-direction:column; gap:8px; }
-.todo-item { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:12px 14px; display:flex; align-items:flex-start; gap:10px; transition:all 0.2s; }
-.todo-item:hover { border-color:#ef4444; }
-.todo-item.done { opacity:0.6; }
-.todo-item.alarm-soon { border-color:#fbbf24!important; box-shadow:0 0 8px #fbbf2440; }
-.todo-checkbox { width:20px; height:20px; border-radius:50%; border:2px solid #ef4444; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; margin-top:2px; }
-.todo-checkbox.checked { background:#10b981; border-color:#10b981; }
-.todo-content { flex:1; min-width:0; }
-.todo-title { font-size:0.9rem; font-weight:600; color:#e2e8f0; margin-bottom:4px; }
-.todo-item.done .todo-title { text-decoration:line-through; color:#6b7280; }
-.todo-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.todo-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
-.todo-date { color:#6b7280; font-size:0.72rem; }
-.todo-alarm { color:#fbbf24; font-size:0.72rem; display:flex; align-items:center; gap:3px; }
-.todo-repeat { color:#a78bfa; font-size:0.7rem; }
-.todo-actions { display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
-.todo-edit { background:none; border:1px solid #3b82f6; color:#93c5fd; cursor:pointer; font-size:0.72rem; padding:4px 8px; border-radius:6px; transition:all 0.2s; font-weight:600; }
-.todo-edit:hover { background:#1e3a5f; }
-.todo-del { background:none; border:none; color:#6b7280; cursor:pointer; font-size:1rem; padding:4px; border-radius:4px; transition:color 0.2s; }
-.todo-del:hover { color:#ef4444; }
-.empty-state { text-align:center; padding:60px 20px; color:#6b7280; }
-.empty-state .icon { font-size:3rem; margin-bottom:12px; }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
-.toast.show { opacity:1; }
+.search-input { flex:1; min-width:140px; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:6px 12px; border-radius:20px; font-size:0.82rem; outline:none; }
+.search-input:focus { border-color:#ef4444; }
 
-/* 수정 모달 */
-.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; }
+/* ===== 2컬럼 그리드 ===== */
+.board-container { display:grid; grid-template-columns:1fr 1fr; gap:0 12px; padding:0 16px 24px; }
+.board-col-header { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px 10px 0 0; font-size:0.88rem; font-weight:700; margin-bottom:4px; }
+.col-todo .board-col-header { background:linear-gradient(135deg,#450a0a,#7f1d1d); color:#fca5a5; border:1px solid #991b1b; border-bottom:none; }
+.col-done .board-col-header { background:linear-gradient(135deg,#052e16,#065f46); color:#6ee7b7; border:1px solid #10b981; border-bottom:none; }
+.col-badge { background:rgba(0,0,0,0.3); padding:2px 8px; border-radius:10px; font-size:0.75rem; }
+
+.cards-col { display:flex; flex-direction:column; gap:6px; }
+
+/* ===== 미니 카드 ===== */
+.mini-card {
+  background:#1e1b4b;
+  border:1px solid #2d2b5a;
+  border-radius:8px;
+  padding:10px 12px;
+  cursor:pointer;
+  transition:all 0.18s;
+  position:relative;
+}
+.mini-card:hover { border-color:#ef4444; transform:translateY(-1px); box-shadow:0 4px 12px rgba(239,68,68,0.15); }
+.col-done .mini-card:hover { border-color:#10b981; box-shadow:0 4px 12px rgba(16,185,129,0.15); }
+.mini-card.alarm-soon { border-color:#fbbf24 !important; box-shadow:0 0 6px #fbbf2430; }
+.mini-card.done-card { border-left:3px solid #10b981; opacity:0.85; }
+.mini-card.todo-card { border-left:3px solid #ef4444; }
+
+.mini-title { font-size:0.85rem; font-weight:600; color:#e2e8f0; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mini-card.done-card .mini-title { text-decoration:line-through; color:#6b7280; }
+
+.mini-footer { display:flex; align-items:center; justify-content:space-between; gap:4px; flex-wrap:wrap; }
+.mini-tag { display:inline-block; padding:2px 6px; border-radius:8px; font-size:0.66rem; font-weight:600; }
+.todo-tag-color { background:#450a0a; color:#fca5a5; border:1px solid #991b1b; }
+.done-tag-color { background:#052e16; color:#6ee7b7; border:1px solid #10b981; }
+.mini-dday { font-size:0.7rem; font-weight:700; }
+.dday-hot  { color:#ef4444; }
+.dday-warn { color:#fbbf24; }
+.dday-ok   { color:#6ee7b7; }
+.dday-past { color:#6b7280; }
+.mini-icons { font-size:0.68rem; color:#6b7280; }
+
+.empty-col { text-align:center; padding:30px 10px; color:#4b5563; font-size:0.8rem; }
+.empty-col .icon { font-size:2rem; margin-bottom:8px; }
+
+/* ===== 상세 모달 ===== */
+.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.78); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.show { display:flex; }
-.modal { background:#1e1b4b; border:1px solid #ef4444; border-radius:16px; padding:24px; width:90%; max-width:520px; max-height:90vh; overflow-y:auto; }
+.modal { background:#1e1b4b; border:1px solid #374151; border-radius:16px; padding:24px; width:92%; max-width:500px; max-height:90vh; overflow-y:auto; }
+.modal-detail-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; gap:10px; }
+.modal-detail-title { font-size:1.05rem; font-weight:700; color:#e2e8f0; flex:1; line-height:1.4; }
+.modal-close-btn { background:none; border:none; color:#6b7280; font-size:1.3rem; cursor:pointer; padding:0 4px; line-height:1; }
+.modal-close-btn:hover { color:#e2e8f0; }
+.detail-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; font-size:0.85rem; flex-wrap:wrap; }
+.detail-label { color:#6b7280; min-width:70px; font-size:0.78rem; }
+.detail-value { color:#e2e8f0; font-weight:500; }
+.detail-dday { font-weight:700; font-size:0.9rem; }
+.detail-divider { border:none; border-top:1px solid #2d2b5a; margin:14px 0; }
+.detail-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; margin-top:16px; }
+.detail-toggle-btn { flex:1; min-width:120px; }
+
+/* ===== 수정 모달 ===== */
+.edit-modal { border-color:#ef4444; }
 .modal h3 { color:#fca5a5; font-size:1rem; margin-bottom:16px; font-weight:700; }
-.modal input, .modal select { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px; }
+.modal input, .modal select, .modal textarea {
+  width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0;
+  padding:9px 12px; border-radius:8px; font-size:0.85rem; font-family:inherit; margin-bottom:10px;
+}
 .modal input[type=datetime-local]::-webkit-calendar-picker-indicator { filter:invert(1); }
-.modal input:focus, .modal select:focus { outline:none; border-color:#ef4444; }
+.modal input:focus, .modal select:focus, .modal textarea:focus { outline:none; border-color:#ef4444; }
 .modal-alarm { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
 .modal-alarm label { display:flex; align-items:center; gap:5px; font-size:0.82rem; color:#9ca3af; cursor:pointer; }
 .modal-alarm input { accent-color:#ef4444; width:auto; margin-bottom:0; }
 .modal-repeat { display:flex; align-items:center; gap:6px; font-size:0.82rem; color:#fbbf24; margin-bottom:14px; cursor:pointer; }
 .modal-repeat input { accent-color:#fbbf24; width:auto; }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#991b1b; color:white; padding:12px 24px; border-radius:24px; font-size:0.9rem; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast.show { opacity:1; }
+
+@media(max-width:480px){
+  .board-container { grid-template-columns:1fr 1fr; gap:0 8px; padding:0 8px 24px; }
+  .mini-title { font-size:0.78rem; }
+  .board-col-header { font-size:0.78rem; padding:8px 10px; }
+}
 </style>
 </head>
 <body>
@@ -133,7 +185,7 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
     </select>
   </div>
   <div class="form-row">
-    <input type="datetime-local" id="todoDue" placeholder="날짜/시간">
+    <input type="datetime-local" id="todoDue">
     <button class="btn btn-primary" onclick="addTodo()">➕ 추가</button>
   </div>
   <div class="alarm-options">
@@ -150,14 +202,73 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
   <button class="filter-btn" onclick="setFilter('todo',this)">⏳ 미완료</button>
   <button class="filter-btn" onclick="setFilter('done',this)">✅ 완료</button>
-  <button class="filter-btn" onclick="setFilter('alarm',this)">🔔 알림있는것</button>
+  <button class="filter-btn" onclick="setFilter('alarm',this)">🔔 알림</button>
+  <input class="search-input" id="searchInput" placeholder="🔍 검색..." oninput="renderTodos()">
 </div>
 
-<div class="todos-list" id="todosList"></div>
+<!-- 2컬럼 보드 -->
+<div class="board-container">
+  <!-- 미완료 컬럼 -->
+  <div class="col-todo">
+    <div class="board-col-header">
+      ⏳ 할일 <span class="col-badge" id="todoColCount">0</span>
+    </div>
+    <div class="cards-col" id="todoCol"></div>
+  </div>
+  <!-- 완료 컬럼 -->
+  <div class="col-done">
+    <div class="board-col-header">
+      ✅ 한일 <span class="col-badge" id="doneColCount">0</span>
+    </div>
+    <div class="cards-col" id="doneCol"></div>
+  </div>
+</div>
+
+<!-- 상세 보기 모달 -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-detail-header">
+      <div class="modal-detail-title" id="detailTitle"></div>
+      <button class="modal-close-btn" onclick="closeDetailModal()">✕</button>
+    </div>
+    <hr class="detail-divider">
+    <div class="detail-row">
+      <span class="detail-label">카테고리</span>
+      <span class="detail-value" id="detailCat"></span>
+    </div>
+    <div class="detail-row" id="detailDueRow">
+      <span class="detail-label">마감일</span>
+      <span class="detail-value" id="detailDue"></span>
+      <span class="detail-dday" id="detailDday"></span>
+    </div>
+    <div class="detail-row" id="detailAlarmRow">
+      <span class="detail-label">알림</span>
+      <span class="detail-value" id="detailAlarm"></span>
+    </div>
+    <div class="detail-row" id="detailRepeatRow">
+      <span class="detail-label">반복</span>
+      <span class="detail-value" style="color:#a78bfa;">🔁 매년 반복</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">등록일</span>
+      <span class="detail-value" id="detailDate"></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">상태</span>
+      <span class="detail-value" id="detailStatus"></span>
+    </div>
+    <hr class="detail-divider">
+    <div class="detail-actions">
+      <button class="btn btn-success detail-toggle-btn" id="detailToggleBtn" onclick="toggleFromDetail()"></button>
+      <button class="btn btn-cancel" onclick="openEditFromDetail()">✏️ 수정</button>
+      <button class="btn btn-primary" onclick="deleteFromDetail()">🗑️ 삭제</button>
+    </div>
+  </div>
+</div>
 
 <!-- 수정 모달 -->
 <div class="modal-overlay" id="editModal">
-  <div class="modal">
+  <div class="modal edit-modal">
     <h3>✏️ 할일 수정</h3>
     <input type="text" id="editText" placeholder="할일 내용">
     <select id="editCategory">
@@ -199,10 +310,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db  = getFirestore(app);
 let items = [];
 let currentFilter = 'all';
-let editingId = null;
+let editingId  = null;
+let detailId   = null;
 
 const CAT_LABELS = {
   work:'💼 업무', ai:'🤖 AI 작업', study:'📚 공부',
@@ -214,8 +326,7 @@ window.requestNotify = async function() {
   if (!('Notification' in window)) { showToast('❌ 이 브라우저는 알림 미지원'); return; }
   const perm = await Notification.requestPermission();
   updateNotifyStatus();
-  if (perm === 'granted') showToast('✅ 알림 허용됨!');
-  else showToast('❌ 알림 거부됨');
+  showToast(perm === 'granted' ? '✅ 알림 허용됨!' : '❌ 알림 거부됨');
 };
 
 function updateNotifyStatus() {
@@ -244,7 +355,7 @@ function sendNotification(title, body) {
 
 function checkAlarms() {
   if (Notification.permission !== 'granted') return;
-  const now = new Date();
+  const now   = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   items.forEach(it => {
     if (it.done || !it.due) return;
@@ -253,13 +364,13 @@ function checkAlarms() {
       dueDate = new Date(now.getFullYear(), dueDate.getMonth(), dueDate.getDate(), 9, 0, 0);
       if (dueDate < today) dueDate.setFullYear(dueDate.getFullYear() + 1);
     }
-    const diff = dueDate - now;
+    const diff     = dueDate - now;
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hh = now.getHours(), mm = now.getMinutes();
-    if (it.alarm7d && diffDays === 7 && hh === 9 && mm === 0) sendNotification('🔔 1주일 후 일정!', `📌 ${it.text} — 7일 후`);
-    if (it.alarm1d && diffDays === 1 && hh === 9 && mm === 0) sendNotification('🔔 내일 일정!', `📌 ${it.text} — 내일`);
-    if (it.alarm0d && diffDays === 0 && hh === 9 && mm === 0) sendNotification('🔔 오늘 일정!', `📌 ${it.text} — 오늘`);
-    if (Math.abs(diff) < 60000 && diff > 0) sendNotification('⏰ 지금 일정!', `📌 ${it.text}`);
+    if (it.alarm7d && diffDays === 7 && hh === 9 && mm === 0) sendNotification('🔔 1주일 후!', `📌 ${it.text}`);
+    if (it.alarm1d && diffDays === 1 && hh === 9 && mm === 0) sendNotification('🔔 내일!',     `📌 ${it.text}`);
+    if (it.alarm0d && diffDays === 0 && hh === 9 && mm === 0) sendNotification('🔔 오늘!',     `📌 ${it.text}`);
+    if (Math.abs(diff) < 60000 && diff > 0)                   sendNotification('⏰ 지금!',     `📌 ${it.text}`);
   });
 }
 setInterval(checkAlarms, 60000);
@@ -268,7 +379,7 @@ checkAlarms();
 /* ===== 데이터 로드 ===== */
 async function loadTodos() {
   try {
-    const q = query(collection(db,'todos'), orderBy('date','desc'));
+    const q    = query(collection(db,'todos'), orderBy('date','desc'));
     const snap = await getDocs(q);
     items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
     renderTodos();
@@ -307,7 +418,7 @@ window.setFilter = function(f, btn) {
   renderTodos();
 };
 
-/* ===== D-day ===== */
+/* ===== D-day 계산 ===== */
 function getDday(due, repeat) {
   if (!due) return null;
   const now = new Date();
@@ -317,67 +428,165 @@ function getDday(due, repeat) {
     if (d < new Date(now.getFullYear(), now.getMonth(), now.getDate())) d.setFullYear(d.getFullYear() + 1);
   }
   const diff = Math.ceil((d - now) / (1000 * 60 * 60 * 24));
-  if (diff < 0) return `D+${Math.abs(diff)}`;
-  if (diff === 0) return 'D-Day!';
-  return `D-${diff}`;
+  if (diff < 0)  return { label:`D+${Math.abs(diff)}`, cls:'dday-past' };
+  if (diff === 0) return { label:'D-Day!',              cls:'dday-hot'  };
+  if (diff <= 3)  return { label:`D-${diff}`,           cls:'dday-hot'  };
+  if (diff <= 7)  return { label:`D-${diff}`,           cls:'dday-warn' };
+  return                  { label:`D-${diff}`,           cls:'dday-ok'   };
 }
 
 /* ===== 렌더링 ===== */
 window.renderTodos = function() {
   const total     = items.length;
   const doneCount = items.filter(i => i.done).length;
-  const pct       = total ? Math.round((doneCount/total)*100) : 0;
-  document.getElementById('progressFill').style.width  = pct + '%';
-  document.getElementById('progressPct').textContent   = pct + '%';
+  const pct       = total ? Math.round((doneCount / total) * 100) : 0;
+  document.getElementById('progressFill').style.width   = pct + '%';
+  document.getElementById('progressPct').textContent    = pct + '%';
   document.getElementById('todoCountLabel').textContent = doneCount + '/' + total;
+
+  const searchQ = (document.getElementById('searchInput')?.value || '').toLowerCase();
 
   let filtered = items.filter(it => {
     if (currentFilter === 'todo')  return !it.done;
     if (currentFilter === 'done')  return it.done;
     if (currentFilter === 'alarm') return it.due;
     return true;
-  });
+  }).filter(it => !searchQ || it.text.toLowerCase().includes(searchQ));
 
-  const list = document.getElementById('todosList');
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>할일이 없어요!</p></div>';
-    return;
-  }
+  const todoItems = filtered.filter(it => !it.done);
+  const doneItems = filtered.filter(it =>  it.done);
+
+  document.getElementById('todoColCount').textContent = todoItems.length;
+  document.getElementById('doneColCount').textContent = doneItems.length;
 
   const now = new Date();
-  list.innerHTML = filtered.map(it => {
+
+  function makeCard(it) {
     const dday   = getDday(it.due, it.repeat);
     const isSoon = it.due && !it.done && (new Date(it.due) - now) < 86400000 * 2;
-    const alarmIcons = [
-      it.alarm7d ? '🔔1주전' : '',
-      it.alarm1d ? '🔔하루전' : '',
-      it.alarm0d ? '🔔당일' : ''
+    const ddayHtml = dday
+      ? `<span class="mini-dday ${dday.cls}">${dday.label}</span>`
+      : '';
+    const icons = [
+      it.alarm7d || it.alarm1d || it.alarm0d ? '🔔' : '',
+      it.repeat ? '🔁' : ''
     ].filter(Boolean).join(' ');
 
+    const tagCls = it.done ? 'done-tag-color' : 'todo-tag-color';
+    const cardCls = it.done ? 'done-card' : 'todo-card';
+
     return `
-    <div class="todo-item${it.done?' done':''}${isSoon?' alarm-soon':''}" data-id="${it.id}">
-      <div class="todo-checkbox${it.done?' checked':''}" onclick="toggleDone('${it.id}',${it.done})">
-        ${it.done ? '✓' : ''}
-      </div>
-      <div class="todo-content">
-        <div class="todo-title">${escapeHtml(it.text)}</div>
-        <div class="todo-meta">
-          <span class="todo-tag">${CAT_LABELS[it.cat]||it.cat}</span>
-          <span class="todo-date">${it.date ? new Date(it.date).toLocaleDateString('ko') : ''}</span>
-          ${it.due ? `<span class="todo-alarm">⏰ ${new Date(it.due).toLocaleString('ko',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})} <strong>${dday||''}</strong></span>` : ''}
-          ${it.repeat ? `<span class="todo-repeat">🔁 매년반복</span>` : ''}
-          ${alarmIcons ? `<span style="font-size:0.68rem;color:#9ca3af">${alarmIcons}</span>` : ''}
-        </div>
-      </div>
-      <div class="todo-actions">
-        <button class="todo-edit" onclick="openEditModal('${it.id}')">✏️ 수정</button>
-        <button class="todo-del"  onclick="deleteTodo('${it.id}')">🗑️</button>
+    <div class="mini-card ${cardCls}${isSoon ? ' alarm-soon' : ''}"
+         onclick="openDetailModal('${it.id}')">
+      <div class="mini-title">${escapeHtml(it.text)}</div>
+      <div class="mini-footer">
+        <span class="mini-tag ${tagCls}">${CAT_LABELS[it.cat] || it.cat}</span>
+        ${ddayHtml}
+        ${icons ? `<span class="mini-icons">${icons}</span>` : ''}
       </div>
     </div>`;
-  }).join('');
+  }
+
+  const todoCol = document.getElementById('todoCol');
+  const doneCol = document.getElementById('doneCol');
+
+  todoCol.innerHTML = todoItems.length
+    ? todoItems.map(makeCard).join('')
+    : '<div class="empty-col"><div class="icon">🎉</div>할일 없음!</div>';
+
+  doneCol.innerHTML = doneItems.length
+    ? doneItems.map(makeCard).join('')
+    : '<div class="empty-col"><div class="icon">📭</div>완료 없음</div>';
 };
 
-/* ===== 완료 토글 ===== */
+/* ===== 상세 모달 열기 ===== */
+window.openDetailModal = function(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+  detailId = id;
+
+  document.getElementById('detailTitle').textContent = it.text;
+  document.getElementById('detailCat').textContent   = CAT_LABELS[it.cat] || it.cat;
+  document.getElementById('detailDate').textContent  = it.date
+    ? new Date(it.date).toLocaleString('ko') : '-';
+  document.getElementById('detailStatus').innerHTML  = it.done
+    ? '<span style="color:#10b981;font-weight:700;">✅ 완료</span>'
+    : '<span style="color:#ef4444;font-weight:700;">⏳ 미완료</span>';
+
+  // 마감일
+  const dueRow = document.getElementById('detailDueRow');
+  if (it.due) {
+    dueRow.style.display = 'flex';
+    document.getElementById('detailDue').textContent = new Date(it.due).toLocaleString('ko');
+    const dday = getDday(it.due, it.repeat);
+    const ddayEl = document.getElementById('detailDday');
+    if (dday) { ddayEl.textContent = dday.label; ddayEl.className = 'detail-dday ' + dday.cls; }
+    else       { ddayEl.textContent = ''; }
+  } else {
+    dueRow.style.display = 'none';
+  }
+
+  // 알림
+  const alarms = [
+    it.alarm7d ? '1주일 전' : '',
+    it.alarm1d ? '하루 전'  : '',
+    it.alarm0d ? '당일 9시' : ''
+  ].filter(Boolean);
+  const alarmRow = document.getElementById('detailAlarmRow');
+  if (alarms.length) {
+    alarmRow.style.display = 'flex';
+    document.getElementById('detailAlarm').textContent = '🔔 ' + alarms.join(', ');
+  } else {
+    alarmRow.style.display = 'none';
+  }
+
+  // 반복
+  document.getElementById('detailRepeatRow').style.display = it.repeat ? 'flex' : 'none';
+
+  // 토글 버튼
+  const btn = document.getElementById('detailToggleBtn');
+  if (it.done) { btn.textContent = '↩️ 미완료로 변경'; btn.className = 'btn btn-cancel detail-toggle-btn'; }
+  else         { btn.textContent = '✅ 완료로 표시';   btn.className = 'btn btn-success detail-toggle-btn'; }
+
+  document.getElementById('detailModal').classList.add('show');
+};
+
+window.closeDetailModal = function() {
+  detailId = null;
+  document.getElementById('detailModal').classList.remove('show');
+};
+
+/* 상세 모달 → 완료 토글 */
+window.toggleFromDetail = async function() {
+  const it = items.find(x => x.id === detailId);
+  if (!it) return;
+  try {
+    await updateDoc(doc(db,'todos',detailId), { done:!it.done });
+    closeDetailModal();
+    await loadTodos();
+    showToast(it.done ? '⏳ 미완료로 변경' : '✅ 완료!');
+  } catch(e) { showToast('❌ 오류'); }
+};
+
+/* 상세 모달 → 수정 */
+window.openEditFromDetail = function() {
+  closeDetailModal();
+  openEditModal(detailId || editingId);
+};
+
+/* 상세 모달 → 삭제 */
+window.deleteFromDetail = async function() {
+  if (!confirm('삭제하시겠습니까?')) return;
+  const id = detailId;
+  closeDetailModal();
+  try {
+    await deleteDoc(doc(db,'todos',id));
+    await loadTodos();
+    showToast('🗑️ 삭제됨!');
+  } catch(e) { showToast('❌ 삭제 실패'); }
+};
+
+/* ===== 완료 토글 (직접) ===== */
 window.toggleDone = async function(id, done) {
   try {
     await updateDoc(doc(db,'todos',id), { done:!done });
@@ -420,9 +629,7 @@ window.saveEdit = async function() {
   if (!text) { showToast('⚠️ 내용을 입력하세요'); return; }
   try {
     await updateDoc(doc(db,'todos',editingId), {
-      text, cat,
-      due: due || null,
-      alarm7d, alarm1d, alarm0d, repeat
+      text, cat, due: due || null, alarm7d, alarm1d, alarm0d, repeat
     });
     closeEditModal();
     await loadTodos();
@@ -440,18 +647,22 @@ window.deleteTodo = async function(id) {
   } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
+/* ===== 유틸 ===== */
 function escapeHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+/* 모달 외부 클릭 닫기 */
 document.getElementById('editModal').addEventListener('click', function(e) {
   if (e.target === this) closeEditModal();
+});
+document.getElementById('detailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDetailModal();
 });
 
 loadTodos();
