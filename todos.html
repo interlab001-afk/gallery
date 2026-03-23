@@ -44,6 +44,39 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 .ctx-preview { background:#0a0a1a; border:1px solid #1e3a5f; border-radius:8px; padding:10px 12px; font-size:0.75rem; color:#93c5fd; white-space:pre-wrap; line-height:1.6; max-height:200px; overflow-y:auto; margin-top:8px; }
 .ctx-status { font-size:0.72rem; color:#4ade80; text-align:center; margin-top:6px; height:16px; }
 
+/* 🧠 기억 탭 */
+.mem-container { padding:14px 16px; }
+.mem-form-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:12px; padding:14px; margin-bottom:14px; }
+.mem-form-card h3 { font-size:0.9rem; color:#c4b5fd; margin-bottom:10px; font-weight:700; }
+.mem-date-display { background:#12122a; border:1px solid #4c1d95; color:#a78bfa; padding:7px 10px; border-radius:7px; font-size:0.78rem; margin-bottom:8px; }
+.mem-form-card textarea { width:100%; background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:8px 10px; border-radius:7px; font-size:0.8rem; font-family:inherit; min-height:120px; resize:vertical; margin-bottom:8px; }
+.mem-form-card textarea:focus { outline:none; border-color:#7c3aed; }
+.mem-save-btn { width:100%; padding:9px; background:linear-gradient(135deg,#4c1d95,#7c3aed); color:white; border:none; border-radius:8px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.mem-save-btn:hover { opacity:0.9; }
+.mem-copy-section { background:#1e1b4b; border:1px solid #4c1d95; border-radius:12px; padding:14px; margin-bottom:14px; }
+.mem-copy-section h3 { font-size:0.88rem; color:#a78bfa; margin-bottom:10px; font-weight:700; }
+.mem-date-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+.mem-date-row label { font-size:0.75rem; color:#6b7280; min-width:28px; }
+.mem-date-row input[type=date] { background:#12122a; border:1px solid #374151; color:#e2e8f0; padding:6px 10px; border-radius:7px; font-size:0.78rem; flex:1; min-width:120px; }
+.mem-date-row input[type=date]:focus { outline:none; border-color:#7c3aed; }
+.mem-date-row input[type=date]::-webkit-calendar-picker-indicator { filter:invert(1); }
+.mem-copy-btns { display:flex; gap:8px; margin-bottom:8px; }
+.mem-copy-btns button { flex:1; padding:8px; border:none; border-radius:7px; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-mem-range { background:linear-gradient(135deg,#1e3a5f,#3b82f6); color:white; }
+.btn-mem-all   { background:linear-gradient(135deg,#4c1d95,#7c3aed); color:white; }
+.mem-preview { background:#0a0a1a; border:1px solid #2d1b69; border-radius:7px; padding:8px 10px; font-size:0.72rem; color:#a78bfa; white-space:pre-wrap; line-height:1.6; max-height:120px; overflow-y:auto; }
+.mem-list { display:flex; flex-direction:column; gap:8px; }
+.mem-card { background:#1e1b4b; border:1px solid #2d2b5a; border-radius:10px; padding:12px 14px; }
+.mem-card:hover { border-color:#7c3aed; }
+.mem-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; flex-wrap:wrap; gap:4px; }
+.mem-card-date { font-size:0.75rem; font-weight:700; color:#a78bfa; background:#1a0a2e; padding:2px 8px; border-radius:6px; border:1px solid #4c1d95; }
+.mem-card-btns { display:flex; gap:4px; }
+.mem-card-btns button { padding:3px 8px; border:none; border-radius:5px; font-size:0.7rem; cursor:pointer; font-weight:600; }
+.btn-mc-copy { background:#1e3a5f; color:#93c5fd; }
+.btn-mc-del  { background:#7f1d1d; color:#fca5a5; }
+.mem-card-body { font-size:0.8rem; color:#d1d5db; line-height:1.7; white-space:pre-wrap; }
+.mem-empty { text-align:center; padding:40px 20px; color:#4b5563; font-size:0.82rem; }
+
 .header { background:linear-gradient(135deg,#450a0a,#991b1b); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 .header h1 { font-size:1.2rem; font-weight:700; color:#fca5a5; }
 .count-banner { display:flex; align-items:stretch; margin:12px 16px; background:#12122a; border:1px solid #2d2b5a; border-radius:12px; overflow:hidden; }
@@ -178,13 +211,13 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
 
 <!-- 탭 바 -->
 <div class="tab-bar">
-  <button class="tab-btn active-tab" onclick="switchTab('todo')">✅ 할일</button>
-  <button class="tab-btn" onclick="switchTab('ai')">🤖 AI 컨텍스트</button>
+  <button class="tab-btn active-tab" onclick="switchTab('todo',this)">✅ 할일</button>
+  <button class="tab-btn" onclick="switchTab('ai',this)">🤖 AI 컨텍스트</button>
+  <button class="tab-btn" onclick="switchTab('memory',this)">🧠 기억</button>
 </div>
 
 <!-- 할일 탭 -->
 <div class="tab-content show" id="tab-todo">
-
 <div class="count-banner">
   <div class="count-side todo-side">
     <span class="count-label">⏳ 할일</span>
@@ -196,12 +229,10 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
     <span class="count-num" id="bannerDone">0</span>
   </div>
 </div>
-
 <div class="progress-section">
   <div class="progress-label"><span>진행률</span><span id="progressPct">0%</span></div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 </div>
-
 <div class="form-card">
   <h3>➕ 할일 추가</h3>
   <div class="form-row">
@@ -228,7 +259,6 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <button class="btn btn-notify" onclick="requestNotify()">🔔 브라우저 알림 허용</button>
   <div class="notify-status notify-off" id="notifyStatus">알림 상태 확인 중...</div>
 </div>
-
 <div class="filter-section">
   <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
   <button class="filter-btn" onclick="setFilter('todo',this)">⏳ 미완료</button>
@@ -236,7 +266,6 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
   <button class="filter-btn" onclick="setFilter('alarm',this)">🔔 알림</button>
   <input class="search-input" id="searchInput" placeholder="🔍 검색..." oninput="renderTodos()">
 </div>
-
 <div class="board-container">
   <div class="col-todo">
     <div class="board-col-header">⏳ 할일 <span class="col-badge" id="todoColCount">0</span></div>
@@ -247,12 +276,10 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
     <div class="cards-col" id="doneCol"></div>
   </div>
 </div>
-
 <div class="pagination-row">
   <div class="pagination" id="todoPagination"></div>
   <div class="pagination" id="donePagination"></div>
 </div>
-
 </div><!-- /tab-todo -->
 
 <!-- AI 컨텍스트 탭 -->
@@ -262,16 +289,12 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
     <h2>🤖 AI 컨텍스트</h2>
     <button class="ctx-copy-btn" onclick="copyContext()">📋 전체 복사</button>
   </div>
-
-  <!-- 채널 정보 -->
   <div class="ctx-section">
     <div class="ctx-section-title">📺 채널 정보</div>
     <div class="ctx-field"><label>채널명</label><input type="text" id="ctx_channel" placeholder="예: 케이경제 뒷담화"></div>
     <div class="ctx-field"><label>채널 URL</label><input type="text" id="ctx_channel_url" placeholder="예: www.youtube.com/@k-economy-story"></div>
     <div class="ctx-field"><label>채널 컨셉</label><input type="text" id="ctx_concept" placeholder="예: 뉴스에 안 나오는 경제 뒷이야기"></div>
   </div>
-
-  <!-- 스크립트 규칙 -->
   <div class="ctx-section">
     <div class="ctx-section-title">📝 스크립트 규칙</div>
     <div class="ctx-field"><label>목표 글자수</label><input type="text" id="ctx_script_len" placeholder="예: 8,000자 (약 10분)"></div>
@@ -280,56 +303,77 @@ body { background:#0f0f1a; color:#e2e8f0; font-family:'Segoe UI',sans-serif; min
     <div class="ctx-field"><label>감정 흐름</label><input type="text" id="ctx_emotion" placeholder="예: 충격→분노→반전→국뽕"></div>
     <div class="ctx-field"><label>기타 규칙</label><textarea id="ctx_script_rules" placeholder="예: 숫자는 한글로, 영어 약자는 한글 발음으로..."></textarea></div>
   </div>
-
-  <!-- TTS 설정 -->
   <div class="ctx-section">
     <div class="ctx-section-title">🔊 TTS 설정 (ElevenLabs)</div>
     <div class="ctx-field"><label>보이스</label><input type="text" id="ctx_voice" placeholder="예: Patrick"></div>
     <div class="ctx-field"><label>Stability / Similarity / Style / Speed</label><input type="text" id="ctx_tts_settings" placeholder="예: 73 / 56 / 100 / 100"></div>
     <div class="ctx-field"><label>발음 교정 맵</label><textarea id="ctx_pronunciation" placeholder="예: AI→에이아이, HD현대→에이치디현대, GPT→지피티..."></textarea></div>
   </div>
-
-  <!-- 이미지/영상 프롬프트 규칙 -->
   <div class="ctx-section">
     <div class="ctx-section-title">🖼️ 이미지/영상 프롬프트 규칙</div>
     <div class="ctx-field"><label>이미지 프롬프트 끝 문구</label><input type="text" id="ctx_img_suffix" placeholder="예: no Korean text, English labels only, cinematic motion, 4K"></div>
     <div class="ctx-field"><label>영상 프롬프트 끝 문구</label><input type="text" id="ctx_vid_suffix" placeholder="예: no dialogue, no voice, only ambient sound, cinematic motion, 4K"></div>
-    <div class="ctx-field"><label>캐릭터 설명 (매 3번째 씬)</label><textarea id="ctx_character" placeholder="예: A Pixar-style 3D animated character. A friendly-looking middle-aged Korean man in his 40s..."></textarea></div>
+    <div class="ctx-field"><label>캐릭터 설명 (매 3번째 씬)</label><textarea id="ctx_character" placeholder="예: A Pixar-style 3D animated character..."></textarea></div>
     <div class="ctx-field"><label>씬 길이</label><input type="text" id="ctx_scene_len" placeholder="예: 10초당 1씬"></div>
   </div>
-
-  <!-- 폴더 구조 -->
   <div class="ctx-section">
     <div class="ctx-section-title">📁 폴더 구조</div>
     <div class="ctx-field"><label>작업 폴더 경로</label><input type="text" id="ctx_folder" placeholder="예: C:\Users\user\Desktop\작업실"></div>
     <div class="ctx-field"><label>폴더 구조 메모</label><textarea id="ctx_folder_detail" placeholder="예: mp3완성본\2\, 영상\, 배경음악\ ..."></textarea></div>
   </div>
-
-  <!-- 프로그램 목록 -->
   <div class="ctx-section">
     <div class="ctx-section-title">⚙️ 완성된 프로그램</div>
-    <div class="ctx-field"><textarea id="ctx_programs" placeholder="예: tts_el.py - ElevenLabs TTS 생성&#10;merge_test.py - 영상 합치기 (.volumex 0.15)&#10;watcher.py - 폴더 감시 자동 리네임&#10;..."></textarea></div>
+    <div class="ctx-field"><textarea id="ctx_programs" placeholder="예: tts_el.py - ElevenLabs TTS 생성&#10;merge_test.py - 영상 합치기 (.volumex 0.15)..."></textarea></div>
   </div>
-
-  <!-- 현재 진행 상황 -->
   <div class="ctx-section">
     <div class="ctx-section-title">🚀 현재 진행 상황</div>
-    <div class="ctx-field"><label>현재 작업 중인 영상 주제</label><input type="text" id="ctx_current_topic" placeholder="예: 한국이 독점하는 산업 (변압기, 선박엔진, 시추선)"></div>
-    <div class="ctx-field"><label>완료된 단계</label><textarea id="ctx_done_steps" placeholder="예: ✅ 스크립트 완성&#10;✅ TTS 생성&#10;✅ 이미지 47장 완성&#10;🔄 영상 생성 중..."></textarea></div>
-    <div class="ctx-field"><label>남은 단계</label><textarea id="ctx_todo_steps" placeholder="예: ⏳ 영상 합치기&#10;⏳ 썸네일 제작&#10;⏳ 유튜브 업로드"></textarea></div>
-    <div class="ctx-field"><label>특이사항/메모</label><textarea id="ctx_memo" placeholder="예: BGM 볼륨 이미 조정됨, 영상 효과음 0.15로 설정..."></textarea></div>
+    <div class="ctx-field"><label>현재 작업 중인 영상 주제</label><input type="text" id="ctx_current_topic" placeholder="예: 한국이 독점하는 산업"></div>
+    <div class="ctx-field"><label>완료된 단계</label><textarea id="ctx_done_steps" placeholder="예: ✅ 스크립트 완성&#10;✅ TTS 생성..."></textarea></div>
+    <div class="ctx-field"><label>남은 단계</label><textarea id="ctx_todo_steps" placeholder="예: ⏳ 영상 합치기&#10;⏳ 썸네일 제작..."></textarea></div>
+    <div class="ctx-field"><label>특이사항/메모</label><textarea id="ctx_memo" placeholder="예: BGM 볼륨 이미 조정됨..."></textarea></div>
   </div>
-
   <button class="ctx-save-btn" onclick="saveContext()">💾 Firebase에 저장</button>
   <div class="ctx-status" id="ctxStatus"></div>
-
   <div style="margin-top:12px;">
     <div style="font-size:0.75rem;color:#6b7280;margin-bottom:6px;">📋 미리보기 (Claude에 붙여넣을 내용)</div>
     <div class="ctx-preview" id="ctxPreview">저장하면 여기에 미리보기가 표시됩니다...</div>
   </div>
-
 </div>
 </div><!-- /tab-ai -->
+
+<!-- 🧠 기억 탭 -->
+<div class="tab-content" id="tab-memory">
+<div class="mem-container">
+
+  <!-- 입력 폼 -->
+  <div class="mem-form-card">
+    <h3>🧠 기억 저장</h3>
+    <div class="mem-date-display">📅 <span id="memDateDisplay"></span></div>
+    <textarea id="memoryInput" placeholder="오늘 Claude와 한 작업 내용을 요약해서 저장하세요...&#10;&#10;예) ✅ 완성: merge_test.py volumex(0.15) 적용&#10;⏳ 다음: 썸네일 제작, 유튜브 업로드"></textarea>
+    <button class="mem-save-btn" onclick="saveMemory()">🧠 기억 저장</button>
+  </div>
+
+  <!-- 날짜 범위 복사 -->
+  <div class="mem-copy-section">
+    <h3>📋 Claude에게 전달할 기억 복사</h3>
+    <div class="mem-date-row">
+      <label>시작</label>
+      <input type="date" id="memCopyFrom" onchange="updateMemPreview()">
+      <label>끝</label>
+      <input type="date" id="memCopyTo" onchange="updateMemPreview()">
+    </div>
+    <div class="mem-copy-btns">
+      <button class="btn-mem-range" onclick="copyMemRange()">📋 범위 복사</button>
+      <button class="btn-mem-all"   onclick="copyMemAll()">📋 전체 복사</button>
+    </div>
+    <div class="mem-preview" id="memCopyPreview">날짜 선택 후 미리보기...</div>
+  </div>
+
+  <!-- 기억 목록 -->
+  <div class="mem-list" id="memList"></div>
+
+</div>
+</div><!-- /tab-memory -->
 
 <!-- 상세 모달 -->
 <div class="modal-overlay" id="detailModal">
@@ -400,13 +444,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-let items         = [];
+let items      = [];
+let memories   = [];
 let currentFilter = 'all';
-let editingId     = null;
-let detailId      = null;
-let todoPage      = 1;
-let donePage      = 1;
-const PAGE_SIZE   = 10;
+let editingId  = null;
+let detailId   = null;
+let todoPage   = 1;
+let donePage   = 1;
+const PAGE_SIZE = 10;
 
 const CAT_LABELS = {
   work:'💼 업무', ai:'🤖 AI 작업', study:'📚 공부',
@@ -414,11 +459,145 @@ const CAT_LABELS = {
 };
 
 /* ───── 탭 전환 ───── */
-window.switchTab = function(tab) {
+window.switchTab = function(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('show'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active-tab'));
   document.getElementById('tab-' + tab).classList.add('show');
-  event.target.classList.add('active-tab');
+  if(btn) btn.classList.add('active-tab');
+};
+
+/* ───── 날짜 시계 ───── */
+function updateClock() {
+  const now = new Date();
+  const str = now.getFullYear() + '년 '
+    + String(now.getMonth()+1).padStart(2,'0') + '월 '
+    + String(now.getDate()).padStart(2,'0') + '일 '
+    + String(now.getHours()).padStart(2,'0') + ':'
+    + String(now.getMinutes()).padStart(2,'0') + ':'
+    + String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('memDateDisplay');
+  if(el) el.textContent = str;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ───── 기억 저장 ───── */
+window.saveMemory = async function() {
+  const body = document.getElementById('memoryInput').value.trim();
+  if (!body) { showToast('⚠️ 내용을 입력하세요'); return; }
+  const now = new Date();
+  const dateStr = now.getFullYear() + '년 '
+    + String(now.getMonth()+1).padStart(2,'0') + '월 '
+    + String(now.getDate()).padStart(2,'0') + '일 '
+    + String(now.getHours()).padStart(2,'0') + ':'
+    + String(now.getMinutes()).padStart(2,'0') + ':'
+    + String(now.getSeconds()).padStart(2,'0');
+  try {
+    await addDoc(collection(db,'memories'), { body, date: now.toISOString(), dateStr });
+    document.getElementById('memoryInput').value = '';
+    await loadMemories();
+    showToast('🧠 기억 저장됨!');
+  } catch(e) { showToast('❌ 저장 실패: ' + e.message); }
+};
+
+/* ───── 기억 로드 ───── */
+async function loadMemories() {
+  try {
+    const snap = await getDocs(query(collection(db,'memories'), orderBy('date','desc')));
+    memories = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    renderMemories();
+    updateMemPreview();
+  } catch(e) { /* 무시 */ }
+}
+
+/* ───── 기억 렌더링 ───── */
+function renderMemories() {
+  const list = document.getElementById('memList');
+  if (!memories.length) {
+    list.innerHTML = '<div class="mem-empty">🧠 아직 저장된 기억이 없어요</div>';
+    return;
+  }
+  list.innerHTML = memories.map(m => `
+    <div class="mem-card">
+      <div class="mem-card-header">
+        <span class="mem-card-date">📅 ${m.dateStr||m.date}</span>
+        <div class="mem-card-btns">
+          <button class="btn-mc-copy" onclick="copyOneMemory('${m.id}')">📋 복사</button>
+          <button class="btn-mc-del"  onclick="deleteMemory('${m.id}')">🗑️ 삭제</button>
+        </div>
+      </div>
+      <div class="mem-card-body">${escapeHtml(m.body)}</div>
+    </div>
+  `).join('');
+}
+
+/* ───── 미리보기 업데이트 ───── */
+window.updateMemPreview = function() {
+  const from = document.getElementById('memCopyFrom').value;
+  const to   = document.getElementById('memCopyTo').value;
+  let filtered = getFilteredMemories(from, to);
+  const preview = document.getElementById('memCopyPreview');
+  if (!filtered.length) { preview.textContent = '해당 범위에 기억이 없어요'; return; }
+  const text = buildMemoryText(filtered);
+  preview.textContent = text.length > 400 ? text.substring(0,400) + '\n...(전체 '+filtered.length+'개)' : text;
+};
+
+function getFilteredMemories(from, to) {
+  return memories.filter(m => {
+    const d = new Date(m.date);
+    const fromOk = !from || d >= new Date(from);
+    const toOk   = !to   || d <= new Date(to + 'T23:59:59');
+    return fromOk && toOk;
+  }).slice().reverse();
+}
+
+function buildMemoryText(list) {
+  return list.map(m =>
+    '==================================================\n날짜: ' + (m.dateStr||m.date) + '\n\n' + m.body
+  ).join('\n\n');
+}
+
+/* ───── 범위 복사 ───── */
+window.copyMemRange = async function() {
+  const from = document.getElementById('memCopyFrom').value;
+  const to   = document.getElementById('memCopyTo').value;
+  const filtered = getFilteredMemories(from, to);
+  if (!filtered.length) { showToast('⚠️ 해당 범위에 기억이 없어요'); return; }
+  try {
+    await navigator.clipboard.writeText(buildMemoryText(filtered));
+    showToast('📋 ' + filtered.length + '개 기억 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 전체 복사 ───── */
+window.copyMemAll = async function() {
+  if (!memories.length) { showToast('⚠️ 저장된 기억이 없어요'); return; }
+  const list = memories.slice().reverse();
+  try {
+    await navigator.clipboard.writeText(buildMemoryText(list));
+    showToast('📋 전체 ' + list.length + '개 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 개별 복사 ───── */
+window.copyOneMemory = async function(id) {
+  const m = memories.find(x => x.id === id);
+  if (!m) return;
+  const text = '==================================================\n날짜: ' + (m.dateStr||m.date) + '\n\n' + m.body;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 복사됨!');
+  } catch(e) { showToast('❌ 복사 실패'); }
+};
+
+/* ───── 기억 삭제 ───── */
+window.deleteMemory = async function(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db,'memories',id));
+    await loadMemories();
+    showToast('🗑️ 삭제됨!');
+  } catch(e) { showToast('❌ 삭제 실패'); }
 };
 
 /* ───── AI 컨텍스트 필드 목록 ───── */
@@ -427,120 +606,71 @@ const CTX_FIELDS = [
   'ctx_script_len','ctx_script_start','ctx_tone','ctx_emotion','ctx_script_rules',
   'ctx_voice','ctx_tts_settings','ctx_pronunciation',
   'ctx_img_suffix','ctx_vid_suffix','ctx_character','ctx_scene_len',
-  'ctx_folder','ctx_folder_detail',
-  'ctx_programs',
+  'ctx_folder','ctx_folder_detail','ctx_programs',
   'ctx_current_topic','ctx_done_steps','ctx_todo_steps','ctx_memo'
 ];
 
 /* ───── 컨텍스트 저장 ───── */
 window.saveContext = async function() {
   const data = {};
-  CTX_FIELDS.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) data[id] = el.value.trim();
-  });
+  CTX_FIELDS.forEach(id => { const el=document.getElementById(id); if(el) data[id]=el.value.trim(); });
   const now = new Date();
-  const timestamp = now.toISOString();
-  const dateKey = now.getFullYear() + '-'
-    + String(now.getMonth()+1).padStart(2,'0') + '-'
-    + String(now.getDate()).padStart(2,'0') + '_'
-    + String(now.getHours()).padStart(2,'0')
-    + String(now.getMinutes()).padStart(2,'0');
-
-  data.updatedAt = timestamp;
+  const dateKey = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'_'+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+  data.updatedAt = now.toISOString();
   data.dateKey   = dateKey;
-
   try {
-    await setDoc(doc(db, 'context', 'main'), data);
-    await setDoc(doc(db, 'context', dateKey), data);
+    await setDoc(doc(db,'context','main'), data);
+    await setDoc(doc(db,'context',dateKey), data);
     document.getElementById('ctxStatus').textContent = '✅ 저장됨! ' + now.toLocaleString('ko');
     updatePreview(data);
     showToast('✅ 컨텍스트 저장 완료!');
-  } catch(e) {
-    showToast('❌ 저장 실패: ' + e.message);
-  }
+  } catch(e) { showToast('❌ 저장 실패: '+e.message); }
 };
 
 /* ───── 컨텍스트 로드 ───── */
-
 async function loadContext() {
   try {
-    const snap = await getDoc(doc(db, 'context', 'main'));
+    const snap = await getDoc(doc(db,'context','main'));
     if (snap.exists()) {
       const data = snap.data();
-      CTX_FIELDS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && data[id] !== undefined) el.value = data[id];
-      });
+      CTX_FIELDS.forEach(id => { const el=document.getElementById(id); if(el&&data[id]!==undefined) el.value=data[id]; });
       updatePreview(data);
-      if (data.updatedAt) {
-        document.getElementById('ctxStatus').textContent =
-          '✅ 마지막 저장: ' + new Date(data.updatedAt).toLocaleString('ko');
-      }
+      if(data.updatedAt) document.getElementById('ctxStatus').textContent='✅ 마지막 저장: '+new Date(data.updatedAt).toLocaleString('ko');
     }
   } catch(e) { /* 무시 */ }
 }
 
 /* ───── 미리보기 생성 ───── */
 function updatePreview(data) {
-  const savedAt = data.updatedAt
-    ? new Date(data.updatedAt).toLocaleString('ko')
-    : '알 수 없음';
-
+  const savedAt = data.updatedAt ? new Date(data.updatedAt).toLocaleString('ko') : '알 수 없음';
   const lines = [
     `===== AI 컨텍스트 저장시각: ${savedAt} =====`,
-    '',
-    '📺 채널 정보',
-    `채널명: ${data.ctx_channel||''}`,
-    `URL: ${data.ctx_channel_url||''}`,
-    `컨셉: ${data.ctx_concept||''}`,
-    '',
-    '📝 스크립트 규칙',
-    `목표 글자수: ${data.ctx_script_len||''}`,
-    `시작 문구: ${data.ctx_script_start||''}`,
-    `말투: ${data.ctx_tone||''}`,
-    `감정 흐름: ${data.ctx_emotion||''}`,
-    `기타 규칙: ${data.ctx_script_rules||''}`,
-    '',
-    '🔊 TTS 설정',
-    `보이스: ${data.ctx_voice||''}`,
-    `설정값: ${data.ctx_tts_settings||''}`,
-    `발음 교정: ${data.ctx_pronunciation||''}`,
-    '',
-    '🖼️ 프롬프트 규칙',
-    `이미지 끝 문구: ${data.ctx_img_suffix||''}`,
-    `영상 끝 문구: ${data.ctx_vid_suffix||''}`,
-    `캐릭터: ${data.ctx_character||''}`,
-    `씬 길이: ${data.ctx_scene_len||''}`,
-    '',
-    '📁 폴더',
-    `경로: ${data.ctx_folder||''}`,
-    `구조: ${data.ctx_folder_detail||''}`,
-    '',
-    '⚙️ 완성된 프로그램',
-    data.ctx_programs||'',
-    '',
-    '🚀 현재 진행 상황',
+    '', '📺 채널 정보',
+    `채널명: ${data.ctx_channel||''}`, `URL: ${data.ctx_channel_url||''}`, `컨셉: ${data.ctx_concept||''}`,
+    '', '📝 스크립트 규칙',
+    `목표 글자수: ${data.ctx_script_len||''}`, `시작 문구: ${data.ctx_script_start||''}`,
+    `말투: ${data.ctx_tone||''}`, `감정 흐름: ${data.ctx_emotion||''}`, `기타 규칙: ${data.ctx_script_rules||''}`,
+    '', '🔊 TTS 설정',
+    `보이스: ${data.ctx_voice||''}`, `설정값: ${data.ctx_tts_settings||''}`, `발음 교정: ${data.ctx_pronunciation||''}`,
+    '', '🖼️ 프롬프트 규칙',
+    `이미지 끝 문구: ${data.ctx_img_suffix||''}`, `영상 끝 문구: ${data.ctx_vid_suffix||''}`,
+    `캐릭터: ${data.ctx_character||''}`, `씬 길이: ${data.ctx_scene_len||''}`,
+    '', '📁 폴더',
+    `경로: ${data.ctx_folder||''}`, `구조: ${data.ctx_folder_detail||''}`,
+    '', '⚙️ 완성된 프로그램', data.ctx_programs||'',
+    '', '🚀 현재 진행 상황',
     `현재 주제: ${data.ctx_current_topic||''}`,
-    `완료 단계:\n${data.ctx_done_steps||''}`,
-    `남은 단계:\n${data.ctx_todo_steps||''}`,
-    `메모: ${data.ctx_memo||''}`,
-    '',
-    '===== END ====='
+    `완료 단계:\n${data.ctx_done_steps||''}`, `남은 단계:\n${data.ctx_todo_steps||''}`,
+    `메모: ${data.ctx_memo||''}`, '', '===== END ====='
   ];
   document.getElementById('ctxPreview').textContent = lines.join('\n');
 }
 
 /* ───── 전체 복사 ───── */
-
 window.copyContext = async function() {
   const text = document.getElementById('ctxPreview').textContent;
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast('📋 클립보드에 복사됨!');
-  } catch(e) {
-    showToast('❌ 복사 실패');
-  }
+  try { await navigator.clipboard.writeText(text); showToast('📋 클립보드에 복사됨!'); }
+  catch(e) { showToast('❌ 복사 실패'); }
 };
 
 /* ───── 알림 ───── */
@@ -589,7 +719,6 @@ async function loadTodos() {
   } catch(e) { showToast('❌ 로드 실패'); }
 }
 
-/* ───── 추가 ───── */
 window.addTodo = async function() {
   const text=document.getElementById('todoInput').value.trim();
   const cat=document.getElementById('todoCategory').value;
@@ -609,7 +738,6 @@ window.addTodo = async function() {
   } catch(e) { showToast('❌ 저장 실패: '+e.message); }
 };
 
-/* ───── 필터 ───── */
 window.setFilter = function(f,btn) {
   currentFilter=f; todoPage=1; donePage=1;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -617,7 +745,6 @@ window.setFilter = function(f,btn) {
   renderTodos();
 };
 
-/* ───── D-day ───── */
 function getDday(due,repeat) {
   if (!due) return null;
   const now=new Date(); let d=new Date(due);
@@ -629,7 +756,6 @@ function getDday(due,repeat) {
   if (diff<=7)  return {label:`D-${diff}`,cls:'dday-warn'};
   return {label:`D-${diff}`,cls:'dday-ok'};
 }
-
 function fmtShort(iso) {
   if (!iso) return '';
   const d=new Date(iso), M=d.getMonth()+1, D=d.getDate();
@@ -642,31 +768,25 @@ function fmtReg(iso) {
   return `${d.getMonth()+1}/${d.getDate()}`;
 }
 
-/* ───── 페이지네이션 ───── */
 function renderPagination(containerId, total, currentPg, onClickFn, activeCls) {
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const container  = document.getElementById(containerId);
-  if (totalPages <= 1) { container.innerHTML=''; return; }
-  let html = '';
-  html += `<button class="pg-btn" ${currentPg===1?'disabled':''} onclick="${onClickFn}(${currentPg-1})">‹</button>`;
-  for (let i=1; i<=totalPages; i++) {
-    html += `<button class="pg-btn${i===currentPg?' '+activeCls:''}" onclick="${onClickFn}(${i})">${i}</button>`;
-  }
-  html += `<button class="pg-btn" ${currentPg===totalPages?'disabled':''} onclick="${onClickFn}(${currentPg+1})">›</button>`;
-  container.innerHTML = html;
+  const totalPages=Math.max(1,Math.ceil(total/PAGE_SIZE));
+  const container=document.getElementById(containerId);
+  if (totalPages<=1) { container.innerHTML=''; return; }
+  let html='';
+  html+=`<button class="pg-btn" ${currentPg===1?'disabled':''} onclick="${onClickFn}(${currentPg-1})">‹</button>`;
+  for (let i=1;i<=totalPages;i++) html+=`<button class="pg-btn${i===currentPg?' '+activeCls:''}" onclick="${onClickFn}(${i})">${i}</button>`;
+  html+=`<button class="pg-btn" ${currentPg===totalPages?'disabled':''} onclick="${onClickFn}(${currentPg+1})">›</button>`;
+  container.innerHTML=html;
 }
+window.goTodoPage=function(p){todoPage=p;renderTodos();};
+window.goDonePage=function(p){donePage=p;renderTodos();};
 
-window.goTodoPage = function(p) { todoPage=p; renderTodos(); };
-window.goDonePage = function(p) { donePage=p; renderTodos(); };
-
-/* ───── 렌더링 ───── */
 window.renderTodos = function() {
   const total=items.length, doneCount=items.filter(i=>i.done).length;
   const pct=total?Math.round((doneCount/total)*100):0;
   document.getElementById('progressFill').style.width=pct+'%';
   document.getElementById('progressPct').textContent=pct+'%';
   document.getElementById('todoCountLabel').textContent=doneCount+'/'+total;
-
   const searchQ=(document.getElementById('searchInput')?.value||'').toLowerCase();
   let filtered=items.filter(it=>{
     if(currentFilter==='todo') return !it.done;
@@ -674,18 +794,14 @@ window.renderTodos = function() {
     if(currentFilter==='alarm') return it.due;
     return true;
   }).filter(it=>!searchQ||it.text.toLowerCase().includes(searchQ));
-
   const todoAll=filtered.filter(it=>!it.done);
   const doneAll=filtered.filter(it=>it.done);
-
   document.getElementById('bannerTodo').textContent=todoAll.length;
   document.getElementById('bannerDone').textContent=doneAll.length;
   document.getElementById('todoColCount').textContent=todoAll.length;
   document.getElementById('doneColCount').textContent=doneAll.length;
-
-  const todoSlice=todoAll.slice((todoPage-1)*PAGE_SIZE, todoPage*PAGE_SIZE);
-  const doneSlice=doneAll.slice((donePage-1)*PAGE_SIZE, donePage*PAGE_SIZE);
-
+  const todoSlice=todoAll.slice((todoPage-1)*PAGE_SIZE,todoPage*PAGE_SIZE);
+  const doneSlice=doneAll.slice((donePage-1)*PAGE_SIZE,donePage*PAGE_SIZE);
   const now=new Date();
   function makeCard(it) {
     const dday=getDday(it.due,it.repeat);
@@ -705,62 +821,41 @@ window.renderTodos = function() {
       </div>
     </div>`;
   }
-
-  document.getElementById('todoCol').innerHTML=todoSlice.length
-    ?todoSlice.map(makeCard).join('')
-    :'<div class="empty-col"><div class="icon">🎉</div>할일 없음!</div>';
-  document.getElementById('doneCol').innerHTML=doneSlice.length
-    ?doneSlice.map(makeCard).join('')
-    :'<div class="empty-col"><div class="icon">📭</div>완료 없음</div>';
-
+  document.getElementById('todoCol').innerHTML=todoSlice.length?todoSlice.map(makeCard).join(''):'<div class="empty-col"><div class="icon">🎉</div>할일 없음!</div>';
+  document.getElementById('doneCol').innerHTML=doneSlice.length?doneSlice.map(makeCard).join(''):'<div class="empty-col"><div class="icon">📭</div>완료 없음</div>';
   renderPagination('todoPagination',todoAll.length,todoPage,'goTodoPage','active-todo');
   renderPagination('donePagination',doneAll.length,donePage,'goDonePage','active-done');
 };
 
-/* ───── 상세 모달 ───── */
-window.openDetailModal = function(id) {
+window.openDetailModal=function(id){
   const it=items.find(x=>x.id===id); if(!it) return;
   detailId=id;
   document.getElementById('detailTitle').textContent=it.text;
   document.getElementById('detailCat').textContent=CAT_LABELS[it.cat]||it.cat;
   document.getElementById('detailDate').textContent=it.date?new Date(it.date).toLocaleString('ko'):'-';
-  document.getElementById('detailStatus').innerHTML=it.done
-    ?'<span style="color:#10b981;font-weight:700;">✅ 완료</span>'
-    :'<span style="color:#ef4444;font-weight:700;">⏳ 미완료</span>';
+  document.getElementById('detailStatus').innerHTML=it.done?'<span style="color:#10b981;font-weight:700;">✅ 완료</span>':'<span style="color:#ef4444;font-weight:700;">⏳ 미완료</span>';
   const dueRow=document.getElementById('detailDueRow');
-  if (it.due) {
-    dueRow.style.display='flex';
-    document.getElementById('detailDue').textContent=new Date(it.due).toLocaleString('ko');
-    const dday=getDday(it.due,it.repeat);
-    const ddayEl=document.getElementById('detailDday');
-    if(dday){ddayEl.textContent=dday.label;ddayEl.className='detail-dday '+dday.cls;}else ddayEl.textContent='';
-  } else dueRow.style.display='none';
+  if(it.due){dueRow.style.display='flex';document.getElementById('detailDue').textContent=new Date(it.due).toLocaleString('ko');const dday=getDday(it.due,it.repeat);const ddayEl=document.getElementById('detailDday');if(dday){ddayEl.textContent=dday.label;ddayEl.className='detail-dday '+dday.cls;}else ddayEl.textContent='';}else dueRow.style.display='none';
   const alarms=[it.alarm7d?'1주일 전':'',it.alarm1d?'하루 전':'',it.alarm0d?'당일 9시':''].filter(Boolean);
   const alarmRow=document.getElementById('detailAlarmRow');
-  if(alarms.length){alarmRow.style.display='flex';document.getElementById('detailAlarm').textContent='🔔 '+alarms.join(', ');}
-  else alarmRow.style.display='none';
+  if(alarms.length){alarmRow.style.display='flex';document.getElementById('detailAlarm').textContent='🔔 '+alarms.join(', ');}else alarmRow.style.display='none';
   document.getElementById('detailRepeatRow').style.display=it.repeat?'flex':'none';
   const btn=document.getElementById('detailToggleBtn');
-  if(it.done){btn.textContent='↩️ 미완료로 변경';btn.className='btn btn-cancel detail-toggle-btn';}
-  else{btn.textContent='✅ 완료로 표시';btn.className='btn btn-success detail-toggle-btn';}
+  if(it.done){btn.textContent='↩️ 미완료로 변경';btn.className='btn btn-cancel detail-toggle-btn';}else{btn.textContent='✅ 완료로 표시';btn.className='btn btn-success detail-toggle-btn';}
   document.getElementById('detailModal').classList.add('show');
 };
 window.closeDetailModal=function(){detailId=null;document.getElementById('detailModal').classList.remove('show');};
-
 window.toggleFromDetail=async function(){
   const it=items.find(x=>x.id===detailId); if(!it) return;
-  try{await updateDoc(doc(db,'todos',detailId),{done:!it.done});closeDetailModal();await loadTodos();showToast(it.done?'⏳ 미완료로 변경':'✅ 완료!');}
-  catch(e){showToast('❌ 오류');}
+  try{await updateDoc(doc(db,'todos',detailId),{done:!it.done});closeDetailModal();await loadTodos();showToast(it.done?'⏳ 미완료로 변경':'✅ 완료!');}catch(e){showToast('❌ 오류');}
 };
 window.openEditFromDetail=function(){const id=detailId;closeDetailModal();openEditModal(id);};
 window.deleteFromDetail=async function(){
   if(!confirm('삭제하시겠습니까?')) return;
   const id=detailId; closeDetailModal();
-  try{await deleteDoc(doc(db,'todos',id));await loadTodos();showToast('🗑️ 삭제됨!');}
-  catch(e){showToast('❌ 삭제 실패');}
+  try{await deleteDoc(doc(db,'todos',id));await loadTodos();showToast('🗑️ 삭제됨!');}catch(e){showToast('❌ 삭제 실패');}
 };
 
-/* ───── 수정 모달 ───── */
 window.openEditModal=function(id){
   const it=items.find(x=>x.id===id); if(!it) return;
   editingId=id;
@@ -784,16 +879,12 @@ window.saveEdit=async function(){
   const alarm0d=document.getElementById('editAlarm0d').checked;
   const repeat=document.getElementById('editRepeat').checked;
   if(!text){showToast('⚠️ 내용을 입력하세요');return;}
-  try{
-    await updateDoc(doc(db,'todos',editingId),{text,cat,due:due||null,alarm7d,alarm1d,alarm0d,repeat});
-    closeEditModal(); await loadTodos(); showToast('✅ 수정 완료!');
-  }catch(e){showToast('❌ 수정 실패: '+e.message);}
+  try{await updateDoc(doc(db,'todos',editingId),{text,cat,due:due||null,alarm7d,alarm1d,alarm0d,repeat});closeEditModal();await loadTodos();showToast('✅ 수정 완료!');}catch(e){showToast('❌ 수정 실패: '+e.message);}
 };
 
 window.deleteTodo=async function(id){
   if(!confirm('삭제하시겠습니까?')) return;
-  try{await deleteDoc(doc(db,'todos',id));await loadTodos();showToast('🗑️ 삭제됨!');}
-  catch(e){showToast('❌ 삭제 실패');}
+  try{await deleteDoc(doc(db,'todos',id));await loadTodos();showToast('🗑️ 삭제됨!');}catch(e){showToast('❌ 삭제 실패');}
 };
 
 function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -804,6 +895,7 @@ document.getElementById('detailModal').addEventListener('click',function(e){if(e
 
 loadTodos();
 loadContext();
+loadMemories();
 </script>
 </body>
 </html>
