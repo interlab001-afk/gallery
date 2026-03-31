@@ -17,7 +17,7 @@ button{background:#d35400;color:#fff;border:none;padding:12px 25px;border-radius
     <textarea id="content" rows="3" placeholder="내용을 입력하세요..."></textarea>
     <label style="font-size:0.8rem;color:#d35400;">📷 사진 선택: </label>
     <input type="file" id="fileInput" accept="image/*">
-    <button onclick="uploadAll()">🖼️ 사진과 글 올리기</button>
+    <button id="uploadBtn" onclick="uploadAll()">🖼️ 사진과 글 올리기</button>
 </div>
 <div id="board"></div>
 
@@ -30,7 +30,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
     authDomain: "claude-grok-gallery.firebaseapp.com",
     projectId: "claude-grok-gallery",
-    storageBucket: "claude-grok-gallery.firebasestorage.app",
+    storageBucket: "claude-grok-gallery.appspot.com", // 이 부분이 범인일 수 있어 수정했습니다!
     messagingSenderId: "907968891772",
     appId: "1:907968891772:web:50d9f0f9839d949e59b2f9"
 };
@@ -42,29 +42,40 @@ async function uploadAll() {
     const t = document.getElementById('title').value;
     const c = document.getElementById('content').value;
     const file = document.getElementById('fileInput').files[0];
+    const btn = document.getElementById('uploadBtn');
     
     if(!t || !c) return alert('제목과 내용을 적어주세요!');
     
-    let imageUrl = "";
-    if(file) {
-        // 사진이 있으면 먼저 업로드
-        const storageRef = storage.ref('images/' + file.name + "_" + Date.now());
-        await storageRef.put(file);
-        imageUrl = await storageRef.getDownloadURL();
+    btn.innerText = "올리는 중... 잠시만 기다려주세요";
+    btn.disabled = true;
+
+    try {
+        let imageUrl = "";
+        if(file) {
+            const storageRef = storage.ref('images/' + Date.now() + "_" + file.name);
+            const snapshot = await storageRef.put(file);
+            imageUrl = await snapshot.ref.getDownloadURL();
+        }
+
+        await db.collection("memos").add({
+            title: t,
+            content: c,
+            img: imageUrl,
+            date: new Date().toLocaleString(),
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById('title').value='';
+        document.getElementById('content').value='';
+        document.getElementById('fileInput').value='';
+        alert('성공적으로 올라갔습니다!');
+    } catch (e) {
+        console.error(e);
+        alert('에러가 발생했어요: ' + e.message);
+    } finally {
+        btn.innerText = "🖼️ 사진과 글 올리기";
+        btn.disabled = false;
     }
-
-    // Firestore에 저장
-    await db.collection("memos").add({
-        title: t,
-        content: c,
-        img: imageUrl,
-        date: new Date().toLocaleString(),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    document.getElementById('title').value='';
-    document.getElementById('content').value='';
-    document.getElementById('fileInput').value='';
 }
 
 db.collection("memos").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
