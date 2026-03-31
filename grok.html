@@ -30,8 +30,8 @@ const firebaseConfig = {
     apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
     authDomain: "claude-grok-gallery.firebaseapp.com",
     projectId: "claude-grok-gallery",
-    // 삼촌의 실제 Storage 주소인 appspot으로 수정했습니다!
-    storageBucket: "claude-grok-gallery.appspot.com", 
+    // ✅ 삼촌! 터미널에서 확인한 진짜 주소로 고쳤습니다!
+    storageBucket: "claude-grok-gallery.firebasestorage.app", 
     messagingSenderId: "907968891772",
     appId: "1:907968891772:web:50d9f0f9839d949e59b2f9"
 };
@@ -53,7 +53,7 @@ async function uploadAll() {
     try {
         let imageUrl = "";
         if(file) {
-            // 파일 이름을 시간과 합쳐서 겹치지 않게 저장합니다.
+            // 파일 이름을 시간과 합쳐서 저장
             const storageRef = storage.ref('images/' + Date.now() + "_" + file.name);
             const snapshot = await storageRef.put(file);
             imageUrl = await snapshot.ref.getDownloadURL();
@@ -73,7 +73,7 @@ async function uploadAll() {
         alert('성공적으로 올라갔습니다!');
     } catch (e) {
         console.error(e);
-        alert('에러가 발생했어요: ' + e.message);
+        alert('에러 발생: ' + e.message);
     } finally {
         btn.innerText = "🖼️ 사진과 글 올리기";
         btn.disabled = false;
