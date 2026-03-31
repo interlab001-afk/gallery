@@ -1,26 +1,31 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>삼촌의 Grok 메모장</title><style>
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼촌의 사진 편지함 🖼️</title><style>
 body{background:#fdf6e3;font-family:'Malgun Gothic',sans-serif;padding:20px;max-width:800px;margin:auto}
 .input-box{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);margin-bottom:20px}
 input,textarea{width:100%;padding:10px;margin:5px 0;border:1px solid #ddd;border-radius:5px;box-sizing:border-box}
-button{background:#d35400;color:#fff;border:none;padding:12px 25px;border-radius:5px;cursor:pointer;font-weight:bold}
+button{background:#d35400;color:#fff;border:none;padding:12px 25px;border-radius:5px;cursor:pointer;font-weight:bold;width:100%;margin-top:10px}
 .post{background:#fff;padding:20px;border-radius:10px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.05);border-left:5px solid #d35400}
+.post img{max-width:100%;border-radius:8px;margin:10px 0;display:block}
 .date{font-size:0.8rem;color:#888;margin-bottom:5px}
 .actions{text-align:right;margin-top:10px}
-.actions button{background:#777;padding:5px 10px;font-size:0.8rem;margin-left:5px;color:#fff;border:none;border-radius:3px;cursor:pointer}
+.actions button{background:#777;padding:5px 10px;font-size:0.8rem;width:auto;margin-left:5px}
 </style></head><body>
 
 <div class="input-box">
     <input type="text" id="title" placeholder="제목을 입력하세요">
-    <textarea id="content" rows="5" placeholder="여기에 긴 글을 남기세요..."></textarea>
-    <button onclick="postMessage()">글 남기기 (편지 보내기)</button>
+    <textarea id="content" rows="3" placeholder="내용을 입력하세요..."></textarea>
+    <label style="font-size:0.8rem;color:#d35400;">📷 사진 선택: </label>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="uploadAll()">🖼️ 사진과 글 올리기</button>
 </div>
 <div id="board"></div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
 <script>
-// 삼촌의 실제 설정값 적용 완료!
 const firebaseConfig = {
     apiKey: "AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk",
     authDomain: "claude-grok-gallery.firebaseapp.com",
@@ -31,35 +36,37 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const storage = firebase.storage();
 
-// 글 쓰기
-async function postMessage(){
-    const t=document.getElementById('title').value;
-    const c=document.getElementById('content').value;
-    if(!t||!c)return alert('제목과 내용을 적어주세요!');
+async function uploadAll() {
+    const t = document.getElementById('title').value;
+    const c = document.getElementById('content').value;
+    const file = document.getElementById('fileInput').files[0];
     
+    if(!t || !c) return alert('제목과 내용을 적어주세요!');
+    
+    let imageUrl = "";
+    if(file) {
+        // 사진이 있으면 먼저 업로드
+        const storageRef = storage.ref('images/' + file.name + "_" + Date.now());
+        await storageRef.put(file);
+        imageUrl = await storageRef.getDownloadURL();
+    }
+
+    // Firestore에 저장
     await db.collection("memos").add({
         title: t,
         content: c,
+        img: imageUrl,
         date: new Date().toLocaleString(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    
+
     document.getElementById('title').value='';
     document.getElementById('content').value='';
+    document.getElementById('fileInput').value='';
 }
 
-// 글 삭제
-async function deletePost(id){ if(confirm('지울까요?')) await db.collection("memos").doc(id).delete(); }
-
-// 글 수정
-async function editPost(id, oldT, oldC){
-    const newT=prompt('제목 수정:', oldT);
-    const newC=prompt('내용 수정:', oldC);
-    if(newT!==null && newC!==null) await db.collection("memos").doc(id).update({title:newT, content:newC});
-}
-
-// 실시간 글 목록 가져오기 (시간순 정렬)
 db.collection("memos").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
     const board = document.getElementById('board');
     board.innerHTML = '';
@@ -70,24 +77,15 @@ db.collection("memos").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
             <div class="post">
                 <div class="date">${p.date || ''}</div>
                 <h3>${p.title}</h3>
+                ${p.img ? `<img src="${p.img}">` : ''}
                 <p style="white-space:pre-wrap;">${p.content}</p>
                 <div class="actions">
-                    <button onclick="editPost('${id}', \`${p.title}\`, \`${p.content}\`)">수정</button>
                     <button onclick="deletePost('${id}')" style="background:#c0392b">삭제</button>
                 </div>
             </div>
         `);
     });
-}, (error) => {
-    // 만약 정렬 색인 에러가 나면 정렬 없이 가져오기
-    db.collection("memos").onSnapshot((snapshot) => {
-        const board = document.getElementById('board');
-        board.innerHTML = '';
-        snapshot.forEach((doc) => {
-            const p = doc.data();
-            const id = doc.id;
-            board.insertAdjacentHTML('beforeend', `<div class="post">...</div>`);
-        });
-    });
 });
+
+async function deletePost(id){ if(confirm('지울까요?')) await db.collection("memos").doc(id).delete(); }
 </script></body></html>
