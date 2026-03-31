@@ -17,33 +17,48 @@ button{background:#d35400;color:#fff;border:none;padding:10px 20px;border-radius
 <div id="board"></div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-<script>
-const config={databaseURL:"https://memo-project-default-rtdb.firebaseio.com/"};
-firebase.initializeApp(config);
-const db=firebase.database().ref("posts");
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-function postMessage(){
+<script>
+// 삼촌의 Firebase 설정 정보(apiKey 등)를 여기에 넣으셔야 합니다!
+const firebaseConfig = {
+    apiKey: "삼촌의_API_KEY",
+    authDomain: "삼촌의_PROJECT_ID.firebaseapp.com",
+    projectId: "삼촌의_PROJECT_ID",
+    storageBucket: "삼촌의_PROJECT_ID.appspot.com",
+    messagingSenderId: "삼촌의_SENDER_ID",
+    appId: "삼촌의_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 글 쓰기
+async function postMessage(){
     const t=document.getElementById('title').value;
     const c=document.getElementById('content').value;
     if(!t||!c)return alert('제목과 내용을 적어주세요!');
-    db.push({title:t,content:c,date:new Date().toLocaleString()});
-    document.getElementById('title').value='';document.getElementById('content').value='';
+    await db.collection("memos").add({
+        title: t, content: c, date: new Date().toLocaleString(), timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('title').value=''; document.getElementById('content').value='';
 }
 
-function deletePost(id){if(confirm('정말 삭제할까요?'))db.child(id).remove();}
-function editPost(id, oldT, oldC){
-    const newT=prompt('제목 수정:', oldT);
-    const newC=prompt('내용 수정:', oldC);
-    if(newT!==null && newC!==null) db.child(id).update({title:newT, content:newC, date:new Date().toLocaleString()+' (수정됨)'});
+// 글 삭제
+async function deletePost(id){ if(confirm('정말 삭제할까요?')) await db.collection("memos").doc(id).delete(); }
+
+// 글 수정
+async function editPost(id, oldT, oldC){
+    const newT=prompt('제목 수정:', oldT); const newC=prompt('내용 수정:', oldC);
+    if(newT!==null && newC!==null) await db.collection("memos").doc(id).update({title:newT, content:newC, date:new Date().toLocaleString()+' (수정됨)'});
 }
 
-db.on('value', (s) => {
+// 실시간 글 목록 불러오기
+db.collection("memos").orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
     const b=document.getElementById('board');
     b.innerHTML='';
-    s.forEach(child => {
-        const p=child.val(), id=child.key;
-        b.insertAdjacentHTML('afterbegin', `
+    querySnapshot.forEach((doc) => {
+        const p=doc.data(), id=doc.id;
+        b.insertAdjacentHTML('beforeend', `
             <div class="post">
                 <div class="date">${p.date}</div>
                 <h3>${p.title}</h3>
