@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>삼촌의 공유 게시판</title><style>
+body{background:#fdf6e3;font-family:'Malgun Gothic',sans-serif;padding:20px;max-width:800px;margin:auto}
+.input-box{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-bottom:20px}
+input,textarea{width:100%;padding:10px;margin:5px 0;border:1px solid #ddd;border-radius:5px;box-sizing:border-box}
+button{background:#d35400;color:#fff;border:none;padding:10px 20px;border-radius:5px;cursor:pointer}
+.post{background:#fff;padding:20px;border-radius:10px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.05);border-left:5px solid #d35400;position:relative}
+.date{font-size:0.8rem;color:#888;margin-bottom:5px}
+.actions{text-align:right;margin-top:10px}
+.actions button{background:#777;padding:5px 10px;font-size:0.8rem;margin-left:5px}
+</style></head><body>
+
+<div class="input-box">
+    <input type="text" id="title" placeholder="제목을 입력하세요">
+    <textarea id="content" rows="4" placeholder="내용을 입력하세요..."></textarea>
+    <button onclick="postMessage()">글 남기기</button>
+</div>
+<div id="board"></div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script>
+const config={databaseURL:"https://memo-project-default-rtdb.firebaseio.com/"};
+firebase.initializeApp(config);
+const db=firebase.database().ref("posts");
+
+function postMessage(){
+    const t=document.getElementById('title').value;
+    const c=document.getElementById('content').value;
+    if(!t||!c)return alert('제목과 내용을 적어주세요!');
+    db.push({title:t,content:c,date:new Date().toLocaleString()});
+    document.getElementById('title').value='';document.getElementById('content').value='';
+}
+
+function deletePost(id){if(confirm('정말 삭제할까요?'))db.child(id).remove();}
+function editPost(id, oldT, oldC){
+    const newT=prompt('제목 수정:', oldT);
+    const newC=prompt('내용 수정:', oldC);
+    if(newT!==null && newC!==null) db.child(id).update({title:newT, content:newC, date:new Date().toLocaleString()+' (수정됨)'});
+}
+
+db.on('value', (s) => {
+    const b=document.getElementById('board');
+    b.innerHTML='';
+    s.forEach(child => {
+        const p=child.val(), id=child.key;
+        b.insertAdjacentHTML('afterbegin', `
+            <div class="post">
+                <div class="date">${p.date}</div>
+                <h3>${p.title}</h3>
+                <p style="white-space:pre-wrap;">${p.content}</p>
+                <div class="actions">
+                    <button onclick="editPost('${id}', \`${p.title}\`, \`${p.content}\`)">수정</button>
+                    <button onclick="deletePost('${id}')" style="background:#c0392b">삭제</button>
+                </div>
+            </div>`);
+    });
+});
+</script></body></html>
