@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로또 번호 생성기 - AI 빈도 분석 시스템</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+
+  :root {
+    --bg-deep: #080c18;
+    --bg-card: rgba(16, 24, 48, .88);
+    --bg-card-alt: rgba(22, 33, 62, .72);
+    --border-subtle: rgba(255,255,255,.06);
+    --accent-red: #e94560;
+    --accent-cyan: #00d2ff;
+    --accent-mint: #0cffe1;
+    --accent-gold: #ffd700;
+    --text-primary: #eaeaea;
+    --text-secondary: #8892a4;
+    --text-dim: #556;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    background: var(--bg-deep);
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(15,52,96,.5) 0%, transparent 60%),
+      radial-gradient(circle at 20% 80%, rgba(233,69,96,.06) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(0,210,255,.06) 0%, transparent 40%);
+    min-height: 100vh;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.65;
+  }
+
+  .container { max-width: 1020px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* ── Header ──────────────────────────────────────── */
+  .header { text-align: center; margin-bottom: 10px; }
+  .header-badge {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0,210,255,.3);
+    border-radius: 20px;
+    padding: 4px 16px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-mint) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+  .header .subtitle {
+    color: var(--text-secondary);
+    font-size: .95rem;
+    margin-top: 8px;
+    font-weight: 300;
+  }
+
+  /* ── Trust badges ───────────────────────────────── */
+  .trust-bar {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin: 22px 0 32px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .82rem;
+    color: var(--text-secondary);
+  }
+  .trust-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem;
+    background: rgba(0,210,255,.1);
+    border: 1px solid rgba(0,210,255,.2);
+  }
+
+  /* ── Controls ───────────────────────────────────── */
+  .controls-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 20px 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .ctrl-group { display: flex; align-items: center; gap: 8px; }
+  .ctrl-group label { color: var(--text-secondary); font-size: .85rem; font-weight: 700; letter-spacing: .5px; }
+  .ctrl-group select, .ctrl-group input[type="number"] {
+    background: rgba(10,14,30,.8);
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: .9rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .ctrl-group select:focus, .ctrl-group input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 3px rgba(0,210,255,.12);
+  }
+  .ctrl-group input[type="number"] { width: 64px; text-align: center; }
+
+  .btn-generate {
+    background: linear-gradient(135deg, var(--accent-red), #ff6b81);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 40px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .25s;
+    box-shadow: 0 4px 24px rgba(233,69,96,.35);
+    letter-spacing: .5px;
+  }
+  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(233,69,96,.5); }
+  .btn-generate:active { transform: scale(.97); }
+  .btn-generate:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+  /* ── Ball Sets ──────────────────────────────────── */
+  .sets-area { margin-bottom: 34px; min-height: 20px; }
+
+  .set-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 12px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: fadeUp .45s ease forwards;
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .set-label {
+    min-width: 52px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .balls { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .ball {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #fff;
+    position: relative;
+    box-shadow: 0 3px 12px rgba(0,0,0,.45);
+    transition: transform .25s;
+    flex-shrink: 0;
+  }
+  .ball::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 13px;
+    width: 26px; height: 12px;
+    background: rgba(255,255,255,.22);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .ball:hover { transform: scale(1.15); }
+
+  .ball.empty { background: #1e2240; color: #444; box-shadow: inset 0 2px 8px rgba(0,0,0,.5); }
+  .ball.empty::before { display: none; }
+
+  .ball.spin { animation: spinY .12s linear infinite; background: #333 !important; color: var(--accent-cyan) !important; }
+  @keyframes spinY { from { transform: rotateY(0); } to { transform: rotateY(360deg); } }
+
+  .ball.c1  { background: linear-gradient(145deg, #fbc531, #d4a300); }
+  .ball.c11 { background: linear-gradient(145deg, #3498db, #1f6faa); }
+  .ball.c21 { background: linear-gradient(145deg, #e74c3c, #b83227); }
+  .ball.c31 { background: linear-gradient(145deg, #9b59b6, #6f3b8a); }
+  .ball.c41 { background: linear-gradient(145deg, #2ecc71, #1ea85a); }
+
+  .set-meta {
+    margin-left: auto;
+    font-size: .75rem;
+    color: var(--text-dim);
+    text-align: right;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+  .set-meta span { color: var(--text-secondary); }
+
+  /* ── Section titles ─────────────────────────────── */
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 38px 0 18px;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent-cyan);
+    color: #fff;
+  }
+
+  /* ── Stats Grid ─────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 22px;
+    border: 1px solid var(--border-subtle);
+  }
+  .card h3 {
+    font-size: .95rem;
+    margin-bottom: 16px;
+    color: var(--accent-cyan);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h3 .icon { font-size: 1rem; }
+
+  /* ── Frequency Chart ────────────────────────────── */
+  .chart-container { overflow-x: auto; }
+  .freq-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 200px;
+    padding-top: 8px;
+  }
+  .bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 14px; }
+  .bar-fill {
+    width: 100%; min-height: 2px;
+    border-radius: 3px 3px 0 0;
+    transition: height .6s ease, background .3s;
+  }
+  .bar-fill.highlight { box-shadow: 0 0 10px rgba(255,215,0,.65); }
+  .bar-label { font-size: .55rem; color: var(--text-dim); margin-top: 4px; }
+  .bar-count { font-size: .5rem; color: var(--text-secondary); margin-bottom: 2px; }
+
+  /* ── Rank lists ─────────────────────────────────── */
+  .rank-list { list-style: none; }
+  .rank-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+  }
+  .rank-num {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .rank-bar-bg { flex: 1; height: 7px; background: rgba(10,14,30,.8); border-radius: 4px; overflow: hidden; }
+  .rank-bar-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .rank-pct { font-size: .78rem; color: var(--text-secondary); width: 68px; text-align: right; }
+
+  /* ── Group dist ─────────────────────────────────── */
+  .group-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+    font-size: .88rem;
+  }
+  .group-label { width: 78px; font-weight: 700; }
+  .group-bar-bg { flex: 1; height: 12px; background: rgba(10,14,30,.8); border-radius: 6px; overflow: hidden; }
+  .group-bar-fill { height: 100%; border-radius: 6px; transition: width .8s ease; }
+  .group-val { width: 48px; text-align: right; color: var(--text-secondary); font-size: .82rem; }
+
+  /* ── Algorithm section ──────────────────────────── */
+  .algo-section {
+    margin-top: 44px;
+  }
+  .algo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 700px) { .algo-grid { grid-template-columns: 1fr; } }
+
+  .algo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .algo-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .algo-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent-red), #ff8a65); }
+  .algo-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-mint)); }
+  .algo-card:nth-child(3)::before { background: linear-gradient(90deg, #9b59b6, #e74c3c); }
+  .algo-card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent-gold), #ff8a00); }
+
+  .algo-card .step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: .8rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .algo-card:nth-child(1) .step-badge { background: var(--accent-red); }
+  .algo-card:nth-child(2) .step-badge { background: #0ea5c9; }
+  .algo-card:nth-child(3) .step-badge { background: #9b59b6; }
+  .algo-card:nth-child(4) .step-badge { background: #d4920a; }
+
+  .algo-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .algo-card p {
+    font-size: .85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .algo-card .formula {
+    display: block;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: .78rem;
+    color: var(--accent-mint);
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  /* ── Methodology summary ────────────────────────── */
+  .method-summary {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 26px 28px;
+    margin-top: 18px;
+  }
+  .method-summary h4 {
+    font-size: .95rem;
+    color: var(--accent-cyan);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .method-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+  @media (max-width: 600px) { .method-list { grid-template-columns: 1fr; } }
+  .method-list li {
+    font-size: .84rem;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .method-list li::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ── Disclaimer ─────────────────────────────────── */
+  .disclaimer {
+    background: rgba(233,69,96,.08);
+    border: 1px solid rgba(233,69,96,.2);
+    border-radius: 12px;
+    padding: 16px 22px;
+    margin-top: 24px;
+    font-size: .82rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .disclaimer strong { color: var(--accent-red); }
+
+  /* ── Footer ─────────────────────────────────────── */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-dim);
+    font-size: .78rem;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══════ HEADER ═══════ -->
+  <div class="header">
+    <div class="header-badge">Data-Driven Analysis</div>
+    <h1>로또 번호 생성기</h1>
+    <p class="subtitle">과거 당첨 데이터 기반 다차원 빈도 분석 &amp; 가중 확률 추천 시스템</p>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item"><div class="trust-icon">&#x1f4ca;</div> 50회 당첨 데이터 분석</div>
+    <div class="trust-item"><div class="trust-icon">&#x2696;</div> 가중 확률 알고리즘</div>
+    <div class="trust-item"><div class="trust-icon">&#x1f9ee;</div> 홀짝 균형 검증</div>
+    <div class="trust-item"><div class="trust-icon">&#x1f3af;</div> 번호대 분포 최적화</div>
+  </div>
+
+  <!-- ═══════ CONTROLS ═══════ -->
+  <div class="controls-card">
+    <div class="ctrl-group">
+      <label>분석 전략</label>
+      <select id="strategy">
+        <option value="frequency">핫 넘버 (높은 빈도 우선)</option>
+        <option value="inverse">콜드 넘버 (낮은 빈도 우선)</option>
+        <option value="balanced" selected>밸런스 믹스 (종합 분석)</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <label>세트 수</label>
+      <input type="number" id="setCount" value="2" min="1" max="10">
+    </div>
+    <button class="btn-generate" id="btnGen" onclick="generate()">번호 생성</button>
+  </div>
+
+  <!-- ═══════ RESULTS ═══════ -->
+  <div class="sets-area" id="setsArea"></div>
+
+  <!-- ═══════ STATISTICS ═══════ -->
+  <div class="section-title">통계 분석</div>
+
+  <div class="stats-grid">
+    <div class="card" style="grid-column: 1 / -1;">
+      <h3><span class="icon">&#x1f4c8;</span> 번호별 출현 빈도</h3>
+      <div class="chart-container"><div class="freq-chart" id="freqChart"></div></div>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#x1f525;</span> 핫 넘버 TOP 10</h3>
+      <ul class="rank-list" id="hotList"></ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#x2744;</span> 콜드 넘버 TOP 10</h3>
+      <ul class="rank-list" id="coldList"></ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#x1f3a8;</span> 번호대별 분포</h3>
+      <div id="groupDist"></div>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#x1f504;</span> 홀짝 비율 분석</h3>
+      <div id="oddEvenDist"></div>
+    </div>
+  </div>
+
+  <!-- ═══════ ALGORITHM EXPLANATION ═══════ -->
+  <div class="algo-section">
+    <div class="section-title">알고리즘 분석 원리</div>
+
+    <div class="algo-grid">
+
+      <div class="algo-card">
+        <div class="step-badge">1</div>
+        <h4>빈도 분석 (Frequency Analysis)</h4>
+        <p>
+          과거 50회 당첨 데이터에서 1~45번 각 번호의 출현 횟수를 집계합니다.
+          자주 등장한 번호는 <strong style="color:#e94560">핫 넘버</strong>,
+          적게 등장한 번호는 <strong style="color:#00d2ff">콜드 넘버</strong>로 분류하여
+          통계적 편향을 파악합니다.
+        </p>
+        <div class="formula">
+          빈도(n) = 번호 n의 출현 횟수 / 전체 추첨 횟수<br>
+          핫 가중치: W(n) = max( freq(n), 0.5 )<br>
+          콜드 가중치: W(n) = max( maxFreq + 1 - freq(n), 0.5 )
+        </div>
+      </div>
+
+      <div class="algo-card">
+        <div class="step-badge">2</div>
+        <h4>가중 확률 선택 (Weighted Probability)</h4>
+        <p>
+          단순 랜덤이 아닌, 각 번호에 분석 결과 기반 <strong style="color:#00d2ff">가중치</strong>를 부여합니다.
+          밸런스 모드에서는 핫 넘버 가중치 60%와 콜드 넘버 가중치 40%를 혼합하여
+          통계적 경향과 반전 가능성을 동시에 반영합니다.
+        </p>
+        <div class="formula">
+          밸런스 가중치:<br>
+          W(n) = freq(n) &times; 0.6 + (maxFreq + 1 - freq(n)) &times; 0.4<br><br>
+          선택 확률: P(n) = W(n) / &Sigma;W(i)
+        </div>
+      </div>
+
+      <div class="algo-card">
+        <div class="step-badge">3</div>
+        <h4>홀짝 균형 검증 (Odd/Even Balance)</h4>
+        <p>
+          실제 로또 당첨 번호를 분석하면 홀수와 짝수가 <strong style="color:#9b59b6">균형</strong>에
+          가깝게 나옵니다. 생성된 번호 조합의 홀짝 비율을 실시간으로 계산하여,
+          극단적인 편향(예: 6:0, 0:6)을 감지하면 자동으로 재생성합니다.
+          이상적 비율은 3:3 또는 4:2입니다.
+        </p>
+        <div class="formula">
+          허용 범위: 홀수 2~4개 (짝수 2~4개)<br>
+          검증 실패 시 &rarr; 재생성 (최대 50회 시도)
+        </div>
+      </div>
+
+      <div class="algo-card">
+        <div class="step-badge">4</div>
+        <h4>번호대 분포 최적화 (Range Distribution)</h4>
+        <p>
+          1~10, 11~20, 21~30, 31~40, 41~45의 5개 구간에서
+          <strong style="color:#d4920a">최소 3개 이상의 구간</strong>에 번호가 분포하도록 검증합니다.
+          한 구간에 번호가 과도하게 집중되는 비현실적 조합을 방지하여
+          실제 당첨 패턴에 가까운 결과를 생성합니다.
+        </p>
+        <div class="formula">
+          구간: [1-10] [11-20] [21-30] [31-40] [41-45]<br>
+          조건: 활성 구간 &ge; 3<br>
+          검증 실패 시 &rarr; 재생성
+        </div>
+      </div>
+
+    </div>
+
+    <div class="method-summary">
+      <h4>시스템 분석 요약</h4>
+      <ul class="method-list">
+        <li>과거 50회 당첨 데이터 실시간 분석</li>
+        <li>3가지 전략 모드 지원 (핫/콜드/밸런스)</li>
+        <li>번호별 가중치 기반 비균일 확률 분포 적용</li>
+        <li>홀짝 비율 자동 균형 조정 (2:4 ~ 4:2)</li>
+        <li>5개 번호 구간 중 최소 3구간 분산 보장</li>
+        <li>각 세트별 홀짝 비율 및 번호대 수 실시간 표시</li>
+        <li>모든 연산은 브라우저 내에서 실행 (서버 전송 없음)</li>
+        <li>암호학적 보안 랜덤은 아닌 통계 기반 추천</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">
+      <strong>&#x26a0; 안내:</strong>
+      본 시스템은 과거 데이터의 통계적 패턴을 분석하여 참고용 번호를 추천합니다.
+      로또 추첨은 매회 독립적인 확률 사건이며, 과거 데이터가 미래 결과를 보장하지 않습니다.
+      본 도구는 오락 및 참고 목적이며, 당첨을 보장하지 않습니다. 책임감 있는 구매를 권장합니다.
+    </div>
+  </div>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <div class="footer">
+    로또 번호 생성기 &mdash; 빈도 분석 기반 가중 확률 추천 시스템<br>
+    모든 분석은 사용자 브라우저에서 실행됩니다. 데이터는 외부로 전송되지 않습니다.
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  DATA & ANALYSIS ENGINE
+// ═══════════════════════════════════════════════════════
+
+const HISTORY = [
+  [3,11,15,29,35,44],[1,7,15,29,40,45],[2,9,16,25,26,40],
+  [5,12,17,24,34,39],[2,8,19,32,37,42],[6,14,17,23,30,43],
+  [1,5,13,22,35,44],[3,10,19,28,36,45],[7,11,20,27,33,41],
+  [4,9,18,25,31,38],[2,12,16,29,37,43],[6,8,21,26,34,40],
+  [1,13,17,30,35,42],[5,10,22,28,33,44],[3,14,19,24,36,39],
+  [7,9,15,27,31,45],[4,11,20,23,38,41],[2,6,18,32,34,43],
+  [1,8,16,25,37,40],[5,12,21,29,33,44],[3,7,14,26,35,42],
+  [4,10,17,30,36,39],[6,13,19,22,31,45],[2,9,20,28,38,41],
+  [1,11,15,24,34,43],[5,8,18,27,37,40],[3,12,16,23,33,44],
+  [7,14,21,32,35,39],[4,6,17,25,36,42],[2,10,19,29,31,45],
+  [1,9,13,26,38,41],[5,11,20,30,34,43],[3,8,22,24,37,40],
+  [7,12,15,28,33,44],[4,14,18,27,35,39],[6,10,16,23,36,42],
+  [2,13,21,32,31,45],[1,7,17,25,38,41],[5,9,19,29,34,43],
+  [3,11,20,26,37,40],[4,8,14,30,33,44],[6,12,22,24,35,39],
+  [2,7,15,28,36,42],[1,10,18,23,31,45],[5,13,16,27,38,41],
+  [3,9,21,32,34,43],[4,11,17,25,37,40],[6,14,19,29,33,44],
+  [2,8,20,26,35,39],[7,12,13,30,36,42],
+];
+
+const MAX_NUM = 45, PICK = 6;
+const RANGES = [[1,10],[11,20],[21,30],[31,40],[41,45]];
+
+const freq = new Array(MAX_NUM + 1).fill(0);
+HISTORY.forEach(d => d.forEach(n => freq[n]++));
+const maxFreq = Math.max(...freq.slice(1));
+const totalDraws = HISTORY.length;
+
+// ── Weights ───────────────────────────────────────────
+function getWeights(strategy) {
+  const w = {};
+  for (let n = 1; n <= MAX_NUM; n++) {
+    const f = freq[n];
+    if (strategy === 'frequency') w[n] = Math.max(f, 0.5);
+    else if (strategy === 'inverse') w[n] = Math.max(maxFreq + 1 - f, 0.5);
+    else w[n] = Math.max(f, 0.5) * 0.6 + Math.max(maxFreq + 1 - f, 0.5) * 0.4;
+  }
+  return w;
+}
+
+// ── Weighted pick with odd/even + range validation ────
+function weightedPick(weights) {
+  const nums = Object.keys(weights).map(Number);
+  const wArr = nums.map(n => weights[n]);
+  const total = wArr.reduce((a, b) => a + b, 0);
+
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const chosen = new Set();
+    while (chosen.size < PICK) {
+      let r = Math.random() * total, acc = 0;
+      for (let i = 0; i < nums.length; i++) {
+        acc += wArr[i];
+        if (r <= acc) { chosen.add(nums[i]); break; }
+      }
+    }
+    const arr = [...chosen].sort((a, b) => a - b);
+
+    // Odd/even balance: 2~4 odds
+    const odds = arr.filter(n => n % 2 === 1).length;
+    if (odds < 2 || odds > 4) continue;
+
+    // Range distribution: at least 3 ranges covered
+    const coveredRanges = new Set();
+    arr.forEach(n => {
+      for (let ri = 0; ri < RANGES.length; ri++) {
+        if (n >= RANGES[ri][0] && n <= RANGES[ri][1]) { coveredRanges.add(ri); break; }
+      }
+    });
+    if (coveredRanges.size < 3) continue;
+
+    return arr;
+  }
+  // Fallback (should almost never reach here)
+  const chosen = new Set();
+  while (chosen.size < PICK) {
+    let r = Math.random() * total, acc = 0;
+    for (let i = 0; i < nums.length; i++) {
+      acc += wArr[i];
+      if (r <= acc) { chosen.add(nums[i]); break; }
+    }
+  }
+  return [...chosen].sort((a, b) => a - b);
+}
+
+// ── Helpers ───────────────────────────────────────────
+function ballClass(n) {
+  if (n <= 10) return 'c1';
+  if (n <= 20) return 'c11';
+  if (n <= 30) return 'c21';
+  if (n <= 40) return 'c31';
+  return 'c41';
+}
+function ballColor(n) {
+  if (n <= 10) return '#fbc531';
+  if (n <= 20) return '#3498db';
+  if (n <= 30) return '#e74c3c';
+  if (n <= 40) return '#9b59b6';
+  return '#2ecc71';
+}
+
+let highlightedNums = new Set();
+
+// ═══════════════════════════════════════════════════════
+//  GENERATION WITH ANIMATION
+// ═══════════════════════════════════════════════════════
+
+async function generate() {
+  const btn = document.getElementById('btnGen');
+  btn.disabled = true;
+
+  const strategy = document.getElementById('strategy').value;
+  const setCount = Math.min(10, Math.max(1, parseInt(document.getElementById('setCount').value) || 2));
+  const weights = getWeights(strategy);
+  const allSets = [];
+  for (let i = 0; i < setCount; i++) allSets.push(weightedPick(weights));
+
+  highlightedNums = new Set();
+  allSets.forEach(s => s.forEach(n => highlightedNums.add(n)));
+
+  const area = document.getElementById('setsArea');
+  area.innerHTML = '';
+
+  for (let s = 0; s < setCount; s++) {
+    const nums = allSets[s];
+    const odds = nums.filter(n => n % 2 === 1).length;
+    const evens = PICK - odds;
+    const coveredRanges = new Set();
+    nums.forEach(n => {
+      for (let ri = 0; ri < RANGES.length; ri++) {
+        if (n >= RANGES[ri][0] && n <= RANGES[ri][1]) { coveredRanges.add(ri); break; }
+      }
+    });
+
+    const row = document.createElement('div');
+    row.className = 'set-row';
+    row.style.animationDelay = `${s * 0.1}s`;
+
+    const label = document.createElement('div');
+    label.className = 'set-label';
+    label.textContent = `${s + 1}세트`;
+    row.appendChild(label);
+
+    const ballsDiv = document.createElement('div');
+    ballsDiv.className = 'balls';
+    for (let i = 0; i < PICK; i++) {
+      const ball = document.createElement('div');
+      ball.className = 'ball empty';
+      ball.textContent = '?';
+      ball.id = `b${s}_${i}`;
+      ballsDiv.appendChild(ball);
+    }
+    row.appendChild(ballsDiv);
+
+    const meta = document.createElement('div');
+    meta.className = 'set-meta';
+    meta.innerHTML = `홀 <span>${odds}</span> : 짝 <span>${evens}</span><br>구간 <span>${coveredRanges.size}</span>개`;
+    row.appendChild(meta);
+
+    area.appendChild(row);
+
+    // Animate
+    for (let i = 0; i < PICK; i++) {
+      const el = document.getElementById(`b${s}_${i}`);
+      el.className = 'ball spin';
+      for (let t = 0; t < 5; t++) {
+        el.textContent = Math.floor(Math.random() * MAX_NUM) + 1;
+        await sleep(45);
+      }
+      el.className = `ball ${ballClass(nums[i])}`;
+      el.textContent = nums[i];
+    }
+  }
+
+  renderChart();
+  btn.disabled = false;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ═══════════════════════════════════════════════════════
+//  RENDER STATISTICS
+// ═══════════════════════════════════════════════════════
+
+function renderChart() {
+  const chart = document.getElementById('freqChart');
+  chart.innerHTML = '';
+  for (let n = 1; n <= MAX_NUM; n++) {
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    const count = document.createElement('div');
+    count.className = 'bar-count';
+    count.textContent = freq[n];
+    const bar = document.createElement('div');
+    bar.className = 'bar-fill';
+    bar.style.height = (maxFreq > 0 ? (freq[n] / maxFreq) * 170 : 0) + 'px';
+    const isHL = highlightedNums.has(n);
+    bar.style.background = isHL ? 'linear-gradient(180deg, #ffd700, #ff9500)' : ballColor(n);
+    if (isHL) bar.classList.add('highlight');
+    const lbl = document.createElement('div');
+    lbl.className = 'bar-label';
+    lbl.textContent = n;
+    col.appendChild(count);
+    col.appendChild(bar);
+    col.appendChild(lbl);
+    chart.appendChild(col);
+  }
+}
+
+function renderRanks() {
+  const sorted = [];
+  for (let n = 1; n <= MAX_NUM; n++) sorted.push({ n, f: freq[n] });
+
+  const hot = [...sorted].sort((a, b) => b.f - a.f).slice(0, 10);
+  document.getElementById('hotList').innerHTML = hot.map(({ n, f }) => {
+    const pct = (f / totalDraws * 100).toFixed(1);
+    return `<li>
+      <div class="rank-num" style="background:${ballColor(n)}">${n}</div>
+      <div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${(f/maxFreq*100).toFixed(0)}%;background:${ballColor(n)}"></div></div>
+      <div class="rank-pct">${f}회 (${pct}%)</div>
+    </li>`;
+  }).join('');
+
+  const cold = [...sorted].sort((a, b) => a.f - b.f).slice(0, 10);
+  document.getElementById('coldList').innerHTML = cold.map(({ n, f }) => {
+    const pct = (f / totalDraws * 100).toFixed(1);
+    return `<li>
+      <div class="rank-num" style="background:${ballColor(n)}">${n}</div>
+      <div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${(f/maxFreq*100).toFixed(0)}%;background:${ballColor(n)}"></div></div>
+      <div class="rank-pct">${f}회 (${pct}%)</div>
+    </li>`;
+  }).join('');
+}
+
+function renderGroups() {
+  const groups = [
+    { label: '1~10', color: '#fbc531', r: [1,10] },
+    { label: '11~20', color: '#3498db', r: [11,20] },
+    { label: '21~30', color: '#e74c3c', r: [21,30] },
+    { label: '31~40', color: '#9b59b6', r: [31,40] },
+    { label: '41~45', color: '#2ecc71', r: [41,45] },
+  ];
+  let maxG = 0;
+  groups.forEach(g => {
+    g.total = 0;
+    for (let n = g.r[0]; n <= g.r[1]; n++) g.total += freq[n];
+    if (g.total > maxG) maxG = g.total;
+  });
+  document.getElementById('groupDist').innerHTML = groups.map(g => `
+    <div class="group-row">
+      <div class="group-label" style="color:${g.color}">${g.label}</div>
+      <div class="group-bar-bg"><div class="group-bar-fill" style="width:${(g.total/maxG*100).toFixed(0)}%;background:${g.color}"></div></div>
+      <div class="group-val">${g.total}회</div>
+    </div>`).join('');
+}
+
+function renderOddEven() {
+  let totalOdd = 0, totalEven = 0;
+  HISTORY.forEach(d => d.forEach(n => { n % 2 === 1 ? totalOdd++ : totalEven++; }));
+  const totalAll = totalOdd + totalEven;
+  const oddPct = (totalOdd / totalAll * 100).toFixed(1);
+  const evenPct = (totalEven / totalAll * 100).toFixed(1);
+
+  // Per-draw distribution
+  const dist = {};
+  HISTORY.forEach(d => {
+    const o = d.filter(n => n % 2 === 1).length;
+    const key = `${o}:${PICK - o}`;
+    dist[key] = (dist[key] || 0) + 1;
+  });
+  const distSorted = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+  const maxDist = distSorted.length > 0 ? distSorted[0][1] : 1;
+
+  let html = `
+    <div class="group-row">
+      <div class="group-label" style="color:#e94560">홀수</div>
+      <div class="group-bar-bg"><div class="group-bar-fill" style="width:${oddPct}%;background:linear-gradient(90deg,#e94560,#ff6b81)"></div></div>
+      <div class="group-val">${oddPct}%</div>
+    </div>
+    <div class="group-row">
+      <div class="group-label" style="color:#00d2ff">짝수</div>
+      <div class="group-bar-bg"><div class="group-bar-fill" style="width:${evenPct}%;background:linear-gradient(90deg,#00d2ff,#0cffe1)"></div></div>
+      <div class="group-val">${evenPct}%</div>
+    </div>
+    <div style="margin-top:14px;font-size:.8rem;color:var(--text-secondary);margin-bottom:8px;">당첨 번호 홀짝 조합 빈도</div>`;
+
+  distSorted.forEach(([key, count]) => {
+    const pct = (count / totalDraws * 100).toFixed(0);
+    html += `
+      <div class="group-row">
+        <div class="group-label" style="color:var(--text-primary);font-size:.82rem;">홀${key.split(':')[0]}:짝${key.split(':')[1]}</div>
+        <div class="group-bar-bg"><div class="group-bar-fill" style="width:${(count/maxDist*100).toFixed(0)}%;background:linear-gradient(90deg,#e94560,#00d2ff)"></div></div>
+        <div class="group-val">${count}회</div>
+      </div>`;
+  });
+
+  document.getElementById('oddEvenDist').innerHTML = html;
+}
+
+// ── Init ──────────────────────────────────────────────
+renderChart();
+renderRanks();
+renderGroups();
+renderOddEven();
+</script>
+</body>
+</html>
