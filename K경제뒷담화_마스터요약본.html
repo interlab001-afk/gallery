@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K경제뒷담화 마스터 요약본</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    padding: 24px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .header {
+    text-align: center;
+    padding: 24px 0 16px;
+    border-bottom: 2px solid #00d4ff;
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 26px; color: #00d4ff; font-weight: 900; }
+  .header p { color: #888; font-size: 12px; margin-top: 4px; }
+  
+  .section { margin-bottom: 24px; }
+  .section-title {
+    font-size: 15px; font-weight: 700;
+    color: #00d4ff; margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #1c2333;
+  }
+  
+  table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  th {
+    background: #00d4ff; color: #0d1117;
+    font-weight: 700; padding: 7px 10px;
+    text-align: left; font-size: 12px;
+  }
+  td { padding: 6px 10px; border-bottom: 1px solid #1c2333; font-size: 12px; }
+  tr:nth-child(odd) td { background: #161b27; }
+  tr:nth-child(even) td { background: #0d1117; }
+  
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 10px; font-size: 11px; font-weight: 700;
+  }
+  .done { background: #0d3321; color: #00ff88; }
+  .progress { background: #332200; color: #ff8800; }
+  .todo { background: #1a1a2e; color: #888; }
+  
+  .highlight { color: #ffdd00; }
+  .green { color: #00ff88; }
+  .red { color: #ff4444; }
+  .gray { color: #888; }
+  .orange { color: #ff8800; }
+  
+  .note {
+    background: #161b27; border-left: 3px solid #00d4ff;
+    padding: 8px 12px; margin: 6px 0;
+    border-radius: 0 6px 6px 0; font-size: 12px;
+  }
+  .warn {
+    background: #1a1000; border-left: 3px solid #ff8800;
+    padding: 8px 12px; margin: 6px 0;
+    border-radius: 0 6px 6px 0; font-size: 12px;
+  }
+  .success {
+    background: #0d3321; border-left: 3px solid #00ff88;
+    padding: 8px 12px; margin: 6px 0;
+    border-radius: 0 6px 6px 0; font-size: 12px;
+  }
+  
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  
+  .card {
+    background: #161b27; border: 1px solid #1c2333;
+    border-radius: 8px; padding: 12px;
+  }
+  .card-title { font-weight: 700; color: #00ff88; margin-bottom: 6px; font-size: 12px; }
+  .card-body { font-size: 11px; color: #aaa; line-height: 1.7; }
+  
+  .progress-bar {
+    background: #1c2333; border-radius: 10px; height: 8px; margin: 6px 0;
+  }
+  .progress-fill {
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    border-radius: 10px; height: 8px;
+  }
+  
+  .cmd {
+    background: #0d1117; border: 1px solid #333;
+    padding: 8px 12px; border-radius: 6px;
+    font-family: monospace; font-size: 11px;
+    color: #00ff88; margin: 4px 0;
+  }
+
+  .footer {
+    text-align: center; margin-top: 32px;
+    padding-top: 16px; border-top: 2px solid #00d4ff;
+    color: #00d4ff; font-weight: 700; font-size: 14px;
+  }
+
+  @media print {
+    body { background: white; color: black; }
+    .header h1 { color: #0066cc; }
+    .section-title { color: #0066cc; }
+    th { background: #0066cc; }
+    tr:nth-child(odd) td { background: #f5f5f5; }
+    tr:nth-child(even) td { background: white; }
+    .card { background: #f9f9f9; border: 1px solid #ddd; }
+    .note { background: #e8f4fd; border-left-color: #0066cc; }
+    .warn { background: #fff3e0; border-left-color: #ff8800; }
+    .cmd { background: #f0f0f0; color: #006600; }
+    .done { background: #e8f5e9; color: #2e7d32; }
+    .progress { background: #fff3e0; color: #e65100; }
+    .highlight { color: #cc6600; }
+    .green { color: #2e7d32; }
+    .red { color: #c62828; }
+    .gray { color: #666; }
+    .footer { color: #0066cc; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 K경제뒷담화 마스터 요약본</h1>
+  <p>자동화 스튜디오 v2.0 &nbsp;|&nbsp; 2026-04-07 기준 &nbsp;|&nbsp; 전체 진행률 100% 🎉</p>
+  <div class="progress-bar" style="max-width:400px;margin:8px auto 0">
+    <div class="progress-fill" style="width:100%"></div>
+  </div>
+</div>
+
+<!-- 1. 프로젝트 구조 -->
+<div class="section">
+  <div class="section-title">🗂️ 1. 프로젝트 경로 & 폴더 구조</div>
+  <div class="note highlight">📁 C:\Users\user\Desktop\K경제뒷담화\</div>
+  <div class="grid2" style="margin-top:10px">
+    <table>
+      <tr><th>폴더</th><th>내용</th></tr>
+      <tr><td>01_주제/</td><td>주제 저장</td></tr>
+      <tr><td>02_대본/</td><td>script.txt</td></tr>
+      <tr><td>03_TTS/</td><td>001.mp3, 002.mp3, 003.mp3</td></tr>
+      <tr><td>04_MP3완성/</td><td>output.mp3</td></tr>
+      <tr><td>05_자막/</td><td>output.srt, output_fixed.srt</td></tr>
+      <tr><td>06_이미지/</td><td>img*.jpg, image_prompts.txt</td></tr>
+    </table>
+    <table>
+      <tr><th>폴더</th><th>내용</th></tr>
+      <tr><td>07_영상/</td><td>mv*.mp4, video_prompts.txt</td></tr>
+      <tr><td>08_최종/</td><td>K경제뒷담화_날짜.mp4, thumbnail.jpg</td></tr>
+      <tr><td>BGM/</td><td>bgm.mp3</td></tr>
+      <tr><td>그록_준비/</td><td>prompts_grok.txt + 이미지</td></tr>
+      <tr><td>그록_다운로드/</td><td>다운로드 임시 저장</td></tr>
+      <tr><td>백업/</td><td>날짜_시간/ (자동 백업)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 2. 파이프라인 단계 -->
+<div class="section">
+  <div class="section-title">⚙️ 2. 파이프라인 단계 & 상태</div>
+  <table>
+    <tr><th>단계</th><th>내용</th><th>파일</th><th>상태</th></tr>
+    <tr><td>1</td><td>주제 선정 (Gemini + Naver)</td><td>topic.html</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>2</td><td>대본 생성 (Gemini, 8,000자 고정)</td><td>script.html</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>3</td><td>TTS (ElevenLabs / Edge TTS)</td><td>tts_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>3.5</td><td>MP3 합치기</td><td>merge_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>3.6</td><td>Whisper 자막 추출</td><td>merge_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>3.8</td><td>자막 검수 (Gemini) + 원본 대본 비교</td><td>subtitle_check_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>4</td><td>이미지/영상 프롬프트 생성</td><td>prompt_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>4.5</td><td>이미지 생성 (Gemini Imagen)</td><td>imagen_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>4.6</td><td>그록 준비 (30% 추출)</td><td>pipeline.html</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>4.7</td><td>그록 자동화 (Playwright CDP)</td><td>grok_auto.py</td><td><span class="badge done">✅ 완료 🎉</span></td></tr>
+    <tr><td>5</td><td>최종 영상 합치기</td><td>video_merge_pipeline.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>6</td><td>썸네일 생성 (Gemini)</td><td>thumbnail.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+    <tr><td>7</td><td>유튜브 자동 업로드</td><td>upload.py</td><td><span class="badge done">✅ 완료</span></td></tr>
+  </table>
+</div>
+
+<!-- 3. API 키 -->
+<div class="section">
+  <div class="section-title">🔑 3. API 키 & 설정값</div>
+  <table>
+    <tr><th>항목</th><th>값</th></tr>
+    <tr><td>Gemini API Key</td><td class="gray">AIzaSyDwakPJdA-QLgXEzvnJzzt93nMOacpIOSs</td></tr>
+    <tr><td>Gemini 이미지 모델</td><td class="highlight">gemini-3.1-flash-image-preview</td></tr>
+    <tr><td>Gemini 텍스트 모델</td><td>gemini-2.5-flash / gemini-2.5-pro (자막검수)</td></tr>
+    <tr><td>ElevenLabs API</td><td class="gray">sk_5d330bf6b35d1a6bbddcf48ae08dd27f8e433dcafe8b5049</td></tr>
+    <tr><td>Voice ID (Patrick)</td><td>onwK4e9ZLuTAKqWW03F9</td></tr>
+    <tr><td>TTS 설정</td><td>stability 0.73 / similarity 0.56 / style 0.5 / speed 1.0</td></tr>
+    <tr><td>ElevenLabs 플랜</td><td>Creator $22/월 + 사용량 기반 청구 활성화 (한도 250,000)</td></tr>
+    <tr><td>Naver Client ID</td><td class="gray">twSikCvXh4KyrScy5hDf</td></tr>
+    <tr><td>Naver Client Secret</td><td class="gray">QQ7MaL3X9P</td></tr>
+  </table>
+</div>
+
+<!-- 4. Grok 자동화 핵심 -->
+<div class="section">
+  <div class="section-title">🎭 4. Grok 자동화 (오늘 완성!! 🎉)</div>
+  <div class="success">🎉 Playwright CDP 방식으로 기존 크롬 제어 완전 성공!! Grok Auto 구독 해지 가능!!</div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">크롬 디버그 모드 실행 (매번 필수!!)</div>
+    <div class="cmd">"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\chrome_debug"</div>
+    <div class="note gray">▶ 크롬 열리면 grok.com/imagine 로그인 확인 후 실행!!</div>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">grok_auto.py 동작 순서</div>
+    <table>
+      <tr><th>단계</th><th>동작</th><th>비고</th></tr>
+      <tr><td>1</td><td>CDP http://localhost:9222 연결</td><td>크롬 디버그 모드 필수</td></tr>
+      <tr><td>2</td><td>prompts_grok.txt 파싱 (40개)</td><td>C:\...\그록_준비\</td></tr>
+      <tr><td>3</td><td>이미지 파일 목록 로드 (40개)</td><td>img001.png ~ img132.png</td></tr>
+      <tr><td>4</td><td>grok.com/imagine 접속 확인</td><td>리다이렉트 방지 로직 포함</td></tr>
+      <tr><td>5</td><td>하단 "+" 버튼 클릭</td><td>form button:first-child</td></tr>
+      <tr><td>6</td><td>이미지 1개만 직접 업로드</td><td>input[type=file] set_files()</td></tr>
+      <tr><td>7</td><td>업로드 이미지 1개 확인</td><td>2개 이상이면 에러!!</td></tr>
+      <tr><td>8</td><td>프롬프트 입력 + 확인</td><td>번호 일치 검증</td></tr>
+      <tr><td>9</td><td>전송 버튼 클릭</td><td>button[aria-label="제출"]</td></tr>
+      <tr><td>10</td><td>video 태그 나타날 때까지 대기</td><td>최대 600초</td></tr>
+      <tr><td>11</td><td>다운로드 버튼 클릭</td><td>button[aria-label="다운로드"]</td></tr>
+      <tr><td>12</td><td>requests로 직접 다운로드</td><td>브라우저 쿠키 복사 방식</td></tr>
+      <tr><td>13</td><td>파일 이름 변경 + 이동</td><td>mv{idx:03d}{num:03d}.mp4</td></tr>
+    </table>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">파일 이름 규칙</div>
+    <div class="note highlight">mv{그록순서:03d}{씬번호:03d}.mp4</div>
+    <table>
+      <tr><th>그록순서</th><th>씬번호</th><th>파일명</th></tr>
+      <tr><td>1번째</td><td>씬1</td><td>mv001001.mp4</td></tr>
+      <tr><td>2번째</td><td>씬3</td><td>mv002003.mp4</td></tr>
+      <tr><td>6번째</td><td>씬12</td><td>mv006012.mp4</td></tr>
+    </table>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">경로 설정</div>
+    <table>
+      <tr><th>항목</th><th>경로</th></tr>
+      <tr><td>프롬프트 파일</td><td>C:\Users\user\Desktop\K경제뒷담화\그록_준비\prompts_grok.txt</td></tr>
+      <tr><td>이미지 폴더</td><td>C:\Users\user\Desktop\K경제뒷담화\그록_준비\</td></tr>
+      <tr><td>다운로드 임시</td><td>C:\Users\user\Desktop\K경제뒷담화\그록_다운로드\</td></tr>
+      <tr><td>최종 저장</td><td>C:\Users\user\Desktop\K경제뒷담화\07_영상\</td></tr>
+      <tr><td>백업 파일</td><td>C:\Users\user\grok_auto_backup_20260407.py</td></tr>
+    </table>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">검증 로직 (정확성 우선!!)</div>
+    <div class="note green">✅ 이미지 파일 존재 확인</div>
+    <div class="note green">✅ 파일 크기 0바이트 아닌지 확인</div>
+    <div class="note green">✅ PNG/JPG 매직 바이트 확인</div>
+    <div class="note green">✅ 번호 일치 확인 (이미지 번호 = 프롬프트 번호)</div>
+    <div class="note green">✅ 업로드 이미지 1개만 확인 (2개 이상이면 에러)</div>
+    <div class="note green">✅ 프롬프트 실제 입력 확인</div>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">실행 방법</div>
+    <div class="cmd">python "C:\Users\user\grok_auto.py"</div>
+    <div class="warn">🔴 반드시 크롬 디버그 모드 먼저 실행 후 grok.com/imagine 로그인 확인!!</div>
+  </div>
+</div>
+
+<!-- 5. 내일 할 것 - UI 연결 -->
+<div class="section">
+  <div class="section-title">🔧 5. 내일 할 것 - UI 연결</div>
+  <div class="success">🎯 grok_auto.py를 pipeline.html 4.7단계 버튼에 연결!!</div>
+  
+  <table style="margin-top:10px">
+    <tr><th>항목</th><th>내용</th><th>우선순위</th></tr>
+    <tr><td>pipeline.html 4.7단계 버튼</td><td>"🤖 그록 자동화 시작" 버튼 → /api/grok_auto_start 연결</td><td><span class="red">🔴 1순위</span></td></tr>
+    <tr><td>app.py API 추가</td><td>/api/grok_auto_start → grok_auto.py 실행</td><td><span class="red">🔴 1순위</span></td></tr>
+    <tr><td>크롬 자동 실행 스크립트</td><td>버튼 클릭시 크롬 디버그 모드 자동 실행</td><td><span class="red">🔴 1순위</span></td></tr>
+    <tr><td>진행상황 실시간 표시</td><td>현재 몇 번째 / 성공 / 실패 개수</td><td><span class="orange">🟡 2순위</span></td></tr>
+    <tr><td>settings.html Voice Library</td><td>한국어 목소리 선택 UI</td><td><span class="orange">🟡 2순위</span></td></tr>
+    <tr><td>자막 오류 근본 해결</td><td>한국어 PVC 적용</td><td><span class="orange">🟡 2순위</span></td></tr>
+    <tr><td>K역사뒷담화 이다혜 캐릭터</td><td>캐릭터 설정 확정</td><td><span class="green">🟢 나중</span></td></tr>
+  </table>
+
+  <div style="margin-top:10px">
+    <div class="section-title" style="font-size:13px">UI 연결 방식</div>
+    <div class="note">▶ 버튼 클릭 → 크롬 디버그 모드 자동 실행</div>
+    <div class="note">▶ grok.com/imagine 자동 접속</div>
+    <div class="note">▶ grok_auto.py 자동 실행</div>
+    <div class="note">▶ 진행상황 실시간 표시 (몇 번째/전체)</div>
+    <div class="note">▶ 완료되면 자동으로 5단계(영상합치기) 시작!!</div>
+  </div>
+</div>
+
+<!-- 6. 오늘 작업 요약 -->
+<div class="section">
+  <div class="section-title">📋 6. 오늘 작업 요약 (2026-04-07)</div>
+  <div class="grid2">
+    <div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title">📝 자막 관련</div>
+        <div class="card-body">
+          경제편의점 등 채널 자막 분석<br>
+          자막 한 화면 최대 <span class="highlight">20자</span> 기준 확정<br>
+          output_fixed.srt 오류 <span class="highlight">92개 수정</span><br>
+          subtitle_check_pipeline.py 원본 대본 비교 로직 추가
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title">🎙️ 대본 프롬프트 업그레이드</div>
+        <div class="card-body">
+          도입부 4가지 패턴 랜덤 (충격/숫자/반전/질문형공감)<br>
+          문장 최대 <span class="highlight">20자</span> / 평균 17~18자<br>
+          숫자 <span class="highlight">24%</span> 목표 / 8,000자 고정<br>
+          "그런데" 6% 이상 / 마무리 임팩트 한 줄<br>
+          시청자 공감 질문 4~6회 삽입
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">💰 ElevenLabs</div>
+        <div class="card-body">
+          Creator $22/월 유지<br>
+          사용량 기반 청구 활성화<br>
+          한도 250,000 크레딧<br>
+          <span class="highlight">월 13개 영상 가능</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title">🤖 자동화 시스템</div>
+        <div class="card-body">
+          kvid_ 임시폴더 자동 삭제<br>
+          영상합치기 전 임시파일 팝업 확인<br>
+          <span class="green">video duration=first 수정 → 22분 영상 정상!!</span><br>
+          SFX 6분 문제 해결
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title">🎭 Grok 자동화 완성!! 🎉</div>
+        <div class="card-body">
+          Windows Defender 예외 추가<br>
+          크롬 디버그 모드 연결 성공<br>
+          CDP http://localhost:9222 연결<br>
+          grok.com/imagine 자동 이동<br>
+          이미지 1개 자동 업로드<br>
+          프롬프트 자동 입력<br>
+          영상 생성 완료 자동 감지<br>
+          자동 다운로드 + 이름 변경<br>
+          <span class="green">07_영상 폴더 자동 저장!!</span><br>
+          <span class="highlight">Grok Auto 구독 해지 가능!!</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎬 영상 완성</div>
+        <div class="card-body">
+          <span class="highlight">22분짜리 영상 완성!!</span><br>
+          역대 2번째로 잘 만든 영상<br>
+          자막 수정 후 퀄리티 향상<br>
+          유튜브 업로드 완료
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. 주의사항 -->
+<div class="section">
+  <div class="section-title">⚠️ 7. 주의사항 (삽질 방지!!)</div>
+  <div class="grid2">
+    <div>
+      <div class="warn">🔴 Gemini 이미지 모델: <strong>gemini-3.1-flash-image-preview</strong></div>
+      <div class="warn">🔴 thumbnail.py 절대 건드리지 말 것!!</div>
+      <div class="warn">🔴 app.py 수정시 전체 교체 방식</div>
+      <div class="warn">🔴 Flask는 반드시 localhost:5000</div>
+    </div>
+    <div>
+      <div class="warn">🔴 Grok 자동화 전 크롬 디버그 모드 필수!!</div>
+      <div class="warn">🔴 grok.com/imagine 로그인 확인 후 실행</div>
+      <div class="warn">🔴 CLAUDE.md 읽고 시작 (매번 필수!!)</div>
+      <div class="warn">🔴 대본 문장 최대 20자</div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. 교수님 프롬프트 -->
+<div class="section">
+  <div class="section-title">👨‍🏫 8. 교수님 고정 프롬프트</div>
+  <div class="cmd">A Pixar-style 3D animated character. A friendly-looking middle-aged Korean man in his 40s with neatly parted black hair, wearing thin silver-rimmed glasses. He is dressed in a dark navy suit jacket and a white collared shirt.</div>
+  <div class="note gray">▶ 3번째마다 등장 / 배경에 한글 자연스럽게</div>
+</div>
+
+<!-- 9. 채널 확장 -->
+<div class="section">
+  <div class="section-title">📺 9. 채널 확장 계획</div>
+  <table>
+    <tr><th>채널</th><th>캐릭터</th><th>상태</th></tr>
+    <tr><td>K경제뒷담화</td><td>교수님 (40대 남성, 픽사 스타일)</td><td><span class="badge done">✅ 운영 중 (7편 업로드)</span></td></tr>
+    <tr><td>K역사뒷담화</td><td>이다혜 (29세 여성)</td><td><span class="badge progress">⏳ 준비 중</span></td></tr>
+    <tr><td>추가 채널</td><td>미정</td><td><span class="badge todo">🟢 나중에</span></td></tr>
+  </table>
+  <div class="note highlight">▶ 목표: PC 3대 × 구글 계정 3개 × 채널 3개 = 채널 9개</div>
+</div>
+
+<!-- 10. 다음 시작 문구 -->
+<div class="section">
+  <div class="section-title">📌 10. 다음 시작 문구</div>
+  <div style="margin-bottom:6px"><span class="highlight">Claude Code:</span></div>
+  <div class="cmd">CLAUDE.md 읽고 파악해줘.<br>
+오늘 Grok 자동화 완성!!<br>
+grok_auto.py → pipeline.html 4.7단계 버튼 연결해줘.<br>
+1. pipeline.html에 "🤖 그록 자동화 시작" 버튼 추가<br>
+2. app.py에 /api/grok_auto_start 엔드포인트 추가<br>
+3. 버튼 클릭시 크롬 디버그 모드 자동 실행 후 grok_auto.py 실행<br>
+4. 진행상황 실시간 표시 (몇 번째/전체, 성공/실패)</div>
+  <div style="margin:8px 0 4px"><span class="highlight">Claude 채팅:</span></div>
+  <div class="cmd">K경제뒷담화 이어서 하자. 오늘 요약본 줄게.</div>
+</div>
+
+<div class="footer">
+  🎯 완전 자동화 파이프라인 완성!! 🚀 &nbsp;|&nbsp; 내일 목표: UI 연결 + 전체 테스트!!
+</div>
+
+</body>
+</html>
