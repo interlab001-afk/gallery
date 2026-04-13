@@ -186,6 +186,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let items = [];
+let sortableInstance = null;
 let currentFilter = 'all';
 let editingId = null;
 const expandedIds = new Set();
@@ -340,7 +341,8 @@ window.renderMemos = function() {
     </div>`;
   }).join('');
 
-  Sortable.create(grid, {
+  if (sortableInstance) { sortableInstance.destroy(); }
+  sortableInstance = Sortable.create(grid, {
     animation: 150,
     ghostClass: 'sortable-ghost',
     chosenClass: 'sortable-chosen',
