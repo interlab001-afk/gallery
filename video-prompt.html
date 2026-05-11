@@ -846,41 +846,91 @@ function generateImgOutput() {
 }
 
 function buildImgConsultPrompt(model, extra) {
-  const guide = IMG_MODEL_GUIDE[model?.id] || '일반적인 이미지 AI 규칙을 따르세요.';
-  return `당신은 AI 이미지 생성 프롬프트 전문가입니다. 아래 요구사항에 맞는 ${model?.label||'선택된 모델'} 최적화 프롬프트를 작성해 주세요.
+  const guide = IMG_MODEL_GUIDE[model?.id] || 'Follow general AI image generation best practices.';
+  return `You are an expert AI image prompt engineer specializing in ${model?.label||'AI image generation'}.
 
-[사용자 선택 요약]
-• 카테고리: ${imgSel.category?.label||'미선택'}
-• 세부 유형: ${imgSel.subtype?.label||'없음 (직접 입력)'}
-• 분위기/톤: ${imgSel.tone?.label||'미선택'}
-• 추가 설명: ${extra||'없음'}
+Generate an optimized image prompt based on:
+- Category: ${imgSel.category?.label||'general'}
+- Style/Type: ${imgSel.subtype?.label||'general'}
+- Mood/Tone: ${imgSel.tone?.label||'natural'}
+- Extra: ${extra||'none'}
 
-[목표 모델]
-${model?.label||'미선택'} — ${model?.desc||''}
+Target model: ${model?.label||'general AI'} — ${model?.desc||''}
+Model syntax guide: ${guide}
 
-[모델 최적화 가이드]
-${guide}
+STRICT OUTPUT RULES:
+- Output ONLY the final English prompt, nothing else
+- No explanations, no section labels, no Korean text, no preamble
+- Make it rich, visual, and specific: include subject, lighting, composition, mood, technical details
+- After main prompt add one blank line then "Negative prompt:" with comma-separated negatives
 
-[작성 요구사항]
-1. 위 선택 요소를 자연스럽게 통합하세요.
-2. 모델에 맞는 형식과 길이로 작성하세요.
-3. 구체적이고 시각적인 묘사를 포함하세요.
-4. 영어로 최종 프롬프트를 작성하세요.
-5. 네거티브 프롬프트도 제안해 주세요.
-
-완성된 프롬프트를 출력해 주세요.`;
+Start output now:`;
 }
 
 function buildImgDirectPrompt(model, extra) {
-  const parts=[];
-  const catMap={direct:'',thumbnail:'Korean YouTube thumbnail style, person in center frame, bold expression',portrait:'portrait photography',selfie:'selfie photo',product:'product photography',food:'food photography',landscape:'landscape photography',travel:'travel photography',idphoto:'professional profile photo, clean background',work:'business photography',appui:'app screenshot mockup, device',couple:'couple/group photography',fashion:'fashion photography, lookbook style',pet:'pet photography',interior:'interior design photography',poster:'poster design, commercial art',character:'character illustration',fantasy:'fantasy art, digital painting',event:'event photography',vehicle:'automotive photography',arch:'architectural photography',broll:'background scene, b-roll footage'};
-  const toneMap={bright:'bright and vivid, high saturation, clean lighting',film:'film photography, vintage grain, color grading',dark:'dark and moody, low key lighting, dramatic shadows',warm:'warm golden tones, soft bokeh, cozy atmosphere',cool:'cool blue tones, minimalist, clean',cinematic:'cinematic composition, dramatic lighting, widescreen'};
-  if(catMap[imgSel.category?.id]) parts.push(catMap[imgSel.category.id]);
-  if(imgSel.subtype?.label && imgSel.subtype.id!=='direct') parts.push(imgSel.subtype.label+' style');
-  if(toneMap[imgSel.tone?.id]) parts.push(toneMap[imgSel.tone.id]);
-  if(extra) parts.push(extra);
-  const qMap={Midjourney:', hyper detailed, 8k --ar 16:9 --v 7',DALLE3:', highly detailed, professional photography',Flux:', ultra detailed, sharp focus, professional quality',StableDiffusion:', masterpiece, best quality, 8k, ultra detailed',Firefly:', high quality, professional, detailed',Ideogram:', high quality, detailed',Imagen3:', photorealistic, high quality, detailed',Recraft:', high quality, professional, clean',Leonardo:', highly detailed, cinematic lighting, 8k',Playground:', artistic, detailed, high quality'};
-  return `${parts.filter(Boolean).join(', ')}${qMap[imgSelectedModel]||', high quality'}\n\n---\n[네거티브 프롬프트]\nblurry, low quality, distorted, watermark, text, bad anatomy, ugly, duplicate`;
+  const parts = [];
+  const catMap = {
+    direct: '',
+    thumbnail: 'YouTube thumbnail portrait, eye-catching confident expression, bold front-facing pose, centered subject, vivid studio lighting, sharp focus, high contrast',
+    portrait: 'professional portrait photography, 85mm f/1.8 lens, soft key light with fill, shallow depth of field, sharp eyes, smooth skin tones, neutral studio background',
+    selfie: 'casual selfie, natural soft lighting, front-camera close-up, authentic candid expression, lifestyle aesthetic, slightly warm tones',
+    product: 'commercial product photography, white seamless background, professional softbox lighting, 3/4 angle, razor-sharp product detail, clean drop shadow',
+    food: 'food photography, overhead flat-lay, natural window light, professional food styling, vibrant fresh colors, shallow depth of field, appetizing close-up',
+    landscape: 'sweeping landscape photography, ultra-wide 16mm lens, golden hour lighting, dramatic clouds, deep depth of field, foreground interest, vast panorama',
+    travel: 'travel documentary photography, authentic cultural setting, environmental portrait, wide establishing shot, candid photojournalistic quality',
+    idphoto: 'professional ID photo, plain neutral gray background, centered symmetrical framing, neutral expression, formal attire, even diffused studio lighting, sharp focus',
+    work: 'corporate professional photography, confident business portrait, clean modern office, formal attire, well-lit, magazine editorial quality',
+    appui: 'app UI mockup, modern device screen, clean minimal interface design, isometric perspective, professional product presentation, soft shadow',
+    couple: 'couple lifestyle photography, candid intimate moment, natural genuine laughter, warm bokeh background, soft golden light, authentic connection',
+    fashion: 'high fashion editorial, full-body lookbook pose, bold studio lighting, professional styling and makeup, magazine quality, dramatic shadow',
+    pet: 'pet portrait, adorable natural behavior, soft catchlight in eyes, shallow depth of field, low angle, warm light, heartwarming expression',
+    interior: 'interior design photography, beautifully styled space, abundant natural window light, wide-angle composition, magazine editorial quality',
+    poster: 'commercial poster design, strong graphic composition, bold visual hierarchy, professional layout, impactful color palette, print quality',
+    character: 'character concept art, detailed full-body design, expressive dynamic pose, clean professional illustration, vibrant colors, artstation quality',
+    fantasy: 'epic fantasy digital art, breathtaking magical environment, dramatic cinematic lighting, intricate world detail, concept art quality, artstation trending',
+    event: 'event photojournalism, candid authentic energy, decisive moment, available light, real emotions, documentary storytelling',
+    vehicle: 'automotive commercial photography, dramatic low-angle hero shot, reflective metallic surfaces, professional studio or outdoor lighting',
+    arch: 'architectural photography, geometric precision, dramatic perspective lines, clean structural lines, optimal natural lighting, professional HDR quality',
+    broll: 'cinematic B-roll establishing shot, atmospheric environment, wide cinematic framing, natural ambient light, mood-setting composition'
+  };
+  const toneMap = {
+    bright: 'bright vibrant atmosphere, high saturation, clean airy daylight, cheerful open feel',
+    film: 'analog film grain, vintage Kodak color grading, warm halation, 35mm film aesthetic, nostalgic tones',
+    dark: 'dark moody atmosphere, dramatic low-key lighting, deep shadows, high contrast chiaroscuro, mysterious cinematic',
+    warm: 'warm golden hour light, soft creamy bokeh, cozy intimate atmosphere, amber honey color palette',
+    cool: 'cool crisp blue palette, minimalist clean aesthetic, overcast diffused light, modern sophisticated mood',
+    cinematic: 'cinematic 2.39:1 widescreen, anamorphic lens flare, dramatic 3-point lighting, Hollywood color grading'
+  };
+
+  if (catMap[imgSel.category?.id]) parts.push(catMap[imgSel.category.id]);
+  if (imgSel.subtype?.label && imgSel.subtype.id !== 'direct') parts.push(imgSel.subtype.label);
+  if (toneMap[imgSel.tone?.id]) parts.push(toneMap[imgSel.tone.id]);
+  if (extra) parts.push(extra);
+
+  const base = parts.filter(Boolean).join(', ');
+  const mid = imgSelectedModel;
+
+  if (mid === 'Midjourney') {
+    return `${base}, hyper-realistic, ultra-detailed, 8K --ar 16:9 --v 7 --q 2\n\n---\n[네거티브 프롬프트]\n--no blurry, low quality, distorted, watermark, text, bad anatomy, ugly, duplicate`;
+  }
+  if (mid === 'DALLE3') {
+    return `A high-quality professional image of ${base}. Ultra-detailed, sharp focus, award-winning photography.\n\n---\n[네거티브 프롬프트]\n(DALL-E 3는 별도 네거티브 미지원 — 원치 않는 요소는 "without X" 형식으로 위 프롬프트에 추가)`;
+  }
+  if (mid === 'StableDiffusion') {
+    return `masterpiece, best quality, ultra-detailed, 8k, ${base}, sharp focus, professional\n\n---\n[네거티브 프롬프트]\n(worst quality, low quality:1.4), blurry, distorted, ugly, watermark, bad anatomy, bad proportions, extra limbs, disfigured, deformed`;
+  }
+  if (mid === 'Flux') {
+    return `${base}, ultra-detailed, sharp focus, professional quality, high resolution, award-winning\n\n---\n[네거티브 프롬프트]\nblurry, low quality, out of focus, amateur, distorted, watermark, noise`;
+  }
+  const qMap = {
+    Firefly: ', professional quality, Adobe Firefly enhanced, detailed',
+    Ideogram: ', high quality, detailed, Ideogram style',
+    Imagen3: ', photorealistic, ultra-detailed, Google Imagen quality',
+    Recraft: ', vector-clean, professional, scalable quality',
+    Leonardo: ', cinematic lighting, 8k, artistically detailed, Leonardo AI quality',
+    Playground: ', artistic, highly detailed, Playground v3 quality'
+  };
+  return `${base}${qMap[mid]||', high quality, detailed, professional'}\n\n---\n[네거티브 프롬프트]\nblurry, low quality, distorted, watermark, text, bad anatomy, ugly, duplicate`;
 }
 
 function imgSwitchTab(tab, e) {
@@ -1092,7 +1142,11 @@ async function runGemini(boxId, keyId, loadingId, btnId) {
   const prompt=document.getElementById(boxId).textContent;
   document.getElementById(loadingId).style.display='flex'; document.getElementById(btnId).style.display='none';
   try {
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+    const body={
+      system_instruction:{parts:[{text:'You are an expert AI image and video prompt engineer. When given user requirements, output ONLY the final optimized English prompt ready to paste into an AI generator. No explanations, no preamble, no labels, no Korean text. Output the prompt immediately, then a blank line, then "Negative prompt:" with comma-separated negatives.'}]},
+      contents:[{parts:[{text:prompt}]}]
+    };
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API 오류');}
     const d=await res.json();
     document.getElementById(boxId).textContent=d.candidates?.[0]?.content?.parts?.[0]?.text||'결과 없음';
