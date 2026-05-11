@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영상 프롬프트 빌더 - MyAI Studio</title>
+<style>
+:root {
+  --bg: #0f0f1a;
+  --card: #1a1730;
+  --card2: #1e1b4b;
+  --accent: #7c3aed;
+  --accent2: #6d28d9;
+  --accent-light: #a78bfa;
+  --pink: #ec4899;
+  --green: #10b981;
+  --text: #e2e8f0;
+  --text2: #9ca3af;
+  --border: #2d2b5a;
+  --border2: #3d3b6a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Pretendard','Noto Sans KR',sans-serif; min-height:100vh; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(15,15,26,.95); border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px; height:56px;
+}
+.nav-logo { font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; }
+.nav-logo span { color:var(--accent); }
+.nav-links { display:flex; gap:4px; }
+.nav-links a {
+  color:var(--text2); text-decoration:none; font-size:.85rem;
+  padding:6px 12px; border-radius:8px; transition:.15s;
+}
+.nav-links a:hover { background:rgba(124,58,237,.15); color:var(--accent-light); }
+.nav-links a.active { background:rgba(124,58,237,.2); color:var(--accent-light); font-weight:600; }
+
+/* LAYOUT */
+main { padding-top:72px; max-width:1100px; margin:0 auto; padding-left:20px; padding-right:20px; padding-bottom:60px; }
+
+/* HEADER */
+.page-header { text-align:center; padding:36px 0 28px; }
+.page-header h1 { font-size:2rem; font-weight:800; margin-bottom:8px; }
+.page-header h1 span { color:var(--accent); }
+.page-header p { color:var(--text2); font-size:.95rem; }
+
+/* MODE TABS */
+.mode-tabs { display:flex; justify-content:center; gap:12px; margin-bottom:32px; }
+.mode-tab {
+  padding:10px 28px; border-radius:999px; border:2px solid var(--border2);
+  cursor:pointer; font-size:.9rem; font-weight:600; transition:.15s;
+  background:transparent; color:var(--text2);
+}
+.mode-tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.mode-tab:hover:not(.active) { border-color:var(--accent); color:var(--accent-light); }
+
+/* BUILDER LAYOUT */
+.builder { display:grid; grid-template-columns:220px 1fr; gap:20px; }
+@media(max-width:768px) { .builder { grid-template-columns:1fr; } }
+
+/* RAIL (left summary) */
+.rail {
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:20px; height:fit-content; position:sticky; top:72px;
+}
+.rail h3 { font-size:.85rem; color:var(--text2); font-weight:600; margin-bottom:16px; text-transform:uppercase; letter-spacing:.05em; }
+.rail-item { margin-bottom:12px; }
+.rail-label { font-size:.75rem; color:var(--text2); margin-bottom:3px; }
+.rail-value {
+  font-size:.85rem; font-weight:600; color:var(--accent-light);
+  background:rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.3);
+  border-radius:8px; padding:5px 10px; display:inline-block; word-break:break-word;
+}
+.rail-empty { font-size:.8rem; color:var(--border2); font-style:italic; }
+
+/* WIZARD */
+.wizard { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; }
+
+/* PROGRESS */
+.progress-bar { display:flex; gap:6px; margin-bottom:8px; }
+.progress-seg {
+  flex:1; height:4px; border-radius:999px; background:var(--border);
+  transition:.3s;
+}
+.progress-seg.done { background:var(--accent); }
+.progress-seg.active { background:var(--accent-light); }
+.progress-info { display:flex; justify-content:space-between; margin-bottom:24px; }
+.progress-info span { font-size:.8rem; color:var(--text2); }
+.step-title-row { margin-bottom:20px; }
+.step-num { font-size:.8rem; color:var(--accent-light); font-weight:600; margin-bottom:4px; }
+.step-title { font-size:1.2rem; font-weight:700; }
+.step-subtitle { font-size:.85rem; color:var(--text2); margin-top:4px; }
+
+/* OPTION CARDS */
+.option-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-bottom:24px; }
+.opt-card {
+  border:2px solid var(--border); border-radius:12px; padding:14px 12px;
+  cursor:pointer; transition:.15s; text-align:center; background:var(--card2);
+  user-select:none;
+}
+.opt-card:hover { border-color:var(--border2); background:#221f50; }
+.opt-card.selected { border-color:var(--accent); background:rgba(124,58,237,.18); }
+.opt-icon { font-size:1.6rem; margin-bottom:8px; }
+.opt-label { font-size:.85rem; font-weight:700; margin-bottom:3px; }
+.opt-desc { font-size:.72rem; color:var(--text2); }
+
+/* STEP NAV */
+.step-nav { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+.btn { padding:10px 22px; border-radius:10px; font-size:.9rem; font-weight:600; cursor:pointer; border:none; transition:.15s; }
+.btn-ghost { background:transparent; color:var(--text2); border:1px solid var(--border2); }
+.btn-ghost:hover { border-color:var(--accent); color:var(--accent-light); }
+.btn-primary { background:var(--accent); color:#fff; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-primary:disabled { background:var(--border); color:var(--text2); cursor:not-allowed; }
+.btn-green { background:var(--green); color:#fff; }
+.btn-green:hover { background:#059669; }
+
+/* MODEL STEP */
+.model-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; margin-bottom:24px; }
+.model-card {
+  border:2px solid var(--border); border-radius:10px; padding:10px 8px;
+  cursor:pointer; text-align:center; transition:.15s; background:var(--card2);
+}
+.model-card:hover { border-color:var(--border2); }
+.model-card.selected { border-color:var(--accent); background:rgba(124,58,237,.18); }
+.model-name { font-size:.82rem; font-weight:700; }
+.model-desc { font-size:.7rem; color:var(--text2); margin-top:2px; }
+
+/* EXTRA INPUT */
+.extra-input { margin-bottom:24px; }
+.extra-input label { font-size:.85rem; color:var(--text2); display:block; margin-bottom:8px; }
+.extra-input textarea {
+  width:100%; background:var(--card2); border:1px solid var(--border2); border-radius:10px;
+  color:var(--text); padding:12px 14px; font-size:.9rem; resize:vertical;
+  min-height:80px; font-family:inherit; transition:.15s; outline:none;
+}
+.extra-input textarea:focus { border-color:var(--accent); }
+.extra-input textarea::placeholder { color:var(--border2); }
+
+/* OUTPUT SECTION */
+.output-section { margin-top:24px; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; display:none; }
+.output-section.visible { display:block; }
+.output-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.output-header h3 { font-size:1.1rem; font-weight:700; }
+.output-tabs { display:flex; gap:8px; margin-bottom:16px; }
+.output-tab { padding:6px 16px; border-radius:8px; cursor:pointer; font-size:.82rem; font-weight:600; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:.15s; }
+.output-tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.output-box {
+  background:var(--card2); border:1px solid var(--border2); border-radius:12px;
+  padding:16px; font-size:.88rem; line-height:1.7; white-space:pre-wrap;
+  min-height:200px; max-height:500px; overflow-y:auto; color:var(--text);
+  font-family:'Menlo','Consolas',monospace;
+}
+.output-actions { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+
+/* GEMINI API */
+.api-row { display:flex; gap:8px; margin-bottom:20px; }
+.api-row input {
+  flex:1; background:var(--card2); border:1px solid var(--border2); border-radius:8px;
+  color:var(--text); padding:8px 12px; font-size:.85rem; outline:none;
+}
+.api-row input:focus { border-color:var(--accent); }
+.api-row input::placeholder { color:var(--border2); }
+.btn-sm { padding:7px 14px; font-size:.8rem; border-radius:8px; }
+
+/* I2V SECTION */
+.i2v-wrap { display:flex; flex-direction:column; gap:16px; }
+.upload-area {
+  border:2px dashed var(--border2); border-radius:12px; padding:40px 20px;
+  text-align:center; cursor:pointer; transition:.15s;
+}
+.upload-area:hover { border-color:var(--accent); }
+.upload-area.has-img { border-style:solid; border-color:var(--accent); padding:12px; }
+.upload-area img { max-width:100%; max-height:260px; border-radius:8px; }
+.upload-placeholder { color:var(--text2); }
+.upload-placeholder .icon { font-size:2.5rem; margin-bottom:8px; }
+.upload-placeholder p { font-size:.9rem; }
+.upload-placeholder small { font-size:.78rem; color:var(--border2); }
+
+/* TOAST */
+.toast {
+  position:fixed; bottom:24px; right:24px; background:#1e293b;
+  border:1px solid var(--accent); color:var(--text); padding:12px 20px;
+  border-radius:10px; font-size:.88rem; z-index:999; opacity:0; pointer-events:none;
+  transition:.25s; transform:translateY(8px);
+}
+.toast.show { opacity:1; transform:translateY(0); }
+
+/* LOADING */
+.loading { display:flex; align-items:center; gap:8px; color:var(--text2); font-size:.9rem; }
+.spinner { width:18px; height:18px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--card); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">My<span>AI</span>Studio</a>
+  <div class="nav-links">
+    <a href="index.html">홈</a>
+    <a href="gall.html">갤러리</a>
+    <a href="links.html">링크</a>
+    <a href="ideas.html">아이디어</a>
+    <a href="todos.html">할일</a>
+    <a href="memo.html">메모</a>
+    <a href="video-prompt.html" class="active">영상프롬프트</a>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>🎬 영상 <span>프롬프트</span> 빌더</h1>
+    <p>7단계 선택으로 AI 영상 생성 프롬프트 완성 &nbsp;|&nbsp; T2V / I2V 지원</p>
+  </div>
+
+  <!-- Mode tabs -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="setMode('t2v')">🎬 T2V (텍스트→영상)</button>
+    <button class="mode-tab" onclick="setMode('i2v')">🖼️ I2V (이미지→영상)</button>
+  </div>
+
+  <!-- T2V MODE -->
+  <div id="t2v-mode">
+    <div class="builder">
+      <!-- Left rail -->
+      <aside class="rail">
+        <h3>선택 요약</h3>
+        <div id="rail-content">
+          <div class="rail-empty">단계를 진행하면<br>여기에 표시됩니다.</div>
+        </div>
+        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="rail-label">모델</div>
+          <div id="rail-model" class="rail-empty">미선택</div>
+        </div>
+      </aside>
+
+      <!-- Wizard -->
+      <div class="wizard">
+        <div class="progress-bar" id="progress-bar"></div>
+        <div class="progress-info">
+          <span id="step-counter">1 / 8 단계</span>
+          <span id="step-pct">0%</span>
+        </div>
+
+        <!-- Step 1: Subject -->
+        <div class="step" id="step-0">
+          <div class="step-title-row">
+            <div class="step-num">STEP 1</div>
+            <div class="step-title">영상 종류를 선택하세요</div>
+            <div class="step-subtitle">어떤 주제의 영상인가요?</div>
+          </div>
+          <div class="option-grid" id="grid-subject"></div>
+        </div>
+
+        <!-- Step 2: Focus -->
+        <div class="step" id="step-1" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 2</div>
+            <div class="step-title">핵심 포인트</div>
+            <div class="step-subtitle">영상에서 가장 강조할 요소는?</div>
+          </div>
+          <div class="option-grid" id="grid-focus"></div>
+        </div>
+
+        <!-- Step 3: Structure -->
+        <div class="step" id="step-2" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 3</div>
+            <div class="step-title">컷 구성</div>
+            <div class="step-subtitle">영상의 전체 구성 방식은?</div>
+          </div>
+          <div class="option-grid" id="grid-structure"></div>
+        </div>
+
+        <!-- Step 4: Camera -->
+        <div class="step" id="step-3" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 4</div>
+            <div class="step-title">카메라 무빙</div>
+            <div class="step-subtitle">카메라는 어떻게 움직이나요?</div>
+          </div>
+          <div class="option-grid" id="grid-camera"></div>
+        </div>
+
+        <!-- Step 5: Motion -->
+        <div class="step" id="step-4" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 5</div>
+            <div class="step-title">움직임 유형</div>
+            <div class="step-subtitle">영상 속 움직임의 주체는?</div>
+          </div>
+          <div class="option-grid" id="grid-motion"></div>
+        </div>
+
+        <!-- Step 6: Tempo -->
+        <div class="step" id="step-5" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 6</div>
+            <div class="step-title">속도감</div>
+            <div class="step-subtitle">영상의 전반적인 리듬은?</div>
+          </div>
+          <div class="option-grid" id="grid-tempo"></div>
+        </div>
+
+        <!-- Step 7: Tone -->
+        <div class="step" id="step-6" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 7</div>
+            <div class="step-title">분위기 / 톤</div>
+            <div class="step-subtitle">영상이 주는 전반적인 느낌은?</div>
+          </div>
+          <div class="option-grid" id="grid-tone"></div>
+        </div>
+
+        <!-- Step 8: Model + Extra -->
+        <div class="step" id="step-7" style="display:none">
+          <div class="step-title-row">
+            <div class="step-num">STEP 8</div>
+            <div class="step-title">모델 선택 &amp; 추가 설명</div>
+            <div class="step-subtitle">어떤 AI 영상 모델을 사용할 건가요?</div>
+          </div>
+          <div class="model-grid" id="grid-model"></div>
+          <div class="extra-input">
+            <label>추가 설명 (선택사항) — 인물 외모, 배경 색상, 특수 요소 등</label>
+            <textarea id="extra-text" placeholder="예: 20대 여성, 벚꽃이 흩날리는 배경, 느린 줌인으로 시작..."></textarea>
+          </div>
+          <!-- Gemini API -->
+          <div style="margin-bottom:8px;">
+            <label style="font-size:.82rem; color:var(--text2); display:block; margin-bottom:6px;">Gemini API Key (선택 — 직접 생성 시)</label>
+            <div class="api-row">
+              <input type="password" id="gemini-key" placeholder="AIza..." />
+              <button class="btn btn-ghost btn-sm" onclick="saveApiKey()">저장</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nav buttons -->
+        <div class="step-nav">
+          <button class="btn btn-ghost" id="btn-prev" onclick="prevStep()" style="display:none">← 이전</button>
+          <span></span>
+          <button class="btn btn-primary" id="btn-next" onclick="nextStep()" disabled>다음 →</button>
+          <button class="btn btn-green" id="btn-generate" onclick="generateOutput()" style="display:none">✨ 프롬프트 생성</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-section" id="output-section">
+      <div class="output-header">
+        <h3>🎯 생성된 프롬프트</h3>
+        <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ 처음부터</button>
+      </div>
+      <div class="output-tabs">
+        <button class="output-tab active" onclick="switchTab('consult')">💬 LLM 상담용</button>
+        <button class="output-tab" onclick="switchTab('direct')">⚡ 직접 프롬프트</button>
+      </div>
+      <div class="output-box" id="output-box"></div>
+      <div class="output-actions">
+        <button class="btn btn-primary btn-sm" onclick="copyOutput()">📋 복사</button>
+        <button class="btn btn-green btn-sm" id="btn-gemini-gen" onclick="generateWithGemini()">🤖 Gemini로 직접 생성</button>
+        <div class="loading" id="loading" style="display:none">
+          <div class="spinner"></div><span>Gemini 생성 중...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I2V MODE -->
+  <div id="i2v-mode" style="display:none">
+    <div class="builder">
+      <aside class="rail">
+        <h3>I2V 체크리스트</h3>
+        <div style="font-size:.82rem; color:var(--text2); line-height:1.8;">
+          <div id="i2v-check-img">☐ 이미지 업로드</div>
+          <div id="i2v-check-keep">☐ 유지할 요소</div>
+          <div id="i2v-check-change">☐ 변경할 요소</div>
+          <div id="i2v-check-model">☐ 모델 선택</div>
+        </div>
+      </aside>
+      <div class="wizard">
+        <div class="i2v-wrap">
+          <div>
+            <div class="step-title" style="margin-bottom:12px;">이미지 업로드</div>
+            <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+              <div class="upload-placeholder" id="upload-placeholder">
+                <div class="icon">🖼️</div>
+                <p>클릭하거나 이미지를 드래그하세요</p>
+                <small>PNG, JPG, WebP 지원</small>
+              </div>
+              <img id="preview-img" style="display:none" />
+            </div>
+            <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleImage(event)" />
+          </div>
+
+          <div>
+            <div class="extra-input">
+              <label>유지할 요소 — 이미지에서 그대로 살릴 부분</label>
+              <textarea id="i2v-keep" placeholder="예: 인물의 얼굴, 배경 색상, 조명 분위기..." oninput="updateI2VChecks()"></textarea>
+            </div>
+            <div class="extra-input">
+              <label>변경/추가할 요소 — 움직임, 효과, 새로운 요소</label>
+              <textarea id="i2v-change" placeholder="예: 머리카락이 바람에 날림, 꽃잎이 떨어짐, 카메라 서서히 줌인..." oninput="updateI2VChecks()"></textarea>
+            </div>
+            <div class="extra-input">
+              <label>목표 모델</label>
+              <div class="model-grid" id="i2v-model-grid"></div>
+            </div>
+            <div style="margin-bottom:8px;">
+              <label style="font-size:.82rem; color:var(--text2); display:block; margin-bottom:6px;">Gemini API Key (선택)</label>
+              <div class="api-row">
+                <input type="password" id="i2v-gemini-key" placeholder="AIza..." />
+                <button class="btn btn-ghost btn-sm" onclick="saveApiKeyI2V()">저장</button>
+              </div>
+            </div>
+            <button class="btn btn-green" style="width:100%" onclick="generateI2VOutput()">✨ I2V 프롬프트 생성</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="output-section" id="i2v-output-section">
+      <div class="output-header">
+        <h3>🎯 I2V 프롬프트</h3>
+      </div>
+      <div class="output-box" id="i2v-output-box"></div>
+      <div class="output-actions">
+        <button class="btn btn-primary btn-sm" onclick="copyI2VOutput()">📋 복사</button>
+        <button class="btn btn-green btn-sm" onclick="generateI2VWithGemini()">🤖 Gemini로 직접 생성</button>
+        <div class="loading" id="i2v-loading" style="display:none">
+          <div class="spinner"></div><span>생성 중...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ======================== DATA ======================== */
+const STEPS_DATA = [
+  {
+    key: 'subject', label: '영상 종류',
+    options: [
+      { id:'person',       icon:'👤', label:'인물',      desc:'사람 중심 영상' },
+      { id:'product',      icon:'📦', label:'제품',      desc:'제품 쇼케이스' },
+      { id:'landscape',    icon:'🌄', label:'풍경',      desc:'자연/공간 중심' },
+      { id:'explainer',    icon:'💡', label:'설명',      desc:'튜토리얼/정보' },
+      { id:'music',        icon:'🎵', label:'뮤직',      desc:'퍼포먼스/리듬' },
+      { id:'illustration', icon:'🎨', label:'일러스트',  desc:'애니/그래픽' },
+    ]
+  },
+  {
+    key: 'focus', label: '핵심 포인트',
+    options: [
+      { id:'face',    icon:'😊', label:'얼굴/표정', desc:'감정·표현 클로즈업' },
+      { id:'body',    icon:'🏃', label:'전신/동작', desc:'움직임·제스처 강조' },
+      { id:'product', icon:'🔍', label:'제품 디테일', desc:'클로즈업·텍스처' },
+      { id:'mood',    icon:'🌙', label:'분위기/감성', desc:'색감·감정 중심' },
+      { id:'info',    icon:'📊', label:'정보 전달', desc:'텍스트·그래픽 중심' },
+      { id:'ending',  icon:'🎬', label:'엔딩/마무리', desc:'임팩트 있는 마무리' },
+    ]
+  },
+  {
+    key: 'structure', label: '컷 구성',
+    options: [
+      { id:'single',      icon:'⬜', label:'단일 컷',     desc:'처음부터 끝까지 하나' },
+      { id:'two-cut',     icon:'⬜⬜', label:'2컷 전환',  desc:'장면 2개 연결' },
+      { id:'three-cut',   icon:'▥',   label:'3컷 시퀀스', desc:'기승전결 3단 구성' },
+      { id:'multishot',   icon:'⊞',   label:'멀티샷',     desc:'여러 각도/장면 혼합' },
+      { id:'hook-loop',   icon:'🔄',  label:'훅+루프',    desc:'강렬한 시작+반복 구조' },
+      { id:'intro-outro', icon:'▶⏹', label:'인트로+아웃트로', desc:'시작과 끝 강조' },
+    ]
+  },
+  {
+    key: 'camera', label: '카메라 무빙',
+    options: [
+      { id:'static',      icon:'📷', label:'고정',     desc:'카메라 움직임 없음' },
+      { id:'push-in',     icon:'🔭', label:'줌인',     desc:'피사체로 다가가기' },
+      { id:'pull-out',    icon:'🔭', label:'줌아웃',   desc:'피사체에서 멀어지기' },
+      { id:'pan',         icon:'↔️', label:'패닝',     desc:'좌우로 스윙' },
+      { id:'follow',      icon:'🏃', label:'추적',     desc:'피사체 따라가기' },
+      { id:'handheld',    icon:'📱', label:'핸드헬드', desc:'자연스러운 흔들림' },
+      { id:'orbit',       icon:'🌀', label:'궤도',     desc:'피사체 주위를 돌기' },
+      { id:'tilt-reveal', icon:'↕️', label:'틸트 리빌', desc:'위/아래 방향 공개' },
+    ]
+  },
+  {
+    key: 'motion', label: '움직임 유형',
+    options: [
+      { id:'person-action',    icon:'💃', label:'인물 동작',   desc:'걷기/뛰기/제스처' },
+      { id:'product-motion',   icon:'🌀', label:'제품 모션',   desc:'회전/부유/변형' },
+      { id:'env-motion',       icon:'🌊', label:'환경 움직임', desc:'바람/물/자연 효과' },
+      { id:'camera-only',      icon:'📷', label:'카메라만',    desc:'피사체 정지, 카메라만 이동' },
+      { id:'expression-only',  icon:'😌', label:'표정만',      desc:'미세한 표정 변화' },
+      { id:'high-energy',      icon:'⚡', label:'고에너지',    desc:'빠른 동작, 강렬한 움직임' },
+      { id:'subject-and-env',  icon:'🌟', label:'주체+환경',   desc:'인물과 환경 동시 움직임' },
+    ]
+  },
+  {
+    key: 'tempo', label: '속도감',
+    options: [
+      { id:'slow',       icon:'🐢', label:'슬로우',       desc:'느린 무드, 감성적' },
+      { id:'natural',    icon:'🚶', label:'자연스러운',   desc:'일상적인 속도' },
+      { id:'rhythmic',   icon:'🎵', label:'리드미컬',     desc:'음악 비트에 맞춰' },
+      { id:'fast',       icon:'🚀', label:'빠름',         desc:'빠른 컷, 에너지 넘침' },
+      { id:'build-up',   icon:'📈', label:'빌드업',       desc:'느리게 시작→빠르게 끝' },
+      { id:'stop-start', icon:'⏯️', label:'스톱앤스타트', desc:'정지와 움직임 반복' },
+    ]
+  },
+  {
+    key: 'tone', label: '분위기/톤',
+    options: [
+      { id:'cinematic',   icon:'🎞️', label:'시네마틱',   desc:'영화같은 감성' },
+      { id:'commercial',  icon:'📺', label:'커머셜',     desc:'광고/브랜드 스타일' },
+      { id:'emotional',   icon:'💕', label:'감성적',     desc:'감동, 따뜻함, 드라마' },
+      { id:'tutorial',    icon:'📚', label:'튜토리얼',   desc:'명확하고 깔끔한 정보' },
+      { id:'music-video', icon:'🎤', label:'뮤직비디오', desc:'비주얼+리듬 결합' },
+      { id:'luxury',      icon:'💎', label:'럭셔리',     desc:'고급스럽고 정제된 느낌' },
+      { id:'shortform',   icon:'📱', label:'숏폼',       desc:'틱톡/릴스 스타일' },
+    ]
+  },
+];
+
+const MODELS = [
+  { id:'LTX',      label:'LTX Video',     desc:'장편·디테일' },
+  { id:'Wan',      label:'Wan 2.1',        desc:'오픈소스' },
+  { id:'Veo',      label:'Veo 2',          desc:'Google' },
+  { id:'Runway',   label:'Runway Gen-4',   desc:'크리에이티브' },
+  { id:'Sora',     label:'Sora',           desc:'OpenAI' },
+  { id:'Seedance', label:'Seedance',       desc:'ByteDance' },
+  { id:'Kling',    label:'Kling',          desc:'중국 AI' },
+  { id:'Luma',     label:'Luma Dream',     desc:'사실적' },
+  { id:'Pika',     label:'Pika',           desc:'효과 특화' },
+  { id:'PixVerse', label:'PixVerse',       desc:'스타일리쉬' },
+  { id:'Hailuo',   label:'Hailuo',         desc:'MiniMax' },
+  { id:'Vidu',     label:'Vidu',           desc:'고퀄리티' },
+];
+
+const MODEL_GUIDE = {
+  LTX:      '상세한 장면 묘사. 시간 경과, 조명 변화, 텍스처 디테일을 포함. 영어로 작성.',
+  Wan:      '간결하고 행동 중심의 묘사. 동작과 장면을 명확하게. 영어로 작성.',
+  Veo:      '시네마틱 스타일. 카메라 워크, 조명, 장면 전환을 명시. 영어로 작성.',
+  Runway:   '스토리보드 스타일. 장면 + 감정 + 동작을 분리해서 기술. 영어로 작성.',
+  Sora:     '내러티브 묘사. 세계관, 물리 현상, 공간감을 풍부하게. 영어로 작성.',
+  Seedance: '동작+감정 중심. 인물의 행동과 감정 변화를 상세히. 영어로 작성.',
+  Kling:    '장면+동작 조합. 환경과 인물 동작을 동시에 기술. 영어로 작성.',
+  Luma:     '사실적 묘사. 물리 현상, 조명, 반사/그림자 등을 강조. 영어로 작성.',
+  Pika:     '크리에이티브 효과 태그 포함. [motion], [effect], [style] 태그 활용 가능. 영어.',
+  PixVerse: '스타일 명시 (anime/realistic/3D). 색감과 분위기 중심. 영어로 작성.',
+  Hailuo:   '드라마틱 묘사. 시네마틱 카메라 워크와 감정선 강조. 영어로 작성.',
+  Vidu:     '고퀄리티 장면 구성. 레이어(전경/중경/배경)를 구분해서 기술. 영어로 작성.',
+};
+
+const LABELS = {
+  subject:   { person:'인물', product:'제품', landscape:'풍경', explainer:'설명', music:'뮤직', illustration:'일러스트' },
+  focus:     { face:'얼굴/표정', body:'전신/동작', product:'제품 디테일', mood:'분위기/감성', info:'정보 전달', ending:'엔딩/마무리' },
+  structure: { 'single':'단일 컷', 'two-cut':'2컷', 'three-cut':'3컷', multishot:'멀티샷', 'hook-loop':'훅+루프', 'intro-outro':'인트로+아웃트로' },
+  camera:    { static:'고정', 'push-in':'줌인', 'pull-out':'줌아웃', pan:'패닝', follow:'추적', handheld:'핸드헬드', orbit:'궤도', 'tilt-reveal':'틸트 리빌' },
+  motion:    { 'person-action':'인물 동작', 'product-motion':'제품 모션', 'env-motion':'환경 움직임', 'camera-only':'카메라만', 'expression-only':'표정만', 'high-energy':'고에너지', 'subject-and-env':'주체+환경' },
+  tempo:     { slow:'슬로우', natural:'자연스러운', rhythmic:'리드미컬', fast:'빠름', 'build-up':'빌드업', 'stop-start':'스톱앤스타트' },
+  tone:      { cinematic:'시네마틱', commercial:'커머셜', emotional:'감성적', tutorial:'튜토리얼', 'music-video':'뮤직비디오', luxury:'럭셔리', shortform:'숏폼' },
+};
+
+/* ======================== STATE ======================== */
+let currentStep = 0;
+let selections = {};
+let selectedModel = '';
+let currentMode = 't2v';
+let currentTab = 'consult';
+let i2vImage = null;
+let i2vSelectedModel = '';
+
+/* ======================== INIT ======================== */
+document.addEventListener('DOMContentLoaded', () => {
+  buildGrids();
+  buildModelGrid('grid-model', (id) => { selectedModel = id; updateRailModel(); updateLastStepBtn(); });
+  buildModelGrid('i2v-model-grid', (id) => { i2vSelectedModel = id; updateI2VChecks(); });
+  buildProgressBar();
+  loadApiKey();
+  setupDragDrop();
+});
+
+function buildGrids() {
+  STEPS_DATA.forEach(step => {
+    const grid = document.getElementById('grid-' + step.key);
+    if (!grid) return;
+    step.options.forEach(opt => {
+      const card = document.createElement('div');
+      card.className = 'opt-card';
+      card.dataset.id = opt.id;
+      card.innerHTML = `<div class="opt-icon">${opt.icon}</div><div class="opt-label">${opt.label}</div><div class="opt-desc">${opt.desc}</div>`;
+      card.onclick = () => selectOption(step.key, opt.id, step.label, opt.label, card, grid);
+      grid.appendChild(card);
+    });
+  });
+}
+
+function buildModelGrid(gridId, onSelect) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  MODELS.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'model-card';
+    card.dataset.id = m.id;
+    card.innerHTML = `<div class="model-name">${m.label}</div><div class="model-desc">${m.desc}</div>`;
+    card.onclick = () => {
+      grid.querySelectorAll('.model-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      onSelect(m.id);
+    };
+    grid.appendChild(card);
+  });
+}
+
+function buildProgressBar() {
+  const bar = document.getElementById('progress-bar');
+  for (let i = 0; i < 8; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'progress-seg';
+    seg.id = 'seg-' + i;
+    bar.appendChild(seg);
+  }
+  updateProgress();
+}
+
+/* ======================== STEP LOGIC ======================== */
+function selectOption(key, id, stepLabel, optLabel, card, grid) {
+  grid.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selections[key] = { id, label: optLabel };
+  updateRail();
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextStep() {
+  const step = document.getElementById('step-' + currentStep);
+  step.style.display = 'none';
+  currentStep++;
+  const next = document.getElementById('step-' + currentStep);
+  if (next) next.style.display = 'block';
+  updateProgress();
+
+  // reset next button state
+  const isLastStep = currentStep === 7;
+  document.getElementById('btn-next').style.display = isLastStep ? 'none' : 'inline-block';
+  document.getElementById('btn-generate').style.display = isLastStep ? 'inline-block' : 'none';
+  document.getElementById('btn-prev').style.display = currentStep > 0 ? 'inline-block' : 'none';
+
+  if (isLastStep) {
+    document.getElementById('btn-generate').disabled = true;
+    updateLastStepBtn();
+  } else {
+    document.getElementById('btn-next').disabled = !selections[STEPS_DATA[currentStep]?.key];
+  }
+}
+
+function prevStep() {
+  const step = document.getElementById('step-' + currentStep);
+  step.style.display = 'none';
+  currentStep--;
+  document.getElementById('step-' + currentStep).style.display = 'block';
+  updateProgress();
+
+  document.getElementById('btn-next').style.display = 'inline-block';
+  document.getElementById('btn-generate').style.display = 'none';
+  document.getElementById('btn-next').disabled = !selections[STEPS_DATA[currentStep]?.key];
+  document.getElementById('btn-prev').style.display = currentStep > 0 ? 'inline-block' : 'none';
+}
+
+function updateProgress() {
+  const total = 8;
+  for (let i = 0; i < total; i++) {
+    const seg = document.getElementById('seg-' + i);
+    seg.className = 'progress-seg ' + (i < currentStep ? 'done' : i === currentStep ? 'active' : '');
+  }
+  document.getElementById('step-counter').textContent = `${currentStep + 1} / ${total} 단계`;
+  document.getElementById('step-pct').textContent = Math.round((currentStep / total) * 100) + '%';
+}
+
+function updateLastStepBtn() {
+  document.getElementById('btn-generate').disabled = !selectedModel;
+}
+
+/* ======================== RAIL ======================== */
+function updateRail() {
+  const container = document.getElementById('rail-content');
+  const keys = ['subject','focus','structure','camera','motion','tempo','tone'];
+  const labels = ['영상 종류','포인트','컷 구성','카메라','움직임','속도','분위기'];
+  let html = '';
+  keys.forEach((k, i) => {
+    html += `<div class="rail-item"><div class="rail-label">${labels[i]}</div>`;
+    if (selections[k]) {
+      html += `<div class="rail-value">${selections[k].label}</div>`;
+    } else {
+      html += `<div class="rail-empty">미선택</div>`;
+    }
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function updateRailModel() {
+  const el = document.getElementById('rail-model');
+  if (selectedModel) {
+    const m = MODELS.find(x => x.id === selectedModel);
+    el.innerHTML = `<div class="rail-value">${m.label}</div>`;
+  } else {
+    el.className = 'rail-empty';
+    el.textContent = '미선택';
+  }
+}
+
+/* ======================== OUTPUT GENERATION ======================== */
+function generateOutput() {
+  const s = selections;
+  const model = MODELS.find(m => m.id === selectedModel);
+  const extra = document.getElementById('extra-text').value.trim();
+
+  const consultPrompt = buildConsultPrompt(s, model, extra);
+  const directPrompt = buildDirectPrompt(s, model, extra);
+
+  document.getElementById('output-section').classList.add('visible');
+
+  if (currentTab === 'consult') {
+    document.getElementById('output-box').textContent = consultPrompt;
+  } else {
+    document.getElementById('output-box').textContent = directPrompt;
+  }
+
+  document.getElementById('output-section').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function buildConsultPrompt(s, model, extra) {
+  const modelGuide = MODEL_GUIDE[model?.id] || '일반적인 AI 영상 생성 규칙을 따르세요.';
+  return `당신은 AI 영상 생성 프롬프트 전문가입니다. 아래 사용자의 요구사항을 바탕으로 ${model?.label || '선택된 모델'}에 최적화된 영상 생성 프롬프트를 작성해 주세요.
+
+[사용자 선택 요약]
+• 영상 종류: ${s.subject?.label || '미선택'}
+• 핵심 포인트: ${s.focus?.label || '미선택'}
+• 컷 구성: ${s.structure?.label || '미선택'}
+• 카메라 무빙: ${s.camera?.label || '미선택'}
+• 움직임 유형: ${s.motion?.label || '미선택'}
+• 속도감: ${s.tempo?.label || '미선택'}
+• 분위기/톤: ${s.tone?.label || '미선택'}
+• 추가 설명: ${extra || '없음'}
+
+[목표 모델]
+${model?.label || '미선택'} — ${model?.desc || ''}
+
+[모델 최적화 가이드]
+${modelGuide}
+
+[작성 요구사항]
+1. 위 선택 요소를 모두 반영해 자연스럽게 통합하세요.
+2. 모델의 특성에 맞는 형식과 길이로 작성하세요.
+3. 시각적으로 생생하고 구체적인 묘사를 포함하세요.
+4. 영어로 최종 프롬프트를 작성해 주세요.
+5. 추가로 네거티브 프롬프트(피해야 할 요소)도 제안해 주세요.
+
+위 요구사항에 맞는 완성된 프롬프트를 출력해 주세요.`;
+}
+
+function buildDirectPrompt(s, model, extra) {
+  const parts = [];
+
+  // Subject + Focus
+  const subjectMap = {
+    person: 'A person', product: 'A product', landscape: 'A landscape scene',
+    explainer: 'An explainer sequence', music: 'A music performance', illustration: 'An illustrated animation'
+  };
+  const focusMap = {
+    face: 'close-up on face and expression', body: 'full body movement',
+    product: 'product detail close-up', mood: 'atmospheric mood',
+    info: 'information display', ending: 'dramatic ending shot'
+  };
+  parts.push(`${subjectMap[s.subject?.id] || 'A scene'}, ${focusMap[s.focus?.id] || ''}`);
+
+  // Structure
+  const structureMap = {
+    'single': 'single continuous shot', 'two-cut': 'two-cut transition',
+    'three-cut': 'three-act sequence', 'multishot': 'multi-angle shots',
+    'hook-loop': 'hook opening with loop structure', 'intro-outro': 'with intro and outro'
+  };
+  if (s.structure?.id) parts.push(structureMap[s.structure.id] || '');
+
+  // Camera
+  const cameraMap = {
+    'static': 'static camera', 'push-in': 'slow push-in', 'pull-out': 'smooth pull-out',
+    'pan': 'panning shot', 'follow': 'follow cam', 'handheld': 'handheld camera',
+    'orbit': 'orbital camera movement', 'tilt-reveal': 'tilt reveal shot'
+  };
+  if (s.camera?.id) parts.push(cameraMap[s.camera.id] || '');
+
+  // Motion
+  const motionMap = {
+    'person-action': 'natural human movement', 'product-motion': 'product in motion',
+    'env-motion': 'environmental movement (wind, water)', 'camera-only': 'subject still, camera moves',
+    'expression-only': 'subtle facial expressions only', 'high-energy': 'fast dynamic movement',
+    'subject-and-env': 'subject and environment both in motion'
+  };
+  if (s.motion?.id) parts.push(motionMap[s.motion.id] || '');
+
+  // Tempo
+  const tempoMap = {
+    'slow': 'slow motion pace', 'natural': 'natural real-time pace',
+    'rhythmic': 'rhythmically timed cuts', 'fast': 'fast-paced quick cuts',
+    'build-up': 'gradually accelerating pace', 'stop-start': 'stop and start rhythm'
+  };
+  if (s.tempo?.id) parts.push(tempoMap[s.tempo.id] || '');
+
+  // Tone
+  const toneMap = {
+    'cinematic': 'cinematic film look', 'commercial': 'commercial advertisement style',
+    'emotional': 'emotional and heartfelt', 'tutorial': 'clean tutorial style',
+    'music-video': 'music video aesthetic', 'luxury': 'luxurious and refined',
+    'shortform': 'short-form social media style'
+  };
+  if (s.tone?.id) parts.push(toneMap[s.tone.id] || '');
+
+  // Extra
+  if (extra) parts.push(extra);
+
+  // Quality suffix by model
+  const qualitySuffix = {
+    LTX: ', highly detailed, cinematic quality, professional lighting',
+    Wan: ', high quality, smooth motion',
+    Veo: ', ultra-realistic, cinematic, Google Veo optimized',
+    Runway: ', professional, high quality, Runway Gen-4',
+    Sora: ', rich world, physics accurate, OpenAI Sora',
+    Seedance: ', dynamic, emotional, high quality',
+    Kling: ', ultra HD, smooth, realistic',
+    Luma: ', photorealistic, accurate physics, beautiful lighting',
+    Pika: ', creative, high quality, [smooth motion]',
+    PixVerse: ', stylized, vibrant, high quality',
+    Hailuo: ', cinematic, dramatic, ultra HD',
+    Vidu: ', layered composition, foreground midground background, ultra quality',
+  };
+
+  const prompt = parts.filter(Boolean).join(', ');
+  const quality = qualitySuffix[selectedModel] || ', high quality';
+
+  return `${prompt}${quality}
+
+---
+[네거티브 프롬프트]
+blurry, low quality, distorted, artifacts, watermark, text overlay, bad anatomy, unrealistic`;
+}
+
+/* ======================== TABS ======================== */
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const s = selections;
+  const model = MODELS.find(m => m.id === selectedModel);
+  const extra = document.getElementById('extra-text').value.trim();
+
+  if (tab === 'consult') {
+    document.getElementById('output-box').textContent = buildConsultPrompt(s, model, extra);
+  } else {
+    document.getElementById('output-box').textContent = buildDirectPrompt(s, model, extra);
+  }
+}
+
+/* ======================== GEMINI ======================== */
+function saveApiKey() {
+  const key = document.getElementById('gemini-key').value.trim();
+  if (key) { localStorage.setItem('gemini_api_key', key); showToast('API 키 저장됨'); }
+}
+function saveApiKeyI2V() {
+  const key = document.getElementById('i2v-gemini-key').value.trim();
+  if (key) { localStorage.setItem('gemini_api_key', key); showToast('API 키 저장됨'); }
+}
+function loadApiKey() {
+  const key = localStorage.getItem('gemini_api_key') || '';
+  if (key) {
+    const el1 = document.getElementById('gemini-key');
+    const el2 = document.getElementById('i2v-gemini-key');
+    if (el1) el1.value = key;
+    if (el2) el2.value = key;
+  }
+}
+
+async function generateWithGemini() {
+  const apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('gemini-key').value.trim();
+  if (!apiKey) { showToast('Gemini API 키를 먼저 입력하세요'); return; }
+
+  const s = selections;
+  const model = MODELS.find(m => m.id === selectedModel);
+  const extra = document.getElementById('extra-text').value.trim();
+  const consultPrompt = buildConsultPrompt(s, model, extra);
+
+  document.getElementById('loading').style.display = 'flex';
+  document.getElementById('btn-gemini-gen').style.display = 'none';
+
+  try {
+    const result = await callGemini(apiKey, consultPrompt);
+    document.getElementById('output-box').textContent = result;
+    currentTab = 'direct';
+    document.querySelectorAll('.output-tab').forEach((t,i) => t.classList.toggle('active', i===1));
+    showToast('Gemini 생성 완료!');
+  } catch(e) {
+    showToast('오류: ' + e.message);
+  } finally {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('btn-gemini-gen').style.display = 'inline-block';
+  }
+}
+
+async function callGemini(apiKey, prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || 'API 오류');
+  }
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '결과 없음';
+}
+
+/* ======================== I2V ======================== */
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach((t, i) => t.classList.toggle('active', (i===0&&mode==='t2v')||(i===1&&mode==='i2v')));
+  document.getElementById('t2v-mode').style.display = mode==='t2v' ? 'block' : 'none';
+  document.getElementById('i2v-mode').style.display = mode==='i2v' ? 'block' : 'none';
+  loadApiKey();
+}
+
+function handleImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    i2vImage = ev.target.result;
+    const area = document.getElementById('upload-area');
+    area.classList.add('has-img');
+    document.getElementById('upload-placeholder').style.display = 'none';
+    const img = document.getElementById('preview-img');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    updateI2VChecks();
+  };
+  reader.readAsDataURL(file);
+}
+
+function setupDragDrop() {
+  const area = document.getElementById('upload-area');
+  if (!area) return;
+  area.addEventListener('dragover', e => { e.preventDefault(); area.style.borderColor='var(--accent)'; });
+  area.addEventListener('dragleave', () => { area.style.borderColor=''; });
+  area.addEventListener('drop', e => {
+    e.preventDefault();
+    area.style.borderColor='';
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const input = document.getElementById('file-input');
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+      handleImage({ target: input });
+    }
+  });
+}
+
+function updateI2VChecks() {
+  document.getElementById('i2v-check-img').textContent = i2vImage ? '☑ 이미지 업로드' : '☐ 이미지 업로드';
+  document.getElementById('i2v-check-keep').textContent = document.getElementById('i2v-keep').value.trim() ? '☑ 유지할 요소' : '☐ 유지할 요소';
+  document.getElementById('i2v-check-change').textContent = document.getElementById('i2v-change').value.trim() ? '☑ 변경할 요소' : '☐ 변경할 요소';
+  document.getElementById('i2v-check-model').textContent = i2vSelectedModel ? '☑ 모델 선택' : '☐ 모델 선택';
+}
+
+function generateI2VOutput() {
+  const keep = document.getElementById('i2v-keep').value.trim();
+  const change = document.getElementById('i2v-change').value.trim();
+  const model = MODELS.find(m => m.id === i2vSelectedModel);
+  const modelGuide = MODEL_GUIDE[i2vSelectedModel] || '일반적인 I2V 규칙을 따르세요.';
+
+  const prompt = `당신은 이미지-투-비디오(I2V) AI 영상 프롬프트 전문가입니다.
+
+[이미지 정보]
+이미지가 첨부되어 있습니다. 이미지를 분석해 주세요.
+
+[유지할 요소]
+${keep || '이미지의 전반적인 구도와 분위기 유지'}
+
+[변경/추가할 요소]
+${change || '자연스러운 움직임 추가'}
+
+[목표 모델]
+${model?.label || '미선택'} — ${modelGuide}
+
+[작성 요구사항]
+1. 이미지의 기존 요소를 최대한 유지하면서 움직임을 추가하세요.
+2. 위에서 지정한 유지/변경 요소를 정확히 반영하세요.
+3. ${model?.label || '선택된 모델'}에 최적화된 형식으로 작성하세요.
+4. 영어로 최종 I2V 프롬프트를 작성해 주세요.
+5. 자연스러운 물리 현상(빛, 바람, 중력 등)을 고려해 주세요.
+
+I2V 최적화 프롬프트를 출력해 주세요.`;
+
+  document.getElementById('i2v-output-box').textContent = prompt;
+  document.getElementById('i2v-output-section').classList.add('visible');
+  document.getElementById('i2v-output-section').scrollIntoView({ behavior:'smooth' });
+}
+
+async function generateI2VWithGemini() {
+  const apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('i2v-gemini-key').value.trim();
+  if (!apiKey) { showToast('Gemini API 키를 먼저 입력하세요'); return; }
+
+  document.getElementById('i2v-loading').style.display = 'flex';
+  const prompt = document.getElementById('i2v-output-box').textContent;
+
+  try {
+    const result = await callGemini(apiKey, prompt);
+    document.getElementById('i2v-output-box').textContent = result;
+    showToast('Gemini 생성 완료!');
+  } catch(e) {
+    showToast('오류: ' + e.message);
+  } finally {
+    document.getElementById('i2v-loading').style.display = 'none';
+  }
+}
+
+/* ======================== UTILS ======================== */
+function copyOutput() {
+  const text = document.getElementById('output-box').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사됨!'));
+}
+function copyI2VOutput() {
+  const text = document.getElementById('i2v-output-box').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사됨!'));
+}
+
+function resetAll() {
+  currentStep = 0;
+  selections = {};
+  selectedModel = '';
+  document.querySelectorAll('.step').forEach((s, i) => s.style.display = i===0?'block':'none');
+  document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.model-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('extra-text').value = '';
+  document.getElementById('btn-next').style.display = 'inline-block';
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('btn-generate').style.display = 'none';
+  document.getElementById('btn-prev').style.display = 'none';
+  document.getElementById('output-section').classList.remove('visible');
+  updateProgress();
+  updateRail();
+  updateRailModel();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
