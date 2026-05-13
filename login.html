@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 — My AI Studio</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0B0F14; display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:"Pretendard",sans-serif; }
+.box { background:#1A1F28; border-radius:20px; padding:48px 40px; width:380px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+.logo { font-size:40px; margin-bottom:16px; }
+h1 { color:#F1F5F9; font-size:22px; font-weight:800; margin-bottom:6px; }
+p { color:#64748B; font-size:13px; margin-bottom:36px; }
+.google-btn {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  width:100%; padding:14px 20px; background:#fff; color:#1A1A1A;
+  border:none; border-radius:12px; font-size:15px; font-weight:600;
+  cursor:pointer; transition:all .15s; font-family:inherit;
+}
+.google-btn:hover { background:#F1F5F9; transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,.2); }
+.google-btn img { width:20px; height:20px; }
+.status { margin-top:20px; font-size:12px; color:#64748B; min-height:20px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">🔐</div>
+  <h1>My AI Studio</h1>
+  <p>접근 권한이 있는 계정으로 로그인하세요</p>
+  <button class="google-btn" onclick="signIn()">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+    Google 계정으로 로그인
+  </button>
+  <div class="status" id="status"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+const app = initializeApp({
+  apiKey: 'AIzaSyBAHHRv_CWzDXJ2aHrG5uTysDZ7JcfewEk',
+  authDomain: 'claude-grok-gallery.firebaseapp.com',
+  projectId: 'claude-grok-gallery',
+  storageBucket: 'claude-grok-gallery.firebasestorage.app',
+  messagingSenderId: '907968891772',
+  appId: '1:907968891772:web:50d9f0f9839d949e59b2f9'
+});
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    const base = window.location.pathname.replace(/\/[^\/]*$/, '');
+    window.location.href = base + '/index.html';
+  }
+});
+
+window.signIn = async () => {
+  document.getElementById('status').textContent = '로그인 중...';
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e) {
+    document.getElementById('status').textContent = '로그인 실패: ' + e.message;
+  }
+};
+</script>
+</body>
+</html>
